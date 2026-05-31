@@ -203,8 +203,6 @@
       display: flex;
       align-items: center;
       gap: 4px;
-      min-height: 14px;
-      margin-top: 2px;
     }
     .badge-l {
       background: #5b8fd6;
@@ -217,6 +215,9 @@
     }
     .badge-h { font-weight: 700; font-size: 10px; color: var(--text-light); }
 
+    /* ── Cell foot: badge + lock on same row ── */
+    .cell-foot { display: flex; align-items: center; justify-content: space-between; margin-top: 5px; }
+
     /* ── Toggle switch ── */
     .toggle-switch {
       display: inline-flex;
@@ -227,7 +228,6 @@
       cursor: pointer;
       -webkit-user-select: none;
       user-select: none;
-      margin-top: 6px;
     }
     .toggle-switch input { position: absolute; opacity: 0; width: 0; height: 0; }
     .toggle-track { width: 28px; height: 16px; background: var(--border); border-radius: 8px; position: relative; transition: background 0.2s; flex-shrink: 0; }
@@ -295,10 +295,10 @@
     .mobile-shift-cell { padding: 4px 3px; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); display: flex; flex-direction: column; gap: 2px; }
     .mobile-shift-cell.selected-day { background: #fef9f0 !important; }
     .mobile-shift-cell .shift-select { font-size: 9px; padding: 3px 3px; min-height: 30px; border-radius: 6px; }
-    .mobile-shift-cell .shift-badge { margin-top: 1px; }
     .mobile-shift-cell .badge-h { font-size: 9px; }
     .mobile-shift-cell .badge-l { font-size: 8px; padding: 1px 3px; }
-    .mobile-shift-cell .toggle-switch { margin-top: 1px; font-size: 9px; gap: 3px; }
+    .mobile-shift-cell .cell-foot { margin-top: 2px; }
+    .mobile-shift-cell .toggle-switch { font-size: 9px; gap: 3px; }
     .mobile-shift-cell .toggle-track { width: 22px; height: 13px; border-radius: 7px; }
     .mobile-shift-cell .toggle-track::after { width: 9px; height: 9px; }
     .mobile-shift-cell .toggle-switch input:checked + .toggle-track::after { transform: translateX(9px); }
@@ -588,8 +588,9 @@
         const{select,badge}=buildShiftContent(day,assistant,true,week);
         const lock=createLockToggle(day,assistant,'Blocca');
         const print=Object.assign(document.createElement('span'),{className:'print-shift',textContent:getPrintShiftLabel(day.assignments[assistant])});
+        const foot=document.createElement('div');foot.className='cell-foot';foot.append(badge,lock);
         const cell=createCell('',`grid-cell${day.key===selectedDayKey?' selected-day':''}`);
-        cell.append(select,badge,lock,print);scheduleGrid.append(cell);
+        cell.append(select,foot,print);scheduleGrid.append(cell);
       }
     }
   }
@@ -610,7 +611,8 @@
         const{select,badge}=buildShiftContent(day,assistant,false,week);
         const lock=createLockToggle(day,assistant,'');
         const print=Object.assign(document.createElement('span'),{className:'print-shift',textContent:getPrintShiftLabel(day.assignments[assistant])});
-        cell.append(select,badge,lock,print);grid.append(cell);
+        const foot=document.createElement('div');foot.className='cell-foot';foot.append(badge,lock);
+        cell.append(select,foot,print);grid.append(cell);
       }
     }
     return grid;
