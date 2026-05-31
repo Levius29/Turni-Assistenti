@@ -28,8 +28,8 @@
       --alert: #c36f4a;
       --alert-bg: #fdede5;
       --shadow-sm: 0 2px 8px rgba(0,0,0,0.03), 0 1px 2px rgba(0,0,0,0.05);
-      --shadow-md: 0 8px 24px -4px rgba(0,0,0,0.08);
-      --radius-card: 20px;
+      --shadow-md: 0 6px 18px -4px rgba(0,0,0,0.07);
+      --radius-card: 16px;
       --radius-xs: 10px;
       --transition: all 0.2s ease;
     }
@@ -44,36 +44,15 @@
 
     button, select, input, textarea { font: inherit; }
 
-    .app { max-width: 1500px; margin: 0 auto; padding: 24px 20px 48px; }
+    .app { max-width: 1500px; margin: 0 auto; padding: 16px 20px 32px; }
 
-    /* ── Topbar ── */
+    /* ── Controls bar (no title) ── */
     .topbar {
       display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 20px;
-      margin-bottom: 28px;
+      justify-content: flex-end;
+      margin-bottom: 14px;
     }
 
-    .title-section .eyebrow {
-      font-size: 12px;
-      font-weight: 500;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      margin-bottom: 6px;
-    }
-
-    h1 {
-      font-size: clamp(26px, 5vw, 44px);
-      font-weight: 700;
-      letter-spacing: -0.03em;
-      color: var(--text);
-      line-height: 1.1;
-    }
-
-    /* ── Week controls ── */
     .week-controls {
       display: flex;
       flex-wrap: wrap;
@@ -91,17 +70,17 @@
       background: transparent;
       border: none;
       border-radius: 40px;
-      padding: 8px 14px;
+      padding: 7px 14px;
       font-weight: 500;
       color: var(--text);
       transition: var(--transition);
       cursor: pointer;
-      min-height: 44px;
+      min-height: 40px;
       display: inline-flex;
       align-items: center;
       gap: 6px;
+      font-size: 13px;
     }
-
     .week-controls button:hover { background: var(--primary-soft); color: var(--primary); }
 
     .week-controls .btn-primary {
@@ -109,10 +88,7 @@
       color: white;
       box-shadow: 0 2px 8px rgba(47,107,92,0.3);
     }
-    .week-controls .btn-primary:hover {
-      background: linear-gradient(135deg, #245b4e, #2f6b5c);
-      transform: scale(0.97);
-    }
+    .week-controls .btn-primary:hover { background: linear-gradient(135deg, #245b4e, #2f6b5c); transform: scale(0.97); }
 
     .week-controls .btn-pdf {
       background: var(--accent-warm-bg);
@@ -124,40 +100,38 @@
     .week-label {
       font-weight: 500;
       background: var(--surface-soft);
-      min-width: 210px;
+      min-width: 200px;
       text-align: center;
       border: 1px solid var(--border);
       font-variant-numeric: tabular-nums;
     }
 
-    /* ── Status message ── */
+    /* ── Status ── */
     @keyframes slideDown {
-      from { opacity: 0; transform: translateY(-8px); }
+      from { opacity: 0; transform: translateY(-6px); }
       to   { opacity: 1; transform: translateY(0); }
     }
-
     .status-message {
       background: var(--ok-bg);
       color: var(--ok);
       border-radius: 60px;
-      padding: 12px 20px;
-      margin-bottom: 28px;
-      font-size: 14px;
+      padding: 10px 18px;
+      margin-bottom: 14px;
+      font-size: 13px;
       font-weight: 500;
       border-left: 4px solid var(--ok);
-      box-shadow: var(--shadow-sm);
     }
     .status-message:not([hidden]) { animation: slideDown 0.2s ease; }
 
     /* ── Workspace ── */
     .workspace {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) 360px;
-      gap: 24px;
+      grid-template-columns: minmax(0, 1fr) 320px;
+      gap: 16px;
       align-items: start;
     }
 
-    /* ── Board / desktop grid ── */
+    /* ── Board / Desktop grid ── */
     .board {
       background: var(--surface);
       border-radius: var(--radius-card);
@@ -167,15 +141,14 @@
     }
 
     .schedule-grid {
-      min-width: 880px;
+      min-width: 840px;
       display: grid;
-      grid-template-columns: 150px repeat(6, minmax(125px, 1fr));
+      grid-template-columns: 140px repeat(6, minmax(115px, 1fr));
     }
-
     .schedule-grid.mobile-mode { display: block; min-width: unset; }
 
     .grid-cell {
-      padding: 14px 12px;
+      padding: 10px 10px;
       border-right: 1px solid var(--border);
       border-bottom: 1px solid var(--border);
       transition: background 0.15s;
@@ -183,52 +156,38 @@
     .grid-cell:nth-child(7n) { border-right: 0; }
     .head-cell { background: #fcf9f5; font-weight: 500; }
 
-    .day-button {
-      width: 100%;
-      background: transparent;
-      border: none;
-      text-align: left;
-      padding: 6px 0;
-      cursor: pointer;
-    }
-    .day-button strong { font-size: 1rem; font-weight: 600; display: block; }
-    .day-button .date { font-size: 12px; color: var(--text-light); font-variant-numeric: tabular-nums; }
+    .day-button { width: 100%; background: transparent; border: none; text-align: left; padding: 4px 0; cursor: pointer; }
+    .day-button strong { font-size: 13px; font-weight: 600; display: block; }
+    .day-button .date { font-size: 11px; color: var(--text-light); font-variant-numeric: tabular-nums; }
 
     .selected-day { background: #fef7e8 !important; box-shadow: inset 0 0 0 2px var(--primary); }
 
     .assistant-name-cell {
       background: #f5efe7;
-      padding: 16px 12px;
+      padding: 10px 10px;
       display: flex;
       flex-direction: column;
       justify-content: center;
       border-right: 1px solid var(--border);
       border-bottom: 1px solid var(--border);
     }
-
-    .assistant-card { display: flex; align-items: center; gap: 12px; }
-    .assistant-avatar {
-      width: 36px; height: 36px;
-      background: var(--primary-soft);
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      color: var(--primary); flex-shrink: 0;
-    }
-    .assistant-name { font-weight: 650; font-size: 1rem; color: var(--text); }
-    .assistant-meta { font-size: 11px; color: var(--text-muted); letter-spacing: 0.2px; }
+    .assistant-card { display: flex; align-items: center; gap: 8px; }
+    .assistant-avatar { width: 30px; height: 30px; background: var(--primary-soft); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--primary); flex-shrink: 0; }
+    .assistant-name { font-weight: 650; font-size: 13px; color: var(--text); }
+    .assistant-meta { font-size: 10px; color: var(--text-muted); }
 
     /* ── Shift select ── */
     .shift-select {
       width: 100%;
-      padding: 8px 8px;
+      padding: 6px 7px;
       border: 1px solid var(--border);
-      border-radius: var(--radius-xs);
+      border-radius: 8px;
       background: white;
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 500;
       transition: var(--transition);
       cursor: pointer;
-      min-height: 44px;
+      min-height: 36px;
     }
     .shift-select:hover { border-color: var(--primary); }
     .shift-select:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 2px rgba(47,107,92,0.15); }
@@ -236,162 +195,134 @@
     .shift-select.shift-morning  { border-left: 3px solid #3a7b5c; }
     .shift-select.shift-afternoon{ border-left: 3px solid #d68b5c; }
     .shift-select.shift-long     { border-left: 3px solid #5b8fd6; }
+    .shift-select.shift-midday   { border-left: 3px solid #a07cc5; }
     .shift-select.shift-off      { border-left: 3px solid #c8c0b8; }
+
+    /* ── Shift badge ── */
+    .shift-badge {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      min-height: 14px;
+      margin-top: 2px;
+    }
+    .badge-l {
+      background: #5b8fd6;
+      color: white;
+      border-radius: 4px;
+      padding: 1px 5px;
+      font-weight: 700;
+      font-size: 9px;
+      letter-spacing: 0.3px;
+    }
+    .badge-h { font-weight: 700; font-size: 10px; color: var(--text-light); }
 
     /* ── Toggle switch ── */
     .toggle-switch {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
       font-size: 11px;
       color: var(--text-light);
       cursor: pointer;
       -webkit-user-select: none;
       user-select: none;
-      margin-top: 8px;
+      margin-top: 6px;
     }
     .toggle-switch input { position: absolute; opacity: 0; width: 0; height: 0; }
-    .toggle-track {
-      width: 30px; height: 17px;
-      background: var(--border);
-      border-radius: 9px;
-      position: relative;
-      transition: background 0.2s;
-      flex-shrink: 0;
-    }
-    .toggle-track::after {
-      content: '';
-      position: absolute;
-      top: 2.5px; left: 2.5px;
-      width: 12px; height: 12px;
-      background: white;
-      border-radius: 50%;
-      transition: transform 0.2s;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-    }
+    .toggle-track { width: 28px; height: 16px; background: var(--border); border-radius: 8px; position: relative; transition: background 0.2s; flex-shrink: 0; }
+    .toggle-track::after { content: ''; position: absolute; top: 2px; left: 2px; width: 12px; height: 12px; background: white; border-radius: 50%; transition: transform 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
     .toggle-switch input:checked + .toggle-track { background: var(--primary); }
-    .toggle-switch input:checked + .toggle-track::after { transform: translateX(13px); }
+    .toggle-switch input:checked + .toggle-track::after { transform: translateX(12px); }
 
     .print-shift { display: none; }
 
     /* ── Side panels ── */
-    .side-panel { display: flex; flex-direction: column; gap: 24px; }
+    .side-panel { display: flex; flex-direction: column; gap: 10px; }
 
     .panel {
       background: var(--surface);
       border-radius: var(--radius-card);
       border: 1px solid var(--border);
-      padding: 20px;
+      padding: 12px 14px;
       box-shadow: var(--shadow-md);
     }
 
     .panel-header {
       display: flex;
       align-items: center;
-      gap: 10px;
-      margin-bottom: 20px;
+      gap: 8px;
+      margin-bottom: 10px;
       border-left: 3px solid var(--primary);
-      padding-left: 14px;
+      padding-left: 10px;
     }
-    .panel-header h2 { font-size: 18px; font-weight: 600; margin: 0; letter-spacing: -0.2px; }
+    .panel-header h2 { font-size: 14px; font-weight: 600; margin: 0; letter-spacing: -0.1px; }
+    .panel-header svg { width: 16px; height: 16px; flex-shrink: 0; }
 
-    .stat-row { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; border-top: 1px solid var(--border); }
-    .stat-row:first-child { border-top: none; padding-top: 0; }
-    .stat-row strong { font-weight: 600; }
-    .stat-row .meta { font-size: 12px; color: var(--text-light); margin-top: 4px; }
+    /* Day editor compact */
+    .day-option { margin-bottom: 10px; }
+    .day-option:last-child { margin-bottom: 0; }
+    .day-option label { font-weight: 500; font-size: 12px; display: block; margin-bottom: 4px; }
+    .field { width: 100%; border: 1px solid var(--border); border-radius: var(--radius-xs); padding: 8px 10px; background: white; transition: var(--transition); font-size: 13px; }
+    .field:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 2px rgba(47,107,92,0.15); }
+    .checkbox-line { display: flex; align-items: center; gap: 8px; font-weight: 500; font-size: 13px; cursor: pointer; }
 
-    .pill { background: var(--ok-bg); color: var(--ok); padding: 5px 12px; border-radius: 40px; font-weight: 600; font-size: 13px; white-space: nowrap; }
+    .warning { background: var(--alert-bg); padding: 8px 12px; border-radius: 8px; margin-bottom: 8px; font-size: 12px; color: var(--alert); border-left: 3px solid var(--alert); display: flex; align-items: center; gap: 8px; }
+    .warning:last-child { margin-bottom: 0; }
+    .empty { color: var(--text-muted); font-size: 12px; padding: 4px 0; display: flex; align-items: center; gap: 6px; }
+
+    /* Compact summary */
+    .sum-row { display: flex; align-items: center; gap: 8px; padding: 6px 0; border-top: 1px solid var(--border); }
+    .sum-row:first-child { border-top: none; padding-top: 0; }
+    .sum-name { font-weight: 600; font-size: 12px; min-width: 64px; }
+    .sum-stats { flex: 1; font-size: 11px; color: var(--text-light); }
+    .pill { background: var(--ok-bg); color: var(--ok); padding: 3px 9px; border-radius: 40px; font-weight: 600; font-size: 11px; white-space: nowrap; }
     .pill.warn { background: var(--alert-bg); color: var(--alert); }
+    .sum-locked { font-size: 11px; color: var(--text-muted); margin-top: 6px; padding-top: 6px; border-top: 1px solid var(--border); }
 
-    .day-option { margin-bottom: 20px; }
-    .day-option label { font-weight: 500; font-size: 13px; display: block; margin-bottom: 6px; }
-    .field, .textarea { width: 100%; border: 1px solid var(--border); border-radius: var(--radius-xs); padding: 10px 12px; background: white; transition: var(--transition); }
-    .field:focus, .textarea:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 2px rgba(47,107,92,0.15); }
-    .textarea { min-height: 80px; resize: vertical; }
-    .checkbox-line { display: flex; align-items: center; gap: 10px; font-weight: 500; cursor: pointer; }
-
-    .warning { background: var(--alert-bg); padding: 12px 16px; border-radius: var(--radius-xs); margin-bottom: 12px; font-size: 13px; color: var(--alert); border-left: 3px solid var(--alert); display: flex; align-items: center; gap: 10px; }
-    .empty { color: var(--text-muted); font-style: italic; font-size: 13px; padding: 10px 0; }
-
-    .icon-svg { width: 18px; height: 18px; display: inline-block; vertical-align: middle; stroke-width: 1.6; stroke: currentColor; fill: none; flex-shrink: 0; }
+    .icon-svg { width: 16px; height: 16px; display: inline-block; vertical-align: middle; stroke-width: 1.6; stroke: currentColor; fill: none; flex-shrink: 0; }
 
     /* ── Mobile grid ── */
-    .mobile-grid {
-      display: grid;
-      grid-template-columns: 54px repeat(3, 1fr);
-      width: 100%;
-    }
+    .mobile-grid { display: grid; grid-template-columns: 50px repeat(3, 1fr); width: 100%; }
     .mobile-grid > div:nth-child(4n) { border-right: none; }
 
-    .mobile-header-cell {
-      background: #f5efe7;
-      padding: 9px 5px;
-      font-weight: 600;
-      font-size: 11px;
-      text-align: center;
-      border-right: 1px solid var(--border);
-      border-bottom: 2px solid var(--border);
-      color: var(--text);
-    }
-
-    .mobile-day-label {
-      font-size: 10px;
-      padding: 8px 3px;
-      text-align: center;
-      background: #fcf9f5;
-      border-right: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 1px;
-      transition: background 0.15s;
-    }
-    .mobile-day-label .day-abbr { font-weight: 700; color: var(--text); font-size: 11px; }
+    .mobile-header-cell { background: #f5efe7; padding: 8px 4px; font-weight: 600; font-size: 10px; text-align: center; border-right: 1px solid var(--border); border-bottom: 2px solid var(--border); color: var(--text); }
+    .mobile-day-label { font-size: 10px; padding: 6px 2px; text-align: center; background: #fcf9f5; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; transition: background 0.15s; }
+    .mobile-day-label .day-abbr { font-weight: 700; color: var(--text); font-size: 10px; }
     .mobile-day-label .day-date { font-size: 9px; color: var(--text-light); font-variant-numeric: tabular-nums; }
     .mobile-day-label.selected-day { background: var(--primary-soft) !important; box-shadow: inset 2px 0 0 var(--primary); }
 
-    .mobile-shift-cell {
-      padding: 5px 4px;
-      border-right: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      flex-direction: column;
-      gap: 3px;
-    }
+    .mobile-shift-cell { padding: 4px 3px; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); display: flex; flex-direction: column; gap: 2px; }
     .mobile-shift-cell.selected-day { background: #fef9f0 !important; }
+    .mobile-shift-cell .shift-select { font-size: 9px; padding: 3px 3px; min-height: 30px; border-radius: 6px; }
+    .mobile-shift-cell .shift-badge { margin-top: 1px; }
+    .mobile-shift-cell .badge-h { font-size: 9px; }
+    .mobile-shift-cell .badge-l { font-size: 8px; padding: 1px 3px; }
+    .mobile-shift-cell .toggle-switch { margin-top: 1px; font-size: 9px; gap: 3px; }
+    .mobile-shift-cell .toggle-track { width: 22px; height: 13px; border-radius: 7px; }
+    .mobile-shift-cell .toggle-track::after { width: 9px; height: 9px; }
+    .mobile-shift-cell .toggle-switch input:checked + .toggle-track::after { transform: translateX(9px); }
 
-    .mobile-shift-cell .shift-select { font-size: 10px; padding: 4px 4px; min-height: 34px; border-radius: 8px; }
-
-    .mobile-shift-cell .toggle-switch { margin-top: 2px; font-size: 9px; gap: 4px; }
-    .mobile-shift-cell .toggle-track { width: 24px; height: 14px; border-radius: 7px; }
-    .mobile-shift-cell .toggle-track::after { width: 10px; height: 10px; }
-    .mobile-shift-cell .toggle-switch input:checked + .toggle-track::after { transform: translateX(10px); }
-
-    /* ── Bottom bar (mobile only) ── */
+    /* ── Bottom bar (mobile) ── */
     .bottom-bar { display: none; }
 
     /* ── Responsive ── */
     @media (max-width: 780px) {
-      body { padding-bottom: 70px; }
-      .app { padding: 14px 10px; }
-      .workspace { grid-template-columns: 1fr; gap: 16px; }
-      .topbar { flex-direction: column; align-items: flex-start; gap: 6px; margin-bottom: 16px; }
-      .week-controls { display: none; }
-      .panel { padding: 14px; }
+      body { padding-bottom: 68px; }
+      .app { padding: 12px 10px; }
+      .workspace { grid-template-columns: 1fr; gap: 12px; }
+      .topbar { display: none; }
 
       .bottom-bar {
         display: flex;
         position: fixed;
         bottom: 0; left: 0; right: 0;
-        height: 62px;
+        height: 60px;
         background: var(--surface);
         border-top: 1px solid var(--border);
         align-items: center;
         justify-content: center;
-        gap: 6px;
+        gap: 5px;
         padding: 0 10px;
         z-index: 100;
         box-shadow: 0 -4px 20px rgba(0,0,0,0.08);
@@ -400,11 +331,11 @@
       .bottom-bar button {
         border: 1px solid var(--border);
         border-radius: 10px;
-        padding: 7px 11px;
-        font-size: 13px;
+        padding: 6px 10px;
+        font-size: 12px;
         font-weight: 500;
         cursor: pointer;
-        min-height: 40px;
+        min-height: 38px;
         display: inline-flex;
         align-items: center;
         gap: 4px;
@@ -413,28 +344,20 @@
         color: var(--text);
       }
       .bottom-bar button:active { transform: scale(0.94); }
-
-      .bottom-bar .bb-nav { padding: 7px 10px; min-width: 40px; justify-content: center; }
+      .bottom-bar .bb-nav { padding: 6px 9px; min-width: 38px; justify-content: center; }
       .bottom-bar .bb-primary { background: linear-gradient(135deg, #2f6b5c, #3d8870); color: white; border-color: transparent; box-shadow: 0 2px 6px rgba(47,107,92,0.3); }
       .bottom-bar .bb-pdf { background: var(--accent-warm-bg); color: var(--accent-warm); border-color: rgba(214,139,92,0.3); }
+      .week-label-mini { font-size: 11px; font-weight: 600; color: var(--text); padding: 0 2px; min-width: 70px; text-align: center; font-variant-numeric: tabular-nums; flex-shrink: 0; }
 
-      .week-label-mini {
-        font-size: 11px;
-        font-weight: 600;
-        color: var(--text);
-        padding: 0 2px;
-        min-width: 74px;
-        text-align: center;
-        font-variant-numeric: tabular-nums;
-        flex-shrink: 0;
-      }
+      .panel { padding: 10px 12px; }
+      .board { overflow-x: visible; }
     }
 
     /* ── Print ── */
     @media print {
       :root { --bg: white; --surface: white; --border: #aaa; }
       body { background: white; padding-bottom: 0; }
-      .week-controls, .side-panel, .status-message, .eyebrow, .toggle-switch, .assistant-avatar, .bottom-bar { display: none !important; }
+      .topbar, .side-panel, .status-message, .toggle-switch, .assistant-avatar, .bottom-bar, .shift-badge { display: none !important; }
       .board { box-shadow: none; border: 1px solid #ccc; }
       .schedule-grid { min-width: 0; }
       .shift-select { display: none; }
@@ -446,11 +369,7 @@
 </head>
 <body>
 <main class="app">
-  <header class="topbar">
-    <div class="title-section">
-      <div class="eyebrow">Pianificazione studio</div>
-      <h1>Turni assistenti</h1>
-    </div>
+  <div class="topbar">
     <div class="week-controls">
       <button id="prevWeek" type="button" aria-label="Settimana precedente">
         <svg class="icon-svg" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
@@ -470,7 +389,7 @@
         PDF
       </button>
     </div>
-  </header>
+  </div>
 
   <p id="statusMessage" class="status-message" hidden></p>
 
@@ -482,15 +401,7 @@
     <aside class="side-panel">
       <section class="panel">
         <div class="panel-header">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 6h18M9 12h6M12 18v-6M4 4h16a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1z"/></svg>
-          <h2>Riepilogo</h2>
-        </div>
-        <div id="summary"></div>
-      </section>
-
-      <section class="panel">
-        <div class="panel-header">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/></svg>
           <h2>Dettaglio giorno</h2>
         </div>
         <div id="dayEditor"></div>
@@ -498,10 +409,18 @@
 
       <section class="panel">
         <div class="panel-header">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 8v4M12 16h.01M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0z"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 8v4M12 16h.01M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0z"/></svg>
           <h2>Avvisi</h2>
         </div>
         <div id="warnings"></div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-header">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 6h18M9 12h6M12 18v-6M4 4h16a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1z"/></svg>
+          <h2>Riepilogo</h2>
+        </div>
+        <div id="summary"></div>
       </section>
     </aside>
   </section>
@@ -525,7 +444,7 @@
 <script src="https://unpkg.com/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
 <script src="https://unpkg.com/jspdf-autotable@3.8.2/dist/jspdf.plugin.autotable.min.js"></script>
 <script>
-  // ── DATI E LOGICA (invariata) ──
+  // ── DATI E LOGICA ──
   const ASSISTANT_NAMES = ['Lucrezia', 'Manuela', 'Madalina'];
   const ASSISTANTS = {
     Lucrezia: { weeklyHours: 38, minAfternoons: 2, maxAfternoons: 3, canWorkLong: true },
@@ -534,14 +453,19 @@
   };
   const WEEKDAY_KEYS = ['mon','tue','wed','thu','fri'];
   const SHIFT_TEMPLATES = {
-    OFF:     { id:'OFF',     label:'Riposo',      hours:0, coversMorning:false, coversAfternoon:false, coversClose:false, isLong:false },
-    M5:      { id:'M5',      label:'08:30-13:30', hours:5, coversMorning:true,  coversAfternoon:false, coversClose:false, isLong:false },
-    P5:      { id:'P5',      label:'14:00-19:00', hours:5, coversMorning:false, coversAfternoon:true,  coversClose:true,  isLong:false },
-    M4:      { id:'M4',      label:'08:30-12:30', hours:4, coversMorning:true,  coversAfternoon:false, coversClose:false, isLong:false },
-    M6:      { id:'M6',      label:'08:30-14:30', hours:6, coversMorning:true,  coversAfternoon:false, coversClose:false, isLong:false },
-    P4:      { id:'P4',      label:'15:00-19:00', hours:4, coversMorning:false, coversAfternoon:true,  coversClose:true,  isLong:false },
-    L_OPEN:  { id:'L_OPEN',  label:'08:30-17:00', hours:8, coversMorning:true,  coversAfternoon:true,  coversClose:false, isLong:true  },
-    L_CLOSE: { id:'L_CLOSE', label:'10:30-19:00', hours:8, coversMorning:false, coversAfternoon:true,  coversClose:true,  isLong:true  },
+    OFF:     { id:'OFF',     label:'Riposo',      hours:0, coversMorning:false, coversAfternoon:false, coversClose:false, isLong:false, isMid:false },
+    M5:      { id:'M5',      label:'08:30-13:30', hours:5, coversMorning:true,  coversAfternoon:false, coversClose:false, isLong:false, isMid:false },
+    P5:      { id:'P5',      label:'14:00-19:00', hours:5, coversMorning:false, coversAfternoon:true,  coversClose:true,  isLong:false, isMid:false },
+    M4:      { id:'M4',      label:'08:30-12:30', hours:4, coversMorning:true,  coversAfternoon:false, coversClose:false, isLong:false, isMid:false },
+    M6:      { id:'M6',      label:'08:30-14:30', hours:6, coversMorning:true,  coversAfternoon:false, coversClose:false, isLong:false, isMid:false },
+    P4:      { id:'P4',      label:'15:00-19:00', hours:4, coversMorning:false, coversAfternoon:true,  coversClose:true,  isLong:false, isMid:false },
+    L_OPEN:  { id:'L_OPEN',  label:'08:30-17:00', hours:8, coversMorning:true,  coversAfternoon:true,  coversClose:false, isLong:true,  isMid:false },
+    L_CLOSE: { id:'L_CLOSE', label:'10:30-19:00', hours:8, coversMorning:false, coversAfternoon:true,  coversClose:true,  isLong:true,  isMid:false },
+    // Turni mezza giornata
+    MD_09_14:{ id:'MD_09_14',label:'09:00-14:00', hours:5, coversMorning:false, coversAfternoon:false, coversClose:false, isLong:false, isMid:true },
+    MD_10_14:{ id:'MD_10_14',label:'10:00-14:00', hours:4, coversMorning:false, coversAfternoon:false, coversClose:false, isLong:false, isMid:true },
+    MD_10_15:{ id:'MD_10_15',label:'10:00-15:00', hours:5, coversMorning:false, coversAfternoon:false, coversClose:false, isLong:false, isMid:true },
+    MD_11_16:{ id:'MD_11_16',label:'11:00-16:00', hours:5, coversMorning:false, coversAfternoon:false, coversClose:false, isLong:false, isMid:true },
   };
   const WEEK_DAYS = [
     {key:'mon',label:'Lunedì'},{key:'tue',label:'Martedì'},{key:'wed',label:'Mercoledì'},
@@ -562,7 +486,15 @@
   function validateWeek(week){const w=[],stats=getAssistantStats(week);for(const[name,rules]of Object.entries(ASSISTANTS)){const s=stats[name];if(s.hours!==rules.weeklyHours)w.push({message:`${name}: ${s.hours}h su ${rules.weeklyHours}h`});if(s.afternoons<rules.minAfternoons)w.push({message:`${name}: pochi pomeriggi (${s.afternoons}/${rules.minAfternoons})`});if(s.afternoons>rules.maxAfternoons)w.push({message:`${name}: troppi pomeriggi (${s.afternoons}/${rules.maxAfternoons})`});}for(const day of week.days){const req=getRequiredCoverage(day),cov=getCoverage(day);if(cov.morning<req.morning)w.push({message:`${day.label}: apertura 08:30 scoperta`});if(day.key==='sat'&&cov.morning>1)w.push({message:`${day.label}: sabato solo un'assistente`});if(cov.afternoon<req.afternoon)w.push({message:`${day.label}: pomeriggio richiede ${req.afternoon}`});if(cov.close<req.close)w.push({message:`${day.label}: chiusura 19:00 scoperta`});for(const n of ASSISTANT_NAMES){const sh=getShift(day.assignments[n]);if(sh.isLong&&!ASSISTANTS[n].canWorkLong)w.push({message:`${n}: turno lungo non previsto (${day.label})`});if(sh.hours>8.5)w.push({message:`${n}: giornata pesante >8.5h (${day.label})`});}}return w;}
   function formatWeekRange(week){return`${formatItalianDate(week.days[0].date)} - ${formatItalianDate(week.days[week.days.length-1].date)}`;}
   function formatWeekRangeShort(week){return`${formatDateShort(week.days[0].date)}–${formatDateShort(week.days[week.days.length-1].date)}`;}
-  function getAllowedShiftIds(assistant,day){if(day.locks?.[assistant])return[day.assignments[assistant]];if(day.key==='sat')return['OFF','M5'];if(assistant==='Lucrezia')return['OFF','M5','M6','P5','L_OPEN','L_CLOSE'];if(assistant==='Manuela')return['OFF','M5','P5'];return['OFF','M4','M5','P4','P5'];}
+
+  const MID_SHIFTS = ['MD_09_14','MD_10_14','MD_10_15','MD_11_16'];
+  function getAllowedShiftIds(assistant,day){
+    if(day.locks?.[assistant])return[day.assignments[assistant]];
+    if(day.key==='sat')return['OFF','M5'];
+    if(assistant==='Lucrezia')return['OFF','M5','M6','P5','L_OPEN','L_CLOSE',...MID_SHIFTS];
+    if(assistant==='Manuela')return['OFF','M5','P5',...MID_SHIFTS];
+    return['OFF','M4','M5','P4','P5',...MID_SHIFTS];
+  }
   function generateWeek(options={}){const week=createBaseWeek(options.startDate??getCurrentMonday());applyPreviousWeekState(week,options.previousWeek);return solveWeek(week)??week;}
   function solveWeek(seedWeek){let best=null;const dayCombos=seedWeek.days.map((day,idx)=>getDayCombos(seedWeek,day,idx));const emptyStats=Object.fromEntries(ASSISTANT_NAMES.map(n=>[n,{hours:0,afternoons:0,workDays:0}]));function visit(dayIndex,assignments,stats){if(best)return;if(dayIndex===seedWeek.days.length){const w=buildWeekFromDayAssignments(seedWeek,assignments);if(validateWeek(w).length===0)best=w;return;}for(const combo of dayCombos[dayIndex]){const next=cloneStats(stats);for(const a of ASSISTANT_NAMES){const sh=getShift(combo[a]);next[a].hours+=sh.hours;next[a].afternoons+=sh.coversClose?1:0;next[a].workDays+=sh.hours>0?1:0;}if(!canStillMeet(seedWeek,dayIndex+1,next))continue;assignments.push(combo);visit(dayIndex+1,assignments,next);assignments.pop();if(best)return;}}visit(0,[],emptyStats);return best;}
   function getDayCombos(seedWeek,day,_idx){const combos=[];for(const l of getAllowedShiftIds('Lucrezia',day))for(const m of getAllowedShiftIds('Manuela',day))for(const ma of getAllowedShiftIds('Madalina',day)){const combo={Lucrezia:l,Manuela:m,Madalina:ma};const testDay=structuredClone(day);testDay.assignments=combo;const cov=getCoverage(testDay),req=getRequiredCoverage(testDay);if(cov.morning<req.morning)continue;if(cov.afternoon<req.afternoon)continue;if(cov.close<req.close)continue;if(day.key==='sat'&&cov.morning!==1)continue;combos.push(combo);}return combos;}
@@ -571,277 +503,226 @@
   function cloneStats(stats){return Object.fromEntries(ASSISTANT_NAMES.map(a=>[a,{...stats[a]}]));}
   function buildWeekFromDayAssignments(seedWeek,assignments){const w=structuredClone(seedWeek);for(let i=0;i<w.days.length;i++)for(const a of ASSISTANT_NAMES)w.days[i].assignments[a]=assignments[i][a];return w;}
   function applyPreviousWeekState(week,prev){if(!prev)return;for(const day of week.days){const p=prev.days.find(d=>d.key===day.key);if(!p)continue;day.exceptions={...day.exceptions,...p.exceptions};day.locks={...day.locks,...p.locks};for(const a of ASSISTANT_NAMES)if(day.locks[a])day.assignments[a]=p.assignments[a];}}
-  function regenerateWeekWithFeedback(start,prev){const w=generateWeek({startDate:start,previousWeek:prev});const locked=getLockedShiftCount(w);return{week:w,message:locked?`Settimana rigenerata. ${locked} turni bloccati mantenuti.`:'Settimana rigenerata pulita.'};}
-  function regenerateCleanWeekWithFeedback(start){return{week:generateWeek({startDate:start}),message:'Settimana pulita rigenerata. Blocchi ed eccezioni rimossi.'};}
-  function updateShiftWithFeedback(week,dayKey,assistant,shiftId){const day=week.days.find(d=>d.key===dayKey);if(day)day.assignments[assistant]=shiftId;return{week,message:`Turno aggiornato: ${assistant} ${day?.label}.`};}
+  function regenerateWeekWithFeedback(start,prev){const w=generateWeek({startDate:start,previousWeek:prev});const locked=getLockedShiftCount(w);return{week:w,message:locked?`Rigenerata. ${locked} turni bloccati mantenuti.`:'Settimana rigenerata.'};}
+  function regenerateCleanWeekWithFeedback(start){return{week:generateWeek({startDate:start}),message:'Settimana pulita rigenerata.'};}
+  function updateShiftWithFeedback(week,dayKey,assistant,shiftId){const day=week.days.find(d=>d.key===dayKey);if(day)day.assignments[assistant]=shiftId;return{week,message:`${assistant} · ${day?.label} aggiornato.`};}
   function getLockedShiftCount(week){return week.days.reduce((c,d)=>c+Object.values(d.locks).filter(Boolean).length,0);}
 
   // ── STORAGE ──
-  const storageKey = 'turni-assistenti.weeks.v1';
-  let weeks = loadWeeks();
-  let currentStart = getCurrentMonday();
-  let selectedDayKey = 'mon';
-  if (!weeks[currentStart]) weeks[currentStart] = generateWeek({ startDate: currentStart });
+  const storageKey='turni-assistenti.weeks.v1';
+  let weeks=loadWeeks();
+  let currentStart=getCurrentMonday();
+  let selectedDayKey='mon';
+  if(!weeks[currentStart])weeks[currentStart]=generateWeek({startDate:currentStart});
   saveWeeks();
 
   // ── DOM REFS ──
-  const scheduleGrid  = document.querySelector('#scheduleGrid');
-  const weekLabel     = document.querySelector('#weekLabel');
-  const weekLabelMob  = document.querySelector('#weekLabelMob');
-  const summaryDiv    = document.querySelector('#summary');
-  const warningsDiv   = document.querySelector('#warnings');
-  const dayEditorDiv  = document.querySelector('#dayEditor');
-  const statusMsg     = document.querySelector('#statusMessage');
-  const shiftOptions  = Object.values(SHIFT_TEMPLATES);
+  const scheduleGrid=document.querySelector('#scheduleGrid');
+  const weekLabel=document.querySelector('#weekLabel');
+  const weekLabelMob=document.querySelector('#weekLabelMob');
+  const summaryDiv=document.querySelector('#summary');
+  const warningsDiv=document.querySelector('#warnings');
+  const dayEditorDiv=document.querySelector('#dayEditor');
+  const statusMsg=document.querySelector('#statusMessage');
+  const shiftOptions=Object.values(SHIFT_TEMPLATES);
 
   // ── EVENT LISTENERS ──
-  document.querySelector('#prevWeek').addEventListener('click', () => changeWeek(-7));
-  document.querySelector('#nextWeek').addEventListener('click', () => changeWeek(7));
-  document.querySelector('#generateWeek').addEventListener('click', () => { const r = regenerateWeekWithFeedback(currentStart, getCurrentWeek()); weeks[currentStart] = r.week; saveWeeks(); showStatus(r.message); render(); });
-  document.querySelector('#resetWeek').addEventListener('click', () => { const r = regenerateCleanWeekWithFeedback(currentStart); weeks[currentStart] = r.week; saveWeeks(); showStatus(r.message); render(); });
-  document.querySelector('#printWeek').addEventListener('click', () => window.print());
-  document.querySelector('#exportPDF').addEventListener('click', exportPDF);
-  document.querySelector('#prevWeekMob').addEventListener('click', () => changeWeek(-7));
-  document.querySelector('#nextWeekMob').addEventListener('click', () => changeWeek(7));
-  document.querySelector('#generateWeekMob').addEventListener('click', () => { const r = regenerateWeekWithFeedback(currentStart, getCurrentWeek()); weeks[currentStart] = r.week; saveWeeks(); showStatus(r.message); render(); });
-  document.querySelector('#exportPDFMob').addEventListener('click', exportPDF);
+  document.querySelector('#prevWeek').addEventListener('click',()=>changeWeek(-7));
+  document.querySelector('#nextWeek').addEventListener('click',()=>changeWeek(7));
+  document.querySelector('#generateWeek').addEventListener('click',()=>{const r=regenerateWeekWithFeedback(currentStart,getCurrentWeek());weeks[currentStart]=r.week;saveWeeks();showStatus(r.message);render();});
+  document.querySelector('#resetWeek').addEventListener('click',()=>{const r=regenerateCleanWeekWithFeedback(currentStart);weeks[currentStart]=r.week;saveWeeks();showStatus(r.message);render();});
+  document.querySelector('#printWeek').addEventListener('click',()=>window.print());
+  document.querySelector('#exportPDF').addEventListener('click',exportPDF);
+  document.querySelector('#prevWeekMob').addEventListener('click',()=>changeWeek(-7));
+  document.querySelector('#nextWeekMob').addEventListener('click',()=>changeWeek(7));
+  document.querySelector('#generateWeekMob').addEventListener('click',()=>{const r=regenerateWeekWithFeedback(currentStart,getCurrentWeek());weeks[currentStart]=r.week;saveWeeks();showStatus(r.message);render();});
+  document.querySelector('#exportPDFMob').addEventListener('click',exportPDF);
 
   let resizeTimer;
-  window.addEventListener('resize', () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(() => renderGrid(getCurrentWeek()), 150); });
+  window.addEventListener('resize',()=>{clearTimeout(resizeTimer);resizeTimer=setTimeout(()=>renderGrid(getCurrentWeek()),150);});
 
   render();
 
   // ── RENDER ──
-  function render() {
-    const w = getCurrentWeek();
+  function render(){
+    const w=getCurrentWeek();
     ensureWeekShape(w);
-    weekLabel.textContent = formatWeekRange(w);
-    weekLabelMob.textContent = formatWeekRangeShort(w);
+    weekLabel.textContent=formatWeekRange(w);
+    weekLabelMob.textContent=formatWeekRangeShort(w);
     renderGrid(w);
     renderSummary(w);
     renderDayEditor(w);
     renderWarnings(w);
   }
 
-  function renderGrid(week) {
-    const isMobile = window.innerWidth < 780;
-    scheduleGrid.classList.toggle('mobile-mode', isMobile);
-    scheduleGrid.innerHTML = '';
-    if (isMobile) {
-      scheduleGrid.appendChild(buildMobileGrid(week));
-    } else {
-      buildDesktopGrid(week);
-    }
+  function renderGrid(week){
+    const isMobile=window.innerWidth<780;
+    scheduleGrid.classList.toggle('mobile-mode',isMobile);
+    scheduleGrid.innerHTML='';
+    if(isMobile){scheduleGrid.appendChild(buildMobileGrid(week));}
+    else{buildDesktopGrid(week);}
   }
 
-  function buildDesktopGrid(week) {
-    scheduleGrid.append(createCell('', 'grid-cell head-cell'));
-    for (const day of week.days) {
-      const btn = document.createElement('button');
-      btn.type = 'button';
-      btn.className = 'day-button';
-      btn.innerHTML = `<strong>${day.label}</strong><span class="date">${formatDateShort(day.date)}</span>`;
-      btn.addEventListener('click', () => { selectedDayKey = day.key; render(); });
-      const cell = createCell('', `grid-cell head-cell${day.key === selectedDayKey ? ' selected-day' : ''}`);
-      cell.append(btn);
-      scheduleGrid.append(cell);
+  function buildDesktopGrid(week){
+    scheduleGrid.append(createCell('','grid-cell head-cell'));
+    for(const day of week.days){
+      const btn=document.createElement('button');btn.type='button';btn.className='day-button';
+      btn.innerHTML=`<strong>${day.label}</strong><span class="date">${formatDateShort(day.date)}</span>`;
+      btn.addEventListener('click',()=>{selectedDayKey=day.key;render();});
+      const cell=createCell('',`grid-cell head-cell${day.key===selectedDayKey?' selected-day':''}`);
+      cell.append(btn);scheduleGrid.append(cell);
     }
-    for (const assistant of ASSISTANT_NAMES) {
-      const nameCell = document.createElement('div');
-      nameCell.className = 'grid-cell assistant-name-cell';
-      nameCell.innerHTML = `<div class="assistant-card"><div class="assistant-avatar"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg></div><div class="assistant-info"><span class="assistant-name">${assistant}</span><span class="assistant-meta">${getContractLabel(assistant)}</span></div></div>`;
+    for(const assistant of ASSISTANT_NAMES){
+      const nameCell=document.createElement('div');nameCell.className='grid-cell assistant-name-cell';
+      nameCell.innerHTML=`<div class="assistant-card"><div class="assistant-avatar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg></div><div><span class="assistant-name">${assistant}</span><div class="assistant-meta">${getContractLabel(assistant)}</div></div></div>`;
       scheduleGrid.append(nameCell);
-      for (const day of week.days) {
-        const select = buildShiftSelect(day, assistant, true, week);
-        const lock   = createLockToggle(day, assistant, 'Blocca');
-        const print  = Object.assign(document.createElement('span'), { className: 'print-shift', textContent: getPrintShiftLabel(day.assignments[assistant]) });
-        const cell   = createCell('', `grid-cell${day.key === selectedDayKey ? ' selected-day' : ''}`);
-        cell.append(select, lock, print);
-        scheduleGrid.append(cell);
+      for(const day of week.days){
+        const{select,badge}=buildShiftContent(day,assistant,true,week);
+        const lock=createLockToggle(day,assistant,'Blocca');
+        const print=Object.assign(document.createElement('span'),{className:'print-shift',textContent:getPrintShiftLabel(day.assignments[assistant])});
+        const cell=createCell('',`grid-cell${day.key===selectedDayKey?' selected-day':''}`);
+        cell.append(select,badge,lock,print);scheduleGrid.append(cell);
       }
     }
   }
 
-  function buildMobileGrid(week) {
-    const grid = document.createElement('div');
-    grid.className = 'mobile-grid';
-
-    // header row
-    grid.append(Object.assign(document.createElement('div'), { className: 'mobile-header-cell' }));
-    for (const a of ASSISTANT_NAMES) {
-      grid.append(Object.assign(document.createElement('div'), { className: 'mobile-header-cell', textContent: a }));
-    }
-
-    // day rows
-    for (const day of week.days) {
-      const isSelected = day.key === selectedDayKey;
-
-      const dayLabel = document.createElement('div');
-      dayLabel.className = `mobile-day-label${isSelected ? ' selected-day' : ''}`;
-      dayLabel.innerHTML = `<span class="day-abbr">${day.label.slice(0,3)}</span><span class="day-date">${formatDateShort(day.date)}</span>`;
-      dayLabel.addEventListener('click', () => { selectedDayKey = day.key; render(); });
+  function buildMobileGrid(week){
+    const grid=document.createElement('div');grid.className='mobile-grid';
+    grid.append(Object.assign(document.createElement('div'),{className:'mobile-header-cell'}));
+    for(const a of ASSISTANT_NAMES)grid.append(Object.assign(document.createElement('div'),{className:'mobile-header-cell',textContent:a}));
+    for(const day of week.days){
+      const isSelected=day.key===selectedDayKey;
+      const dayLabel=document.createElement('div');
+      dayLabel.className=`mobile-day-label${isSelected?' selected-day':''}`;
+      dayLabel.innerHTML=`<span class="day-abbr">${day.label.slice(0,3)}</span><span class="day-date">${formatDateShort(day.date)}</span>`;
+      dayLabel.addEventListener('click',()=>{selectedDayKey=day.key;render();});
       grid.append(dayLabel);
-
-      for (const assistant of ASSISTANT_NAMES) {
-        const cell  = document.createElement('div');
-        cell.className = `mobile-shift-cell${isSelected ? ' selected-day' : ''}`;
-        const sel   = buildShiftSelect(day, assistant, false, week);
-        const lock  = createLockToggle(day, assistant, '');
-        const print = Object.assign(document.createElement('span'), { className: 'print-shift', textContent: getPrintShiftLabel(day.assignments[assistant]) });
-        cell.append(sel, lock, print);
-        grid.append(cell);
+      for(const assistant of ASSISTANT_NAMES){
+        const cell=document.createElement('div');cell.className=`mobile-shift-cell${isSelected?' selected-day':''}`;
+        const{select,badge}=buildShiftContent(day,assistant,false,week);
+        const lock=createLockToggle(day,assistant,'');
+        const print=Object.assign(document.createElement('span'),{className:'print-shift',textContent:getPrintShiftLabel(day.assignments[assistant])});
+        cell.append(select,badge,lock,print);grid.append(cell);
       }
     }
     return grid;
   }
 
-  function buildShiftSelect(day, assistant, showId, week) {
-    const select = document.createElement('select');
-    select.className = 'shift-select';
-    for (const sh of shiftOptions) {
-      const opt = document.createElement('option');
-      opt.value = sh.id;
-      opt.textContent = sh.id === 'OFF' ? 'Riposo' : (showId ? `${sh.id} ${sh.label}` : sh.label);
-      select.append(opt);
+  function buildShiftContent(day,assistant,showId,week){
+    const select=document.createElement('select');select.className='shift-select';
+    for(const sh of shiftOptions){
+      const opt=document.createElement('option');opt.value=sh.id;
+      opt.textContent=getOptionText(sh,showId);select.append(opt);
     }
-    select.value = day.assignments[assistant];
-    applyShiftClass(select, day.assignments[assistant]);
-    select.addEventListener('change', () => {
-      applyShiftClass(select, select.value);
-      const res = updateShiftWithFeedback(week, day.key, assistant, select.value);
-      weeks[currentStart] = res.week;
-      saveWeeks();
-      showStatus(res.message);
-      render();
+    select.value=day.assignments[assistant];
+    applyShiftClass(select,day.assignments[assistant]);
+    const badge=buildShiftBadge(day.assignments[assistant]);
+    select.addEventListener('change',()=>{
+      applyShiftClass(select,select.value);
+      updateShiftBadge(badge,select.value);
+      const res=updateShiftWithFeedback(week,day.key,assistant,select.value);
+      weeks[currentStart]=res.week;saveWeeks();showStatus(res.message);render();
     });
-    return select;
+    return{select,badge};
   }
 
-  function createLockToggle(day, assistant, labelText) {
-    const label = document.createElement('label');
-    label.className = 'toggle-switch';
-    if (!labelText) label.title = 'Blocca turno';
-    label.innerHTML = `<input type="checkbox"${day.locks[assistant] ? ' checked' : ''}><span class="toggle-track"></span>${labelText ? `<span>${labelText}</span>` : ''}`;
-    label.querySelector('input').addEventListener('change', e => {
-      day.locks[assistant] = e.target.checked;
-      saveWeeks();
-      showStatus(e.target.checked ? 'Turno bloccato.' : 'Blocco rimosso.');
-      render();
+  function getOptionText(sh,showId){
+    if(sh.id==='OFF')return'Riposo';
+    const prefix=showId?`${sh.id} · `:'';
+    return`${prefix}${sh.label} · ${sh.hours}h`;
+  }
+
+  function buildShiftBadge(shiftId){
+    const el=document.createElement('div');el.className='shift-badge';
+    updateShiftBadge(el,shiftId);return el;
+  }
+  function updateShiftBadge(el,shiftId){
+    const s=SHIFT_TEMPLATES[shiftId]??SHIFT_TEMPLATES.OFF;
+    if(s.id==='OFF'){el.innerHTML='';return;}
+    el.innerHTML=(s.isLong?`<span class="badge-l">L</span>`:'')+`<span class="badge-h">${s.hours}h</span>`;
+  }
+
+  function createLockToggle(day,assistant,labelText){
+    const label=document.createElement('label');label.className='toggle-switch';
+    if(!labelText)label.title='Blocca turno';
+    label.innerHTML=`<input type="checkbox"${day.locks[assistant]?' checked':''}><span class="toggle-track"></span>${labelText?`<span>${labelText}</span>`:''}`;
+    label.querySelector('input').addEventListener('change',e=>{
+      day.locks[assistant]=e.target.checked;saveWeeks();
+      showStatus(e.target.checked?'Turno bloccato.':'Blocco rimosso.');render();
     });
     return label;
   }
 
-  function applyShiftClass(select, shiftId) {
-    select.classList.remove('shift-morning', 'shift-afternoon', 'shift-long', 'shift-off');
-    const s = SHIFT_TEMPLATES[shiftId] ?? SHIFT_TEMPLATES.OFF;
-    select.classList.add(s.id === 'OFF' ? 'shift-off' : s.isLong ? 'shift-long' : s.coversClose ? 'shift-afternoon' : 'shift-morning');
+  function applyShiftClass(select,shiftId){
+    select.classList.remove('shift-morning','shift-afternoon','shift-long','shift-midday','shift-off');
+    const s=SHIFT_TEMPLATES[shiftId]??SHIFT_TEMPLATES.OFF;
+    select.classList.add(s.id==='OFF'?'shift-off':s.isLong?'shift-long':s.isMid?'shift-midday':s.coversClose?'shift-afternoon':'shift-morning');
   }
 
-  function renderSummary(week) {
-    const stats = getAssistantStats(week);
-    const locked = getLockedShiftCount(week);
-    summaryDiv.innerHTML = `<div class="stat-row"><div><strong>Blocchi attivi</strong><div class="meta">Genera li mantiene</div></div><span class="pill ${locked === 0 ? '' : 'warn'}">${locked}</span></div>`;
-    for (const a of ASSISTANT_NAMES) {
-      const tgt = { Lucrezia: 38, Manuela: 25, Madalina: 24 }[a];
-      summaryDiv.innerHTML += `<div class="stat-row"><div><strong>${a}</strong><div class="meta">${stats[a].afternoons} chiusure · ${stats[a].saturdays} sabati</div></div><span class="pill ${stats[a].hours === tgt ? '' : 'warn'}">${stats[a].hours}/${tgt}h</span></div>`;
-    }
+  function renderSummary(week){
+    const stats=getAssistantStats(week);
+    const locked=getLockedShiftCount(week);
+    const rows=ASSISTANT_NAMES.map(a=>{
+      const tgt={Lucrezia:38,Manuela:25,Madalina:24}[a];
+      const ok=stats[a].hours===tgt;
+      return`<div class="sum-row"><span class="sum-name">${a}</span><span class="sum-stats">${stats[a].hours}/${tgt}h · ${stats[a].afternoons}ch · ${stats[a].saturdays}sab</span><span class="pill ${ok?'':'warn'}">${ok?'✓':'!'}</span></div>`;
+    }).join('');
+    const lockInfo=locked>0?`<div class="sum-locked">${locked} blocco${locked>1?'chi':''} attivo${locked>1?'i':''}</div>`:'';
+    summaryDiv.innerHTML=rows+lockInfo;
   }
 
-  function renderDayEditor(week) {
-    const day = week.days.find(d => d.key === selectedDayKey) ?? week.days[0];
-    dayEditorDiv.innerHTML = `<h3 style="margin-bottom:12px">${day.label} <span style="color:var(--text-light);font-size:13px">${formatDateShort(day.date)}</span></h3><div class="day-option"><label>Evento</label><select id="eventType" class="field"><option value="">Nessuno</option><option value="chirurgia">Chirurgia</option><option value="ortodonzia">Ortodonzia</option><option value="dottore">Dottore in più</option><option value="altro">Altro</option></select></div><div class="day-option"><label class="checkbox-line"><input id="extraAfternoon" type="checkbox"> <span>Servizio extra pomeriggio</span></label></div><div class="day-option"><label>Nota</label><textarea id="note" class="textarea" placeholder="Note, es. chirurgia pomeriggio"></textarea></div>`;
-    const sel = dayEditorDiv.querySelector('#eventType'), extra = dayEditorDiv.querySelector('#extraAfternoon'), note = dayEditorDiv.querySelector('#note');
-    sel.value = day.exceptions.eventType; extra.checked = day.exceptions.extraAfternoon; note.value = day.exceptions.note;
-    sel.addEventListener('change', () => { day.exceptions.eventType = sel.value; saveWeeks(); render(); });
-    extra.addEventListener('change', () => { day.exceptions.extraAfternoon = extra.checked; saveWeeks(); render(); });
-    note.addEventListener('input', () => { day.exceptions.note = note.value; saveWeeks(); });
+  function renderDayEditor(week){
+    const day=week.days.find(d=>d.key===selectedDayKey)??week.days[0];
+    dayEditorDiv.innerHTML=`<div style="font-weight:600;font-size:13px;margin-bottom:10px">${day.label} <span style="color:var(--text-muted);font-weight:400">${formatDateShort(day.date)}</span></div><div class="day-option"><label>Evento</label><select id="eventType" class="field"><option value="">Nessuno</option><option value="chirurgia">Chirurgia</option><option value="ortodonzia">Ortodonzia</option><option value="dottore">Dottore in più</option><option value="altro">Altro</option></select></div><div class="day-option"><label class="checkbox-line"><input id="extraAfternoon" type="checkbox"> <span>Servizio extra pomeriggio</span></label></div>`;
+    const sel=dayEditorDiv.querySelector('#eventType'),extra=dayEditorDiv.querySelector('#extraAfternoon');
+    sel.value=day.exceptions.eventType;extra.checked=day.exceptions.extraAfternoon;
+    sel.addEventListener('change',()=>{day.exceptions.eventType=sel.value;saveWeeks();render();});
+    extra.addEventListener('change',()=>{day.exceptions.extraAfternoon=extra.checked;saveWeeks();render();});
   }
 
-  function renderWarnings(week) {
-    const list = validateWeek(week);
-    warningsDiv.innerHTML = list.length
-      ? list.map(w => `<div class="warning"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 8v4M12 16h.01M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0z"/></svg> ${w.message}</div>`).join('')
-      : `<div class="empty"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> Nessun avviso — settimana valida</div>`;
+  function renderWarnings(week){
+    const list=validateWeek(week);
+    warningsDiv.innerHTML=list.length
+      ?list.map(w=>`<div class="warning"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 8v4M12 16h.01M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0z"/></svg> ${w.message}</div>`).join('')
+      :`<div class="empty"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> Settimana valida</div>`;
   }
 
-  function getCurrentWeek() {
-    if (!weeks[currentStart]) weeks[currentStart] = createEmptyWeek(currentStart);
-    ensureWeekShape(weeks[currentStart]);
-    return weeks[currentStart];
-  }
-
-  function changeWeek(days) {
-    currentStart = addDays(currentStart, days);
-    selectedDayKey = 'mon';
-    if (!weeks[currentStart]) weeks[currentStart] = generateWeek({ startDate: currentStart });
-    saveWeeks();
-    render();
-  }
-
-  function saveWeeks() { localStorage.setItem(storageKey, JSON.stringify(weeks)); }
-  function loadWeeks() { try { return JSON.parse(localStorage.getItem(storageKey)) ?? {}; } catch { return {}; } }
-  function createCell(html, className) { const el = document.createElement('div'); el.className = className; el.innerHTML = html; return el; }
-  function getContractLabel(a) { return { Lucrezia: '38h · 2-3 chiusure', Manuela: '25h · max 1 chiusura', Madalina: '24h · 2-3 chiusure' }[a]; }
+  function getCurrentWeek(){if(!weeks[currentStart])weeks[currentStart]=createEmptyWeek(currentStart);ensureWeekShape(weeks[currentStart]);return weeks[currentStart];}
+  function changeWeek(days){currentStart=addDays(currentStart,days);selectedDayKey='mon';if(!weeks[currentStart])weeks[currentStart]=generateWeek({startDate:currentStart});saveWeeks();render();}
+  function saveWeeks(){localStorage.setItem(storageKey,JSON.stringify(weeks));}
+  function loadWeeks(){try{return JSON.parse(localStorage.getItem(storageKey))??{};}catch{return{};}}
+  function createCell(html,className){const el=document.createElement('div');el.className=className;el.innerHTML=html;return el;}
+  function getContractLabel(a){return{Lucrezia:'38h · 2-3 ch.',Manuela:'25h · max 1 ch.',Madalina:'24h · 2-3 ch.'}[a];}
 
   let statusTimer;
-  function showStatus(msg) {
-    statusMsg.textContent = msg;
-    statusMsg.hidden = false;
-    statusMsg.style.animation = 'none';
-    void statusMsg.offsetWidth;
-    statusMsg.style.animation = '';
-    clearTimeout(statusTimer);
-    statusTimer = setTimeout(() => { statusMsg.hidden = true; }, 2600);
+  function showStatus(msg){
+    statusMsg.textContent=msg;statusMsg.hidden=false;
+    statusMsg.style.animation='none';void statusMsg.offsetWidth;statusMsg.style.animation='';
+    clearTimeout(statusTimer);statusTimer=setTimeout(()=>{statusMsg.hidden=true;},2400);
   }
-
-  function getPrintShiftLabel(id) { const s = SHIFT_TEMPLATES[id] ?? SHIFT_TEMPLATES.OFF; return s.id === 'OFF' ? 'Riposo' : `${s.id} ${s.label}`; }
-
-  function ensureWeekShape(week) {
-    for (const day of week.days) {
-      day.exceptions = { eventType: '', note: '', extraAfternoon: false, ...day.exceptions };
-      day.assignments = { ...Object.fromEntries(ASSISTANT_NAMES.map(n => [n, 'OFF'])), ...day.assignments };
-      day.locks = { ...Object.fromEntries(ASSISTANT_NAMES.map(n => [n, false])), ...day.locks };
-    }
-  }
+  function getPrintShiftLabel(id){const s=SHIFT_TEMPLATES[id]??SHIFT_TEMPLATES.OFF;return s.id==='OFF'?'Riposo':`${s.id} ${s.label}`;}
+  function ensureWeekShape(week){for(const day of week.days){day.exceptions={eventType:'',note:'',extraAfternoon:false,...day.exceptions};day.assignments={...Object.fromEntries(ASSISTANT_NAMES.map(n=>[n,'OFF'])),...day.assignments};day.locks={...Object.fromEntries(ASSISTANT_NAMES.map(n=>[n,false])),...day.locks};}}
 
   // ── PDF EXPORT ──
-  function exportPDF() {
-    if (!window.jspdf) { showStatus('Libreria PDF non ancora caricata, riprova.'); return; }
-    const week = getCurrentWeek();
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' });
-    const green = [47, 107, 92];
-
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(16);
-    doc.setTextColor(...green);
-    doc.text('Turni Assistenti · Studio', 14, 16);
-
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(10);
-    doc.setTextColor(100, 100, 100);
-    doc.text(`Settimana: ${formatWeekRange(week)}`, 14, 23);
-
-    const head = [['Assistente', ...week.days.map(d => `${d.label}  ${formatDateShort(d.date)}`)]];
-    const body = ASSISTANT_NAMES.map(name => [
-      name,
-      ...week.days.map(d => {
-        const sh = getShift(d.assignments[name]);
-        return sh.id === 'OFF' ? 'Riposo' : sh.label;
-      }),
-    ]);
-
-    doc.autoTable({
-      head, body,
-      startY: 28,
-      headStyles: { fillColor: green, textColor: 255, fontStyle: 'bold', halign: 'center', fontSize: 9, cellPadding: 5 },
-      bodyStyles: { halign: 'center', fontSize: 9, cellPadding: 5 },
-      columnStyles: { 0: { halign: 'left', fontStyle: 'bold', cellWidth: 32 } },
-      alternateRowStyles: { fillColor: [252, 249, 245] },
-      styles: { font: 'helvetica', lineColor: [220, 210, 198], lineWidth: 0.3 },
-      theme: 'grid',
-    });
-
+  function exportPDF(){
+    if(!window.jspdf){showStatus('Libreria PDF non ancora caricata, riprova.');return;}
+    const week=getCurrentWeek();
+    const{jsPDF}=window.jspdf;
+    const doc=new jsPDF({orientation:'landscape',unit:'mm',format:'a4'});
+    const green=[47,107,92];
+    doc.setFont('helvetica','bold');doc.setFontSize(16);doc.setTextColor(...green);
+    doc.text('Turni Assistenti · Studio',14,16);
+    doc.setFont('helvetica','normal');doc.setFontSize(10);doc.setTextColor(100,100,100);
+    doc.text(`Settimana: ${formatWeekRange(week)}`,14,23);
+    const head=[['Assistente',...week.days.map(d=>`${d.label}  ${formatDateShort(d.date)}`)]];
+    const body=ASSISTANT_NAMES.map(name=>[name,...week.days.map(d=>{const sh=getShift(d.assignments[name]);return sh.id==='OFF'?'Riposo':sh.label;})]);
+    doc.autoTable({head,body,startY:28,
+      headStyles:{fillColor:green,textColor:255,fontStyle:'bold',halign:'center',fontSize:9,cellPadding:5},
+      bodyStyles:{halign:'center',fontSize:9,cellPadding:5},
+      columnStyles:{0:{halign:'left',fontStyle:'bold',cellWidth:32}},
+      alternateRowStyles:{fillColor:[252,249,245]},
+      styles:{font:'helvetica',lineColor:[220,210,198],lineWidth:0.3},
+      theme:'grid'});
     doc.save(`turni-${week.startDate}.pdf`);
     showStatus('PDF esportato!');
   }
