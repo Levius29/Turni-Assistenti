@@ -620,7 +620,9 @@
 
   function buildShiftContent(day,assistant,showId,week){
     const select=document.createElement('select');select.className='shift-select';
+    const allowed=new Set(getAllowedShiftIds(assistant,day));
     for(const sh of shiftOptions){
+      if(!allowed.has(sh.id))continue;
       const opt=document.createElement('option');opt.value=sh.id;
       opt.textContent=getOptionText(sh,showId);select.append(opt);
     }
