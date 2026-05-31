@@ -454,7 +454,7 @@
   // ── DATI E LOGICA ──
   const ASSISTANT_NAMES = ['Lucrezia', 'Manuela', 'Madalina'];
   const ASSISTANTS = {
-    Lucrezia: { weeklyHours: 38, minAfternoons: 2, maxAfternoons: 3, canWorkLong: true },
+    Lucrezia: { weeklyHours: 38, minAfternoons: 2, maxAfternoons: 3, canWorkLong: true, workDays: 5 },
     Manuela:  { weeklyHours: 25, minAfternoons: 1, maxAfternoons: 1, canWorkLong: false, workDays: 5 },
     Madalina: { weeklyHours: 24, minAfternoons: 2, maxAfternoons: 3, canWorkLong: false, workDays: 5 },
   };
@@ -486,7 +486,7 @@
   function getShift(id){return SHIFT_TEMPLATES[id]??SHIFT_TEMPLATES.OFF;}
   function assign(week,dayKey,as){const day=week.days.find(d=>d.key===dayKey);Object.assign(day.assignments,as);}
   function createEmptyWeek(startDate){return{startDate,days:WEEK_DAYS.map((day,idx)=>({...day,date:addDays(startDate,idx),exceptions:{eventType:'',note:'',extraAfternoon:false},assignments:Object.fromEntries(ASSISTANT_NAMES.map(n=>[n,'OFF'])),locks:Object.fromEntries(ASSISTANT_NAMES.map(n=>[n,false]))}))}}
-  function createBaseWeek(startDate){const w=createEmptyWeek(startDate);assign(w,'mon',{Lucrezia:'L_CLOSE',Manuela:'M5',Madalina:'M5'});assign(w,'tue',{Lucrezia:'L_CLOSE',Manuela:'M5',Madalina:'P5'});assign(w,'wed',{Lucrezia:'L_OPEN',Manuela:'OFF',Madalina:'P5'});assign(w,'thu',{Lucrezia:'M6',Manuela:'M5',Madalina:'P4'});assign(w,'fri',{Lucrezia:'L_CLOSE',Manuela:'M5',Madalina:'M5'});assign(w,'sat',{Lucrezia:'OFF',Manuela:'M6',Madalina:'OFF'});return w;}
+  function createBaseWeek(startDate){const w=createEmptyWeek(startDate);assign(w,'mon',{Lucrezia:'L_CLOSE',Manuela:'M5',Madalina:'M5'});assign(w,'tue',{Lucrezia:'L_CLOSE',Manuela:'M5',Madalina:'P5'});assign(w,'wed',{Lucrezia:'L_OPEN',Manuela:'OFF',Madalina:'P5'});assign(w,'thu',{Lucrezia:'M6',Manuela:'M5',Madalina:'P4'});assign(w,'fri',{Lucrezia:'L_CLOSE',Manuela:'M5',Madalina:'M5'});assign(w,'sat',{Lucrezia:'OFF',Manuela:'OFF',Madalina:'OFF'});return w;}
   function getAssistantStats(week){const s=Object.fromEntries(ASSISTANT_NAMES.map(n=>[n,{hours:0,afternoons:0,longShifts:0,saturdays:0}]));for(const d of week.days)for(const n of ASSISTANT_NAMES){const sh=getShift(d.assignments[n]);s[n].hours+=sh.hours;if(sh.coversClose)s[n].afternoons++;if(sh.isLong)s[n].longShifts++;if(d.key==='sat'&&sh.hours>0)s[n].saturdays++;}return s;}
   function getRequiredCoverage(day){if(day.key==='sun')return{morning:0,afternoon:0,close:0};const isWeekday=WEEKDAY_KEYS.includes(day.key);const afternoon=(isWeekday?1:0)+(day.exceptions.extraAfternoon?1:0);return{morning:1,afternoon:day.key==='sat'?0:afternoon,close:isWeekday?1:0};}
   function getCoverage(day){const shifts=ASSISTANT_NAMES.map(n=>getShift(day.assignments[n]));return{morning:shifts.filter(s=>s.coversMorning).length,afternoon:shifts.filter(s=>s.coversAfternoon).length,close:shifts.filter(s=>s.coversClose).length};}
@@ -713,7 +713,7 @@
     clearTimeout(statusTimer);statusTimer=setTimeout(()=>{statusMsg.hidden=true;},2400);
   }
   function getPrintShiftLabel(id){const s=SHIFT_TEMPLATES[id]??SHIFT_TEMPLATES.OFF;return s.id==='OFF'?'Riposo':`${s.id} ${s.label}`;}
-  function ensureWeekShape(week){for(const day of week.days){day.exceptions={eventType:'',note:'',extraAfternoon:false,...day.exceptions};day.assignments={...Object.fromEntries(ASSISTANT_NAMES.map(n=>[n,'OFF'])),...day.assignments};day.locks={...Object.fromEntries(ASSISTANT_NAMES.map(n=>[n,false])),...day.locks};}}
+  function ensureWeekShape(week){for(const day of week.days){day.exceptions={eventType:'',note:'',extraAfternoon:false,...day.exceptions};day.assignments={...Object.fromEntries(ASSISTANT_NAMES.map(n=>[n,'OFF'])),...day.assignments};day.locks={...Object.fromEntries(ASSISTANT_NAMES.map(n=>[n,false])),...day.locks};}const satDay=week.days.find(d=>d.key==='sat');if(satDay){for(const n of ASSISTANT_NAMES){if(satDay.assignments[n]==='M5')satDay.assignments[n]=satDay.locks[n]?'M6':'OFF';}}}
 
   // ── PDF EXPORT ──
   function exportPDF(){
