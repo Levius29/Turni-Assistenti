@@ -495,8 +495,8 @@
   function formatWeekRangeShort(week){return`${formatDateShort(week.days[0].date)}–${formatDateShort(week.days[week.days.length-1].date)}`;}
 
   const MID_SHIFTS = ['MD_09_14','MD_10_14','MD_10_15','MD_11_16'];
-  function getAllowedShiftIds(assistant,day){
-    if(day.locks?.[assistant])return[day.assignments[assistant]];
+  function getAllowedShiftIds(assistant,day,skipLock=false){
+    if(!skipLock&&day.locks?.[assistant])return[day.assignments[assistant]];
     if(day.key==='sat')return['OFF','M6'];
     if(assistant==='Lucrezia')return['OFF','M5','M6','P5','L_OPEN','L_CLOSE',...MID_SHIFTS];
     if(assistant==='Manuela')return['OFF','M5','P5',...MID_SHIFTS];
@@ -620,7 +620,7 @@
 
   function buildShiftContent(day,assistant,showId,week){
     const select=document.createElement('select');select.className='shift-select';
-    const allowed=new Set(getAllowedShiftIds(assistant,day));
+    const allowed=new Set(getAllowedShiftIds(assistant,day,true));
     for(const sh of shiftOptions){
       if(!allowed.has(sh.id))continue;
       const opt=document.createElement('option');opt.value=sh.id;
