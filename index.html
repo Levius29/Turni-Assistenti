@@ -116,7 +116,7 @@
       color: var(--ok);
       border-radius: 60px;
       padding: 10px 18px;
-      margin-bottom: 14px;
+      margin-top: 14px;
       font-size: 13px;
       font-weight: 500;
       border-left: 4px solid var(--ok);
@@ -204,8 +204,7 @@
       align-items: center;
       gap: 4px;
     }
-    .badge-l {
-      background: #5b8fd6;
+    .badge-code {
       color: white;
       border-radius: 4px;
       padding: 1px 5px;
@@ -213,6 +212,9 @@
       font-size: 9px;
       letter-spacing: 0.3px;
     }
+    .badge-l { background: #5b8fd6; }
+    .badge-a { background: #3a7b5c; }
+    .badge-c { background: #d68b5c; }
     .badge-h { font-weight: 700; font-size: 10px; color: var(--text-light); }
 
     /* ── Cell foot: badge + lock on same row ── */
@@ -286,7 +288,7 @@
     .mobile-grid { display: grid; grid-template-columns: 50px repeat(3, 1fr); width: 100%; }
     .mobile-grid > div:nth-child(4n) { border-right: none; }
 
-    .mobile-header-cell { background: #f5efe7; padding: 8px 4px; font-weight: 700; font-size: 12px; text-align: center; border-right: 1px solid var(--border); border-bottom: 2px solid var(--border); color: var(--text); }
+    .mobile-header-cell { background: #f5efe7; padding: 8px 4px; font-weight: 700; font-size: 15px; text-align: center; border-right: 1px solid var(--border); border-bottom: 2px solid var(--border); color: var(--text); }
     .mobile-day-label { font-size: 10px; padding: 6px 2px; text-align: center; background: #fcf9f5; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; transition: background 0.15s; }
     .mobile-day-label .day-abbr { font-weight: 700; color: var(--text); font-size: 10px; }
     .mobile-day-label .day-date { font-size: 9px; color: var(--text-light); font-variant-numeric: tabular-nums; }
@@ -296,7 +298,7 @@
     .mobile-shift-cell.selected-day { background: #fef9f0 !important; }
     .mobile-shift-cell .shift-select { font-size: 9px; padding: 3px 3px; min-height: 30px; border-radius: 6px; }
     .mobile-shift-cell .badge-h { font-size: 9px; }
-    .mobile-shift-cell .badge-l { font-size: 8px; padding: 1px 3px; }
+    .mobile-shift-cell .badge-code { font-size: 8px; padding: 1px 3px; }
     .mobile-shift-cell .cell-foot { margin-top: 2px; }
     .mobile-shift-cell .toggle-switch { font-size: 9px; gap: 3px; }
     .mobile-shift-cell .toggle-track { width: 22px; height: 13px; border-radius: 7px; }
@@ -354,8 +356,8 @@
     }
 
     /* ── Day editor compact ── */
-    .day-label-row { font-weight: 600; font-size: 13px; margin-bottom: 8px; }
-    .day-label-row span { color: var(--text-muted); font-weight: 400; }
+    .day-label-row { display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: 13px; margin-bottom: 8px; }
+    .day-label-row .day-date { color: var(--text-muted); font-weight: 400; }
     .day-fields-row { display: flex; align-items: center; gap: 8px; }
     .field-sm { flex: 1; font-size: 12px; padding: 6px 8px; min-height: 32px; }
     .checkbox-inline { display: flex; align-items: center; gap: 6px; font-size: 12px; white-space: nowrap; cursor: pointer; }
@@ -399,11 +401,10 @@
     </div>
   </div>
 
-  <p id="statusMessage" class="status-message" hidden></p>
-
   <section class="workspace">
     <section class="board" aria-label="Calendario turni">
       <div id="scheduleGrid" class="schedule-grid"></div>
+      <p id="statusMessage" class="status-message" hidden></p>
     </section>
 
     <aside class="side-panel">
@@ -683,7 +684,11 @@
   function updateShiftBadge(el,shiftId){
     const s=SHIFT_TEMPLATES[shiftId]??SHIFT_TEMPLATES.OFF;
     if(s.id==='OFF'){el.innerHTML='';return;}
-    el.innerHTML=(s.isLong?`<span class="badge-l">L</span>`:'')+`<span class="badge-h">${s.hours}h</span>`;
+    const labels=[];
+    if(s.isLong)labels.push('<span class="badge-code badge-l">L</span>');
+    if(s.coversMorning)labels.push('<span class="badge-code badge-a">A</span>');
+    if(s.coversClose)labels.push('<span class="badge-code badge-c">C</span>');
+    el.innerHTML=labels.join('')+`<span class="badge-h">${s.hours}h</span>`;
   }
 
   function createLockToggle(day,assistant,labelText){
@@ -700,7 +705,7 @@
   function applyShiftClass(select,shiftId){
     select.classList.remove('shift-morning','shift-afternoon','shift-long','shift-midday','shift-off');
     const s=SHIFT_TEMPLATES[shiftId]??SHIFT_TEMPLATES.OFF;
-    select.classList.add(s.id==='OFF'?'shift-off':s.isLong?'shift-long':s.isMid?'shift-midday':s.coversAfternoon?'shift-afternoon':'shift-morning');
+    select.classList.add(s.id==='OFF'?'shift-off':s.coversClose?'shift-afternoon':s.coversMorning?'shift-morning':'shift-midday');
   }
 
   function renderSummary(week){
@@ -717,7 +722,7 @@
 
   function renderDayEditor(week){
     const day=week.days.find(d=>d.key===selectedDayKey)??week.days[0];
-    dayEditorDiv.innerHTML=`<div class="day-label-row">${day.label} <span>${formatDateShort(day.date)}</span></div><div class="day-fields-row"><select id="eventType" class="field field-sm"><option value="">Nessun evento</option><option value="chirurgia">Chirurgia</option><option value="ortodonzia">Ortodonzia</option><option value="dottore">Dottore in più</option><option value="altro">Altro</option></select><label class="checkbox-inline"><input id="extraAfternoon" type="checkbox"><span>+ pom.</span></label></div>`;
+    dayEditorDiv.innerHTML=`<div class="day-label-row">${day.label} <span class="day-date">${formatDateShort(day.date)}</span><label class="checkbox-inline"><input id="extraAfternoon" type="checkbox"><span>Doppia assistente</span></label></div><div class="day-fields-row"><select id="eventType" class="field field-sm"><option value="">Nessun evento</option><option value="chirurgia">Chirurgia</option><option value="ortodonzia">Ortodonzia</option><option value="dottore">Dottore in più</option><option value="altro">Altro</option></select></div>`;
     const sel=dayEditorDiv.querySelector('#eventType'),extra=dayEditorDiv.querySelector('#extraAfternoon');
     sel.value=day.exceptions.eventType;extra.checked=day.exceptions.extraAfternoon;
     sel.addEventListener('change',()=>{day.exceptions.eventType=sel.value;saveWeeks();render();});
