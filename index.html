@@ -195,7 +195,7 @@
     .shift-select.shift-morning  { border-left: 3px solid #3a7b5c; }
     .shift-select.shift-afternoon{ border-left: 3px solid #d68b5c; }
     .shift-select.shift-long     { border-left: 3px solid #5b8fd6; }
-    .shift-select.shift-midday   { border-left: 3px solid #a07cc5; }
+    .shift-select.shift-midday   { border-left: 3px solid #7b55b3; }
     .shift-select.shift-off      { border-left: 3px solid #c8c0b8; }
 
     /* ── Shift badge ── */
@@ -310,7 +310,7 @@
 
     /* ── Responsive ── */
     @media (max-width: 780px) {
-      body { padding-bottom: 68px; }
+      body { padding-bottom: calc(68px + env(safe-area-inset-bottom)); }
       .app { padding: 12px 10px; }
       .workspace { grid-template-columns: 1fr; gap: 12px; }
       .topbar { display: none; }
@@ -319,13 +319,13 @@
         display: flex;
         position: fixed;
         bottom: 0; left: 0; right: 0;
-        height: 60px;
+        height: calc(60px + env(safe-area-inset-bottom));
         background: var(--surface);
         border-top: 1px solid var(--border);
         align-items: center;
         justify-content: center;
         gap: 5px;
-        padding: 0 10px;
+        padding: 0 10px env(safe-area-inset-bottom);
         z-index: 100;
         box-shadow: 0 -4px 20px rgba(0,0,0,0.08);
       }
@@ -684,12 +684,10 @@
   function updateShiftBadge(el,shiftId){
     const s=SHIFT_TEMPLATES[shiftId]??SHIFT_TEMPLATES.OFF;
     if(s.id==='OFF'){el.innerHTML='';return;}
-    const labels=[];
-    if(s.isLong)labels.push('<span class="badge-code badge-l">L</span>');
-    if(s.coversMorning)labels.push('<span class="badge-code badge-a">A</span>');
-    if(s.coversClose)labels.push('<span class="badge-code badge-c">C</span>');
+    const labels=getShiftBadgeCodes(s).map(code=>`<span class="badge-code badge-${code.toLowerCase()}">${code}</span>`);
     el.innerHTML=labels.join('')+`<span class="badge-h">${s.hours}h</span>`;
   }
+  function getShiftBadgeCodes(shift){return[shift.isLong?'L':'',shift.coversMorning?'A':'',shift.coversClose?'C':''].filter(Boolean);}
 
   function createLockToggle(day,assistant,labelText){
     const label=document.createElement('label');label.className='toggle-switch';
@@ -753,6 +751,14 @@
   function ensureWeekShape(week){for(const day of week.days){day.exceptions={eventType:'',note:'',extraAfternoon:false,...day.exceptions};day.assignments={...Object.fromEntries(ASSISTANT_NAMES.map(n=>[n,'OFF'])),...day.assignments};day.locks={...Object.fromEntries(ASSISTANT_NAMES.map(n=>[n,false])),...day.locks};}const satDay=week.days.find(d=>d.key==='sat');if(satDay){for(const n of ASSISTANT_NAMES){if(satDay.assignments[n]==='M5')satDay.assignments[n]=satDay.locks[n]?'M6':'OFF';}}}
 
   // ── PDF EXPORT ──
+  function getDayVariationLabel(day){
+    const eventLabels={chirurgia:'Chirurgia',ortodonzia:'Ortodonzia',dottore:'Dottore in più',altro:'Altro'};
+    return[eventLabels[day.exceptions.eventType]??day.exceptions.eventType,day.exceptions.extraAfternoon?'Doppia assistente':''].filter(Boolean).join(' · ');
+  }
+  function drawPdfBadge(doc,x,y,code){
+    doc.setDrawColor(30,30,30);doc.setFillColor(255,255,255);doc.roundedRect(x,y,5,4,0.8,0.8,'FD');
+    doc.setFont('helvetica','bold');doc.setFontSize(7);doc.setTextColor(30,30,30);doc.text(code,x+2.5,y+2.9,{align:'center'});
+  }
   function exportPDF(){
     if(!window.jspdf){showStatus('Libreria PDF non ancora caricata, riprova.');return;}
     const week=getCurrentWeek();
@@ -763,15 +769,22 @@
     doc.text('Turni Assistenti · Studio',14,16);
     doc.setFont('helvetica','normal');doc.setFontSize(10);doc.setTextColor(100,100,100);
     doc.text(`Settimana: ${formatWeekRange(week)}`,14,23);
-    const head=[['Assistente',...week.days.map(d=>`${d.label}  ${formatDateShort(d.date)}`)]];
-    const body=ASSISTANT_NAMES.map(name=>[name,...week.days.map(d=>{const sh=getShift(d.assignments[name]);return sh.id==='OFF'?'Riposo':sh.label;})]);
+    const head=[['Giorno',...ASSISTANT_NAMES]];
+    const body=week.days.map(day=>[`${day.label}  ${formatDateShort(day.date)}${getDayVariationLabel(day)?`\n${getDayVariationLabel(day)}`:''}`,...ASSISTANT_NAMES.map(name=>{const shift=getShift(day.assignments[name]);return shift.id==='OFF'?'Riposo':`${shift.label}\n${shift.hours}h`;})]);
     doc.autoTable({head,body,startY:28,
       headStyles:{fillColor:green,textColor:255,fontStyle:'bold',halign:'center',fontSize:9,cellPadding:5},
-      bodyStyles:{halign:'center',fontSize:9,cellPadding:5},
-      columnStyles:{0:{halign:'left',fontStyle:'bold',cellWidth:32}},
+      bodyStyles:{halign:'center',fontSize:9,cellPadding:{top:4,right:4,bottom:9,left:4},minCellHeight:17},
+      columnStyles:{0:{halign:'left',fontStyle:'bold',cellWidth:50}},
       alternateRowStyles:{fillColor:[252,249,245]},
       styles:{font:'helvetica',lineColor:[220,210,198],lineWidth:0.3},
-      theme:'grid'});
+      theme:'grid',
+      didDrawCell:data=>{
+        if(data.section!=='body'||data.column.index===0)return;
+        const day=week.days[data.row.index],name=ASSISTANT_NAMES[data.column.index-1];
+        const shift=getShift(day.assignments[name]);const codes=getShiftBadgeCodes(shift);
+        let x=data.cell.x+4;const y=data.cell.y+data.cell.height-6;
+        for(const code of codes){drawPdfBadge(doc,x,y,code);x+=6;}
+      }});
     doc.save(`turni-${week.startDate}.pdf`);
     showStatus('PDF esportato!');
   }
