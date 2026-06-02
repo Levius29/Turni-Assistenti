@@ -538,7 +538,7 @@
   function createEmptyWeek(startDate){return{startDate,days:WEEK_DAYS.map((day,idx)=>({...day,date:addDays(startDate,idx),exceptions:{eventType:'',note:'',extraAfternoon:false,satOpen:false},assignments:Object.fromEntries(ASSISTANT_NAMES.map(n=>[n,'OFF'])),locks:Object.fromEntries(ASSISTANT_NAMES.map(n=>[n,false]))}))}}
   function createBaseWeek(startDate){const w=createEmptyWeek(startDate);assign(w,'mon',{Lucrezia:'L_CLOSE',Manuela:'M5',Madalina:'M5'});assign(w,'tue',{Lucrezia:'L_CLOSE',Manuela:'M5',Madalina:'P5'});assign(w,'wed',{Lucrezia:'L_OPEN',Manuela:'OFF',Madalina:'P5'});assign(w,'thu',{Lucrezia:'M6',Manuela:'M5',Madalina:'P4'});assign(w,'fri',{Lucrezia:'L_CLOSE',Manuela:'M5',Madalina:'M5'});assign(w,'sat',{Lucrezia:'OFF',Manuela:'OFF',Madalina:'OFF'});return w;}
   // Quota pomeriggi: soglia oraria di fine turno per-assistente (Manuela >15:00, Madalina >15:30, Lucrezia >17:00)
-  const AFTERNOON_END_THRESHOLD={Manuela:900,Madalina:930,Lucrezia:1020};
+  const AFTERNOON_END_THRESHOLD={Manuela:900,Madalina:960,Lucrezia:1020};
   function countsAsAfternoon(assistant,shift){if(shift.hours===0||shift.endMin==null)return false;return shift.endMin>AFTERNOON_END_THRESHOLD[assistant];}
   function getAssistantStats(week){const s=Object.fromEntries(ASSISTANT_NAMES.map(n=>[n,{hours:0,afternoons:0,longShifts:0,saturdays:0}]));for(const d of week.days)for(const n of ASSISTANT_NAMES){const sh=getShift(d.assignments[n]);s[n].hours+=sh.hours;if(countsAsAfternoon(n,sh))s[n].afternoons++;if(sh.isLong)s[n].longShifts++;if(d.key==='sat'&&sh.hours>0)s[n].saturdays++;}return s;}
   function getRequiredCoverage(day){if(day.key==='sun'||(day.key==='sat'&&!day.exceptions.satOpen))return{morning:0,afternoon:0,close:0,nearClose:0};const isWeekday=WEEKDAY_KEYS.includes(day.key);const extraPom=isWeekday&&day.exceptions.extraAfternoon;const afternoon=(isWeekday?1:0)+(extraPom?1:0);return{morning:1,afternoon:day.key==='sat'?0:afternoon,close:isWeekday?1:0,nearClose:extraPom?1:0};}
@@ -562,27 +562,24 @@
   }
   const SOLVE_BUDGET=500000;
   function generateWeek(options={}){const week=createBaseWeek(options.startDate??getCurrentMonday());applyPreviousWeekState(week,options.previousWeek);const r=solveWeek(week);const result=r.week??week;if(r.overtime)result.overtimeUsed=true;return result;}
-  // Solver a due passaggi: prima tenta con vincoli normali, poi con straordinario Manuela (+4h, 2 pomeriggi) se non trova soluzione.
+  // Solver a priorità: prima cerca soluzioni con 2 chiusure Lucrezia (poi 3); lo straordinario Manuela (+4h, 2 pomeriggi) resta l'ultima risorsa.
   function solveWeek(seedWeek){
-    const r1=solveWeekCore(seedWeek);
-    if(r1.solved)return{...r1,overtime:false};
+    for(const maxCloses of [2,3]){const r=solveWeekCore(seedWeek,maxCloses);if(r.solved)return{...r,overtime:false};}
     const origManuela={...ASSISTANTS.Manuela};
     ASSISTANTS.Manuela={...origManuela,weeklyHours:29,maxAfternoons:2};
-    const seed2=structuredClone(seedWeek);seed2.overtimeUsed=true;
-    const r2=solveWeekCore(seed2);
+    for(const maxCloses of [2,3]){const seed2=structuredClone(seedWeek);seed2.overtimeUsed=true;const r2=solveWeekCore(seed2,maxCloses);if(r2.solved){ASSISTANTS.Manuela=origManuela;r2.week.overtimeUsed=true;return{...r2,overtime:true};}}
     ASSISTANTS.Manuela=origManuela;
-    if(r2.solved){r2.week.overtimeUsed=true;return{...r2,overtime:true};}
     return{week:null,solved:false,overtime:false};
   }
   // Solver sincrono: backtracking con potatura e memoizzazione degli stati senza uscita.
-  function solveWeekCore(seedWeek){
+  function solveWeekCore(seedWeek,maxClosesLucrezia=Infinity){
     let best=null,nodes=0;
     const days=seedWeek.days,D=days.length;
     const dayCombos=days.map((day,idx)=>getDayCombos(seedWeek,day,idx));
     const rem=Object.fromEntries(ASSISTANT_NAMES.map(a=>{const arr=[];for(let s=0;s<=D;s++)arr[s]=getRemaining(seedWeek,a,s);return[a,arr];}));
     function feasibleAhead(nextIdx,st){for(const a of ASSISTANT_NAMES){const rules=ASSISTANTS[a],s=st[a],r=rem[a][nextIdx];if(s.hours>rules.weeklyHours)return false;if(s.afternoons>rules.maxAfternoons)return false;if(rules.workDays&&s.workDays>rules.workDays)return false;if(rules.maxWorkDays&&s.workDays>rules.maxWorkDays)return false;if(s.hours+r.maxHours<rules.weeklyHours)return false;if(s.hours+r.minHours>rules.weeklyHours)return false;if(s.afternoons+r.maxAfternoons<rules.minAfternoons)return false;if(rules.workDays&&(s.workDays+r.maxWorkDays<rules.workDays||s.workDays+r.minWorkDays>rules.workDays))return false;if(rules.maxWorkDays&&s.workDays+r.minWorkDays>rules.maxWorkDays)return false;}return true;}
     const dead=new Set();
-    const keyOf=(di,st)=>{let s=di+'|';for(const a of ASSISTANT_NAMES){const x=st[a];s+=Math.round(x.hours*2)+','+x.afternoons+','+x.workDays+';';}return s;};
+    const keyOf=(di,st)=>{let s=di+'|';for(const a of ASSISTANT_NAMES){const x=st[a];s+=Math.round(x.hours*2)+','+x.afternoons+','+x.workDays+','+(x.closes||0)+';';}return s;};
     function visit(di,assignments,stats){
       if(best||nodes>SOLVE_BUDGET)return;nodes++;
       if(di===D){const w=buildWeekFromDayAssignments(seedWeek,assignments);if(validateWeek(w).length===0)best=w;return;}
@@ -590,6 +587,8 @@
       for(const combo of dayCombos[di]){
         const next=cloneStats(stats);
         for(const a of ASSISTANT_NAMES){const sh=getShift(combo[a]);next[a].hours+=sh.hours;next[a].afternoons+=countsAsAfternoon(a,sh)?1:0;next[a].workDays+=sh.hours>0?1:0;}
+        next.Lucrezia.closes+=getShift(combo.Lucrezia).coversClose?1:0;
+        if(next.Lucrezia.closes>maxClosesLucrezia)continue;
         if(next.Manuela.afternoons>=2){let hasP4=combo.Manuela==='P4';if(!hasP4)for(const prev of assignments)if(prev.Manuela==='P4'){hasP4=true;break;}if(!hasP4)continue;}
         if(!feasibleAhead(di+1,next))continue;
         assignments.push(combo);visit(di+1,assignments,next);assignments.pop();
@@ -597,7 +596,7 @@
       }
       dead.add(key);
     }
-    visit(0,[],Object.fromEntries(ASSISTANT_NAMES.map(n=>[n,{hours:0,afternoons:0,workDays:0}])));
+    visit(0,[],Object.fromEntries(ASSISTANT_NAMES.map(n=>[n,{hours:0,afternoons:0,workDays:0,closes:0}])));
     return{week:best,solved:!!best};
   }
   function getDayCombos(seedWeek,day,_idx){const combos=[];for(const l of getAllowedShiftIds('Lucrezia',day))for(const m of getAllowedShiftIds('Manuela',day))for(const ma of getAllowedShiftIds('Madalina',day)){const combo={Lucrezia:l,Manuela:m,Madalina:ma};const testDay=structuredClone(day);testDay.assignments=combo;const cov=getCoverage(testDay),req=getRequiredCoverage(testDay);if(cov.morning<req.morning)continue;if(cov.afternoon<req.afternoon)continue;if(cov.close<req.close)continue;if(cov.nearClose<req.nearClose)continue;if(day.key==='sat'&&day.exceptions?.satOpen&&cov.morning!==1)continue;if(maxUncoveredGap(testDay)>LUNCH_GAP_MAX)continue;combos.push(combo);}return combos;}
