@@ -42,13 +42,11 @@
       font-family: 'Inter', system-ui, -apple-system, sans-serif;
       line-height: 1.45;
       -webkit-font-smoothing: antialiased;
-      overflow: hidden;
-      height: 100dvh;
     }
 
     button, select, input, textarea { font: inherit; }
 
-    .app { max-width: 1500px; margin: 0 auto; padding: 16px 20px 0; height: 100%; display: flex; flex-direction: column; overflow: hidden; }
+    .app { max-width: 1500px; margin: 0 auto; padding: 16px 20px 32px; }
 
     /* ── Controls bar (no title) ── */
     .topbar {
@@ -145,9 +143,6 @@
       grid-template-columns: minmax(0, 1fr) 320px;
       gap: 16px;
       align-items: start;
-      flex: 1;
-      overflow-y: auto;
-      padding-bottom: 24px;
     }
 
     /* ── Board / Desktop grid ── */
@@ -338,10 +333,8 @@
     /* ── Responsive ── */
     @media (max-width: 780px) {
       body { padding-bottom: calc(68px + env(safe-area-inset-bottom)); }
-      .app { padding: 12px 10px 0; }
-      .workspace { display: flex; flex-direction: column; gap: 12px; min-height: 0; overflow: hidden; padding-bottom: 0; }
-      .board { flex-shrink: 0; }
-      .side-panel { flex: 1; min-height: 0; overflow-y: auto; -webkit-overflow-scrolling: touch; padding-bottom: 8px; }
+      .app { padding: 12px 10px; }
+      .workspace { grid-template-columns: 1fr; gap: 12px; }
       .topbar { display: none; }
       .status-message { bottom: calc(env(safe-area-inset-bottom, 0px) + 74px); }
 
