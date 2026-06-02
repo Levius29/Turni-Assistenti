@@ -136,9 +136,10 @@
       background: var(--surface);
       border-radius: var(--radius-card);
       border: 1px solid var(--border);
-      overflow-x: auto;
+      overflow: hidden;
       box-shadow: var(--shadow-sm);
     }
+    .board-scroll { overflow-x: auto; }
 
     .schedule-grid {
       min-width: 840px;
@@ -357,7 +358,7 @@
       .week-label-mini { font-size: 11px; font-weight: 600; color: var(--text); padding: 0 2px; min-width: 70px; text-align: center; font-variant-numeric: tabular-nums; flex-shrink: 0; }
 
       .panel { padding: 10px 12px; }
-      .board { overflow-x: visible; }
+      .board-scroll { overflow-x: visible; }
     }
 
     /* ── Day editor compact ── */
@@ -408,7 +409,9 @@
 
   <section class="workspace">
     <section class="board" aria-label="Calendario turni">
-      <div id="scheduleGrid" class="schedule-grid"></div>
+      <div class="board-scroll">
+        <div id="scheduleGrid" class="schedule-grid"></div>
+      </div>
       <p id="statusMessage" class="status-message" hidden></p>
     </section>
 
