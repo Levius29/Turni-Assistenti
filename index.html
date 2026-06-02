@@ -112,16 +112,27 @@
       to   { opacity: 1; transform: translateY(0); }
     }
     .status-message {
+      position: fixed;
+      left: 50%;
+      bottom: calc(env(safe-area-inset-bottom, 0px) + 18px);
+      transform: translateX(-50%) translateY(8px);
+      max-width: min(88vw, 340px);
+      text-align: center;
+      margin: 0;
       background: var(--ok-bg);
       color: var(--ok);
       border-radius: 60px;
       padding: 10px 18px;
-      margin-top: 14px;
       font-size: 13px;
       font-weight: 500;
       border-left: 4px solid var(--ok);
+      box-shadow: 0 6px 22px rgba(0,0,0,0.14);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease, transform 0.25s ease;
+      z-index: 2000;
     }
-    .status-message:not([hidden]) { animation: slideDown 0.2s ease; }
+    .status-message.visible { opacity: 1; transform: translateX(-50%) translateY(0); }
 
     /* ── Workspace ── */
     .workspace {
@@ -162,7 +173,8 @@
     .day-button strong { font-size: 13px; font-weight: 600; display: block; }
     .day-button .date { font-size: 11px; color: var(--text-light); font-variant-numeric: tabular-nums; }
 
-    .selected-day { background: #fef7e8 !important; box-shadow: inset 0 0 0 2px var(--primary); }
+    .selected-day { background: var(--accent-warm-bg) !important; }
+    .head-cell.selected-day { box-shadow: inset 0 3px 0 var(--accent-warm); }
 
     .assistant-name-cell {
       background: #f5efe7;
@@ -299,10 +311,10 @@
     .mobile-day-label { font-size: 10px; padding: 6px 2px; text-align: center; background: #fcf9f5; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; transition: background 0.15s; }
     .mobile-day-label .day-abbr { font-weight: 700; color: var(--text); font-size: 10px; }
     .mobile-day-label .day-date { font-size: 9px; color: var(--text-light); font-variant-numeric: tabular-nums; }
-    .mobile-day-label.selected-day { background: var(--primary-soft) !important; box-shadow: inset 2px 0 0 var(--primary); }
+    .mobile-day-label.selected-day { background: var(--accent-warm-bg) !important; box-shadow: inset 3px 0 0 var(--accent-warm); }
 
     .mobile-shift-cell { padding: 4px 3px; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); display: flex; flex-direction: column; gap: 2px; }
-    .mobile-shift-cell.selected-day { background: #fef9f0 !important; }
+    .mobile-shift-cell.selected-day { background: var(--accent-warm-bg) !important; }
     .mobile-shift-cell .shift-select { font-size: 9px; padding: 3px 3px; min-height: 30px; border-radius: 6px; }
     .mobile-shift-cell .badge-h { font-size: 9px; }
     .mobile-shift-cell .badge-code { font-size: 8px; padding: 1px 3px; }
@@ -321,6 +333,7 @@
       .app { padding: 12px 10px; }
       .workspace { grid-template-columns: 1fr; gap: 12px; }
       .topbar { display: none; }
+      .status-message { bottom: calc(env(safe-area-inset-bottom, 0px) + 74px); }
 
       .bottom-bar {
         display: flex;
@@ -801,8 +814,8 @@
   let statusTimer;
   function showStatus(msg){
     statusMsg.textContent=msg;statusMsg.hidden=false;
-    statusMsg.style.animation='none';void statusMsg.offsetWidth;statusMsg.style.animation='';
-    clearTimeout(statusTimer);statusTimer=setTimeout(()=>{statusMsg.hidden=true;},2400);
+    void statusMsg.offsetWidth;statusMsg.classList.add('visible');
+    clearTimeout(statusTimer);statusTimer=setTimeout(()=>{statusMsg.classList.remove('visible');setTimeout(()=>{statusMsg.hidden=true;},250);},2500);
   }
   function getPrintShiftLabel(id){const s=SHIFT_TEMPLATES[id]??SHIFT_TEMPLATES.OFF;return s.id==='OFF'?'Riposo':`${s.id} ${s.label}`;}
   function ensureWeekShape(week){for(const day of week.days){const hadSatOpen='satOpen'in(day.exceptions??{});day.exceptions={eventType:'',note:'',extraAfternoon:false,satOpen:false,...day.exceptions};if(day.key==='sat'&&!hadSatOpen&&ASSISTANT_NAMES.some(n=>getShift((day.assignments??{})[n]).hours>0))day.exceptions.satOpen=true;day.assignments={...Object.fromEntries(ASSISTANT_NAMES.map(n=>[n,'OFF'])),...day.assignments};day.locks={...Object.fromEntries(ASSISTANT_NAMES.map(n=>[n,false])),...day.locks};}const satDay=week.days.find(d=>d.key==='sat');if(satDay){for(const n of ASSISTANT_NAMES){if(satDay.assignments[n]==='M5')satDay.assignments[n]=satDay.locks[n]?'M6':'OFF';}}}
