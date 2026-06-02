@@ -287,6 +287,7 @@
     .pill { background: var(--ok-bg); color: var(--ok); padding: 3px 9px; border-radius: 40px; font-weight: 600; font-size: 11px; white-space: nowrap; }
     .pill.warn { background: var(--alert-bg); color: var(--alert); }
     .sum-locked { font-size: 11px; color: var(--text-muted); margin-top: 6px; padding-top: 6px; border-top: 1px solid var(--border); }
+    .sum-ot { display: inline-block; background: var(--accent-warm-bg, #f6e9df); color: var(--accent-warm, #b96a32); padding: 1px 6px; border-radius: 40px; font-weight: 700; font-size: 9px; text-transform: uppercase; letter-spacing: .3px; margin-left: 6px; vertical-align: middle; }
 
     .icon-svg { width: 16px; height: 16px; display: inline-block; vertical-align: middle; stroke-width: 1.6; stroke: currentColor; fill: none; flex-shrink: 0; }
 
@@ -755,9 +756,11 @@
     const locked=getLockedShiftCount(week);
     const rows=ASSISTANT_NAMES.map(a=>{
       const baseTgt={Lucrezia:38,Manuela:25,Madalina:24}[a];
-      const tgt=(a==='Manuela'&&(stats.Manuela.hours>baseTgt||stats.Manuela.afternoons>ASSISTANTS.Manuela.maxAfternoons))?29:baseTgt;
+      const overtime=a==='Manuela'&&(stats.Manuela.hours>baseTgt||stats.Manuela.afternoons>ASSISTANTS.Manuela.maxAfternoons);
+      const tgt=overtime?29:baseTgt;
       const ok=stats[a].hours===tgt;
-      return`<div class="sum-row"><span class="sum-name">${a}</span><span class="sum-stats">${stats[a].hours}/${tgt}h · ${stats[a].afternoons}ch · ${stats[a].saturdays}sab</span><span class="pill ${ok?'':'warn'}">${ok?'✓':'!'}</span></div>`;
+      const otBadge=overtime?`<span class="sum-ot">Straordinario</span>`:'';
+      return`<div class="sum-row"><span class="sum-name">${a}${otBadge}</span><span class="sum-stats">${stats[a].hours}/${tgt}h · ${stats[a].afternoons}ch · ${stats[a].saturdays}sab</span><span class="pill ${ok?'':'warn'}">${ok?'✓':'!'}</span></div>`;
     }).join('');
     const lockInfo=locked>0?`<div class="sum-locked">${locked} blocco${locked>1?'chi':''} attivo${locked>1?'i':''}</div>`:'';
     summaryDiv.innerHTML=rows+lockInfo;
