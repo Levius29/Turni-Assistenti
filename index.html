@@ -537,8 +537,9 @@
   function assign(week,dayKey,as){const day=week.days.find(d=>d.key===dayKey);Object.assign(day.assignments,as);}
   function createEmptyWeek(startDate){return{startDate,days:WEEK_DAYS.map((day,idx)=>({...day,date:addDays(startDate,idx),exceptions:{eventType:'',note:'',extraAfternoon:false,satOpen:false},assignments:Object.fromEntries(ASSISTANT_NAMES.map(n=>[n,'OFF'])),locks:Object.fromEntries(ASSISTANT_NAMES.map(n=>[n,false]))}))}}
   function createBaseWeek(startDate){const w=createEmptyWeek(startDate);assign(w,'mon',{Lucrezia:'L_CLOSE',Manuela:'M5',Madalina:'M5'});assign(w,'tue',{Lucrezia:'L_CLOSE',Manuela:'M5',Madalina:'P5'});assign(w,'wed',{Lucrezia:'L_OPEN',Manuela:'OFF',Madalina:'P5'});assign(w,'thu',{Lucrezia:'M6',Manuela:'M5',Madalina:'P4'});assign(w,'fri',{Lucrezia:'L_CLOSE',Manuela:'M5',Madalina:'M5'});assign(w,'sat',{Lucrezia:'OFF',Manuela:'OFF',Madalina:'OFF'});return w;}
-  // Quota pomeriggi: soglia oraria per-assistente (Manuela >15:00, altre >16:30)
-  function countsAsAfternoon(assistant,shift){if(shift.hours===0||shift.endMin==null)return false;return shift.endMin>(assistant==='Manuela'?900:990);}
+  // Quota pomeriggi: soglia oraria di fine turno per-assistente (Manuela >15:00, Madalina >15:30, Lucrezia >17:00)
+  const AFTERNOON_END_THRESHOLD={Manuela:900,Madalina:930,Lucrezia:1020};
+  function countsAsAfternoon(assistant,shift){if(shift.hours===0||shift.endMin==null)return false;return shift.endMin>AFTERNOON_END_THRESHOLD[assistant];}
   function getAssistantStats(week){const s=Object.fromEntries(ASSISTANT_NAMES.map(n=>[n,{hours:0,afternoons:0,longShifts:0,saturdays:0}]));for(const d of week.days)for(const n of ASSISTANT_NAMES){const sh=getShift(d.assignments[n]);s[n].hours+=sh.hours;if(countsAsAfternoon(n,sh))s[n].afternoons++;if(sh.isLong)s[n].longShifts++;if(d.key==='sat'&&sh.hours>0)s[n].saturdays++;}return s;}
   function getRequiredCoverage(day){if(day.key==='sun'||(day.key==='sat'&&!day.exceptions.satOpen))return{morning:0,afternoon:0,close:0,nearClose:0};const isWeekday=WEEKDAY_KEYS.includes(day.key);const extraPom=isWeekday&&day.exceptions.extraAfternoon;const afternoon=(isWeekday?1:0)+(extraPom?1:0);return{morning:1,afternoon:day.key==='sat'?0:afternoon,close:isWeekday?1:0,nearClose:extraPom?1:0};}
   // La copertura "afternoon" conta la presenza reale fino a tardi (turni che finiscono alle 18:00/19:00 = isAfternoon), non chi esce alle 17:00 (L_OPEN).
@@ -777,7 +778,7 @@
       const overtime=a==='Manuela'&&(stats.Manuela.hours>baseTgt||stats.Manuela.afternoons>ASSISTANTS.Manuela.maxAfternoons);
       const ok=overtime?stats[a].hours===29:stats[a].hours===baseTgt;
       const otBadge=overtime?` <span class="sum-ot">Straordinario</span>`:'';
-      return`<div class="sum-row"><span class="sum-name">${a}</span><span class="sum-stats">${stats[a].hours}/${baseTgt}h · ${stats[a].afternoons}C · ${stats[a].saturdays}sab${otBadge}</span><span class="pill ${ok?'':'warn'}">${ok?'✓':'!'}</span></div>`;
+      return`<div class="sum-row"><span class="sum-name">${a}</span><span class="sum-stats">${stats[a].hours}/${baseTgt}h · ${stats[a].afternoons} Pom. · ${stats[a].saturdays}sab${otBadge}</span><span class="pill ${ok?'':'warn'}">${ok?'✓':'!'}</span></div>`;
     }).join('');
     const lockInfo=locked>0?`<div class="sum-locked">${locked} blocco${locked>1?'chi':''} attivo${locked>1?'i':''}</div>`:'';
     summaryDiv.innerHTML=rows+lockInfo;
