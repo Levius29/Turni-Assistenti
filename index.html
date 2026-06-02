@@ -154,6 +154,7 @@
       transition: background 0.15s;
     }
     .grid-cell:nth-child(7n) { border-right: 0; }
+    .grid-cell:nth-last-child(-n+7) { border-bottom: 0; }
     .head-cell { background: #fcf9f5; font-weight: 500; }
 
     .day-button { width: 100%; background: transparent; border: none; text-align: left; padding: 4px 0; cursor: pointer; }
@@ -787,20 +788,34 @@
     const week=getCurrentWeek();
     const{jsPDF}=window.jspdf;
     const doc=new jsPDF({orientation:'landscape',unit:'mm',format:'a4'});
-    const green=[47,107,92];
-    doc.setFont('helvetica','bold');doc.setFontSize(16);doc.setTextColor(...green);
-    doc.text('Turni Assistenti · Studio',14,16);
-    doc.setFont('helvetica','normal');doc.setFontSize(10);doc.setTextColor(100,100,100);
-    doc.text(`Settimana: ${formatWeekRange(week)}`,14,23);
+    const pageW=doc.internal.pageSize.getWidth(),pageH=doc.internal.pageSize.getHeight(),M=14;
+    const stats=getAssistantStats(week);
+    // Intestazione minimale (stampa B/N): solo la settimana, niente titolo brand.
+    doc.setFont('helvetica','bold');doc.setFontSize(13);doc.setTextColor(30,30,30);
+    doc.text(`Settimana ${formatWeekRange(week)}`,M,16);
+    doc.setDrawColor(150,150,150);doc.setLineWidth(0.3);doc.line(M,19,pageW-M,19);
     const head=[['Giorno',...ASSISTANT_NAMES]];
     const body=week.days.map(day=>[`${day.label}  ${formatDateShort(day.date)}${getDayVariationLabel(day)?`\n${getDayVariationLabel(day)}`:''}`,...ASSISTANT_NAMES.map(name=>{const shift=getShift(day.assignments[name]);return shift.id==='OFF'?'Riposo':`${shift.label}\n${shift.hours}h`;})]);
-    doc.autoTable({head,body,startY:28,
-      headStyles:{fillColor:green,textColor:255,fontStyle:'bold',halign:'center',fontSize:9,cellPadding:5},
-      bodyStyles:{halign:'center',fontSize:9,cellPadding:{top:4,right:4,bottom:9,left:4},minCellHeight:17},
-      columnStyles:{0:{halign:'left',fontStyle:'bold',cellWidth:50}},
-      alternateRowStyles:{fillColor:[252,249,245]},
-      styles:{font:'helvetica',lineColor:[220,210,198],lineWidth:0.3},
+    const foot=[['Totale ore',...ASSISTANT_NAMES.map(n=>`${stats[n].hours}h`)]];
+    doc.autoTable({head,body,foot,startY:24,
+      headStyles:{fillColor:[45,45,45],textColor:255,fontStyle:'bold',halign:'center',fontSize:9,cellPadding:4},
+      footStyles:{fillColor:[230,230,230],textColor:[30,30,30],fontStyle:'bold',halign:'center',fontSize:9,lineWidth:{top:0.6,right:0.2,bottom:0.2,left:0.2},lineColor:[80,80,80]},
+      bodyStyles:{halign:'center',fontSize:11,fontStyle:'bold',cellPadding:{top:4,right:4,bottom:9,left:4},minCellHeight:16,textColor:[20,20,20]},
+      columnStyles:{0:{halign:'left',fontStyle:'bold',fontSize:10,cellWidth:52,textColor:[30,30,30]}},
+      alternateRowStyles:{fillColor:[247,247,247]},
+      styles:{font:'helvetica',lineColor:[150,150,150],lineWidth:0.2,valign:'middle'},
       theme:'grid',
+      didParseCell:data=>{
+        if(data.section!=='body')return;
+        const day=week.days[data.row.index];
+        const closed=day.key==='sat'&&!day.exceptions.satOpen;
+        if(data.column.index===0){
+          if(closed){data.cell.styles.fillColor=[235,235,235];data.cell.styles.textColor=[120,120,120];}
+          return;
+        }
+        const shift=getShift(day.assignments[ASSISTANT_NAMES[data.column.index-1]]);
+        if(shift.id==='OFF'||closed){data.cell.styles.fillColor=[235,235,235];data.cell.styles.textColor=[120,120,120];data.cell.styles.fontStyle='italic';data.cell.styles.fontSize=10;}
+      },
       didDrawCell:data=>{
         if(data.section!=='body'||data.column.index===0)return;
         const day=week.days[data.row.index],name=ASSISTANT_NAMES[data.column.index-1];
@@ -808,6 +823,22 @@
         let x=data.cell.x+4;const y=data.cell.y+data.cell.height-6;
         for(const code of codes){drawPdfBadge(doc,x,y,code);x+=6;}
       }});
+    // Area note per scrittura a mano: riempie lo spazio residuo fino al footer.
+    const footerY=pageH-9;
+    let ny=doc.lastAutoTable.finalY+8;
+    if(ny<footerY-18){
+      doc.setFont('helvetica','bold');doc.setFontSize(10);doc.setTextColor(60,60,60);
+      doc.text('Note',M,ny);
+      const boxY=ny+2.5,boxH=footerY-6-boxY;
+      doc.setDrawColor(170,170,170);doc.setLineWidth(0.3);doc.roundedRect(M,boxY,pageW-2*M,boxH,1.5,1.5);
+      doc.setDrawColor(225,225,225);doc.setLineWidth(0.2);
+      for(let ly=boxY+9;ly<boxY+boxH-3;ly+=9)doc.line(M+3,ly,pageW-M-3,ly);
+    }
+    // Footer: data di generazione + numero pagina su ogni pagina.
+    const now=new Date();
+    const gen=`Generato il ${String(now.getDate()).padStart(2,'0')}/${String(now.getMonth()+1).padStart(2,'0')}/${now.getFullYear()} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+    const pages=doc.internal.getNumberOfPages();
+    for(let i=1;i<=pages;i++){doc.setPage(i);doc.setFont('helvetica','normal');doc.setFontSize(8);doc.setTextColor(130,130,130);doc.text(gen,M,footerY);doc.text(`Pag. ${i}/${pages}`,pageW-M,footerY,{align:'right'});}
     doc.save(`turni-${week.startDate}.pdf`);
     showStatus('PDF esportato!');
   }
