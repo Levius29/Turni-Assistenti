@@ -198,6 +198,10 @@
     .shift-select.shift-midday   { border-left: 3px solid #7b55b3; }
     .shift-select.shift-off      { border-left: 3px solid #c8c0b8; }
 
+    /* ── Giorno chiuso (sabato non aperto) ── */
+    .grid-cell.day-closed, .mobile-shift-cell.day-closed, .mobile-day-label.day-closed { opacity: .5; }
+    .closed-tag { display: inline-block; margin-top: 2px; font-size: 9px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: #b14b3c; }
+
     /* ── Shift badge ── */
     .shift-badge {
       display: flex;
@@ -491,10 +495,10 @@
   function formatDateShort(s){const[y,m,d]=s.split('-');return`${d}/${m}`;}
   function getShift(id){return SHIFT_TEMPLATES[id]??SHIFT_TEMPLATES.OFF;}
   function assign(week,dayKey,as){const day=week.days.find(d=>d.key===dayKey);Object.assign(day.assignments,as);}
-  function createEmptyWeek(startDate){return{startDate,days:WEEK_DAYS.map((day,idx)=>({...day,date:addDays(startDate,idx),exceptions:{eventType:'',note:'',extraAfternoon:false},assignments:Object.fromEntries(ASSISTANT_NAMES.map(n=>[n,'OFF'])),locks:Object.fromEntries(ASSISTANT_NAMES.map(n=>[n,false]))}))}}
+  function createEmptyWeek(startDate){return{startDate,days:WEEK_DAYS.map((day,idx)=>({...day,date:addDays(startDate,idx),exceptions:{eventType:'',note:'',extraAfternoon:false,satOpen:false},assignments:Object.fromEntries(ASSISTANT_NAMES.map(n=>[n,'OFF'])),locks:Object.fromEntries(ASSISTANT_NAMES.map(n=>[n,false]))}))}}
   function createBaseWeek(startDate){const w=createEmptyWeek(startDate);assign(w,'mon',{Lucrezia:'L_CLOSE',Manuela:'M5',Madalina:'M5'});assign(w,'tue',{Lucrezia:'L_CLOSE',Manuela:'M5',Madalina:'P5'});assign(w,'wed',{Lucrezia:'L_OPEN',Manuela:'OFF',Madalina:'P5'});assign(w,'thu',{Lucrezia:'M6',Manuela:'M5',Madalina:'P4'});assign(w,'fri',{Lucrezia:'L_CLOSE',Manuela:'M5',Madalina:'M5'});assign(w,'sat',{Lucrezia:'OFF',Manuela:'OFF',Madalina:'OFF'});return w;}
   function getAssistantStats(week){const s=Object.fromEntries(ASSISTANT_NAMES.map(n=>[n,{hours:0,afternoons:0,longShifts:0,saturdays:0}]));for(const d of week.days)for(const n of ASSISTANT_NAMES){const sh=getShift(d.assignments[n]);s[n].hours+=sh.hours;if(sh.isAfternoon)s[n].afternoons++;if(sh.isLong)s[n].longShifts++;if(d.key==='sat'&&sh.hours>0)s[n].saturdays++;}return s;}
-  function getRequiredCoverage(day){if(day.key==='sun')return{morning:0,afternoon:0,close:0,nearClose:0};const isWeekday=WEEKDAY_KEYS.includes(day.key);const extraPom=isWeekday&&day.exceptions.extraAfternoon;const afternoon=(isWeekday?1:0)+(extraPom?1:0);return{morning:1,afternoon:day.key==='sat'?0:afternoon,close:isWeekday?1:0,nearClose:extraPom?1:0};}
+  function getRequiredCoverage(day){if(day.key==='sun'||(day.key==='sat'&&!day.exceptions.satOpen))return{morning:0,afternoon:0,close:0,nearClose:0};const isWeekday=WEEKDAY_KEYS.includes(day.key);const extraPom=isWeekday&&day.exceptions.extraAfternoon;const afternoon=(isWeekday?1:0)+(extraPom?1:0);return{morning:1,afternoon:day.key==='sat'?0:afternoon,close:isWeekday?1:0,nearClose:extraPom?1:0};}
   // La copertura "afternoon" conta la presenza reale fino a tardi (turni che finiscono alle 18:00/19:00 = isAfternoon), non chi esce alle 17:00 (L_OPEN).
   function getCoverage(day){const shifts=ASSISTANT_NAMES.map(n=>getShift(day.assignments[n]));return{morning:shifts.filter(s=>s.coversMorning).length,afternoon:shifts.filter(s=>s.isAfternoon).length,close:shifts.filter(s=>s.coversClose).length,nearClose:shifts.filter(s=>s.isNearClose).length};}
   // Lo studio deve essere coperto in continuita' 08:30-19:00: l'unico buco ammesso e' la pausa pranzo (<= 30 min).
@@ -507,7 +511,7 @@
   const MID_SHIFTS = ['MD_09_14','MD_10_14','MD_10_15','MD_11_16'];
   function getAllowedShiftIds(assistant,day,skipLock=false){
     if(!skipLock&&day.locks?.[assistant])return[day.assignments[assistant]];
-    if(day.key==='sat')return['OFF','M6'];
+    if(day.key==='sat')return day.exceptions?.satOpen?['OFF','M6']:['OFF'];
     // I turni pomeridiani che finiscono alle 18:00 sono sempre selezionabili (a mano e nel generatore).
     const extra=['P4_18','P5_18'];
     if(assistant==='Lucrezia')return['OFF','M5','M6','P5','L_OPEN','L_CLOSE',...MID_SHIFTS,...extra];
@@ -543,7 +547,7 @@
     visit(0,[],Object.fromEntries(ASSISTANT_NAMES.map(n=>[n,{hours:0,afternoons:0,workDays:0}])));
     return{week:best,solved:!!best};
   }
-  function getDayCombos(seedWeek,day,_idx){const combos=[];for(const l of getAllowedShiftIds('Lucrezia',day))for(const m of getAllowedShiftIds('Manuela',day))for(const ma of getAllowedShiftIds('Madalina',day)){const combo={Lucrezia:l,Manuela:m,Madalina:ma};const testDay=structuredClone(day);testDay.assignments=combo;const cov=getCoverage(testDay),req=getRequiredCoverage(testDay);if(cov.morning<req.morning)continue;if(cov.afternoon<req.afternoon)continue;if(cov.close<req.close)continue;if(cov.nearClose<req.nearClose)continue;if(day.key==='sat'&&cov.morning!==1)continue;if(maxUncoveredGap(testDay)>LUNCH_GAP_MAX)continue;combos.push(combo);}return combos;}
+  function getDayCombos(seedWeek,day,_idx){const combos=[];for(const l of getAllowedShiftIds('Lucrezia',day))for(const m of getAllowedShiftIds('Manuela',day))for(const ma of getAllowedShiftIds('Madalina',day)){const combo={Lucrezia:l,Manuela:m,Madalina:ma};const testDay=structuredClone(day);testDay.assignments=combo;const cov=getCoverage(testDay),req=getRequiredCoverage(testDay);if(cov.morning<req.morning)continue;if(cov.afternoon<req.afternoon)continue;if(cov.close<req.close)continue;if(cov.nearClose<req.nearClose)continue;if(day.key==='sat'&&day.exceptions?.satOpen&&cov.morning!==1)continue;if(maxUncoveredGap(testDay)>LUNCH_GAP_MAX)continue;combos.push(combo);}return combos;}
   function getRemaining(seedWeek,assistant,start){let minH=0,maxH=0,maxAf=0,minWD=0,maxWD=0;for(const day of seedWeek.days.slice(start)){const allowed=getAllowedShiftIds(assistant,day).map(id=>getShift(id));minH+=Math.min(...allowed.map(s=>s.hours));maxH+=Math.max(...allowed.map(s=>s.hours));maxAf+=allowed.some(s=>s.isAfternoon)?1:0;minWD+=allowed.every(s=>s.hours>0)?1:0;maxWD+=allowed.some(s=>s.hours>0)?1:0;}return{minHours:minH,maxHours:maxH,maxAfternoons:maxAf,minWorkDays:minWD,maxWorkDays:maxWD};}
   function cloneStats(stats){return Object.fromEntries(ASSISTANT_NAMES.map(a=>[a,{...stats[a]}]));}
   function buildWeekFromDayAssignments(seedWeek,assignments){const w=structuredClone(seedWeek);for(let i=0;i<w.days.length;i++)for(const a of ASSISTANT_NAMES)w.days[i].assignments[a]=assignments[i][a];return w;}
@@ -609,13 +613,15 @@
     else{buildDesktopGrid(week);}
   }
 
+  function isDayClosed(day){return day.key==='sat'&&!day.exceptions?.satOpen;}
   function buildDesktopGrid(week){
     scheduleGrid.append(createCell('','grid-cell head-cell'));
     for(const day of week.days){
+      const closed=isDayClosed(day);
       const btn=document.createElement('button');btn.type='button';btn.className='day-button';
-      btn.innerHTML=`<strong>${day.label}</strong><span class="date">${formatDateShort(day.date)}</span>`;
+      btn.innerHTML=`<strong>${day.label}</strong><span class="date">${formatDateShort(day.date)}</span>${closed?'<span class="closed-tag">Chiuso</span>':''}`;
       btn.addEventListener('click',()=>{selectedDayKey=day.key;render();});
-      const cell=createCell('',`grid-cell head-cell${day.key===selectedDayKey?' selected-day':''}`);
+      const cell=createCell('',`grid-cell head-cell${day.key===selectedDayKey?' selected-day':''}${closed?' day-closed':''}`);
       cell.append(btn);scheduleGrid.append(cell);
     }
     for(const assistant of ASSISTANT_NAMES){
@@ -627,7 +633,7 @@
         const lock=createLockToggle(day,assistant,'Blocca');
         const print=Object.assign(document.createElement('span'),{className:'print-shift',textContent:getPrintShiftLabel(day.assignments[assistant])});
         const foot=document.createElement('div');foot.className='cell-foot';foot.append(badge,lock);
-        const cell=createCell('',`grid-cell${day.key===selectedDayKey?' selected-day':''}`);
+        const cell=createCell('',`grid-cell${day.key===selectedDayKey?' selected-day':''}${isDayClosed(day)?' day-closed':''}`);
         cell.append(select,foot,print);scheduleGrid.append(cell);
       }
     }
@@ -639,13 +645,14 @@
     for(const a of ASSISTANT_NAMES)grid.append(Object.assign(document.createElement('div'),{className:'mobile-header-cell',textContent:a}));
     for(const day of week.days){
       const isSelected=day.key===selectedDayKey;
+      const closed=isDayClosed(day);
       const dayLabel=document.createElement('div');
-      dayLabel.className=`mobile-day-label${isSelected?' selected-day':''}`;
-      dayLabel.innerHTML=`<span class="day-abbr">${day.label.slice(0,3)}</span><span class="day-date">${formatDateShort(day.date)}</span>`;
+      dayLabel.className=`mobile-day-label${isSelected?' selected-day':''}${closed?' day-closed':''}`;
+      dayLabel.innerHTML=`<span class="day-abbr">${day.label.slice(0,3)}</span><span class="day-date">${formatDateShort(day.date)}</span>${closed?'<span class="closed-tag">Chiuso</span>':''}`;
       dayLabel.addEventListener('click',()=>{selectedDayKey=day.key;render();});
       grid.append(dayLabel);
       for(const assistant of ASSISTANT_NAMES){
-        const cell=document.createElement('div');cell.className=`mobile-shift-cell${isSelected?' selected-day':''}`;
+        const cell=document.createElement('div');cell.className=`mobile-shift-cell${isSelected?' selected-day':''}${closed?' day-closed':''}`;
         const{select,badge}=buildShiftContent(day,assistant,false,week);
         const lock=createLockToggle(day,assistant,'');
         const print=Object.assign(document.createElement('span'),{className:'print-shift',textContent:getPrintShiftLabel(day.assignments[assistant])});
@@ -725,11 +732,21 @@
 
   function renderDayEditor(week){
     const day=week.days.find(d=>d.key===selectedDayKey)??week.days[0];
-    dayEditorDiv.innerHTML=`<div class="day-label-row">${day.label} <span class="day-date">${formatDateShort(day.date)}</span><label class="checkbox-inline"><input id="extraAfternoon" type="checkbox"><span>Doppia assistente</span></label></div><div class="day-fields-row"><select id="eventType" class="field field-sm"><option value="">Nessun evento</option><option value="chirurgia">Chirurgia</option><option value="ortodonzia">Ortodonzia</option><option value="dottore">Dottore in più</option><option value="altro">Altro</option></select></div>`;
-    const sel=dayEditorDiv.querySelector('#eventType'),extra=dayEditorDiv.querySelector('#extraAfternoon');
-    sel.value=day.exceptions.eventType;extra.checked=day.exceptions.extraAfternoon;
+    const isSat=day.key==='sat';
+    const toggle=isSat
+      ?`<label class="checkbox-inline"><input id="satOpen" type="checkbox"><span>Aperto</span></label>`
+      :`<label class="checkbox-inline"><input id="extraAfternoon" type="checkbox"><span>Doppia assistente</span></label>`;
+    dayEditorDiv.innerHTML=`<div class="day-label-row">${day.label} <span class="day-date">${formatDateShort(day.date)}</span>${toggle}</div><div class="day-fields-row"><select id="eventType" class="field field-sm"><option value="">Nessun evento</option><option value="chirurgia">Chirurgia</option><option value="ortodonzia">Ortodonzia</option><option value="dottore">Dottore in più</option><option value="altro">Altro</option></select></div>`;
+    const sel=dayEditorDiv.querySelector('#eventType');
+    sel.value=day.exceptions.eventType;
     sel.addEventListener('change',()=>{day.exceptions.eventType=sel.value;saveWeeks();render();});
-    extra.addEventListener('change',()=>{day.exceptions.extraAfternoon=extra.checked;saveWeeks();render();});
+    if(isSat){
+      const open=dayEditorDiv.querySelector('#satOpen');open.checked=day.exceptions.satOpen;
+      open.addEventListener('change',()=>{day.exceptions.satOpen=open.checked;if(!open.checked)for(const n of ASSISTANT_NAMES){day.assignments[n]='OFF';day.locks[n]=false;}saveWeeks();render();});
+    }else{
+      const extra=dayEditorDiv.querySelector('#extraAfternoon');extra.checked=day.exceptions.extraAfternoon;
+      extra.addEventListener('change',()=>{day.exceptions.extraAfternoon=extra.checked;saveWeeks();render();});
+    }
   }
 
   function renderWarnings(week){
@@ -753,12 +770,13 @@
     clearTimeout(statusTimer);statusTimer=setTimeout(()=>{statusMsg.hidden=true;},2400);
   }
   function getPrintShiftLabel(id){const s=SHIFT_TEMPLATES[id]??SHIFT_TEMPLATES.OFF;return s.id==='OFF'?'Riposo':`${s.id} ${s.label}`;}
-  function ensureWeekShape(week){for(const day of week.days){day.exceptions={eventType:'',note:'',extraAfternoon:false,...day.exceptions};day.assignments={...Object.fromEntries(ASSISTANT_NAMES.map(n=>[n,'OFF'])),...day.assignments};day.locks={...Object.fromEntries(ASSISTANT_NAMES.map(n=>[n,false])),...day.locks};}const satDay=week.days.find(d=>d.key==='sat');if(satDay){for(const n of ASSISTANT_NAMES){if(satDay.assignments[n]==='M5')satDay.assignments[n]=satDay.locks[n]?'M6':'OFF';}}}
+  function ensureWeekShape(week){for(const day of week.days){const hadSatOpen='satOpen'in(day.exceptions??{});day.exceptions={eventType:'',note:'',extraAfternoon:false,satOpen:false,...day.exceptions};if(day.key==='sat'&&!hadSatOpen&&ASSISTANT_NAMES.some(n=>getShift((day.assignments??{})[n]).hours>0))day.exceptions.satOpen=true;day.assignments={...Object.fromEntries(ASSISTANT_NAMES.map(n=>[n,'OFF'])),...day.assignments};day.locks={...Object.fromEntries(ASSISTANT_NAMES.map(n=>[n,false])),...day.locks};}const satDay=week.days.find(d=>d.key==='sat');if(satDay){for(const n of ASSISTANT_NAMES){if(satDay.assignments[n]==='M5')satDay.assignments[n]=satDay.locks[n]?'M6':'OFF';}}}
 
   // ── PDF EXPORT ──
   function getDayVariationLabel(day){
     const eventLabels={chirurgia:'Chirurgia',ortodonzia:'Ortodonzia',dottore:'Dottore in più',altro:'Altro'};
-    return[eventLabels[day.exceptions.eventType]??day.exceptions.eventType,day.exceptions.extraAfternoon?'Doppia assistente':''].filter(Boolean).join(' · ');
+    const satLabel=day.key==='sat'?(day.exceptions.satOpen?'Aperto':'Chiuso'):'';
+    return[satLabel,eventLabels[day.exceptions.eventType]??day.exceptions.eventType,day.exceptions.extraAfternoon&&day.key!=='sat'?'Doppia assistente':''].filter(Boolean).join(' · ');
   }
   function drawPdfBadge(doc,x,y,code){
     doc.setDrawColor(30,30,30);doc.setFillColor(255,255,255);doc.roundedRect(x,y,5,4,0.8,0.8,'FD');
