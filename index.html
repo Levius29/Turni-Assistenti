@@ -339,7 +339,9 @@
     @media (max-width: 780px) {
       body { padding-bottom: calc(68px + env(safe-area-inset-bottom)); }
       .app { padding: 12px 10px 0; }
-      .workspace { grid-template-columns: 1fr; gap: 12px; padding-bottom: calc(72px + env(safe-area-inset-bottom)); }
+      .workspace { display: flex; flex-direction: column; gap: 12px; min-height: 0; overflow: hidden; padding-bottom: 0; }
+      .board { flex-shrink: 0; }
+      .side-panel { flex: 1; min-height: 0; overflow-y: auto; -webkit-overflow-scrolling: touch; padding-bottom: 8px; }
       .topbar { display: none; }
       .status-message { bottom: calc(env(safe-area-inset-bottom, 0px) + 74px); }
 
