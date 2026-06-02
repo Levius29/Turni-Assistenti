@@ -757,10 +757,9 @@
     const rows=ASSISTANT_NAMES.map(a=>{
       const baseTgt={Lucrezia:38,Manuela:25,Madalina:24}[a];
       const overtime=a==='Manuela'&&(stats.Manuela.hours>baseTgt||stats.Manuela.afternoons>ASSISTANTS.Manuela.maxAfternoons);
-      const tgt=overtime?29:baseTgt;
-      const ok=stats[a].hours===tgt;
-      const otBadge=overtime?`<span class="sum-ot">Straordinario</span>`:'';
-      return`<div class="sum-row"><span class="sum-name">${a}${otBadge}</span><span class="sum-stats">${stats[a].hours}/${tgt}h · ${stats[a].afternoons}ch · ${stats[a].saturdays}sab</span><span class="pill ${ok?'':'warn'}">${ok?'✓':'!'}</span></div>`;
+      const ok=overtime?stats[a].hours===29:stats[a].hours===baseTgt;
+      const otBadge=overtime?` <span class="sum-ot">Straordinario</span>`:'';
+      return`<div class="sum-row"><span class="sum-name">${a}</span><span class="sum-stats">${stats[a].hours}/${baseTgt}h · ${stats[a].afternoons}C · ${stats[a].saturdays}sab${otBadge}</span><span class="pill ${ok?'':'warn'}">${ok?'✓':'!'}</span></div>`;
     }).join('');
     const lockInfo=locked>0?`<div class="sum-locked">${locked} blocco${locked>1?'chi':''} attivo${locked>1?'i':''}</div>`:'';
     summaryDiv.innerHTML=rows+lockInfo;
