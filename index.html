@@ -562,13 +562,23 @@
   }
   const SOLVE_BUDGET=500000;
   function generateWeek(options={}){const week=createBaseWeek(options.startDate??getCurrentMonday());applyPreviousWeekState(week,options.previousWeek);const r=solveWeek(week);const result=r.week??week;if(r.overtime)result.overtimeUsed=true;return result;}
+  // Domanda di presenze pomeridiane (turni isAfternoon) richieste nella settimana, e tetto massimo dato il limite pomeriggi di Manuela.
+  // Ogni presenza isAfternoon finisce >=18:00, oltre ogni soglia: consuma sempre 1 quota pomeriggio. Quindi domanda<=capacita' e' condizione necessaria.
+  function afternoonDemand(week){return week.days.reduce((n,d)=>n+getRequiredCoverage(d).afternoon,0);}
+  function afternoonCapacity(manuelaMax){return ASSISTANTS.Lucrezia.maxAfternoons+ASSISTANTS.Madalina.maxAfternoons+manuelaMax;}
   // Solver a priorità: prima cerca soluzioni con 2 chiusure Lucrezia (poi 3); lo straordinario Manuela (+4h, 2 pomeriggi) resta l'ultima risorsa.
+  // Il pre-check sulla domanda pomeridiana salta i passaggi matematicamente impossibili (es. 3 giorni doppi richiedono lo straordinario).
   function solveWeek(seedWeek){
-    for(const maxCloses of [2,3]){const r=solveWeekCore(seedWeek,maxCloses);if(r.solved)return{...r,overtime:false};}
-    const origManuela={...ASSISTANTS.Manuela};
-    ASSISTANTS.Manuela={...origManuela,weeklyHours:29,maxAfternoons:2};
-    for(const maxCloses of [2,3]){const seed2=structuredClone(seedWeek);seed2.overtimeUsed=true;const r2=solveWeekCore(seed2,maxCloses);if(r2.solved){ASSISTANTS.Manuela=origManuela;r2.week.overtimeUsed=true;return{...r2,overtime:true};}}
-    ASSISTANTS.Manuela=origManuela;
+    const demand=afternoonDemand(seedWeek);
+    if(demand<=afternoonCapacity(ASSISTANTS.Manuela.maxAfternoons)){
+      for(const maxCloses of [2,3]){const r=solveWeekCore(seedWeek,maxCloses);if(r.solved)return{...r,overtime:false};}
+    }
+    if(demand<=afternoonCapacity(2)){
+      const origManuela={...ASSISTANTS.Manuela};
+      ASSISTANTS.Manuela={...origManuela,weeklyHours:29,maxAfternoons:2};
+      for(const maxCloses of [2,3]){const seed2=structuredClone(seedWeek);seed2.overtimeUsed=true;const r2=solveWeekCore(seed2,maxCloses);if(r2.solved){ASSISTANTS.Manuela=origManuela;r2.week.overtimeUsed=true;return{...r2,overtime:true};}}
+      ASSISTANTS.Manuela=origManuela;
+    }
     return{week:null,solved:false,overtime:false};
   }
   // Solver sincrono: backtracking con potatura e memoizzazione degli stati senza uscita.
