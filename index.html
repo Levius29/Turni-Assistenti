@@ -497,6 +497,8 @@
     // Turni pomeridiani che finiscono alle 18:00 (seconda assistente nei giorni "+ pom."): coprono il pomeriggio ma non la chiusura, e contano come pomeriggio.
     P4_18:   { id:'P4_18',   label:'14:00-18:00', hours:4, coversMorning:false, coversAfternoon:true,  coversClose:false, isLong:false, isMid:false, isAfternoon:true, isNearClose:true },
     P5_18:   { id:'P5_18',   label:'13:00-18:00', hours:5, coversMorning:false, coversAfternoon:true,  coversClose:false, isLong:false, isMid:false, isAfternoon:true, isNearClose:true },
+    // Turno sabato breve (apertura ridotta)
+    S5:      { id:'S5',      label:'09:00-14:00', hours:5, coversMorning:true,  coversAfternoon:false, coversClose:false, isLong:false, isMid:false },
     // Turni mezza giornata
     MD_09_14:{ id:'MD_09_14',label:'09:00-14:00', hours:5, coversMorning:false, coversAfternoon:false, coversClose:false, isLong:false, isMid:true },
     MD_10_14:{ id:'MD_10_14',label:'10:00-14:00', hours:4, coversMorning:false, coversAfternoon:false, coversClose:false, isLong:false, isMid:true },
@@ -555,7 +557,7 @@
   const EXTRA_PM = ['P4_18','P5_18','P6_18','P7_5_18'];
   function getAllowedShiftIds(assistant,day,skipLock=false){
     if(!skipLock&&day.locks?.[assistant])return[day.assignments[assistant]];
-    if(day.key==='sat')return day.exceptions?.satOpen?['OFF','M6']:['OFF'];
+    if(day.key==='sat')return day.exceptions?.satOpen?['OFF','M6','S5']:['OFF'];
     if(assistant==='Lucrezia')return['OFF','M4_5','M5','M5_5','M6','M7','M7_5','P5','P5_5','P6','L_OPEN','L_CLOSE',...MID_SHIFTS,...EXTRA_PM];
     if(assistant==='Manuela')return['OFF','M4_5','M5','M5_5','M6','P4','P5','P5_5','P6',...MID_SHIFTS,...EXTRA_PM];
     return['OFF','M4','M4_5','M5','M5_5','M7','M7_5','P4','P5','P5_5','P6',...MID_SHIFTS,...EXTRA_PM];
@@ -585,32 +587,36 @@
   function solveWeekCore(seedWeek,maxClosesLucrezia=Infinity){
     let best=null,nodes=0;
     const days=seedWeek.days,D=days.length;
-    const dayCombos=days.map((day,idx)=>getDayCombos(seedWeek,day,idx));
-    const rem=Object.fromEntries(ASSISTANT_NAMES.map(a=>{const arr=[];for(let s=0;s<=D;s++)arr[s]=getRemaining(seedWeek,a,s);return[a,arr];}));
-    function feasibleAhead(nextIdx,st){for(const a of ASSISTANT_NAMES){const rules=ASSISTANTS[a],s=st[a],r=rem[a][nextIdx];if(s.hours>rules.weeklyHours)return false;if(s.afternoons>rules.maxAfternoons)return false;if(rules.workDays&&s.workDays>rules.workDays)return false;if(rules.maxWorkDays&&s.workDays>rules.maxWorkDays)return false;if(s.hours+r.maxHours<rules.weeklyHours)return false;if(s.hours+r.minHours>rules.weeklyHours)return false;if(s.afternoons+r.maxAfternoons<rules.minAfternoons)return false;if(rules.workDays&&(s.workDays+r.maxWorkDays<rules.workDays||s.workDays+r.minWorkDays>rules.workDays))return false;if(rules.maxWorkDays&&s.workDays+r.minWorkDays>rules.maxWorkDays)return false;}return true;}
+    const combosByDay=days.map((day,idx)=>getDayCombos(seedWeek,day,idx));
+    // Euristica "giorno piu' vincolato prima": visita i giorni con meno combinazioni per primi (es. sabato aperto), potando l'albero molto piu' in fretta.
+    const order=[...Array(D).keys()].sort((a,b)=>combosByDay[a].length-combosByDay[b].length);
+    const orderedCombos=order.map(i=>combosByDay[i]);
+    // Stima dei residui (ore, pomeriggi, giorni) lungo l'ordine di visita, per la potatura.
+    const rem=[];for(let p=0;p<=D;p++){const r={};for(const a of ASSISTANT_NAMES){let minH=0,maxH=0,maxAf=0,minWD=0,maxWD=0;for(let q=p;q<D;q++){const allowed=getAllowedShiftIds(a,days[order[q]]).map(id=>getShift(id));minH+=Math.min(...allowed.map(s=>s.hours));maxH+=Math.max(...allowed.map(s=>s.hours));maxAf+=allowed.some(s=>countsAsAfternoon(a,s))?1:0;minWD+=allowed.every(s=>s.hours>0)?1:0;maxWD+=allowed.some(s=>s.hours>0)?1:0;}r[a]={minHours:minH,maxHours:maxH,maxAfternoons:maxAf,minWorkDays:minWD,maxWorkDays:maxWD};}rem[p]=r;}
+    function feasibleAhead(nextPos,st){for(const a of ASSISTANT_NAMES){const rules=ASSISTANTS[a],s=st[a],r=rem[nextPos][a];if(s.hours>rules.weeklyHours)return false;if(s.afternoons>rules.maxAfternoons)return false;if(rules.workDays&&s.workDays>rules.workDays)return false;if(rules.maxWorkDays&&s.workDays>rules.maxWorkDays)return false;if(s.hours+r.maxHours<rules.weeklyHours)return false;if(s.hours+r.minHours>rules.weeklyHours)return false;if(s.afternoons+r.maxAfternoons<rules.minAfternoons)return false;if(rules.workDays&&(s.workDays+r.maxWorkDays<rules.workDays||s.workDays+r.minWorkDays>rules.workDays))return false;if(rules.maxWorkDays&&s.workDays+r.minWorkDays>rules.maxWorkDays)return false;}return true;}
     const dead=new Set();
-    const keyOf=(di,st)=>{let s=di+'|';for(const a of ASSISTANT_NAMES){const x=st[a];s+=Math.round(x.hours*2)+','+x.afternoons+','+x.workDays+','+(x.closes||0)+';';}return s;};
-    function visit(di,assignments,stats){
+    const keyOf=(pos,st)=>{let s=pos+'|';for(const a of ASSISTANT_NAMES){const x=st[a];s+=Math.round(x.hours*2)+','+x.afternoons+','+x.workDays+','+(x.closes||0)+';';}return s;};
+    const placed=new Array(D);
+    function visit(pos,stats){
       if(best||nodes>SOLVE_BUDGET)return;nodes++;
-      if(di===D){const w=buildWeekFromDayAssignments(seedWeek,assignments);if(validateWeek(w).length===0)best=w;return;}
-      const key=keyOf(di,stats);if(dead.has(key))return;
-      for(const combo of dayCombos[di]){
+      if(pos===D){const w=buildWeekFromDayAssignments(seedWeek,placed);if(validateWeek(w).length===0)best=w;return;}
+      const key=keyOf(pos,stats);if(dead.has(key))return;
+      for(const combo of orderedCombos[pos]){
         const next=cloneStats(stats);
         for(const a of ASSISTANT_NAMES){const sh=getShift(combo[a]);next[a].hours+=sh.hours;next[a].afternoons+=countsAsAfternoon(a,sh)?1:0;next[a].workDays+=sh.hours>0?1:0;}
         next.Lucrezia.closes+=getShift(combo.Lucrezia).coversClose?1:0;
         if(next.Lucrezia.closes>maxClosesLucrezia)continue;
-        if(next.Manuela.afternoons>=2){let hasP4=combo.Manuela==='P4';if(!hasP4)for(const prev of assignments)if(prev.Manuela==='P4'){hasP4=true;break;}if(!hasP4)continue;}
-        if(!feasibleAhead(di+1,next))continue;
-        assignments.push(combo);visit(di+1,assignments,next);assignments.pop();
+        if(next.Manuela.afternoons>=2){let hasP4=combo.Manuela==='P4';if(!hasP4)for(let q=0;q<pos;q++){const pc=placed[order[q]];if(pc&&pc.Manuela==='P4'){hasP4=true;break;}}if(!hasP4)continue;}
+        if(!feasibleAhead(pos+1,next))continue;
+        placed[order[pos]]=combo;visit(pos+1,next);placed[order[pos]]=undefined;
         if(best||nodes>SOLVE_BUDGET)return;
       }
       dead.add(key);
     }
-    visit(0,[],Object.fromEntries(ASSISTANT_NAMES.map(n=>[n,{hours:0,afternoons:0,workDays:0,closes:0}])));
+    visit(0,Object.fromEntries(ASSISTANT_NAMES.map(n=>[n,{hours:0,afternoons:0,workDays:0,closes:0}])));
     return{week:best,solved:!!best};
   }
   function getDayCombos(seedWeek,day,_idx){const combos=[];for(const l of getAllowedShiftIds('Lucrezia',day))for(const m of getAllowedShiftIds('Manuela',day))for(const ma of getAllowedShiftIds('Madalina',day)){const combo={Lucrezia:l,Manuela:m,Madalina:ma};const testDay=structuredClone(day);testDay.assignments=combo;const cov=getCoverage(testDay),req=getRequiredCoverage(testDay);if(cov.morning<req.morning)continue;if(cov.afternoon<req.afternoon)continue;if(cov.close<req.close)continue;if(cov.nearClose<req.nearClose)continue;if(day.key==='sat'&&day.exceptions?.satOpen&&cov.morning!==1)continue;if(maxUncoveredGap(testDay)>LUNCH_GAP_MAX)continue;combos.push(combo);}return combos;}
-  function getRemaining(seedWeek,assistant,start){let minH=0,maxH=0,maxAf=0,minWD=0,maxWD=0;for(const day of seedWeek.days.slice(start)){const allowed=getAllowedShiftIds(assistant,day).map(id=>getShift(id));minH+=Math.min(...allowed.map(s=>s.hours));maxH+=Math.max(...allowed.map(s=>s.hours));maxAf+=allowed.some(s=>countsAsAfternoon(assistant,s))?1:0;minWD+=allowed.every(s=>s.hours>0)?1:0;maxWD+=allowed.some(s=>s.hours>0)?1:0;}return{minHours:minH,maxHours:maxH,maxAfternoons:maxAf,minWorkDays:minWD,maxWorkDays:maxWD};}
   function cloneStats(stats){return Object.fromEntries(ASSISTANT_NAMES.map(a=>[a,{...stats[a]}]));}
   function buildWeekFromDayAssignments(seedWeek,assignments){const w=structuredClone(seedWeek);for(let i=0;i<w.days.length;i++)for(const a of ASSISTANT_NAMES)w.days[i].assignments[a]=assignments[i][a];return w;}
   function applyPreviousWeekState(week,prev){if(!prev)return;for(const day of week.days){const p=prev.days.find(d=>d.key===day.key);if(!p)continue;day.exceptions={...day.exceptions,...p.exceptions};day.locks={...day.locks,...p.locks};for(const a of ASSISTANT_NAMES)if(day.locks[a])day.assignments[a]=p.assignments[a];}}
