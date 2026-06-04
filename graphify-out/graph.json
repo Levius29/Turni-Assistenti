@@ -1,0 +1,274 @@
+{
+  "directed": false,
+  "multigraph": false,
+  "graph": {
+    "hyperedges": [
+      {
+        "id": "solver_pipeline",
+        "label": "Shift Schedule Solver Pipeline",
+        "nodes": [
+          "index_generate_week",
+          "index_solve_week",
+          "index_solve_week_core",
+          "index_get_day_combos",
+          "index_validate_week"
+        ],
+        "relation": "implement",
+        "confidence": "EXTRACTED",
+        "confidence_score": 1.0,
+        "source_file": "index.html"
+      },
+      {
+        "id": "coverage_constraints",
+        "label": "Coverage Constraint Subsystem",
+        "nodes": [
+          "index_get_coverage",
+          "index_get_required_coverage",
+          "index_max_uncovered_gap",
+          "concept_studio_continuity"
+        ],
+        "relation": "implement",
+        "confidence": "EXTRACTED",
+        "confidence_score": 1.0,
+        "source_file": "index.html"
+      },
+      {
+        "id": "ui_render_pipeline",
+        "label": "UI Rendering Pipeline",
+        "nodes": [
+          "index_render",
+          "index_render_grid",
+          "index_render_summary",
+          "index_render_warnings",
+          "index_render_day_editor"
+        ],
+        "relation": "participate_in",
+        "confidence": "EXTRACTED",
+        "confidence_score": 1.0,
+        "source_file": "index.html"
+      }
+    ]
+  },
+  "nodes": [
+    {
+      "label": "ui-export.test.mjs",
+      "file_type": "code",
+      "source_file": "tests/ui-export.test.mjs",
+      "source_location": "L1",
+      "id": "tests_ui_export_test",
+      "community": 8,
+      "norm_label": "ui-export.test.mjs"
+    },
+    {
+      "label": "html",
+      "file_type": "code",
+      "source_file": "tests/ui-export.test.mjs",
+      "source_location": "L5",
+      "id": "tests_ui_export_test_html",
+      "community": 8,
+      "norm_label": "html"
+    },
+    {
+      "label": "loadLogic()",
+      "file_type": "code",
+      "source_file": "tests/ui-export.test.mjs",
+      "source_location": "L8",
+      "id": "tests_ui_export_test_loadlogic",
+      "community": 8,
+      "norm_label": "loadlogic()"
+    },
+    {
+      "label": "settings.json",
+      "file_type": "code",
+      "source_file": ".claude/settings.json",
+      "source_location": "L1",
+      "community": 4,
+      "norm_label": "settings.json",
+      "id": "claude_settings"
+    },
+    {
+      "label": "hooks",
+      "file_type": "code",
+      "source_file": ".claude/settings.json",
+      "source_location": "L2",
+      "community": 4,
+      "norm_label": "hooks",
+      "id": "claude_settings_hooks"
+    },
+    {
+      "label": "PreToolUse",
+      "file_type": "code",
+      "source_file": ".claude/settings.json",
+      "source_location": "L3",
+      "community": 4,
+      "norm_label": "pretooluse",
+      "id": "claude_settings_hooks_pretooluse"
+    },
+    {
+      "label": "CLAUDE.md",
+      "file_type": "document",
+      "source_file": "CLAUDE.md",
+      "source_location": "L1",
+      "community": 7,
+      "norm_label": "claude.md",
+      "id": "claude"
+    },
+    {
+      "label": "graphify",
+      "file_type": "document",
+      "source_file": "CLAUDE.md",
+      "source_location": "L1",
+      "community": 7,
+      "norm_label": "graphify",
+      "id": "claude_graphify"
+    },
+    {
+      "label": "deploy.yml - GitHub Pages Deploy Workflow",
+      "file_type": "code",
+      "source_file": ".github/workflows/deploy.yml",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 1,
+      "norm_label": "deploy.yml - github pages deploy workflow",
+      "id": "workflows_deploy_yml"
+    },
+    {
+      "label": "CLAUDE.md - Project Documentation",
+      "file_type": "document",
+      "source_file": "CLAUDE.md",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 6,
+      "norm_label": "claude.md - project documentation",
+      "id": "claude_md"
+    },
+    {
+      "label": "settings.json - Claude Code Hooks Config",
+      "file_type": "code",
+      "source_file": ".claude/settings.json",
+      "source_location": null,
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null,
+      "community": 6,
+      "norm_label": "settings.json - claude code hooks config",
+      "id": "_claude_settings_json"
+    }
+  ],
+  "links": [
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/ui-export.test.mjs",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tests_ui_export_test",
+      "target": "tests_ui_export_test_html"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/ui-export.test.mjs",
+      "source_location": "L8",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tests_ui_export_test",
+      "target": "tests_ui_export_test_loadlogic"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".claude/settings.json",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "claude_settings",
+      "target": "claude_settings_hooks"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".claude/settings.json",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "claude_settings_hooks",
+      "target": "claude_settings_hooks_pretooluse"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "CLAUDE.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "claude",
+      "target": "claude_graphify"
+    },
+    {
+      "relation": "conceptually_related_to",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "CLAUDE.md",
+      "source_location": null,
+      "weight": 0.6,
+      "source": "claude_md",
+      "target": "_claude_settings_json"
+    }
+  ],
+  "hyperedges": [
+    {
+      "id": "solver_pipeline",
+      "label": "Shift Schedule Solver Pipeline",
+      "nodes": [
+        "index_generate_week",
+        "index_solve_week",
+        "index_solve_week_core",
+        "index_get_day_combos",
+        "index_validate_week"
+      ],
+      "relation": "implement",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "index.html"
+    },
+    {
+      "id": "coverage_constraints",
+      "label": "Coverage Constraint Subsystem",
+      "nodes": [
+        "index_get_coverage",
+        "index_get_required_coverage",
+        "index_max_uncovered_gap",
+        "concept_studio_continuity"
+      ],
+      "relation": "implement",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "index.html"
+    },
+    {
+      "id": "ui_render_pipeline",
+      "label": "UI Rendering Pipeline",
+      "nodes": [
+        "index_render",
+        "index_render_grid",
+        "index_render_summary",
+        "index_render_warnings",
+        "index_render_day_editor"
+      ],
+      "relation": "participate_in",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "index.html"
+    }
+  ],
+  "built_at_commit": "58043cdffbdc1d90b7ee954ed66f418932a92243"
+}
