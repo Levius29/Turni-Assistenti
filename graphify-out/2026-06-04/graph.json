@@ -96,33 +96,6 @@
       "norm_label": "html"
     },
     {
-      "label": "loadLogic()",
-      "file_type": "code",
-      "source_file": "tests/ui-export.test.mjs",
-      "source_location": "L8",
-      "id": "tests_ui_export_test_loadlogic",
-      "community": 8,
-      "norm_label": "loadlogic()"
-    },
-    {
-      "label": "CLAUDE.md",
-      "file_type": "document",
-      "source_file": "CLAUDE.md",
-      "source_location": "L1",
-      "id": "claude",
-      "community": 7,
-      "norm_label": "claude.md"
-    },
-    {
-      "label": "graphify",
-      "file_type": "document",
-      "source_file": "CLAUDE.md",
-      "source_location": "L1",
-      "id": "claude_graphify",
-      "community": 7,
-      "norm_label": "graphify"
-    },
-    {
       "label": "index.html - Main Application",
       "file_type": "code",
       "source_file": "index.html",
@@ -131,9 +104,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
+      "id": "index_html",
       "community": 1,
-      "norm_label": "index.html - main application",
-      "id": "index_html"
+      "norm_label": "index.html - main application"
     },
     {
       "label": "SHIFT_TEMPLATES - Shift Definitions",
@@ -144,9 +117,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 0,
-      "norm_label": "shift_templates - shift definitions",
-      "id": "index_shift_templates"
+      "id": "index_shift_templates",
+      "community": 7,
+      "norm_label": "shift_templates - shift definitions"
     },
     {
       "label": "ASSISTANTS - Assistant Contract Config",
@@ -157,9 +130,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
+      "id": "index_assistants",
       "community": 0,
-      "norm_label": "assistants - assistant contract config",
-      "id": "index_assistants"
+      "norm_label": "assistants - assistant contract config"
     },
     {
       "label": "solveWeek - Constraint Solver Entry Point",
@@ -170,9 +143,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
+      "id": "index_solve_week",
       "community": 3,
-      "norm_label": "solveweek - constraint solver entry point",
-      "id": "index_solve_week"
+      "norm_label": "solveweek - constraint solver entry point"
     },
     {
       "label": "solveWeekCore - Backtracking Solver",
@@ -183,9 +156,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
+      "id": "index_solve_week_core",
       "community": 0,
-      "norm_label": "solveweekcore - backtracking solver",
-      "id": "index_solve_week_core"
+      "norm_label": "solveweekcore - backtracking solver"
     },
     {
       "label": "generateWeek - Week Generation",
@@ -196,9 +169,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
+      "id": "index_generate_week",
       "community": 3,
-      "norm_label": "generateweek - week generation",
-      "id": "index_generate_week"
+      "norm_label": "generateweek - week generation"
     },
     {
       "label": "validateWeek - Week Validation Rules",
@@ -209,9 +182,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
+      "id": "index_validate_week",
       "community": 0,
-      "norm_label": "validateweek - week validation rules",
-      "id": "index_validate_week"
+      "norm_label": "validateweek - week validation rules"
     },
     {
       "label": "getAssistantStats - Weekly Hours/Afternoon Stats",
@@ -222,9 +195,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
+      "id": "index_get_assistant_stats",
       "community": 5,
-      "norm_label": "getassistantstats - weekly hours/afternoon stats",
-      "id": "index_get_assistant_stats"
+      "norm_label": "getassistantstats - weekly hours/afternoon stats"
     },
     {
       "label": "getCoverage - Day Coverage Analysis",
@@ -235,9 +208,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
+      "id": "index_get_coverage",
       "community": 0,
-      "norm_label": "getcoverage - day coverage analysis",
-      "id": "index_get_coverage"
+      "norm_label": "getcoverage - day coverage analysis"
     },
     {
       "label": "getRequiredCoverage - Required Coverage Per Day",
@@ -248,9 +221,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
+      "id": "index_get_required_coverage",
       "community": 0,
-      "norm_label": "getrequiredcoverage - required coverage per day",
-      "id": "index_get_required_coverage"
+      "norm_label": "getrequiredcoverage - required coverage per day"
     },
     {
       "label": "maxUncoveredGap - Continuity Constraint Check",
@@ -261,9 +234,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
+      "id": "index_max_uncovered_gap",
       "community": 0,
-      "norm_label": "maxuncoveredgap - continuity constraint check",
-      "id": "index_max_uncovered_gap"
+      "norm_label": "maxuncoveredgap - continuity constraint check"
     },
     {
       "label": "exportPDF - PDF Export Function",
@@ -274,9 +247,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
+      "id": "index_export_pdf",
       "community": 1,
-      "norm_label": "exportpdf - pdf export function",
-      "id": "index_export_pdf"
+      "norm_label": "exportpdf - pdf export function"
     },
     {
       "label": "render - Main UI Render",
@@ -287,9 +260,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
+      "id": "index_render",
       "community": 2,
-      "norm_label": "render - main ui render",
-      "id": "index_render"
+      "norm_label": "render - main ui render"
     },
     {
       "label": "renderGrid - Schedule Grid Renderer",
@@ -300,9 +273,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
+      "id": "index_render_grid",
       "community": 2,
-      "norm_label": "rendergrid - schedule grid renderer",
-      "id": "index_render_grid"
+      "norm_label": "rendergrid - schedule grid renderer"
     },
     {
       "label": "renderSummary - Summary Panel Renderer",
@@ -313,9 +286,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
+      "id": "index_render_summary",
       "community": 5,
-      "norm_label": "rendersummary - summary panel renderer",
-      "id": "index_render_summary"
+      "norm_label": "rendersummary - summary panel renderer"
     },
     {
       "label": "renderWarnings - Validation Warnings Renderer",
@@ -326,9 +299,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
+      "id": "index_render_warnings",
       "community": 2,
-      "norm_label": "renderwarnings - validation warnings renderer",
-      "id": "index_render_warnings"
+      "norm_label": "renderwarnings - validation warnings renderer"
     },
     {
       "label": "renderDayEditor - Day Editor Panel Renderer",
@@ -339,9 +312,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
+      "id": "index_render_day_editor",
       "community": 2,
-      "norm_label": "renderdayeditor - day editor panel renderer",
-      "id": "index_render_day_editor"
+      "norm_label": "renderdayeditor - day editor panel renderer"
     },
     {
       "label": "regenerateWeekWithFeedback - Regen Preserving Locks",
@@ -352,9 +325,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
+      "id": "index_regenerate_week_with_feedback",
       "community": 3,
-      "norm_label": "regenerateweekwithfeedback - regen preserving locks",
-      "id": "index_regenerate_week_with_feedback"
+      "norm_label": "regenerateweekwithfeedback - regen preserving locks"
     },
     {
       "label": "localStorage Persistence Layer",
@@ -365,9 +338,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
+      "id": "index_local_storage",
       "community": 2,
-      "norm_label": "localstorage persistence layer",
-      "id": "index_local_storage"
+      "norm_label": "localstorage persistence layer"
     },
     {
       "label": "getDayCombos - Valid Shift Combinations Per Day",
@@ -378,9 +351,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
+      "id": "index_get_day_combos",
       "community": 0,
-      "norm_label": "getdaycombos - valid shift combinations per day",
-      "id": "index_get_day_combos"
+      "norm_label": "getdaycombos - valid shift combinations per day"
     },
     {
       "label": "getAllowedShiftIds - Per-Assistant Shift Restrictions",
@@ -391,9 +364,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 0,
-      "norm_label": "getallowedshiftids - per-assistant shift restrictions",
-      "id": "index_get_allowed_shift_ids"
+      "id": "index_get_allowed_shift_ids",
+      "community": 7,
+      "norm_label": "getallowedshiftids - per-assistant shift restrictions"
     },
     {
       "label": "afternoonDemand - Weekly Afternoon Demand Counter",
@@ -404,9 +377,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
+      "id": "index_afternoon_demand",
       "community": 3,
-      "norm_label": "afternoondemand - weekly afternoon demand counter",
-      "id": "index_afternoon_demand"
+      "norm_label": "afternoondemand - weekly afternoon demand counter"
     },
     {
       "label": "countsAsAfternoon - Per-Assistant Afternoon Threshold",
@@ -417,9 +390,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
+      "id": "index_counts_as_afternoon",
       "community": 5,
-      "norm_label": "countsasafternoon - per-assistant afternoon threshold",
-      "id": "index_counts_as_afternoon"
+      "norm_label": "countsasafternoon - per-assistant afternoon threshold"
     },
     {
       "label": "drawPdfBadge - PDF Badge Drawing",
@@ -430,9 +403,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
+      "id": "index_draw_pdf_badge",
       "community": 1,
-      "norm_label": "drawpdfbadge - pdf badge drawing",
-      "id": "index_draw_pdf_badge"
+      "norm_label": "drawpdfbadge - pdf badge drawing"
     },
     {
       "label": "getDayVariationLabel - Day Variation Labeler",
@@ -443,9 +416,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
+      "id": "index_get_day_variation_label",
       "community": 1,
-      "norm_label": "getdayvariationlabel - day variation labeler",
-      "id": "index_get_day_variation_label"
+      "norm_label": "getdayvariationlabel - day variation labeler"
     },
     {
       "label": "buildMobileGrid - Mobile Layout Renderer",
@@ -456,9 +429,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
+      "id": "index_build_mobile_grid",
       "community": 2,
-      "norm_label": "buildmobilegrid - mobile layout renderer",
-      "id": "index_build_mobile_grid"
+      "norm_label": "buildmobilegrid - mobile layout renderer"
     },
     {
       "label": "buildDesktopGrid - Desktop Layout Renderer",
@@ -469,9 +442,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
+      "id": "index_build_desktop_grid",
       "community": 2,
-      "norm_label": "builddesktopgrid - desktop layout renderer",
-      "id": "index_build_desktop_grid"
+      "norm_label": "builddesktopgrid - desktop layout renderer"
     },
     {
       "label": "ui-export.test.mjs - UI/Export Tests",
@@ -482,9 +455,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
+      "id": "tests_ui_export_test_mjs",
       "community": 1,
-      "norm_label": "ui-export.test.mjs - ui/export tests",
-      "id": "tests_ui_export_test_mjs"
+      "norm_label": "ui-export.test.mjs - ui/export tests"
     },
     {
       "label": "deploy.yml - GitHub Pages Deploy Workflow",
@@ -495,9 +468,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
+      "id": "workflows_deploy_yml",
       "community": 1,
-      "norm_label": "deploy.yml - github pages deploy workflow",
-      "id": "workflows_deploy_yml"
+      "norm_label": "deploy.yml - github pages deploy workflow"
     },
     {
       "label": "CLAUDE.md - Project Documentation",
@@ -508,9 +481,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
+      "id": "claude_md",
       "community": 6,
-      "norm_label": "claude.md - project documentation",
-      "id": "claude_md"
+      "norm_label": "claude.md - project documentation"
     },
     {
       "label": "settings.json - Claude Code Hooks Config",
@@ -521,9 +494,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
+      "id": "_claude_settings_json",
       "community": 6,
-      "norm_label": "settings.json - claude code hooks config",
-      "id": "_claude_settings_json"
+      "norm_label": "settings.json - claude code hooks config"
     },
     {
       "label": "Backtracking Solver with Pruning and Memoization",
@@ -534,9 +507,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
+      "id": "concept_backtracking_solver",
       "community": 0,
-      "norm_label": "backtracking solver with pruning and memoization",
-      "id": "concept_backtracking_solver"
+      "norm_label": "backtracking solver with pruning and memoization"
     },
     {
       "label": "Overtime Fallback Strategy (Manuela +4h)",
@@ -547,9 +520,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
+      "id": "concept_overtime_fallback",
       "community": 3,
-      "norm_label": "overtime fallback strategy (manuela +4h)",
-      "id": "concept_overtime_fallback"
+      "norm_label": "overtime fallback strategy (manuela +4h)"
     },
     {
       "label": "Shift Locking - User Lock/Unlock of Assignments",
@@ -560,9 +533,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
+      "id": "concept_shift_locking",
       "community": 3,
-      "norm_label": "shift locking - user lock/unlock of assignments",
-      "id": "concept_shift_locking"
+      "norm_label": "shift locking - user lock/unlock of assignments"
     },
     {
       "label": "Studio Continuity Constraint (08:30-19:00, max 30min gap)",
@@ -573,9 +546,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
+      "id": "concept_studio_continuity",
       "community": 0,
-      "norm_label": "studio continuity constraint (08:30-19:00, max 30min gap)",
-      "id": "concept_studio_continuity"
+      "norm_label": "studio continuity constraint (08:30-19:00, max 30min gap)"
     },
     {
       "label": "iPhone Safe Area Inset Handling",
@@ -586,9 +559,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
+      "id": "concept_iphone_safe_area",
       "community": 1,
-      "norm_label": "iphone safe area inset handling",
-      "id": "concept_iphone_safe_area"
+      "norm_label": "iphone safe area inset handling"
     }
   ],
   "links": [
@@ -598,9 +571,9 @@
       "source_file": ".claude/settings.json",
       "source_location": "L2",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "claude_settings",
-      "target": "claude_settings_hooks"
+      "target": "claude_settings_hooks",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -608,9 +581,9 @@
       "source_file": ".claude/settings.json",
       "source_location": "L3",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "claude_settings_hooks",
-      "target": "claude_settings_hooks_pretooluse"
+      "target": "claude_settings_hooks_pretooluse",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -618,28 +591,8 @@
       "source_file": "tests/ui-export.test.mjs",
       "source_location": "L5",
       "weight": 1.0,
-      "confidence_score": 1.0,
       "source": "tests_ui_export_test",
-      "target": "tests_ui_export_test_html"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "tests/ui-export.test.mjs",
-      "source_location": "L8",
-      "weight": 1.0,
-      "source": "tests_ui_export_test",
-      "target": "tests_ui_export_test_loadlogic",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "CLAUDE.md",
-      "source_location": "L1",
-      "weight": 1.0,
-      "source": "claude",
-      "target": "claude_graphify",
+      "target": "tests_ui_export_test_html",
       "confidence_score": 1.0
     },
     {
@@ -1099,5 +1052,5 @@
       "source_file": "index.html"
     }
   ],
-  "built_at_commit": "2e681191460f379ff545ccf3b35161afa132e81b"
+  "built_at_commit": "cdbbeba22c0758c44033ec3f7a141eb719c94b9e"
 }

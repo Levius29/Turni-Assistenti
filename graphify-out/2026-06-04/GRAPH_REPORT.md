@@ -1,18 +1,12 @@
-# Graph Report - Turni-Assistenti  (2026-06-04)
+# Graph Report - .  (2026-06-04)
 
 ## Corpus Check
-- 3 files · ~4,599 words
-- Verdict: corpus is large enough that graph structure adds value.
+- Corpus is ~4,253 words - fits in a single context window. You may not need a graph.
 
 ## Summary
-- 44 nodes · 46 edges · 9 communities (5 shown, 4 thin omitted)
+- 41 nodes · 44 edges · 9 communities (5 shown, 4 thin omitted)
 - Extraction: 91% EXTRACTED · 9% INFERRED · 0% AMBIGUOUS · INFERRED: 4 edges (avg confidence: 0.9)
 - Token cost: 0 input · 0 output
-
-## Graph Freshness
-- Built from commit: `2e681191`
-- Run `git rev-parse HEAD` and compare to check if the graph is stale.
-- Run `graphify update .` after code changes (no API cost).
 
 ## Community Hubs (Navigation)
 - [[_COMMUNITY_Constraint Solver Core|Constraint Solver Core]]
@@ -60,8 +54,8 @@
 ## Communities (9 total, 4 thin omitted)
 
 ### Community 0 - "Constraint Solver Core"
-Cohesion: 0.25
-Nodes (11): Backtracking Solver with Pruning and Memoization, Studio Continuity Constraint (08:30-19:00, max 30min gap), ASSISTANTS - Assistant Contract Config, getAllowedShiftIds - Per-Assistant Shift Restrictions, getCoverage - Day Coverage Analysis, getDayCombos - Valid Shift Combinations Per Day, getRequiredCoverage - Required Coverage Per Day, maxUncoveredGap - Continuity Constraint Check (+3 more)
+Cohesion: 0.33
+Nodes (9): Backtracking Solver with Pruning and Memoization, Studio Continuity Constraint (08:30-19:00, max 30min gap), ASSISTANTS - Assistant Contract Config, getCoverage - Day Coverage Analysis, getDayCombos - Valid Shift Combinations Per Day, getRequiredCoverage - Required Coverage Per Day, maxUncoveredGap - Continuity Constraint Check, solveWeekCore - Backtracking Solver (+1 more)
 
 ### Community 1 - "PDF Export & Deploy"
 Cohesion: 0.29
@@ -80,7 +74,7 @@ Cohesion: 0.67
 Nodes (3): countsAsAfternoon - Per-Assistant Afternoon Threshold, getAssistantStats - Weekly Hours/Afternoon Stats, renderSummary - Summary Panel Renderer
 
 ## Knowledge Gaps
-- **13 isolated node(s):** `PreToolUse`, `html`, `graphify`, `SHIFT_TEMPLATES - Shift Definitions`, `generateWeek - Week Generation` (+8 more)
+- **12 isolated node(s):** `PreToolUse`, `html`, `SHIFT_TEMPLATES - Shift Definitions`, `generateWeek - Week Generation`, `renderDayEditor - Day Editor Panel Renderer` (+7 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **4 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
@@ -88,10 +82,10 @@ Nodes (3): countsAsAfternoon - Per-Assistant Afternoon Threshold, getAssistantSt
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `validateWeek - Week Validation Rules` connect `Constraint Solver Core` to `UI Rendering`, `Stats & Afternoon Logic`?**
-  _High betweenness centrality (0.275) - this node is a cross-community bridge._
+  _High betweenness centrality (0.319) - this node is a cross-community bridge._
 - **Why does `solveWeekCore - Backtracking Solver` connect `Constraint Solver Core` to `Schedule Generation`, `Stats & Afternoon Logic`?**
-  _High betweenness centrality (0.239) - this node is a cross-community bridge._
+  _High betweenness centrality (0.276) - this node is a cross-community bridge._
 - **Why does `getAssistantStats - Weekly Hours/Afternoon Stats` connect `Stats & Afternoon Logic` to `Constraint Solver Core`, `PDF Export & Deploy`?**
-  _High betweenness centrality (0.231) - this node is a cross-community bridge._
-- **What connects `PreToolUse`, `html`, `graphify` to the rest of the system?**
-  _18 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _High betweenness centrality (0.267) - this node is a cross-community bridge._
+- **What connects `PreToolUse`, `html`, `SHIFT_TEMPLATES - Shift Definitions` to the rest of the system?**
+  _17 weakly-connected nodes found - possible documentation gaps or missing edges._

@@ -1,27 +1,27 @@
 {
-  "/home/user/Turni-Assistenti/.claude/settings.json": {
+  ".claude/settings.json": {
     "mtime": 1780597920.3939817,
     "ast_hash": "bfee062c3962c14264fd704e975a6b38",
     "semantic_hash": "bfee062c3962c14264fd704e975a6b38"
   },
-  "/home/user/Turni-Assistenti/tests/ui-export.test.mjs": {
-    "mtime": 1780563190.6763947,
-    "ast_hash": "b193c8be01a677aa7127334114fae690",
-    "semantic_hash": "b193c8be01a677aa7127334114fae690"
+  "tests/ui-export.test.mjs": {
+    "mtime": 1780602644.9222863,
+    "ast_hash": "255a157e4c15eafe863fd379c365ebeb",
+    "semantic_hash": ""
   },
-  "/home/user/Turni-Assistenti/.github/workflows/deploy.yml": {
+  ".github/workflows/deploy.yml": {
     "mtime": 1780563190.6763947,
     "ast_hash": "c6820df9d7ef354e491c1ed904aa82ec",
     "semantic_hash": "c6820df9d7ef354e491c1ed904aa82ec"
   },
-  "/home/user/Turni-Assistenti/CLAUDE.md": {
+  "CLAUDE.md": {
     "mtime": 1780597920.3939817,
     "ast_hash": "82efb97a359f5c7290bf2513d14686be",
     "semantic_hash": "82efb97a359f5c7290bf2513d14686be"
   },
-  "/home/user/Turni-Assistenti/index.html": {
-    "mtime": 1780597917.7579818,
-    "ast_hash": "4a22c088420dfee96480acd9907ddf32",
-    "semantic_hash": "4a22c088420dfee96480acd9907ddf32"
+  "index.html": {
+    "mtime": 1780602514.6862895,
+    "ast_hash": "70a55a0603b749281312199199f09139",
+    "semantic_hash": ""
   }
 }
