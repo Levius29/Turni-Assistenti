@@ -5,7 +5,7 @@
     "semantic_hash": "bfee062c3962c14264fd704e975a6b38"
   },
   "tests/ui-export.test.mjs": {
-    "mtime": 1780602644.9222863,
+    "mtime": 1780607746.972551,
     "ast_hash": "255a157e4c15eafe863fd379c365ebeb",
     "semantic_hash": ""
   },
@@ -20,8 +20,8 @@
     "semantic_hash": "82efb97a359f5c7290bf2513d14686be"
   },
   "index.html": {
-    "mtime": 1780602514.6862895,
-    "ast_hash": "70a55a0603b749281312199199f09139",
+    "mtime": 1780611000.7987545,
+    "ast_hash": "347605789a0a07949c31806e7755e8fb",
     "semantic_hash": ""
   }
 }

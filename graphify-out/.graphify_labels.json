@@ -1,10 +1,6 @@
 {
-  "0": "Constraint Solver Core",
   "1": "PDF Export & Deploy",
-  "2": "UI Rendering",
-  "3": "Schedule Generation",
   "4": "Claude Code Hooks",
-  "5": "Stats & Afternoon Logic",
   "6": "Project Config",
   "7": "Shift Templates",
   "8": "Export Tests"

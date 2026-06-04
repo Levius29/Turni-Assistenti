@@ -36,6 +36,43 @@
       --select-bg: #edf5fb;
     }
 
+    /* ── Night mode ── */
+    body.dark {
+      color-scheme: dark;
+      --bg: #161b19;
+      --surface: #222a27;
+      --surface-soft: #1d2421;
+      --border: #38423e;
+      --text: #e7ece9;
+      --text-light: #a7b4ae;
+      --text-muted: #7c8a83;
+      --primary: #4fae97;
+      --primary-hover: #5cbfa6;
+      --primary-soft: #24352f;
+      --accent-warm: #e0a071;
+      --accent-warm-bg: #382a20;
+      --ok: #6fc79e;
+      --ok-bg: #21322a;
+      --alert: #e69069;
+      --alert-bg: #38271e;
+      --select: #5aa9d0;
+      --select-bg: #1e2d35;
+      --shadow-sm: 0 2px 8px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.4);
+      --shadow-md: 0 6px 18px -4px rgba(0,0,0,0.5);
+    }
+    body.dark .head-cell,
+    body.dark .day-button strong { color: var(--text); }
+    body.dark .head-cell { background: #2a322e; }
+    body.dark .assistant-name-cell,
+    body.dark .mobile-header-cell { background: #2a322e; }
+    body.dark .mobile-day-label { background: #262d29; }
+    body.dark .shift-select,
+    body.dark .field { background: #2a322e; color: var(--text); }
+    body.dark .week-label,
+    body.dark .week-controls,
+    body.dark .bottom-bar { background: var(--surface); }
+    body.dark .badge-h { color: var(--text-light); }
+
     body {
       background: var(--bg);
       color: var(--text);
@@ -197,7 +234,7 @@
     .shift-fields { display: flex; flex-direction: column; gap: 4px; }
     .shift-exit:disabled { opacity: .45; cursor: not-allowed; background: var(--surface-soft); }
     .shift-select {
-      width: 100%;
+      width: 95px;
       padding: 6px 7px;
       border: 1px solid var(--border);
       border-radius: 8px;
@@ -221,11 +258,12 @@
     .grid-cell.day-closed, .mobile-shift-cell.day-closed, .mobile-day-label.day-closed { opacity: .5; }
     .closed-tag { display: inline-block; margin-top: 2px; font-size: 9px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: #b14b3c; }
 
-    /* ── Shift badge ── */
+    /* ── Shift badge (impilati verticalmente: A, C, L) ── */
     .shift-badge {
       display: flex;
-      align-items: center;
-      gap: 4px;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 2px;
     }
     .badge-code {
       color: white;
@@ -242,6 +280,40 @@
 
     /* ── Cell foot: badge + lock on same row ── */
     .cell-foot { display: flex; align-items: center; justify-content: space-between; margin-top: 5px; }
+
+    /* ── Cella su due righe: colonna sx = dropdown, colonna dx = badge+blocco impilati ── */
+    .shift-grid {
+      display: grid;
+      grid-template-columns: 95px auto;
+      grid-template-rows: auto auto;
+      column-gap: 5px;
+      row-gap: 3px;
+      align-items: center;
+    }
+    .shift-grid .shift-entry { grid-column: 1; grid-row: 1; }
+    .shift-grid .shift-exit  { grid-column: 1; grid-row: 2; }
+    .shift-grid .shift-badge { grid-column: 2; grid-row: 1; justify-self: end; align-self: start; }
+    .shift-grid .toggle-switch { grid-column: 2; grid-row: 2; justify-self: end; align-self: center; }
+
+    /* ── Toggle night mode nell'angolo in alto a sinistra della tabella ── */
+    .theme-toggle {
+      width: 100%;
+      min-height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xs);
+      color: var(--text-light);
+      cursor: pointer;
+      transition: var(--transition);
+      font-size: 11px;
+      font-weight: 500;
+    }
+    .theme-toggle:hover { background: var(--primary-soft); color: var(--primary); border-color: var(--primary); }
+    .theme-toggle svg { width: 16px; height: 16px; }
 
     /* ── Toggle switch ── */
     .toggle-switch {
@@ -320,7 +392,8 @@
 
     .mobile-shift-cell { padding: 4px 3px; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); display: flex; flex-direction: column; gap: 2px; }
     .mobile-shift-cell.selected-day { background: var(--select-bg) !important; }
-    .mobile-shift-cell .shift-select { font-size: 9px; padding: 3px 3px; min-height: 30px; border-radius: 6px; }
+    .mobile-shift-cell .shift-select { width: 72px; font-size: 9px; padding: 3px 3px; min-height: 30px; border-radius: 6px; }
+    .mobile-shift-cell .shift-grid { grid-template-columns: 72px auto; column-gap: 3px; }
     .mobile-shift-cell .badge-h { font-size: 9px; }
     .mobile-shift-cell .badge-code { font-size: 8px; padding: 1px 3px; }
     .mobile-shift-cell .cell-foot { margin-top: 2px; }
@@ -414,6 +487,7 @@
         <svg class="icon-svg" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
       </button>
       <button id="generateWeek" class="btn-primary" type="button">Genera</button>
+      <button id="altWeek" type="button" title="Cerca una soluzione diversa da quella attuale">Alternativa</button>
       <button id="resetWeek" type="button">Reset</button>
       <button id="printWeek" type="button">
         <svg class="icon-svg" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v8H6v-8z"/></svg>
@@ -467,6 +541,9 @@
     <svg class="icon-svg" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
   </button>
   <button id="generateWeekMob" class="bb-primary" type="button">Genera</button>
+  <button id="altWeekMob" class="bb-nav" type="button" aria-label="Soluzione alternativa" title="Soluzione alternativa">
+    <svg class="icon-svg" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg>
+  </button>
   <button id="resetWeekMob" class="bb-nav" type="button" aria-label="Reset settimana">
     <svg class="icon-svg" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M1 4v6h6M23 20v-6h-6M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"/></svg>
   </button>
@@ -527,7 +604,7 @@
   function formatItalianDate(s){const[y,m,d]=s.split('-');return`${d}/${m}/${y}`;}
   function formatDateShort(s){const[y,m,d]=s.split('-');return`${d}/${m}`;}
   function assign(week,dayKey,as){const day=week.days.find(d=>d.key===dayKey);Object.assign(day.assignments,as);}
-  function createEmptyWeek(startDate){return{startDate,days:WEEK_DAYS.map((day,idx)=>({...day,date:addDays(startDate,idx),exceptions:{eventType:'',note:'',extraAfternoon:false,satOpen:false},assignments:Object.fromEntries(ASSISTANT_NAMES.map(n=>[n,'OFF'])),locks:Object.fromEntries(ASSISTANT_NAMES.map(n=>[n,false]))}))}}
+  function createEmptyWeek(startDate){return{startDate,days:WEEK_DAYS.map((day,idx)=>({...day,date:addDays(startDate,idx),exceptions:{eventType:'',note:'',extraAfternoon:false,extraMorning:false,satOpen:false},assignments:Object.fromEntries(ASSISTANT_NAMES.map(n=>[n,'OFF'])),locks:Object.fromEntries(ASSISTANT_NAMES.map(n=>[n,false]))}))}}
   // Seed iniziale (orari equivalenti ai vecchi template); il solver riscrive gli slot non bloccati.
   function createBaseWeek(startDate){const w=createEmptyWeek(startDate);assign(w,'mon',{Lucrezia:{s:630,e:1140},Manuela:{s:510,e:810},Madalina:{s:510,e:810}});assign(w,'tue',{Lucrezia:{s:630,e:1140},Manuela:{s:510,e:810},Madalina:{s:840,e:1140}});assign(w,'wed',{Lucrezia:{s:510,e:1020},Manuela:'OFF',Madalina:{s:840,e:1140}});assign(w,'thu',{Lucrezia:{s:510,e:870},Manuela:{s:510,e:810},Madalina:{s:900,e:1140}});assign(w,'fri',{Lucrezia:{s:630,e:1140},Manuela:{s:510,e:810},Madalina:{s:510,e:810}});assign(w,'sat',{Lucrezia:'OFF',Manuela:'OFF',Madalina:'OFF'});return w;}
   // Quota pomeriggi: soglia oraria di fine turno per-assistente (Manuela >15:00, Madalina >15:30, Lucrezia >17:00)
@@ -535,20 +612,20 @@
   function countsAsAfternoon(assistant,shift){if(shift.hours===0||shift.endMin==null)return false;return shift.endMin>AFTERNOON_END_THRESHOLD[assistant];}
   // Lo straordinario pomeridiano di Manuela richiede il turno di chiusura 15:00-19:00.
   function isManuelaClose1519(a){const s=getShift(a);return s.startMin===15*60&&s.endMin===STUDIO_CLOSE;}
-  function getAssistantStats(week){const s=Object.fromEntries(ASSISTANT_NAMES.map(n=>[n,{hours:0,afternoons:0,longShifts:0,saturdays:0}]));for(const d of week.days)for(const n of ASSISTANT_NAMES){const sh=getShift(d.assignments[n]);s[n].hours+=sh.hours;if(countsAsAfternoon(n,sh))s[n].afternoons++;if(sh.isLong)s[n].longShifts++;if(d.key==='sat'&&sh.hours>0)s[n].saturdays++;}return s;}
-  function getRequiredCoverage(day){if(day.key==='sun'||(day.key==='sat'&&!day.exceptions.satOpen))return{morning:0,afternoon:0,close:0,nearClose:0};const isWeekday=WEEKDAY_KEYS.includes(day.key);const extraPom=isWeekday&&day.exceptions.extraAfternoon;const afternoon=(isWeekday?1:0)+(extraPom?1:0);return{morning:1,afternoon:day.key==='sat'?0:afternoon,close:isWeekday?1:0,nearClose:extraPom?1:0};}
+  function getAssistantStats(week){const s=Object.fromEntries(ASSISTANT_NAMES.map(n=>[n,{hours:0,afternoons:0,longShifts:0,saturdays:0,opens:0,closes:0}]));for(const d of week.days)for(const n of ASSISTANT_NAMES){const sh=getShift(d.assignments[n]);s[n].hours+=sh.hours;if(countsAsAfternoon(n,sh))s[n].afternoons++;if(sh.isLong)s[n].longShifts++;if(d.key==='sat'&&sh.hours>0)s[n].saturdays++;if(sh.coversMorning)s[n].opens++;if(sh.coversClose)s[n].closes++;}return s;}
+  function getRequiredCoverage(day){if(day.key==='sun'||(day.key==='sat'&&!day.exceptions.satOpen))return{morning:0,afternoon:0,close:0,nearClose:0,morningUntil14:0};const isWeekday=WEEKDAY_KEYS.includes(day.key);const extraPom=isWeekday&&day.exceptions.extraAfternoon;const extraMatt=isWeekday&&day.exceptions.extraMorning;const afternoon=(isWeekday?1:0)+(extraPom?1:0);return{morning:1,afternoon:day.key==='sat'?0:afternoon,close:isWeekday?1:0,nearClose:extraPom?1:0,morningUntil14:extraMatt?2:0};}
   function shiftsOf(day){return ASSISTANT_NAMES.map(n=>getShift(day.assignments[n]));}
   // La copertura "afternoon" conta la presenza reale fino a tardi (turni che finiscono >=18:00 = isAfternoon), non chi esce alle 17:00.
   // Sabato: apertura flessibile con una sola assistente → "morning" = numero di assistenti che lavorano.
   function coverageOf(shifts,dayKey){
-    if(dayKey==='sat'){const working=shifts.filter(s=>s.hours>0).length;return{morning:working,afternoon:0,close:0,nearClose:0};}
-    return{morning:shifts.filter(s=>s.coversMorning).length,afternoon:shifts.filter(s=>s.isAfternoon).length,close:shifts.filter(s=>s.coversClose).length,nearClose:shifts.filter(s=>s.isNearClose).length};
+    if(dayKey==='sat'){const working=shifts.filter(s=>s.hours>0).length;return{morning:working,afternoon:0,close:0,nearClose:0,morningUntil14:0};}
+    return{morning:shifts.filter(s=>s.coversMorning).length,afternoon:shifts.filter(s=>s.isAfternoon).length,close:shifts.filter(s=>s.coversClose).length,nearClose:shifts.filter(s=>s.isNearClose).length,morningUntil14:shifts.filter(s=>s.startMin!=null&&s.startMin<840&&s.endMin>=840).length};
   }
   function getCoverage(day){return coverageOf(shiftsOf(day),day.key);}
   // Lo studio deve essere coperto in continuita' 08:30-19:00: l'unico buco ammesso e' la pausa pranzo (<= 30 min).
   function gapOf(shifts,dayKey){if(!WEEKDAY_KEYS.includes(dayKey))return 0;const intervals=shifts.filter(s=>s.hours>0&&s.startMin!=null).map(s=>[s.startMin,s.endMin]).sort((a,b)=>a[0]-b[0]);let cursor=STUDIO_OPEN,gap=0;for(const[st,en]of intervals){if(st>cursor)gap=Math.max(gap,st-cursor);cursor=Math.max(cursor,en);}if(cursor<STUDIO_CLOSE)gap=Math.max(gap,STUDIO_CLOSE-cursor);return gap;}
   function maxUncoveredGap(day){return gapOf(shiftsOf(day),day.key);}
-  function validateWeek(week){const w=[],stats=getAssistantStats(week);for(const[name]of Object.entries(ASSISTANTS)){const baseRules=ASSISTANTS[name];const rules=(name==='Manuela'&&(stats.Manuela.hours>baseRules.weeklyHours||stats.Manuela.afternoons>baseRules.maxAfternoons))?{...baseRules,weeklyHours:29,maxAfternoons:2}:baseRules;const s=stats[name];if(s.hours!==rules.weeklyHours)w.push({message:`${name}: ${s.hours}h su ${rules.weeklyHours}h`});if(s.afternoons<rules.minAfternoons)w.push({message:`${name}: pochi pomeriggi (${s.afternoons}/${rules.minAfternoons})`});if(s.afternoons>rules.maxAfternoons)w.push({message:`${name}: troppi pomeriggi (${s.afternoons}/${rules.maxAfternoons})`});if(name==='Manuela'&&s.afternoons>=2&&!week.days.some(d=>isManuelaClose1519(d.assignments.Manuela)))w.push({message:'Manuela: straordinario pomeridiano richiede turno 15:00-19:00'});if(name==='Manuela'&&s.afternoons>2)w.push({message:'Manuela: mai più di 2 pomeriggi'});}for(const day of week.days){const req=getRequiredCoverage(day),cov=getCoverage(day);if(cov.morning<req.morning)w.push({message:`${day.label}: apertura 08:30 scoperta`});if(day.key==='sat'&&cov.morning>1)w.push({message:`${day.label}: sabato solo un'assistente`});if(cov.afternoon<req.afternoon)w.push({message:`${day.label}: pomeriggio richiede ${req.afternoon}`});if(cov.close<req.close)w.push({message:`${day.label}: chiusura 19:00 scoperta`});if(cov.nearClose<req.nearClose)w.push({message:`${day.label}: serve una seconda assistente fino alle 18:00`});if(maxUncoveredGap(day)>LUNCH_GAP_MAX)w.push({message:`${day.label}: studio scoperto >30 min (pausa pranzo max 30')`});for(const n of ASSISTANT_NAMES){const sh=getShift(day.assignments[n]);if(sh.isLong&&!ASSISTANTS[n].canWorkLong)w.push({message:`${n}: turno lungo non previsto (${day.label})`});if(sh.hours>8.5)w.push({message:`${n}: giornata pesante >8.5h (${day.label})`});}}return w;}
+  function validateWeek(week){const w=[],stats=getAssistantStats(week);for(const[name]of Object.entries(ASSISTANTS)){const baseRules=ASSISTANTS[name];const rules=(name==='Manuela'&&(stats.Manuela.hours>baseRules.weeklyHours||stats.Manuela.afternoons>baseRules.maxAfternoons))?{...baseRules,weeklyHours:29,maxAfternoons:2}:baseRules;const s=stats[name];if(s.hours!==rules.weeklyHours)w.push({message:`${name}: ${s.hours}h su ${rules.weeklyHours}h`});if(s.afternoons<rules.minAfternoons)w.push({message:`${name}: pochi pomeriggi (${s.afternoons}/${rules.minAfternoons})`});if(s.afternoons>rules.maxAfternoons)w.push({message:`${name}: troppi pomeriggi (${s.afternoons}/${rules.maxAfternoons})`});if(name==='Manuela'&&s.afternoons>=2&&!week.days.some(d=>isManuelaClose1519(d.assignments.Manuela)))w.push({message:'Manuela: straordinario pomeridiano richiede turno 15:00-19:00'});if(name==='Manuela'&&s.afternoons>2)w.push({message:'Manuela: mai più di 2 pomeriggi'});}for(const day of week.days){const req=getRequiredCoverage(day),cov=getCoverage(day);if(cov.morning<req.morning)w.push({message:`${day.label}: apertura 08:30 scoperta`});if(cov.morningUntil14<req.morningUntil14)w.push({message:`${day.label}: serve doppia mattina (fino alle 14)`});if(day.key==='sat'&&cov.morning>1)w.push({message:`${day.label}: sabato solo un'assistente`});if(cov.afternoon<req.afternoon)w.push({message:`${day.label}: pomeriggio richiede ${req.afternoon}`});if(cov.close<req.close)w.push({message:`${day.label}: chiusura 19:00 scoperta`});if(cov.nearClose<req.nearClose)w.push({message:`${day.label}: serve una seconda assistente fino alle 18:00`});if(maxUncoveredGap(day)>LUNCH_GAP_MAX)w.push({message:`${day.label}: studio scoperto >30 min (pausa pranzo max 30')`});for(const n of ASSISTANT_NAMES){const sh=getShift(day.assignments[n]);if(sh.isLong&&!ASSISTANTS[n].canWorkLong)w.push({message:`${n}: turno lungo non previsto (${day.label})`});if(sh.hours>8.5)w.push({message:`${n}: giornata pesante >8.5h (${day.label})`});}}return w;}
   function formatWeekRange(week){return`${formatItalianDate(week.days[0].date)} - ${formatItalianDate(week.days[week.days.length-1].date)}`;}
   function formatWeekRangeShort(week){return`${formatDateShort(week.days[0].date)}–${formatDateShort(week.days[week.days.length-1].date)}`;}
 
@@ -582,21 +659,21 @@
     const score=c=>ASSISTANT_NAMES.reduce((s,n)=>{const h=getShift(c[n]).hours;return s+(h>0?Math.abs(h-avg[n]):avg[n]*0.5);},0);
     return combosByDay.map(day=>[...day].sort((a,b)=>score(a)-score(b)));
   }
-  function solveWeek(seedWeek){
+  // Firma di una settimana (assegnamenti di tutti i giorni/assistenti): per riconoscere/escludere una soluzione già trovata.
+  function weekAssignmentSig(week){return week.days.map(d=>ASSISTANT_NAMES.map(n=>{const a=d.assignments[n];return isOff(a)?'OFF':`${a.s}-${a.e}`;}).join(',')).join('|');}
+  // avoidSigs (opzionale, Set<string>): scarta le soluzioni con queste firme, per ciclare tutte le proposte.
+  function solveWeek(seedWeek,avoidSigs){
     const demand=afternoonDemand(seedWeek);
-    // Le combinazioni valide per giorno dipendono solo dal giorno (turni ammessi + copertura),
-    // non dai limiti orari: le calcolo una volta sola e le riuso in tutti i tentativi del solver.
     const baseCombos=seedWeek.days.map((day,idx)=>getDayCombos(seedWeek,day,idx));
     const fastCombos=heuristicCombos(baseCombos);
-    // Tentativo a una data configurazione (combo + budget): prima orario normale, poi straordinario Manuela.
     const attempt=(combos,budget)=>{
       if(demand<=afternoonCapacity(ASSISTANTS.Manuela.maxAfternoons)){
-        for(const maxCloses of [2,3]){const r=solveWeekCore(seedWeek,maxCloses,combos,budget);if(r.solved)return{...r,overtime:false};}
+        for(const maxCloses of [2,3]){const r=solveWeekCore(seedWeek,maxCloses,combos,budget,avoidSigs);if(r.solved)return{...r,overtime:false};}
       }
       if(demand<=afternoonCapacity(2)){
         const origManuela={...ASSISTANTS.Manuela};
         ASSISTANTS.Manuela={...origManuela,weeklyHours:29,maxAfternoons:2};
-        for(const maxCloses of [2,3]){const r2=solveWeekCore(seedWeek,maxCloses,combos,budget);if(r2.solved){ASSISTANTS.Manuela=origManuela;r2.week.overtimeUsed=true;return{...r2,overtime:true};}}
+        for(const maxCloses of [2,3]){const r2=solveWeekCore(seedWeek,maxCloses,combos,budget,avoidSigs);if(r2.solved){ASSISTANTS.Manuela=origManuela;r2.week.overtimeUsed=true;return{...r2,overtime:true};}}
         ASSISTANTS.Manuela=origManuela;
       }
       return null;
@@ -609,7 +686,7 @@
     return r??{week:null,solved:false,overtime:false};
   }
   // Solver sincrono: backtracking con potatura e memoizzazione degli stati senza uscita.
-  function solveWeekCore(seedWeek,maxClosesLucrezia=Infinity,combosByDay,budget=SOLVE_BUDGET_FULL){
+  function solveWeekCore(seedWeek,maxClosesLucrezia=Infinity,combosByDay,budget=SOLVE_BUDGET_FULL,avoidSigs){
     let best=null,nodes=0;
     const days=seedWeek.days,D=days.length;
     combosByDay=combosByDay||days.map((day,idx)=>getDayCombos(seedWeek,day,idx));
@@ -624,7 +701,7 @@
     const placed=new Array(D);
     function visit(pos,stats){
       if(best||nodes>budget)return;nodes++;
-      if(pos===D){const w=buildWeekFromDayAssignments(seedWeek,placed);if(validateWeek(w).length===0)best=w;return;}
+      if(pos===D){const w=buildWeekFromDayAssignments(seedWeek,placed);if(validateWeek(w).length===0&&(!avoidSigs||!avoidSigs.has(weekAssignmentSig(w))))best=w;return;}
       const key=keyOf(pos,stats);if(dead.has(key))return;
       for(const combo of orderedCombos[pos]){
         const d=combo.d,next=cloneStats(stats);
@@ -655,6 +732,7 @@
         if(isSat){const working=(l.hours>0?1:0)+(m.hours>0?1:0)+(md.hours>0?1:0);if(working!==1)continue;}
         else{
           if((l.coversMorning?1:0)+(m.coversMorning?1:0)+(md.coversMorning?1:0)<req.morning)continue;
+          if(req.morningUntil14&&(l.startMin!=null&&l.startMin<840&&l.endMin>=840?1:0)+(m.startMin!=null&&m.startMin<840&&m.endMin>=840?1:0)+(md.startMin!=null&&md.startMin<840&&md.endMin>=840?1:0)<req.morningUntil14)continue;
           if((l.isAfternoon?1:0)+(m.isAfternoon?1:0)+(md.isAfternoon?1:0)<req.afternoon)continue;
           if((l.coversClose?1:0)+(m.coversClose?1:0)+(md.coversClose?1:0)<req.close)continue;
           if((l.isNearClose?1:0)+(m.isNearClose?1:0)+(md.isNearClose?1:0)<req.nearClose)continue;
@@ -678,6 +756,7 @@
   function applyPreviousWeekState(week,prev){if(!prev)return;for(const day of week.days){const p=prev.days.find(d=>d.key===day.key);if(!p)continue;day.exceptions={...day.exceptions,...p.exceptions};day.locks={...day.locks,...p.locks};for(const a of ASSISTANT_NAMES)if(day.locks[a])day.assignments[a]=p.assignments[a];}}
   function regenerateWeekWithFeedback(start,prev){const seed=createBaseWeek(start);applyPreviousWeekState(seed,prev);const r=solveWeek(seed);const week=r.week??seed;const locked=getLockedShiftCount(week);if(!r.solved)return{week,message:locked?`Nessuna combinazione valida con i ${locked} turni bloccati: probabilmente non e' possibile, prova a sbloccarne qualcuno.`:'Nessuna combinazione valida trovata.'};const otMsg=r.overtime?` ⚠️ Straordinario Manuela (+4h pom. extra, 29h totali).`:'';return{week,message:(locked?`Rigenerata. ${locked} turni bloccati mantenuti.`:'Settimana rigenerata.')+otMsg};}
   function regenerateCleanWeekWithFeedback(start){const week=generateWeek({startDate:start});const otMsg=week.overtimeUsed?` ⚠️ Straordinario Manuela (+4h pom. extra, 29h totali).`:'';return{week,message:'Settimana pulita rigenerata.'+otMsg};}
+  function regenerateAlternativeWithFeedback(start,current,avoidSigs){const seed=createBaseWeek(start);applyPreviousWeekState(seed,current);const r=solveWeek(seed,avoidSigs);if(!r.solved)return{week:null,solved:false};const otMsg=r.overtime?` ⚠️ Straordinario Manuela (+4h pom. extra, 29h totali).`:'';return{week:r.week,solved:true,message:'Soluzione alternativa trovata.'+otMsg};}
   function updateShiftWithFeedback(week,dayKey,assistant,shiftId){const day=week.days.find(d=>d.key===dayKey);if(day)day.assignments[assistant]=shiftId;return{week,message:`${assistant} · ${day?.label} aggiornato.`};}
   function getLockedShiftCount(week){return week.days.reduce((c,d)=>c+Object.values(d.locks).filter(Boolean).length,0);}
 
@@ -701,15 +780,43 @@
   // ── EVENT LISTENERS ──
   document.querySelector('#prevWeek').addEventListener('click',()=>changeWeek(-7));
   document.querySelector('#nextWeek').addEventListener('click',()=>changeWeek(7));
-  document.querySelector('#generateWeek').addEventListener('click',()=>{const r=regenerateWeekWithFeedback(currentStart,getCurrentWeek());weeks[currentStart]=r.week;saveWeeks();showStatus(r.message);render();});
-  document.querySelector('#resetWeek').addEventListener('click',()=>{const r=regenerateCleanWeekWithFeedback(currentStart);weeks[currentStart]=r.week;saveWeeks();showStatus(r.message);render();});
+  document.querySelector('#generateWeek').addEventListener('click',()=>{resetAltHistory();const r=regenerateWeekWithFeedback(currentStart,getCurrentWeek());weeks[currentStart]=r.week;saveWeeks();showStatus(r.message);render();});
+  document.querySelector('#altWeek').addEventListener('click',requestAlternative);
+  document.querySelector('#resetWeek').addEventListener('click',()=>{resetAltHistory();const r=regenerateCleanWeekWithFeedback(currentStart);weeks[currentStart]=r.week;saveWeeks();showStatus(r.message);render();});
   document.querySelector('#printWeek').addEventListener('click',()=>window.print());
   document.querySelector('#exportPDF').addEventListener('click',exportPDF);
   document.querySelector('#prevWeekMob').addEventListener('click',()=>changeWeek(-7));
   document.querySelector('#nextWeekMob').addEventListener('click',()=>changeWeek(7));
-  document.querySelector('#generateWeekMob').addEventListener('click',()=>{const r=regenerateWeekWithFeedback(currentStart,getCurrentWeek());weeks[currentStart]=r.week;saveWeeks();showStatus(r.message);render();});
-  document.querySelector('#resetWeekMob').addEventListener('click',()=>{const r=regenerateCleanWeekWithFeedback(currentStart);weeks[currentStart]=r.week;saveWeeks();showStatus(r.message);render();});
+  document.querySelector('#generateWeekMob').addEventListener('click',()=>{resetAltHistory();const r=regenerateWeekWithFeedback(currentStart,getCurrentWeek());weeks[currentStart]=r.week;saveWeeks();showStatus(r.message);render();});
+  document.querySelector('#altWeekMob').addEventListener('click',requestAlternative);
+  document.querySelector('#resetWeekMob').addEventListener('click',()=>{resetAltHistory();const r=regenerateCleanWeekWithFeedback(currentStart);weeks[currentStart]=r.week;saveWeeks();showStatus(r.message);render();});
   document.querySelector('#exportPDFMob').addEventListener('click',exportPDF);
+
+  let _altHistory=[],_altStart=null;
+  function resetAltHistory(){_altHistory=[];_altStart=null;}
+  function requestAlternative(){
+    if(_altStart!==currentStart){_altHistory=[];_altStart=currentStart;}
+    const cur=getCurrentWeek();
+    _altHistory.push(weekAssignmentSig(cur));
+    const avoid=new Set(_altHistory);
+    const r=regenerateAlternativeWithFeedback(currentStart,cur,avoid);
+    if(r.solved){weeks[currentStart]=r.week;saveWeeks();showStatus(r.message);render();return;}
+    // Wrap: nessuna nuova → torna alla prima soluzione del ciclo
+    _altHistory=[];
+    const r2=regenerateAlternativeWithFeedback(currentStart,cur,null);
+    if(r2.solved){weeks[currentStart]=r2.week;saveWeeks();showStatus('Ciclo completato — tornata alla prima soluzione.');render();}
+    else{showStatus('Nessuna soluzione alternativa disponibile.');}
+  }
+
+  // ── NIGHT MODE ──
+  const themeKey='turni-assistenti.theme';
+  let darkMode=localStorage.getItem(themeKey)==='dark';
+  applyTheme();
+  function applyTheme(){document.body?.classList.toggle('dark',darkMode);}
+  function toggleTheme(){darkMode=!darkMode;localStorage.setItem(themeKey,darkMode?'dark':'light');applyTheme();render();}
+  const SUN_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>';
+  const MOON_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>';
+  function buildThemeToggle(){const btn=document.createElement('button');btn.type='button';btn.className='theme-toggle';btn.title=darkMode?'Modalità chiara':'Modalità scura (night mode)';btn.innerHTML=darkMode?SUN_SVG:MOON_SVG;btn.addEventListener('click',toggleTheme);return btn;}
 
   let resizeTimer;
   window.addEventListener('resize',()=>{clearTimeout(resizeTimer);resizeTimer=setTimeout(()=>renderGrid(getCurrentWeek()),150);});
@@ -738,7 +845,7 @@
 
   function isDayClosed(day){return day.key==='sat'&&!day.exceptions?.satOpen;}
   function buildDesktopGrid(week){
-    scheduleGrid.append(createCell('','grid-cell head-cell'));
+    const corner=createCell('','grid-cell head-cell');corner.append(buildThemeToggle());scheduleGrid.append(corner);
     for(const day of week.days){
       const closed=isDayClosed(day);
       const btn=document.createElement('button');btn.type='button';btn.className='day-button';
@@ -752,19 +859,20 @@
       nameCell.innerHTML=`<div class="assistant-card"><div class="assistant-avatar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg></div><div><span class="assistant-name">${assistant}</span><div class="assistant-meta">${getContractLabel(assistant)}</div></div></div>`;
       scheduleGrid.append(nameCell);
       for(const day of week.days){
-        const{select,badge}=buildShiftContent(day,assistant,true,week);
-        const lock=createLockToggle(day,assistant,'Blocca');
+        const{entry,exit,badge}=buildShiftContent(day,assistant,true,week);
+        const lock=createLockToggle(day,assistant,'');
         const print=Object.assign(document.createElement('span'),{className:'print-shift',textContent:getPrintShiftLabel(day.assignments[assistant])});
-        const foot=document.createElement('div');foot.className='cell-foot';foot.append(badge,lock);
+        // Due righe: riga 1 = entrata + badge (alto a destra); riga 2 = uscita + blocco (a destra).
+        const grid=document.createElement('div');grid.className='shift-grid';grid.append(entry,badge,exit,lock);
         const cell=createCell('',`grid-cell${day.key===selectedDayKey?' selected-day':''}${isDayClosed(day)?' day-closed':''}`);
-        cell.append(select,foot,print);scheduleGrid.append(cell);
+        cell.append(grid,print);scheduleGrid.append(cell);
       }
     }
   }
 
   function buildMobileGrid(week){
     const grid=document.createElement('div');grid.className='mobile-grid';
-    grid.append(Object.assign(document.createElement('div'),{className:'mobile-header-cell'}));
+    const corner=Object.assign(document.createElement('div'),{className:'mobile-header-cell'});corner.append(buildThemeToggle());grid.append(corner);
     for(const a of ASSISTANT_NAMES)grid.append(Object.assign(document.createElement('div'),{className:'mobile-header-cell',textContent:a}));
     for(const day of week.days){
       const isSelected=day.key===selectedDayKey;
@@ -776,11 +884,11 @@
       grid.append(dayLabel);
       for(const assistant of ASSISTANT_NAMES){
         const cell=document.createElement('div');cell.className=`mobile-shift-cell${isSelected?' selected-day':''}${closed?' day-closed':''}`;
-        const{select,badge}=buildShiftContent(day,assistant,false,week);
+        const{entry,exit,badge}=buildShiftContent(day,assistant,false,week);
         const lock=createLockToggle(day,assistant,'');
         const print=Object.assign(document.createElement('span'),{className:'print-shift',textContent:getPrintShiftLabel(day.assignments[assistant])});
-        const foot=document.createElement('div');foot.className='cell-foot';foot.append(badge,lock);
-        cell.append(select,foot,print);grid.append(cell);
+        const sgrid=document.createElement('div');sgrid.className='shift-grid';sgrid.append(entry,badge,exit,lock);
+        cell.append(sgrid,print);grid.append(cell);
       }
     }
     return grid;
@@ -788,7 +896,6 @@
 
   // Due tendine per cella: Entrata (con "Riposo") e Uscita (orari validi dato l'ingresso).
   function buildShiftContent(day,assistant,showId,week){
-    const wrap=document.createElement('div');wrap.className='shift-fields';
     const entry=document.createElement('select');entry.className='shift-select shift-entry';
     const exit=document.createElement('select');exit.className='shift-select shift-exit';
     const allowed=getAllowedShifts(assistant,day,true).filter(a=>!isOff(a));
@@ -818,9 +925,8 @@
     });
     exit.addEventListener('change',commit);
     applyShiftClass(entry,day.assignments[assistant]);
-    wrap.append(entry,exit);
     const badge=buildShiftBadge(day.assignments[assistant]);
-    return{select:wrap,badge};
+    return{entry,exit,badge};
   }
 
   function buildShiftBadge(a){
@@ -830,8 +936,11 @@
   function updateShiftBadge(el,a){
     const s=getShift(a);
     if(s.id==='OFF'){el.innerHTML='';return;}
-    const labels=getShiftBadgeCodes(s).map(code=>`<span class="badge-code badge-${code.toLowerCase()}">${code}</span>`);
-    el.innerHTML=labels.join('')+`<span class="badge-h">${s.hours}h</span>`;
+    const badges=[];
+    if(s.coversMorning)badges.push('<span class="badge-code badge-a">A</span>');
+    if(s.coversClose)badges.push('<span class="badge-code badge-c">C</span>');
+    if(s.isLong)badges.push('<span class="badge-code badge-l">L</span>');
+    el.innerHTML=badges.join('');
   }
   function getShiftBadgeCodes(shift){return[shift.isLong?'L':'',shift.coversMorning?'A':'',shift.coversClose?'C':''].filter(Boolean);}
 
@@ -860,7 +969,7 @@
       const overtime=a==='Manuela'&&(stats.Manuela.hours>baseTgt||stats.Manuela.afternoons>ASSISTANTS.Manuela.maxAfternoons);
       const ok=overtime?stats[a].hours===29:stats[a].hours===baseTgt;
       const otBadge=overtime?` <span class="sum-ot">Straordinario</span>`:'';
-      return`<div class="sum-row"><span class="sum-name">${a}</span><span class="sum-stats">${stats[a].hours}/${baseTgt}h · ${stats[a].afternoons} Pom. · ${stats[a].saturdays}sab${otBadge}</span><span class="pill ${ok?'':'warn'}">${ok?'✓':'!'}</span></div>`;
+      return`<div class="sum-row"><span class="sum-name">${a}</span><span class="sum-stats">${stats[a].hours}/${baseTgt}h · ${stats[a].afternoons} Pom. · ${stats[a].saturdays} Sab · ${stats[a].closes} C · ${stats[a].opens} A${otBadge}</span><span class="pill ${ok?'':'warn'}">${ok?'✓':'!'}</span></div>`;
     }).join('');
     const lockInfo=locked>0?`<div class="sum-locked">${locked} blocco${locked>1?'chi':''} attivo${locked>1?'i':''}</div>`:'';
     summaryDiv.innerHTML=rows+lockInfo;
@@ -871,7 +980,7 @@
     const isSat=day.key==='sat';
     const toggle=isSat
       ?`<label class="checkbox-inline"><input id="satOpen" type="checkbox"><span>Aperto</span></label>`
-      :`<label class="checkbox-inline"><input id="extraAfternoon" type="checkbox"><span>Doppia assistente</span></label>`;
+      :`<label class="checkbox-inline" title="Doppia assistente il pomeriggio"><input id="extraAfternoon" type="checkbox"><span>2× Pom.</span></label> <label class="checkbox-inline" title="Doppia assistente di mattina (fino alle 14)"><input id="extraMorning" type="checkbox"><span>2× Matt.</span></label>`;
     dayEditorDiv.innerHTML=`<div class="day-label-row">${day.label} <span class="day-date">${formatDateShort(day.date)}</span>${toggle}</div><div class="day-fields-row"><select id="eventType" class="field field-sm"><option value="">Nessun evento</option><option value="chirurgia">Chirurgia</option><option value="ortodonzia">Ortodonzia</option><option value="dottore">Dottore in più</option><option value="altro">Altro</option></select></div>`;
     const sel=dayEditorDiv.querySelector('#eventType');
     sel.value=day.exceptions.eventType;
@@ -882,6 +991,8 @@
     }else{
       const extra=dayEditorDiv.querySelector('#extraAfternoon');extra.checked=day.exceptions.extraAfternoon;
       extra.addEventListener('change',()=>{day.exceptions.extraAfternoon=extra.checked;saveWeeks();render();});
+      const extraM=dayEditorDiv.querySelector('#extraMorning');extraM.checked=day.exceptions.extraMorning;
+      extraM.addEventListener('change',()=>{day.exceptions.extraMorning=extraM.checked;saveWeeks();render();});
     }
   }
 
@@ -893,7 +1004,7 @@
   }
 
   function getCurrentWeek(){if(!weeks[currentStart])weeks[currentStart]=createEmptyWeek(currentStart);ensureWeekShape(weeks[currentStart]);return weeks[currentStart];}
-  function changeWeek(days){currentStart=addDays(currentStart,days);selectedDayKey='mon';if(!weeks[currentStart])weeks[currentStart]=generateWeek({startDate:currentStart});saveWeeks();render();}
+  function changeWeek(days){resetAltHistory();currentStart=addDays(currentStart,days);selectedDayKey='mon';if(!weeks[currentStart])weeks[currentStart]=generateWeek({startDate:currentStart});saveWeeks();render();}
   function saveWeeks(){localStorage.setItem(storageKey,JSON.stringify(weeks));}
   function loadWeeks(){try{return JSON.parse(localStorage.getItem(storageKey))??{};}catch{return{};}}
   function createCell(html,className){const el=document.createElement('div');el.className=className;el.innerHTML=html;return el;}
@@ -907,13 +1018,13 @@
   }
   function getPrintShiftLabel(a){const s=getShift(a);return s.id==='OFF'?'Riposo':`${fmt(s.startMin)}-${fmt(s.endMin)}`;}
   // Normalizza la forma della settimana e migra eventuali vecchi id-template (v1) verso {s,e}.
-  function ensureWeekShape(week){for(const day of week.days){const hadSatOpen='satOpen'in(day.exceptions??{});day.exceptions={eventType:'',note:'',extraAfternoon:false,satOpen:false,...day.exceptions};day.assignments={...Object.fromEntries(ASSISTANT_NAMES.map(n=>[n,'OFF'])),...day.assignments};day.locks={...Object.fromEntries(ASSISTANT_NAMES.map(n=>[n,false])),...day.locks};for(const n of ASSISTANT_NAMES){const a=day.assignments[n];if(typeof a==='string'&&a!=='OFF')day.assignments[n]=LEGACY_TEMPLATES[a]??'OFF';}if(day.key==='sat'&&!hadSatOpen&&ASSISTANT_NAMES.some(n=>getShift(day.assignments[n]).hours>0))day.exceptions.satOpen=true;}const satDay=week.days.find(d=>d.key==='sat');if(satDay&&!satDay.exceptions.satOpen){for(const n of ASSISTANT_NAMES)if(!satDay.locks[n])satDay.assignments[n]='OFF';}}
+  function ensureWeekShape(week){for(const day of week.days){const hadSatOpen='satOpen'in(day.exceptions??{});day.exceptions={eventType:'',note:'',extraAfternoon:false,extraMorning:false,satOpen:false,...day.exceptions};day.assignments={...Object.fromEntries(ASSISTANT_NAMES.map(n=>[n,'OFF'])),...day.assignments};day.locks={...Object.fromEntries(ASSISTANT_NAMES.map(n=>[n,false])),...day.locks};for(const n of ASSISTANT_NAMES){const a=day.assignments[n];if(typeof a==='string'&&a!=='OFF')day.assignments[n]=LEGACY_TEMPLATES[a]??'OFF';}if(day.key==='sat'&&!hadSatOpen&&ASSISTANT_NAMES.some(n=>getShift(day.assignments[n]).hours>0))day.exceptions.satOpen=true;}const satDay=week.days.find(d=>d.key==='sat');if(satDay&&!satDay.exceptions.satOpen){for(const n of ASSISTANT_NAMES)if(!satDay.locks[n])satDay.assignments[n]='OFF';}}
 
   // ── PDF EXPORT ──
   function getDayVariationLabel(day){
     const eventLabels={chirurgia:'Chirurgia',ortodonzia:'Ortodonzia',dottore:'Dottore in più',altro:'Altro'};
     const satLabel=day.key==='sat'?(day.exceptions.satOpen?'Aperto':'Chiuso'):'';
-    return[satLabel,eventLabels[day.exceptions.eventType]??day.exceptions.eventType,day.exceptions.extraAfternoon&&day.key!=='sat'?'Doppia assistente':''].filter(Boolean).join(' · ');
+    return[satLabel,eventLabels[day.exceptions.eventType]??day.exceptions.eventType,day.exceptions.extraAfternoon&&day.key!=='sat'?'2× Pom.':'',day.exceptions.extraMorning&&day.key!=='sat'?'2× Matt.':''].filter(Boolean).join(' · ');
   }
   function drawPdfBadge(doc,x,y,code){
     doc.setDrawColor(30,30,30);doc.setFillColor(255,255,255);doc.roundedRect(x,y,5,4,0.8,0.8,'FD');
