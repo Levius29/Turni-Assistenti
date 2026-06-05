@@ -554,8 +554,8 @@
   </button>
 </nav>
 
-<script src="https://unpkg.com/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
-<script src="https://unpkg.com/jspdf-autotable@3.8.2/dist/jspdf.plugin.autotable.min.js"></script>
+<script src="https://unpkg.com/jspdf@2.5.1/dist/jspdf.umd.min.js" integrity="sha384-JcnsjUPPylna1s1fvi1u12X5qjY5OL56iySh75FdtrwhO/SWXgMjoVqcKyIIWOLk" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/jspdf-autotable@3.8.2/dist/jspdf.plugin.autotable.min.js" integrity="sha384-fCAW/rDWORTbQXSiB7mOg0QtQ5c+r0f544y6XoKjuVva0nMBlCpNUjiFeG5iMdS3" crossorigin="anonymous"></script>
 <script>
   // ── DATI E LOGICA ──
   const ASSISTANT_NAMES = ['Lucrezia', 'Manuela', 'Madalina'];
@@ -613,7 +613,7 @@
   function countsAsAfternoon(assistant,shift){if(shift.hours===0||shift.endMin==null)return false;return shift.endMin>AFTERNOON_END_THRESHOLD[assistant];}
   // Lo straordinario pomeridiano di Manuela richiede il turno di chiusura 15:00-19:00.
   function isManuelaClose1519(a){const s=getShift(a);return s.startMin===15*60&&s.endMin===STUDIO_CLOSE;}
-  function getAssistantStats(week){const s=Object.fromEntries(ASSISTANT_NAMES.map(n=>[n,{hours:0,afternoons:0,longShifts:0,saturdays:0,opens:0,closes:0}]));for(const d of week.days)for(const n of ASSISTANT_NAMES){const sh=getShift(d.assignments[n]);s[n].hours+=sh.hours;if(countsAsAfternoon(n,sh))s[n].afternoons++;if(sh.isLong)s[n].longShifts++;if(d.key==='sat'&&sh.hours>0)s[n].saturdays++;if(sh.coversMorning)s[n].opens++;if(sh.coversClose)s[n].closes++;}return s;}
+  function getAssistantStats(week){const s=Object.fromEntries(ASSISTANT_NAMES.map(n=>[n,{hours:0,afternoons:0,longShifts:0,saturdays:0,opens:0,closes:0,workDays:0}]));for(const d of week.days)for(const n of ASSISTANT_NAMES){const sh=getShift(d.assignments[n]);s[n].hours+=sh.hours;if(sh.hours>0)s[n].workDays++;if(countsAsAfternoon(n,sh))s[n].afternoons++;if(sh.isLong)s[n].longShifts++;if(d.key==='sat'&&sh.hours>0)s[n].saturdays++;if(sh.coversMorning)s[n].opens++;if(sh.coversClose)s[n].closes++;}return s;}
   function getRequiredCoverage(day){if(day.key==='sun'||(day.key==='sat'&&!day.exceptions.satOpen))return{morning:0,afternoon:0,close:0,morningPair:0,afternoonPair:0};const isWeekday=WEEKDAY_KEYS.includes(day.key);const extraPom=isWeekday&&day.exceptions.extraAfternoon;const extraMatt=isWeekday&&day.exceptions.extraMorning;const afternoon=(isWeekday?1:0)+(extraPom?1:0);return{morning:1,afternoon:day.key==='sat'?0:afternoon,close:isWeekday?1:0,morningPair:extraMatt?2:0,afternoonPair:extraPom?2:0};}
   function shiftsOf(day){return ASSISTANT_NAMES.map(n=>getShift(day.assignments[n]));}
   // La copertura "afternoon" conta la presenza reale fino a tardi (turni che finiscono >=18:00 = isAfternoon), non chi esce alle 17:00.
@@ -624,9 +624,29 @@
   }
   function getCoverage(day){return coverageOf(shiftsOf(day),day.key);}
   // Lo studio deve essere coperto in continuita' 08:30-19:00: l'unico buco ammesso e' la pausa pranzo (<= 30 min).
-  function gapOf(shifts,dayKey){if(!WEEKDAY_KEYS.includes(dayKey))return 0;const intervals=shifts.filter(s=>s.hours>0&&s.startMin!=null).map(s=>[s.startMin,s.endMin]).sort((a,b)=>a[0]-b[0]);let cursor=STUDIO_OPEN,gap=0;for(const[st,en]of intervals){if(st>cursor)gap=Math.max(gap,st-cursor);cursor=Math.max(cursor,en);}if(cursor<STUDIO_CLOSE)gap=Math.max(gap,STUDIO_CLOSE-cursor);return gap;}
-  function maxUncoveredGap(day){return gapOf(shiftsOf(day),day.key);}
-  function validateWeek(week){const w=[],stats=getAssistantStats(week);for(const[name]of Object.entries(ASSISTANTS)){const baseRules=ASSISTANTS[name];const rules=(name==='Manuela'&&(stats.Manuela.hours>baseRules.weeklyHours||stats.Manuela.afternoons>baseRules.maxAfternoons))?{...baseRules,weeklyHours:29,maxAfternoons:2}:baseRules;const s=stats[name];if(s.hours!==rules.weeklyHours)w.push({message:`${name}: ${s.hours}h su ${rules.weeklyHours}h`});if(s.afternoons<rules.minAfternoons)w.push({message:`${name}: pochi pomeriggi (${s.afternoons}/${rules.minAfternoons})`});if(s.afternoons>rules.maxAfternoons)w.push({message:`${name}: troppi pomeriggi (${s.afternoons}/${rules.maxAfternoons})`});if(name==='Manuela'&&s.afternoons>=2&&!week.days.some(d=>isManuelaClose1519(d.assignments.Manuela)))w.push({message:'Manuela: straordinario pomeridiano richiede turno 15:00-19:00'});if(name==='Manuela'&&s.afternoons>2)w.push({message:'Manuela: mai più di 2 pomeriggi'});}for(const day of week.days){const req=getRequiredCoverage(day),cov=getCoverage(day);if(cov.morning<req.morning)w.push({message:`${day.label}: apertura 08:30 scoperta`});if(cov.morningPair<req.morningPair)w.push({message:`${day.label}: serve doppia mattina (9:30-13:30)`});if(day.key==='sat'&&cov.morning>1)w.push({message:`${day.label}: sabato solo un'assistente`});if(cov.afternoon<req.afternoon)w.push({message:`${day.label}: pomeriggio richiede ${req.afternoon}`});if(cov.close<req.close)w.push({message:`${day.label}: chiusura 19:00 scoperta`});if(cov.afternoonPair<req.afternoonPair)w.push({message:`${day.label}: serve doppio pomeriggio (14:00-18:00)`});if(maxUncoveredGap(day)>LUNCH_GAP_MAX)w.push({message:`${day.label}: studio scoperto >30 min (pausa pranzo max 30')`});for(const n of ASSISTANT_NAMES){const sh=getShift(day.assignments[n]);if(sh.isLong&&!ASSISTANTS[n].canWorkLong)w.push({message:`${n}: turno lungo non previsto (${day.label})`});if(sh.hours>8.5)w.push({message:`${n}: giornata pesante >8.5h (${day.label})`});}}return w;}
+  // Minuti scoperti 08:30-19:00 (cumulativo) + debito pausa pranzo: una fascia coperta
+  // da una sola persona in turno lungo lascia 30' realmente scoperti (la sua pausa).
+  function coverageDeficit(shifts,dayKey){
+    if(!WEEKDAY_KEYS.includes(dayKey))return 0;
+    const working=shifts.filter(s=>s.hours>0&&s.startMin!=null);
+    const N=(STUDIO_CLOSE-STUDIO_OPEN)/SLOT;
+    let realGap=0;
+    for(let i=0;i<N;i++){
+      const t0=STUDIO_OPEN+i*SLOT,t1=t0+SLOT;
+      if(!working.some(s=>s.startMin<=t0&&s.endMin>=t1))realGap+=SLOT;
+    }
+    // Debito pausa: un turno lungo che non si sovrappone MAI a un'altra presenza
+    // lascia 30' scoperti (deve pranzare da solo); se si sovrappone, pranza al cambio.
+    let lunchDebt=0;
+    for(const ls of working){
+      if(!ls.isLong)continue;
+      const overlaps=working.some(o=>o!==ls&&o.startMin<ls.endMin&&o.endMin>ls.startMin);
+      if(!overlaps)lunchDebt+=LUNCH_GAP_MAX;
+    }
+    return realGap+lunchDebt;
+  }
+  function maxUncoveredGap(day){return coverageDeficit(shiftsOf(day),day.key);}
+  function validateWeek(week,rulesOverride){const ASSIST=rulesOverride??ASSISTANTS;const w=[],stats=getAssistantStats(week);for(const name of ASSISTANT_NAMES){const baseRules=ASSIST[name];const rules=(name==='Manuela'&&(stats.Manuela.hours>baseRules.weeklyHours||stats.Manuela.afternoons>baseRules.maxAfternoons))?{...baseRules,weeklyHours:29,maxAfternoons:2}:baseRules;const s=stats[name];if(s.hours!==rules.weeklyHours)w.push({message:`${name}: ${s.hours}h su ${rules.weeklyHours}h`});if(s.afternoons<rules.minAfternoons)w.push({message:`${name}: pochi pomeriggi (${s.afternoons}/${rules.minAfternoons})`});if(s.afternoons>rules.maxAfternoons)w.push({message:`${name}: troppi pomeriggi (${s.afternoons}/${rules.maxAfternoons})`});const maxWD=rules.workDays??rules.maxWorkDays;if(maxWD&&s.workDays>maxWD)w.push({message:`${name}: ${s.workDays} giorni lavorati (max ${maxWD})`});if(name==='Manuela'&&s.afternoons>=2&&!week.days.some(d=>isManuelaClose1519(d.assignments.Manuela)))w.push({message:'Manuela: straordinario pomeridiano richiede turno 15:00-19:00'});if(name==='Manuela'&&s.afternoons>2)w.push({message:'Manuela: mai più di 2 pomeriggi'});}for(const day of week.days){const req=getRequiredCoverage(day),cov=getCoverage(day);if(cov.morning<req.morning)w.push({message:`${day.label}: apertura 08:30 scoperta`});if(cov.morningPair<req.morningPair)w.push({message:`${day.label}: serve doppia mattina (9:30-13:30)`});if(day.key==='sat'&&cov.morning>1)w.push({message:`${day.label}: sabato solo un'assistente`});if(cov.afternoon<req.afternoon)w.push({message:`${day.label}: pomeriggio richiede ${req.afternoon}`});if(cov.close<req.close)w.push({message:`${day.label}: chiusura 19:00 scoperta`});if(cov.afternoonPair<req.afternoonPair)w.push({message:`${day.label}: serve doppio pomeriggio (14:00-18:00)`});if(maxUncoveredGap(day)>LUNCH_GAP_MAX)w.push({message:`${day.label}: studio scoperto >30 min (pausa pranzo max 30')`});for(const n of ASSISTANT_NAMES){const sh=getShift(day.assignments[n]);if(sh.isLong&&!ASSIST[n].canWorkLong)w.push({message:`${n}: turno lungo non previsto (${day.label})`});if(sh.hours>8.5)w.push({message:`${n}: giornata pesante >8.5h (${day.label})`});}}return w;}
   function formatWeekRange(week){return`${formatItalianDate(week.days[0].date)} - ${formatItalianDate(week.days[week.days.length-1].date)}`;}
   function formatWeekRangeShort(week){return`${formatDateShort(week.days[0].date)}–${formatDateShort(week.days[week.days.length-1].date)}`;}
 
@@ -675,16 +695,16 @@
     const demand=afternoonDemand(seedWeek);
     const baseCombos=seedWeek.days.map((day,idx)=>getDayCombos(seedWeek,day,idx));
     const fastCombos=heuristicCombos(baseCombos);
-    const orig=Object.fromEntries(ASSISTANT_NAMES.map(n=>[n,{...ASSISTANTS[n]}]));
-    const restore=()=>{for(const n of ASSISTANT_NAMES)ASSISTANTS[n]={...orig[n]};};
+    // order/rem dipendono solo dalle lunghezze e dagli allowed shift (uguali per fast/base e per ogni tier): calcolati una volta.
+    const D=seedWeek.days.length;
+    const order=[...Array(D).keys()].sort((a,b)=>baseCombos[a].length-baseCombos[b].length);
+    const pre={order,rem:buildRem(seedWeek.days,order)};
     const attempt=(combos,budget)=>{
       for(const tier of AFTERNOON_TIERS){
         if(demand>tier.caps.Lucrezia+tier.caps.Manuela+tier.caps.Madalina)continue;
-        for(const n of ASSISTANT_NAMES)ASSISTANTS[n].maxAfternoons=tier.caps[n];
-        if(tier.ot)ASSISTANTS.Manuela.weeklyHours=29;
+        const tierRules=Object.fromEntries(ASSISTANT_NAMES.map(n=>[n,{...ASSISTANTS[n],maxAfternoons:tier.caps[n],...(tier.ot&&n==='Manuela'?{weeklyHours:29}:{})}]));
         let found=null;
-        for(const maxCloses of [2,3]){const r=solveWeekCore(seedWeek,maxCloses,combos,budget,avoidSigs);if(r.solved){found=r;break;}}
-        restore();
+        for(const maxCloses of [2,3]){const r=solveWeekCore(seedWeek,maxCloses,combos,budget,avoidSigs,tierRules,pre);if(r.solved){found=r;break;}}
         if(found){if(tier.ot)found.week.overtimeUsed=true;return{...found,overtime:tier.ot};}
       }
       return null;
@@ -697,22 +717,25 @@
     return r??{week:null,solved:false,overtime:false};
   }
   // Solver sincrono: backtracking con potatura e memoizzazione degli stati senza uscita.
-  function solveWeekCore(seedWeek,maxClosesLucrezia=Infinity,combosByDay,budget=SOLVE_BUDGET_FULL,avoidSigs){
+  // Stima dei residui (ore, pomeriggi, giorni) lungo l'ordine di visita, per la potatura.
+  // Dipende solo dagli allowed shift (non dai cap del tier) → calcolabile una volta per settimana.
+  function buildRem(days,order){const D=days.length,rem=[];for(let p=0;p<=D;p++){const r={};for(const a of ASSISTANT_NAMES){let minH=0,maxH=0,maxAf=0,minWD=0,maxWD=0;for(let q=p;q<D;q++){const allowed=getAllowedShifts(a,days[order[q]]).map(getShift);minH+=Math.min(...allowed.map(s=>s.hours));maxH+=Math.max(...allowed.map(s=>s.hours));maxAf+=allowed.some(s=>countsAsAfternoon(a,s))?1:0;minWD+=allowed.every(s=>s.hours>0)?1:0;maxWD+=allowed.some(s=>s.hours>0)?1:0;}r[a]={minHours:minH,maxHours:maxH,maxAfternoons:maxAf,minWorkDays:minWD,maxWorkDays:maxWD};}rem[p]=r;}return rem;}
+  function solveWeekCore(seedWeek,maxClosesLucrezia=Infinity,combosByDay,budget=SOLVE_BUDGET_FULL,avoidSigs,tierRules,pre){
+    tierRules=tierRules||Object.fromEntries(ASSISTANT_NAMES.map(n=>[n,{...ASSISTANTS[n]}]));
     let best=null,nodes=0;
     const days=seedWeek.days,D=days.length;
     combosByDay=combosByDay||days.map((day,idx)=>getDayCombos(seedWeek,day,idx));
     // Euristica "giorno piu' vincolato prima": visita i giorni con meno combinazioni per primi (es. sabato aperto), potando l'albero molto piu' in fretta.
-    const order=[...Array(D).keys()].sort((a,b)=>combosByDay[a].length-combosByDay[b].length);
+    const order=pre?.order||[...Array(D).keys()].sort((a,b)=>combosByDay[a].length-combosByDay[b].length);
     const orderedCombos=order.map(i=>combosByDay[i]);
-    // Stima dei residui (ore, pomeriggi, giorni) lungo l'ordine di visita, per la potatura.
-    const rem=[];for(let p=0;p<=D;p++){const r={};for(const a of ASSISTANT_NAMES){let minH=0,maxH=0,maxAf=0,minWD=0,maxWD=0;for(let q=p;q<D;q++){const allowed=getAllowedShifts(a,days[order[q]]).map(getShift);minH+=Math.min(...allowed.map(s=>s.hours));maxH+=Math.max(...allowed.map(s=>s.hours));maxAf+=allowed.some(s=>countsAsAfternoon(a,s))?1:0;minWD+=allowed.every(s=>s.hours>0)?1:0;maxWD+=allowed.some(s=>s.hours>0)?1:0;}r[a]={minHours:minH,maxHours:maxH,maxAfternoons:maxAf,minWorkDays:minWD,maxWorkDays:maxWD};}rem[p]=r;}
-    function feasibleAhead(nextPos,st){for(const a of ASSISTANT_NAMES){const rules=ASSISTANTS[a],s=st[a],r=rem[nextPos][a];if(s.hours>rules.weeklyHours)return false;if(s.afternoons>rules.maxAfternoons)return false;if(rules.workDays&&s.workDays>rules.workDays)return false;if(rules.maxWorkDays&&s.workDays>rules.maxWorkDays)return false;if(s.hours+r.maxHours<rules.weeklyHours)return false;if(s.hours+r.minHours>rules.weeklyHours)return false;if(s.afternoons+r.maxAfternoons<rules.minAfternoons)return false;if(rules.workDays&&(s.workDays+r.maxWorkDays<rules.workDays||s.workDays+r.minWorkDays>rules.workDays))return false;if(rules.maxWorkDays&&s.workDays+r.minWorkDays>rules.maxWorkDays)return false;}return true;}
+    const rem=pre?.rem||buildRem(days,order);
+    function feasibleAhead(nextPos,st){for(const a of ASSISTANT_NAMES){const rules=tierRules[a],s=st[a],r=rem[nextPos][a];if(s.hours>rules.weeklyHours)return false;if(s.afternoons>rules.maxAfternoons)return false;if(rules.workDays&&s.workDays>rules.workDays)return false;if(rules.maxWorkDays&&s.workDays>rules.maxWorkDays)return false;if(s.hours+r.maxHours<rules.weeklyHours)return false;if(s.hours+r.minHours>rules.weeklyHours)return false;if(s.afternoons+r.maxAfternoons<rules.minAfternoons)return false;if(rules.workDays&&(s.workDays+r.maxWorkDays<rules.workDays||s.workDays+r.minWorkDays>rules.workDays))return false;if(rules.maxWorkDays&&s.workDays+r.minWorkDays>rules.maxWorkDays)return false;}return true;}
     const dead=new Set();
     const keyOf=(pos,st)=>{let s=pos+'|';for(const a of ASSISTANT_NAMES){const x=st[a];s+=Math.round(x.hours*2)+','+x.afternoons+','+x.workDays+','+(x.closes||0)+';';}return s;};
     const placed=new Array(D);
     function visit(pos,stats){
       if(best||nodes>budget)return;nodes++;
-      if(pos===D){const w=buildWeekFromDayAssignments(seedWeek,placed);if(validateWeek(w).length===0&&(!avoidSigs||!avoidSigs.has(weekAssignmentSig(w))))best=w;return;}
+      if(pos===D){const w=buildWeekFromDayAssignments(seedWeek,placed);if(validateWeek(w,tierRules).length===0&&(!avoidSigs||!avoidSigs.has(weekAssignmentSig(w))))best=w;return;}
       const key=keyOf(pos,stats);if(dead.has(key))return;
       for(const combo of orderedCombos[pos]){
         const d=combo.d,next=cloneStats(stats);
@@ -737,32 +760,43 @@
     const Ls=La.map(getShift),Ms=Ma.map(getShift),Ds=Da.map(getShift);
     const req=getRequiredCoverage(day),isSat=day.key==='sat'&&day.exceptions?.satOpen,isWeekday=WEEKDAY_KEYS.includes(day.key);
     const seen=new Map();
-    for(let i=0;i<La.length;i++){const l=Ls[i];for(let j=0;j<Ma.length;j++){const m=Ms[j];
-      // Check rapidi di copertura senza allocare (filtra la stragrande maggioranza delle triple).
-      for(let k=0;k<Da.length;k++){const md=Ds[k];
-        if(isSat){const working=(l.hours>0?1:0)+(m.hours>0?1:0)+(md.hours>0?1:0);if(working!==1)continue;}
-        else{
-          // Una sola apertura alle 8:30 (come la chiusura): esattamente req.morning. La 2ª presenza mattutina (morningPair) parte dopo.
-          {const _o=(l.coversMorning?1:0)+(m.coversMorning?1:0)+(md.coversMorning?1:0);if(_o!==req.morning)continue;}
-          // Doppia mattina: finestra 9:30-13:30 (570-810) coperta da 2 persone (entrambe la contengono).
-          if(req.morningPair&&(l.startMin!=null&&l.startMin<=570&&l.endMin>=810?1:0)+(m.startMin!=null&&m.startMin<=570&&m.endMin>=810?1:0)+(md.startMin!=null&&md.startMin<=570&&md.endMin>=810?1:0)<req.morningPair)continue;
-          if((l.isAfternoon?1:0)+(m.isAfternoon?1:0)+(md.isAfternoon?1:0)<req.afternoon)continue;
-          if((l.coversClose?1:0)+(m.coversClose?1:0)+(md.coversClose?1:0)<req.close)continue;
-          // Doppio pomeriggio: finestra 14:00-18:00 (840-1080) coperta da 2 persone (entrambe la contengono).
-          if(req.afternoonPair&&(l.startMin!=null&&l.startMin<=840&&l.endMin>=1080?1:0)+(m.startMin!=null&&m.startMin<=840&&m.endMin>=1080?1:0)+(md.startMin!=null&&md.startMin<=840&&md.endMin>=1080?1:0)<req.afternoonPair)continue;
-          if(isWeekday&&gapOf([l,m,md],day.key)>LUNCH_GAP_MAX)continue;
-        }
-        const lAf=countsAsAfternoon('Lucrezia',l)?1:0,mAf=countsAsAfternoon('Manuela',m)?1:0,mdAf=countsAsAfternoon('Madalina',md)?1:0;
-        const mO=isManuelaClose1519(Ma[j])?1:0,lC=l.coversClose?1:0;
-        const sig=`${l.hours},${lAf},${lC}|${m.hours},${mAf},${mO}|${md.hours},${mdAf}`;
-        if(!seen.has(sig)){
-          // Delta precalcolati (ore/pom/giorno-lavorato per assistente) usati nel loop caldo del backtracking.
-          const combo={Lucrezia:La[i],Manuela:Ma[j],Madalina:Da[k]};
-          combo.d={Lucrezia:{h:l.hours,af:lAf,wd:l.hours>0?1:0},Manuela:{h:m.hours,af:mAf,wd:m.hours>0?1:0,o:mO},Madalina:{h:md.hours,af:mdAf,wd:md.hours>0?1:0},Lclose:lC};
-          seen.set(sig,combo);
-        }
+    // Valuta una tripla (indici i/j/k su La/Ma/Da): check di copertura + dedup per firma. Corpo identico per ogni percorso d'iterazione.
+    const consider=(i,j,k)=>{
+      const l=Ls[i],m=Ms[j],md=Ds[k];
+      if(isSat){const working=(l.hours>0?1:0)+(m.hours>0?1:0)+(md.hours>0?1:0);if(working!==1)return;}
+      else{
+        // Una sola apertura alle 8:30: esattamente req.morning. La 2ª presenza mattutina (morningPair) parte dopo.
+        {const _o=(l.coversMorning?1:0)+(m.coversMorning?1:0)+(md.coversMorning?1:0);if(_o!==req.morning)return;}
+        // Doppia mattina: finestra 9:30-13:30 (570-810) coperta da 2 persone.
+        if(req.morningPair&&(l.startMin!=null&&l.startMin<=570&&l.endMin>=810?1:0)+(m.startMin!=null&&m.startMin<=570&&m.endMin>=810?1:0)+(md.startMin!=null&&md.startMin<=570&&md.endMin>=810?1:0)<req.morningPair)return;
+        if((l.isAfternoon?1:0)+(m.isAfternoon?1:0)+(md.isAfternoon?1:0)<req.afternoon)return;
+        if((l.coversClose?1:0)+(m.coversClose?1:0)+(md.coversClose?1:0)<req.close)return;
+        // Doppio pomeriggio: finestra 14:00-18:00 (840-1080) coperta da 2 persone.
+        if(req.afternoonPair&&(l.startMin!=null&&l.startMin<=840&&l.endMin>=1080?1:0)+(m.startMin!=null&&m.startMin<=840&&m.endMin>=1080?1:0)+(md.startMin!=null&&md.startMin<=840&&md.endMin>=1080?1:0)<req.afternoonPair)return;
+        if(isWeekday&&coverageDeficit([l,m,md],day.key)>LUNCH_GAP_MAX)return;
       }
-    }}
+      const lAf=countsAsAfternoon('Lucrezia',l)?1:0,mAf=countsAsAfternoon('Manuela',m)?1:0,mdAf=countsAsAfternoon('Madalina',md)?1:0;
+      const mO=isManuelaClose1519(Ma[j])?1:0,lC=l.coversClose?1:0;
+      const sig=`${l.hours},${lAf},${lC}|${m.hours},${mAf},${mO}|${md.hours},${mdAf}`;
+      if(!seen.has(sig)){
+        const combo={Lucrezia:La[i],Manuela:Ma[j],Madalina:Da[k]};
+        combo.d={Lucrezia:{h:l.hours,af:lAf,wd:l.hours>0?1:0},Manuela:{h:m.hours,af:mAf,wd:m.hours>0?1:0,o:mO},Madalina:{h:md.hours,af:mdAf,wd:md.hours>0?1:0},Lclose:lC};
+        seen.set(sig,combo);
+      }
+    };
+    if(!isSat&&req.morning===1){
+      // Esattamente 1 apertore (coversMorning): partiziona per chi apre, gli altri due tra i non-apertori.
+      // Salta a priori le triple con 0 o 2+ aperture (≈ 60% del totale) senza cambiare l'output.
+      const oL=[],nL=[],oM=[],nM=[],oD=[],nD=[];
+      Ls.forEach((s,i)=>(s.coversMorning?oL:nL).push(i));
+      Ms.forEach((s,j)=>(s.coversMorning?oM:nM).push(j));
+      Ds.forEach((s,k)=>(s.coversMorning?oD:nD).push(k));
+      for(const i of oL)for(const j of nM)for(const k of nD)consider(i,j,k); // Lucrezia apre
+      for(const j of oM)for(const i of nL)for(const k of nD)consider(i,j,k); // Manuela apre
+      for(const k of oD)for(const i of nL)for(const j of nM)consider(i,j,k); // Madalina apre
+    }else{
+      for(let i=0;i<La.length;i++)for(let j=0;j<Ma.length;j++)for(let k=0;k<Da.length;k++)consider(i,j,k);
+    }
     return [...seen.values()];
   }
   function cloneStats(stats){return Object.fromEntries(ASSISTANT_NAMES.map(a=>[a,{...stats[a]}]));}
@@ -770,7 +804,28 @@
   function applyPreviousWeekState(week,prev){if(!prev)return;for(const day of week.days){const p=prev.days.find(d=>d.key===day.key);if(!p)continue;day.exceptions={...day.exceptions,...p.exceptions};day.locks={...day.locks,...p.locks};for(const a of ASSISTANT_NAMES)if(day.locks[a])day.assignments[a]=p.assignments[a];}}
   function regenerateWeekWithFeedback(start,prev){const seed=createBaseWeek(start);applyPreviousWeekState(seed,prev);const r=solveWeek(seed);const week=r.week??seed;const locked=getLockedShiftCount(week);if(!r.solved)return{week,message:locked?`Nessuna combinazione valida con i ${locked} turni bloccati: probabilmente non e' possibile, prova a sbloccarne qualcuno.`:'Nessuna combinazione valida trovata.'};const otMsg=r.overtime?` ⚠️ Straordinario Manuela (+4h pom. extra, 29h totali).`:'';return{week,message:(locked?`Rigenerata. ${locked} turni bloccati mantenuti.`:'Settimana rigenerata.')+otMsg};}
   function regenerateCleanWeekWithFeedback(start){const week=generateWeek({startDate:start});const otMsg=week.overtimeUsed?` ⚠️ Straordinario Manuela (+4h pom. extra, 29h totali).`:'';return{week,message:'Settimana pulita rigenerata.'+otMsg};}
-  function regenerateAlternativeWithFeedback(start,current,avoidSigs){const seed=createBaseWeek(start);applyPreviousWeekState(seed,current);const r=solveWeek(seed,avoidSigs);if(!r.solved)return{week:null,solved:false};const otMsg=r.overtime?` ⚠️ Straordinario Manuela (+4h pom. extra, 29h totali).`:'';return{week:r.week,solved:true,message:'Soluzione alternativa trovata.'+otMsg};}
+  // Varieta' oraria: per ogni assistente/giorno non bloccato prova a spostare gli orari
+  // su un turno equivalente (stessa firma-ruolo: ore, apertura, chiusura, pomeriggio, quota,
+  // 15-19 di Manuela), mantenendo la settimana valida. Non cambia le statistiche, solo i layout.
+  function diversifyTimes(week){
+    const w=structuredClone(week);
+    for(const day of w.days){
+      if(!WEEKDAY_KEYS.includes(day.key))continue;
+      for(const n of ASSISTANT_NAMES){
+        if(day.locks?.[n])continue;
+        const curA=day.assignments[n],cur=getShift(curA);
+        if(cur.id==='OFF')continue;
+        const alts=getAllowedShifts(n,day,true).filter(a=>!isOff(a)).filter(a=>{
+          if(a.s===cur.startMin&&a.e===cur.endMin)return false;
+          const s=getShift(a);
+          return s.hours===cur.hours&&s.coversMorning===cur.coversMorning&&s.coversClose===cur.coversClose&&s.isAfternoon===cur.isAfternoon&&countsAsAfternoon(n,s)===countsAsAfternoon(n,cur)&&isManuelaClose1519(a)===isManuelaClose1519(curA);
+        });
+        for(const alt of alts){day.assignments[n]=alt;if(validateWeek(w).length===0)break;day.assignments[n]=curA;}
+      }
+    }
+    return w;
+  }
+  function regenerateAlternativeWithFeedback(start,current,avoidSigs){const seed=createBaseWeek(start);applyPreviousWeekState(seed,current);const r=solveWeek(seed,avoidSigs);if(!r.solved)return{week:null,solved:false};let week=r.week;const dv=diversifyTimes(week);if(validateWeek(dv).length===0&&(!avoidSigs||!avoidSigs.has(weekAssignmentSig(dv))))week=dv;const otMsg=r.overtime?` ⚠️ Straordinario Manuela (+4h pom. extra, 29h totali).`:'';return{week,solved:true,message:'Soluzione alternativa trovata.'+otMsg};}
   function updateShiftWithFeedback(week,dayKey,assistant,shiftId){const day=week.days.find(d=>d.key===dayKey);if(day)day.assignments[assistant]=shiftId;return{week,message:`${assistant} · ${day?.label} aggiornato.`};}
   function getLockedShiftCount(week){return week.days.reduce((c,d)=>c+Object.values(d.locks).filter(Boolean).length,0);}
 
@@ -792,34 +847,40 @@
   const statusMsg=document.querySelector('#statusMessage');
 
   // ── EVENT LISTENERS ──
+  // Mostra subito lo status e rimanda il solve sincrono al tick successivo, così l'UI ridisegna prima del blocco.
+  function deferHeavy(label,job){showStatus(label);setTimeout(job,0);}
+  const doGenerate=()=>deferHeavy('Calcolo turni…',()=>{resetAltHistory();const r=regenerateWeekWithFeedback(currentStart,getCurrentWeek());weeks[currentStart]=r.week;saveWeeks();showStatus(r.message);render();});
+  const doReset=()=>deferHeavy('Calcolo turni…',()=>{resetAltHistory();const r=regenerateCleanWeekWithFeedback(currentStart);weeks[currentStart]=r.week;saveWeeks();showStatus(r.message);render();});
   document.querySelector('#prevWeek').addEventListener('click',()=>changeWeek(-7));
   document.querySelector('#nextWeek').addEventListener('click',()=>changeWeek(7));
-  document.querySelector('#generateWeek').addEventListener('click',()=>{resetAltHistory();const r=regenerateWeekWithFeedback(currentStart,getCurrentWeek());weeks[currentStart]=r.week;saveWeeks();showStatus(r.message);render();});
+  document.querySelector('#generateWeek').addEventListener('click',doGenerate);
   document.querySelector('#altWeek').addEventListener('click',requestAlternative);
-  document.querySelector('#resetWeek').addEventListener('click',()=>{resetAltHistory();const r=regenerateCleanWeekWithFeedback(currentStart);weeks[currentStart]=r.week;saveWeeks();showStatus(r.message);render();});
+  document.querySelector('#resetWeek').addEventListener('click',doReset);
   document.querySelector('#printWeek').addEventListener('click',()=>window.print());
   document.querySelector('#exportPDF').addEventListener('click',exportPDF);
   document.querySelector('#prevWeekMob').addEventListener('click',()=>changeWeek(-7));
   document.querySelector('#nextWeekMob').addEventListener('click',()=>changeWeek(7));
-  document.querySelector('#generateWeekMob').addEventListener('click',()=>{resetAltHistory();const r=regenerateWeekWithFeedback(currentStart,getCurrentWeek());weeks[currentStart]=r.week;saveWeeks();showStatus(r.message);render();});
+  document.querySelector('#generateWeekMob').addEventListener('click',doGenerate);
   document.querySelector('#altWeekMob').addEventListener('click',requestAlternative);
-  document.querySelector('#resetWeekMob').addEventListener('click',()=>{resetAltHistory();const r=regenerateCleanWeekWithFeedback(currentStart);weeks[currentStart]=r.week;saveWeeks();showStatus(r.message);render();});
+  document.querySelector('#resetWeekMob').addEventListener('click',doReset);
   document.querySelector('#exportPDFMob').addEventListener('click',exportPDF);
 
   let _altHistory=[],_altStart=null;
   function resetAltHistory(){_altHistory=[];_altStart=null;}
   function requestAlternative(){
-    if(_altStart!==currentStart){_altHistory=[];_altStart=currentStart;}
-    const cur=getCurrentWeek();
-    _altHistory.push(weekAssignmentSig(cur));
-    const avoid=new Set(_altHistory);
-    const r=regenerateAlternativeWithFeedback(currentStart,cur,avoid);
-    if(r.solved){weeks[currentStart]=r.week;saveWeeks();showStatus(r.message);render();return;}
-    // Wrap: nessuna nuova → torna alla prima soluzione del ciclo
-    _altHistory=[];
-    const r2=regenerateAlternativeWithFeedback(currentStart,cur,null);
-    if(r2.solved){weeks[currentStart]=r2.week;saveWeeks();showStatus('Ciclo completato — tornata alla prima soluzione.');render();}
-    else{showStatus('Nessuna soluzione alternativa disponibile.');}
+    deferHeavy('Cerco alternativa…',()=>{
+      if(_altStart!==currentStart){_altHistory=[];_altStart=currentStart;}
+      const cur=getCurrentWeek();
+      _altHistory.push(weekAssignmentSig(cur));
+      const avoid=new Set(_altHistory);
+      const r=regenerateAlternativeWithFeedback(currentStart,cur,avoid);
+      if(r.solved){weeks[currentStart]=r.week;saveWeeks();showStatus(r.message);render();return;}
+      // Wrap: nessuna nuova → torna alla prima soluzione del ciclo
+      _altHistory=[];
+      const r2=regenerateAlternativeWithFeedback(currentStart,cur,null);
+      if(r2.solved){weeks[currentStart]=r2.week;saveWeeks();showStatus('Ciclo completato — tornata alla prima soluzione.');render();}
+      else{showStatus('Nessuna soluzione alternativa disponibile.');}
+    });
   }
 
   // ── NIGHT MODE ──
@@ -1019,7 +1080,18 @@
 
   function getCurrentWeek(){if(!weeks[currentStart])weeks[currentStart]=createEmptyWeek(currentStart);ensureWeekShape(weeks[currentStart]);return weeks[currentStart];}
   function changeWeek(days){resetAltHistory();currentStart=addDays(currentStart,days);selectedDayKey='mon';if(!weeks[currentStart])weeks[currentStart]=generateWeek({startDate:currentStart});saveWeeks();render();}
-  function saveWeeks(){localStorage.setItem(storageKey,JSON.stringify(weeks));}
+  // Pruning: conserva solo le settimane nella finestra ±8 attorno alla corrente
+  // e quelle con almeno un turno bloccato (edit manuali da preservare).
+  function saveWeeks(){
+    const keep=new Set();
+    for(let i=-8;i<=8;i++)keep.add(addDays(currentStart,i*7));
+    for(const k of Object.keys(weeks)){
+      const wk=weeks[k];
+      const hasLock=wk?.days?.some(d=>Object.values(d.locks||{}).some(Boolean));
+      if(!keep.has(k)&&!hasLock)delete weeks[k];
+    }
+    localStorage.setItem(storageKey,JSON.stringify(weeks));
+  }
   function loadWeeks(){try{return JSON.parse(localStorage.getItem(storageKey))??{};}catch{return{};}}
   function createCell(html,className){const el=document.createElement('div');el.className=className;el.innerHTML=html;return el;}
   function getContractLabel(a){return{Lucrezia:'38h · 2-3 ch.',Manuela:'25h · max 1 ch.',Madalina:'24h · 2-3 ch.'}[a];}
