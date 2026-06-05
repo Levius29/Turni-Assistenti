@@ -1,27 +1,42 @@
 {
   ".claude/settings.json": {
-    "mtime": 1780597920.3939817,
+    "mtime": 1780695132.2615056,
     "ast_hash": "bfee062c3962c14264fd704e975a6b38",
     "semantic_hash": "bfee062c3962c14264fd704e975a6b38"
   },
   "tests/ui-export.test.mjs": {
-    "mtime": 1780607746.972551,
+    "mtime": 1780695132.2721236,
     "ast_hash": "255a157e4c15eafe863fd379c365ebeb",
     "semantic_hash": ""
   },
   ".github/workflows/deploy.yml": {
-    "mtime": 1780563190.6763947,
+    "mtime": 1780348797.6556828,
     "ast_hash": "c6820df9d7ef354e491c1ed904aa82ec",
     "semantic_hash": "c6820df9d7ef354e491c1ed904aa82ec"
   },
   "CLAUDE.md": {
-    "mtime": 1780597920.3939817,
+    "mtime": 1780695132.2616403,
     "ast_hash": "82efb97a359f5c7290bf2513d14686be",
     "semantic_hash": "82efb97a359f5c7290bf2513d14686be"
   },
   "index.html": {
-    "mtime": 1780663407.632457,
-    "ast_hash": "80d24aee01c67cf8a198887ec8e38f20",
+    "mtime": 1780699029.8757386,
+    "ast_hash": "43cf7c723110eec956358a90cbcc0ad0",
+    "semantic_hash": ""
+  },
+  "tests/solver-logic.test.mjs": {
+    "mtime": 1780698742.955222,
+    "ast_hash": "e81726174409b0bc72a2792d0a8251a0",
+    "semantic_hash": ""
+  },
+  "docs/superpowers/plans/2026-06-06-solver-audit.md": {
+    "mtime": 1780697969.3503242,
+    "ast_hash": "9e0f9632ff5e6bcf15eefc085732a93d",
+    "semantic_hash": ""
+  },
+  "docs/superpowers/specs/2026-06-06-solver-audit-design.md": {
+    "mtime": 1780697839.755127,
+    "ast_hash": "7dd60c9ff6275dbfe0bcb06ed083cbdd",
     "semantic_hash": ""
   }
 }
