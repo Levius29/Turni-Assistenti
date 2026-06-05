@@ -62,6 +62,30 @@ test('getDayCombos: un combo per firma', () => {
   }
 });
 
+// ── Task 5: equivalenza comportamentale dopo ottimizzazione getDayCombos ──
+function solvedValid(M, mutate) {
+  const seed = M.createBaseWeek('2026-06-08');
+  if (mutate) mutate(seed);
+  const r = M.solveWeek(seed);
+  return r.solved && M.validateWeek(r.week).length === 0;
+}
+test('solver resta valido: settimana standard', () => {
+  const M = loadLogic();
+  assert.equal(solvedValid(M), true);
+});
+test('solver resta valido: doppio pomeriggio (extraAfternoon)', () => {
+  const M = loadLogic();
+  assert.equal(solvedValid(M, s => { s.days.find(d => d.key === 'tue').exceptions.extraAfternoon = true; }), true);
+});
+test('solver resta valido: doppia mattina (extraMorning)', () => {
+  const M = loadLogic();
+  assert.equal(solvedValid(M, s => { s.days.find(d => d.key === 'wed').exceptions.extraMorning = true; }), true);
+});
+test('solver resta valido: sabato aperto', () => {
+  const M = loadLogic();
+  assert.equal(solvedValid(M, s => { s.days.find(d => d.key === 'sat').exceptions.satOpen = true; }), true);
+});
+
 // ── Task 6: alternativa a parità di ore ──
 test('alternativa: stessa stat ore, settimana diversa', () => {
   const M = loadLogic();

@@ -695,12 +695,16 @@
     const demand=afternoonDemand(seedWeek);
     const baseCombos=seedWeek.days.map((day,idx)=>getDayCombos(seedWeek,day,idx));
     const fastCombos=heuristicCombos(baseCombos);
+    // order/rem dipendono solo dalle lunghezze e dagli allowed shift (uguali per fast/base e per ogni tier): calcolati una volta.
+    const D=seedWeek.days.length;
+    const order=[...Array(D).keys()].sort((a,b)=>baseCombos[a].length-baseCombos[b].length);
+    const pre={order,rem:buildRem(seedWeek.days,order)};
     const attempt=(combos,budget)=>{
       for(const tier of AFTERNOON_TIERS){
         if(demand>tier.caps.Lucrezia+tier.caps.Manuela+tier.caps.Madalina)continue;
         const tierRules=Object.fromEntries(ASSISTANT_NAMES.map(n=>[n,{...ASSISTANTS[n],maxAfternoons:tier.caps[n],...(tier.ot&&n==='Manuela'?{weeklyHours:29}:{})}]));
         let found=null;
-        for(const maxCloses of [2,3]){const r=solveWeekCore(seedWeek,maxCloses,combos,budget,avoidSigs,tierRules);if(r.solved){found=r;break;}}
+        for(const maxCloses of [2,3]){const r=solveWeekCore(seedWeek,maxCloses,combos,budget,avoidSigs,tierRules,pre);if(r.solved){found=r;break;}}
         if(found){if(tier.ot)found.week.overtimeUsed=true;return{...found,overtime:tier.ot};}
       }
       return null;
@@ -713,16 +717,18 @@
     return r??{week:null,solved:false,overtime:false};
   }
   // Solver sincrono: backtracking con potatura e memoizzazione degli stati senza uscita.
-  function solveWeekCore(seedWeek,maxClosesLucrezia=Infinity,combosByDay,budget=SOLVE_BUDGET_FULL,avoidSigs,tierRules){
+  // Stima dei residui (ore, pomeriggi, giorni) lungo l'ordine di visita, per la potatura.
+  // Dipende solo dagli allowed shift (non dai cap del tier) → calcolabile una volta per settimana.
+  function buildRem(days,order){const D=days.length,rem=[];for(let p=0;p<=D;p++){const r={};for(const a of ASSISTANT_NAMES){let minH=0,maxH=0,maxAf=0,minWD=0,maxWD=0;for(let q=p;q<D;q++){const allowed=getAllowedShifts(a,days[order[q]]).map(getShift);minH+=Math.min(...allowed.map(s=>s.hours));maxH+=Math.max(...allowed.map(s=>s.hours));maxAf+=allowed.some(s=>countsAsAfternoon(a,s))?1:0;minWD+=allowed.every(s=>s.hours>0)?1:0;maxWD+=allowed.some(s=>s.hours>0)?1:0;}r[a]={minHours:minH,maxHours:maxH,maxAfternoons:maxAf,minWorkDays:minWD,maxWorkDays:maxWD};}rem[p]=r;}return rem;}
+  function solveWeekCore(seedWeek,maxClosesLucrezia=Infinity,combosByDay,budget=SOLVE_BUDGET_FULL,avoidSigs,tierRules,pre){
     tierRules=tierRules||Object.fromEntries(ASSISTANT_NAMES.map(n=>[n,{...ASSISTANTS[n]}]));
     let best=null,nodes=0;
     const days=seedWeek.days,D=days.length;
     combosByDay=combosByDay||days.map((day,idx)=>getDayCombos(seedWeek,day,idx));
     // Euristica "giorno piu' vincolato prima": visita i giorni con meno combinazioni per primi (es. sabato aperto), potando l'albero molto piu' in fretta.
-    const order=[...Array(D).keys()].sort((a,b)=>combosByDay[a].length-combosByDay[b].length);
+    const order=pre?.order||[...Array(D).keys()].sort((a,b)=>combosByDay[a].length-combosByDay[b].length);
     const orderedCombos=order.map(i=>combosByDay[i]);
-    // Stima dei residui (ore, pomeriggi, giorni) lungo l'ordine di visita, per la potatura.
-    const rem=[];for(let p=0;p<=D;p++){const r={};for(const a of ASSISTANT_NAMES){let minH=0,maxH=0,maxAf=0,minWD=0,maxWD=0;for(let q=p;q<D;q++){const allowed=getAllowedShifts(a,days[order[q]]).map(getShift);minH+=Math.min(...allowed.map(s=>s.hours));maxH+=Math.max(...allowed.map(s=>s.hours));maxAf+=allowed.some(s=>countsAsAfternoon(a,s))?1:0;minWD+=allowed.every(s=>s.hours>0)?1:0;maxWD+=allowed.some(s=>s.hours>0)?1:0;}r[a]={minHours:minH,maxHours:maxH,maxAfternoons:maxAf,minWorkDays:minWD,maxWorkDays:maxWD};}rem[p]=r;}
+    const rem=pre?.rem||buildRem(days,order);
     function feasibleAhead(nextPos,st){for(const a of ASSISTANT_NAMES){const rules=tierRules[a],s=st[a],r=rem[nextPos][a];if(s.hours>rules.weeklyHours)return false;if(s.afternoons>rules.maxAfternoons)return false;if(rules.workDays&&s.workDays>rules.workDays)return false;if(rules.maxWorkDays&&s.workDays>rules.maxWorkDays)return false;if(s.hours+r.maxHours<rules.weeklyHours)return false;if(s.hours+r.minHours>rules.weeklyHours)return false;if(s.afternoons+r.maxAfternoons<rules.minAfternoons)return false;if(rules.workDays&&(s.workDays+r.maxWorkDays<rules.workDays||s.workDays+r.minWorkDays>rules.workDays))return false;if(rules.maxWorkDays&&s.workDays+r.minWorkDays>rules.maxWorkDays)return false;}return true;}
     const dead=new Set();
     const keyOf=(pos,st)=>{let s=pos+'|';for(const a of ASSISTANT_NAMES){const x=st[a];s+=Math.round(x.hours*2)+','+x.afternoons+','+x.workDays+','+(x.closes||0)+';';}return s;};
@@ -754,32 +760,43 @@
     const Ls=La.map(getShift),Ms=Ma.map(getShift),Ds=Da.map(getShift);
     const req=getRequiredCoverage(day),isSat=day.key==='sat'&&day.exceptions?.satOpen,isWeekday=WEEKDAY_KEYS.includes(day.key);
     const seen=new Map();
-    for(let i=0;i<La.length;i++){const l=Ls[i];for(let j=0;j<Ma.length;j++){const m=Ms[j];
-      // Check rapidi di copertura senza allocare (filtra la stragrande maggioranza delle triple).
-      for(let k=0;k<Da.length;k++){const md=Ds[k];
-        if(isSat){const working=(l.hours>0?1:0)+(m.hours>0?1:0)+(md.hours>0?1:0);if(working!==1)continue;}
-        else{
-          // Una sola apertura alle 8:30 (come la chiusura): esattamente req.morning. La 2ª presenza mattutina (morningPair) parte dopo.
-          {const _o=(l.coversMorning?1:0)+(m.coversMorning?1:0)+(md.coversMorning?1:0);if(_o!==req.morning)continue;}
-          // Doppia mattina: finestra 9:30-13:30 (570-810) coperta da 2 persone (entrambe la contengono).
-          if(req.morningPair&&(l.startMin!=null&&l.startMin<=570&&l.endMin>=810?1:0)+(m.startMin!=null&&m.startMin<=570&&m.endMin>=810?1:0)+(md.startMin!=null&&md.startMin<=570&&md.endMin>=810?1:0)<req.morningPair)continue;
-          if((l.isAfternoon?1:0)+(m.isAfternoon?1:0)+(md.isAfternoon?1:0)<req.afternoon)continue;
-          if((l.coversClose?1:0)+(m.coversClose?1:0)+(md.coversClose?1:0)<req.close)continue;
-          // Doppio pomeriggio: finestra 14:00-18:00 (840-1080) coperta da 2 persone (entrambe la contengono).
-          if(req.afternoonPair&&(l.startMin!=null&&l.startMin<=840&&l.endMin>=1080?1:0)+(m.startMin!=null&&m.startMin<=840&&m.endMin>=1080?1:0)+(md.startMin!=null&&md.startMin<=840&&md.endMin>=1080?1:0)<req.afternoonPair)continue;
-          if(isWeekday&&coverageDeficit([l,m,md],day.key)>LUNCH_GAP_MAX)continue;
-        }
-        const lAf=countsAsAfternoon('Lucrezia',l)?1:0,mAf=countsAsAfternoon('Manuela',m)?1:0,mdAf=countsAsAfternoon('Madalina',md)?1:0;
-        const mO=isManuelaClose1519(Ma[j])?1:0,lC=l.coversClose?1:0;
-        const sig=`${l.hours},${lAf},${lC}|${m.hours},${mAf},${mO}|${md.hours},${mdAf}`;
-        if(!seen.has(sig)){
-          // Delta precalcolati (ore/pom/giorno-lavorato per assistente) usati nel loop caldo del backtracking.
-          const combo={Lucrezia:La[i],Manuela:Ma[j],Madalina:Da[k]};
-          combo.d={Lucrezia:{h:l.hours,af:lAf,wd:l.hours>0?1:0},Manuela:{h:m.hours,af:mAf,wd:m.hours>0?1:0,o:mO},Madalina:{h:md.hours,af:mdAf,wd:md.hours>0?1:0},Lclose:lC};
-          seen.set(sig,combo);
-        }
+    // Valuta una tripla (indici i/j/k su La/Ma/Da): check di copertura + dedup per firma. Corpo identico per ogni percorso d'iterazione.
+    const consider=(i,j,k)=>{
+      const l=Ls[i],m=Ms[j],md=Ds[k];
+      if(isSat){const working=(l.hours>0?1:0)+(m.hours>0?1:0)+(md.hours>0?1:0);if(working!==1)return;}
+      else{
+        // Una sola apertura alle 8:30: esattamente req.morning. La 2ª presenza mattutina (morningPair) parte dopo.
+        {const _o=(l.coversMorning?1:0)+(m.coversMorning?1:0)+(md.coversMorning?1:0);if(_o!==req.morning)return;}
+        // Doppia mattina: finestra 9:30-13:30 (570-810) coperta da 2 persone.
+        if(req.morningPair&&(l.startMin!=null&&l.startMin<=570&&l.endMin>=810?1:0)+(m.startMin!=null&&m.startMin<=570&&m.endMin>=810?1:0)+(md.startMin!=null&&md.startMin<=570&&md.endMin>=810?1:0)<req.morningPair)return;
+        if((l.isAfternoon?1:0)+(m.isAfternoon?1:0)+(md.isAfternoon?1:0)<req.afternoon)return;
+        if((l.coversClose?1:0)+(m.coversClose?1:0)+(md.coversClose?1:0)<req.close)return;
+        // Doppio pomeriggio: finestra 14:00-18:00 (840-1080) coperta da 2 persone.
+        if(req.afternoonPair&&(l.startMin!=null&&l.startMin<=840&&l.endMin>=1080?1:0)+(m.startMin!=null&&m.startMin<=840&&m.endMin>=1080?1:0)+(md.startMin!=null&&md.startMin<=840&&md.endMin>=1080?1:0)<req.afternoonPair)return;
+        if(isWeekday&&coverageDeficit([l,m,md],day.key)>LUNCH_GAP_MAX)return;
       }
-    }}
+      const lAf=countsAsAfternoon('Lucrezia',l)?1:0,mAf=countsAsAfternoon('Manuela',m)?1:0,mdAf=countsAsAfternoon('Madalina',md)?1:0;
+      const mO=isManuelaClose1519(Ma[j])?1:0,lC=l.coversClose?1:0;
+      const sig=`${l.hours},${lAf},${lC}|${m.hours},${mAf},${mO}|${md.hours},${mdAf}`;
+      if(!seen.has(sig)){
+        const combo={Lucrezia:La[i],Manuela:Ma[j],Madalina:Da[k]};
+        combo.d={Lucrezia:{h:l.hours,af:lAf,wd:l.hours>0?1:0},Manuela:{h:m.hours,af:mAf,wd:m.hours>0?1:0,o:mO},Madalina:{h:md.hours,af:mdAf,wd:md.hours>0?1:0},Lclose:lC};
+        seen.set(sig,combo);
+      }
+    };
+    if(!isSat&&req.morning===1){
+      // Esattamente 1 apertore (coversMorning): partiziona per chi apre, gli altri due tra i non-apertori.
+      // Salta a priori le triple con 0 o 2+ aperture (≈ 60% del totale) senza cambiare l'output.
+      const oL=[],nL=[],oM=[],nM=[],oD=[],nD=[];
+      Ls.forEach((s,i)=>(s.coversMorning?oL:nL).push(i));
+      Ms.forEach((s,j)=>(s.coversMorning?oM:nM).push(j));
+      Ds.forEach((s,k)=>(s.coversMorning?oD:nD).push(k));
+      for(const i of oL)for(const j of nM)for(const k of nD)consider(i,j,k); // Lucrezia apre
+      for(const j of oM)for(const i of nL)for(const k of nD)consider(i,j,k); // Manuela apre
+      for(const k of oD)for(const i of nL)for(const j of nM)consider(i,j,k); // Madalina apre
+    }else{
+      for(let i=0;i<La.length;i++)for(let j=0;j<Ma.length;j++)for(let k=0;k<Da.length;k++)consider(i,j,k);
+    }
     return [...seen.values()];
   }
   function cloneStats(stats){return Object.fromEntries(ASSISTANT_NAMES.map(a=>[a,{...stats[a]}]));}
