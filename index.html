@@ -554,8 +554,8 @@
   </button>
 </nav>
 
-<script src="https://unpkg.com/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
-<script src="https://unpkg.com/jspdf-autotable@3.8.2/dist/jspdf.plugin.autotable.min.js"></script>
+<script src="https://unpkg.com/jspdf@2.5.1/dist/jspdf.umd.min.js" integrity="sha384-JcnsjUPPylna1s1fvi1u12X5qjY5OL56iySh75FdtrwhO/SWXgMjoVqcKyIIWOLk" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/jspdf-autotable@3.8.2/dist/jspdf.plugin.autotable.min.js" integrity="sha384-fCAW/rDWORTbQXSiB7mOg0QtQ5c+r0f544y6XoKjuVva0nMBlCpNUjiFeG5iMdS3" crossorigin="anonymous"></script>
 <script>
   // ── DATI E LOGICA ──
   const ASSISTANT_NAMES = ['Lucrezia', 'Manuela', 'Madalina'];
@@ -804,7 +804,28 @@
   function applyPreviousWeekState(week,prev){if(!prev)return;for(const day of week.days){const p=prev.days.find(d=>d.key===day.key);if(!p)continue;day.exceptions={...day.exceptions,...p.exceptions};day.locks={...day.locks,...p.locks};for(const a of ASSISTANT_NAMES)if(day.locks[a])day.assignments[a]=p.assignments[a];}}
   function regenerateWeekWithFeedback(start,prev){const seed=createBaseWeek(start);applyPreviousWeekState(seed,prev);const r=solveWeek(seed);const week=r.week??seed;const locked=getLockedShiftCount(week);if(!r.solved)return{week,message:locked?`Nessuna combinazione valida con i ${locked} turni bloccati: probabilmente non e' possibile, prova a sbloccarne qualcuno.`:'Nessuna combinazione valida trovata.'};const otMsg=r.overtime?` ⚠️ Straordinario Manuela (+4h pom. extra, 29h totali).`:'';return{week,message:(locked?`Rigenerata. ${locked} turni bloccati mantenuti.`:'Settimana rigenerata.')+otMsg};}
   function regenerateCleanWeekWithFeedback(start){const week=generateWeek({startDate:start});const otMsg=week.overtimeUsed?` ⚠️ Straordinario Manuela (+4h pom. extra, 29h totali).`:'';return{week,message:'Settimana pulita rigenerata.'+otMsg};}
-  function regenerateAlternativeWithFeedback(start,current,avoidSigs){const seed=createBaseWeek(start);applyPreviousWeekState(seed,current);const r=solveWeek(seed,avoidSigs);if(!r.solved)return{week:null,solved:false};const otMsg=r.overtime?` ⚠️ Straordinario Manuela (+4h pom. extra, 29h totali).`:'';return{week:r.week,solved:true,message:'Soluzione alternativa trovata.'+otMsg};}
+  // Varieta' oraria: per ogni assistente/giorno non bloccato prova a spostare gli orari
+  // su un turno equivalente (stessa firma-ruolo: ore, apertura, chiusura, pomeriggio, quota,
+  // 15-19 di Manuela), mantenendo la settimana valida. Non cambia le statistiche, solo i layout.
+  function diversifyTimes(week){
+    const w=structuredClone(week);
+    for(const day of w.days){
+      if(!WEEKDAY_KEYS.includes(day.key))continue;
+      for(const n of ASSISTANT_NAMES){
+        if(day.locks?.[n])continue;
+        const curA=day.assignments[n],cur=getShift(curA);
+        if(cur.id==='OFF')continue;
+        const alts=getAllowedShifts(n,day,true).filter(a=>!isOff(a)).filter(a=>{
+          if(a.s===cur.startMin&&a.e===cur.endMin)return false;
+          const s=getShift(a);
+          return s.hours===cur.hours&&s.coversMorning===cur.coversMorning&&s.coversClose===cur.coversClose&&s.isAfternoon===cur.isAfternoon&&countsAsAfternoon(n,s)===countsAsAfternoon(n,cur)&&isManuelaClose1519(a)===isManuelaClose1519(curA);
+        });
+        for(const alt of alts){day.assignments[n]=alt;if(validateWeek(w).length===0)break;day.assignments[n]=curA;}
+      }
+    }
+    return w;
+  }
+  function regenerateAlternativeWithFeedback(start,current,avoidSigs){const seed=createBaseWeek(start);applyPreviousWeekState(seed,current);const r=solveWeek(seed,avoidSigs);if(!r.solved)return{week:null,solved:false};let week=r.week;const dv=diversifyTimes(week);if(validateWeek(dv).length===0&&(!avoidSigs||!avoidSigs.has(weekAssignmentSig(dv))))week=dv;const otMsg=r.overtime?` ⚠️ Straordinario Manuela (+4h pom. extra, 29h totali).`:'';return{week,solved:true,message:'Soluzione alternativa trovata.'+otMsg};}
   function updateShiftWithFeedback(week,dayKey,assistant,shiftId){const day=week.days.find(d=>d.key===dayKey);if(day)day.assignments[assistant]=shiftId;return{week,message:`${assistant} · ${day?.label} aggiornato.`};}
   function getLockedShiftCount(week){return week.days.reduce((c,d)=>c+Object.values(d.locks).filter(Boolean).length,0);}
 
@@ -826,34 +847,40 @@
   const statusMsg=document.querySelector('#statusMessage');
 
   // ── EVENT LISTENERS ──
+  // Mostra subito lo status e rimanda il solve sincrono al tick successivo, così l'UI ridisegna prima del blocco.
+  function deferHeavy(label,job){showStatus(label);setTimeout(job,0);}
+  const doGenerate=()=>deferHeavy('Calcolo turni…',()=>{resetAltHistory();const r=regenerateWeekWithFeedback(currentStart,getCurrentWeek());weeks[currentStart]=r.week;saveWeeks();showStatus(r.message);render();});
+  const doReset=()=>deferHeavy('Calcolo turni…',()=>{resetAltHistory();const r=regenerateCleanWeekWithFeedback(currentStart);weeks[currentStart]=r.week;saveWeeks();showStatus(r.message);render();});
   document.querySelector('#prevWeek').addEventListener('click',()=>changeWeek(-7));
   document.querySelector('#nextWeek').addEventListener('click',()=>changeWeek(7));
-  document.querySelector('#generateWeek').addEventListener('click',()=>{resetAltHistory();const r=regenerateWeekWithFeedback(currentStart,getCurrentWeek());weeks[currentStart]=r.week;saveWeeks();showStatus(r.message);render();});
+  document.querySelector('#generateWeek').addEventListener('click',doGenerate);
   document.querySelector('#altWeek').addEventListener('click',requestAlternative);
-  document.querySelector('#resetWeek').addEventListener('click',()=>{resetAltHistory();const r=regenerateCleanWeekWithFeedback(currentStart);weeks[currentStart]=r.week;saveWeeks();showStatus(r.message);render();});
+  document.querySelector('#resetWeek').addEventListener('click',doReset);
   document.querySelector('#printWeek').addEventListener('click',()=>window.print());
   document.querySelector('#exportPDF').addEventListener('click',exportPDF);
   document.querySelector('#prevWeekMob').addEventListener('click',()=>changeWeek(-7));
   document.querySelector('#nextWeekMob').addEventListener('click',()=>changeWeek(7));
-  document.querySelector('#generateWeekMob').addEventListener('click',()=>{resetAltHistory();const r=regenerateWeekWithFeedback(currentStart,getCurrentWeek());weeks[currentStart]=r.week;saveWeeks();showStatus(r.message);render();});
+  document.querySelector('#generateWeekMob').addEventListener('click',doGenerate);
   document.querySelector('#altWeekMob').addEventListener('click',requestAlternative);
-  document.querySelector('#resetWeekMob').addEventListener('click',()=>{resetAltHistory();const r=regenerateCleanWeekWithFeedback(currentStart);weeks[currentStart]=r.week;saveWeeks();showStatus(r.message);render();});
+  document.querySelector('#resetWeekMob').addEventListener('click',doReset);
   document.querySelector('#exportPDFMob').addEventListener('click',exportPDF);
 
   let _altHistory=[],_altStart=null;
   function resetAltHistory(){_altHistory=[];_altStart=null;}
   function requestAlternative(){
-    if(_altStart!==currentStart){_altHistory=[];_altStart=currentStart;}
-    const cur=getCurrentWeek();
-    _altHistory.push(weekAssignmentSig(cur));
-    const avoid=new Set(_altHistory);
-    const r=regenerateAlternativeWithFeedback(currentStart,cur,avoid);
-    if(r.solved){weeks[currentStart]=r.week;saveWeeks();showStatus(r.message);render();return;}
-    // Wrap: nessuna nuova → torna alla prima soluzione del ciclo
-    _altHistory=[];
-    const r2=regenerateAlternativeWithFeedback(currentStart,cur,null);
-    if(r2.solved){weeks[currentStart]=r2.week;saveWeeks();showStatus('Ciclo completato — tornata alla prima soluzione.');render();}
-    else{showStatus('Nessuna soluzione alternativa disponibile.');}
+    deferHeavy('Cerco alternativa…',()=>{
+      if(_altStart!==currentStart){_altHistory=[];_altStart=currentStart;}
+      const cur=getCurrentWeek();
+      _altHistory.push(weekAssignmentSig(cur));
+      const avoid=new Set(_altHistory);
+      const r=regenerateAlternativeWithFeedback(currentStart,cur,avoid);
+      if(r.solved){weeks[currentStart]=r.week;saveWeeks();showStatus(r.message);render();return;}
+      // Wrap: nessuna nuova → torna alla prima soluzione del ciclo
+      _altHistory=[];
+      const r2=regenerateAlternativeWithFeedback(currentStart,cur,null);
+      if(r2.solved){weeks[currentStart]=r2.week;saveWeeks();showStatus('Ciclo completato — tornata alla prima soluzione.');render();}
+      else{showStatus('Nessuna soluzione alternativa disponibile.');}
+    });
   }
 
   // ── NIGHT MODE ──
@@ -1053,7 +1080,18 @@
 
   function getCurrentWeek(){if(!weeks[currentStart])weeks[currentStart]=createEmptyWeek(currentStart);ensureWeekShape(weeks[currentStart]);return weeks[currentStart];}
   function changeWeek(days){resetAltHistory();currentStart=addDays(currentStart,days);selectedDayKey='mon';if(!weeks[currentStart])weeks[currentStart]=generateWeek({startDate:currentStart});saveWeeks();render();}
-  function saveWeeks(){localStorage.setItem(storageKey,JSON.stringify(weeks));}
+  // Pruning: conserva solo le settimane nella finestra ±8 attorno alla corrente
+  // e quelle con almeno un turno bloccato (edit manuali da preservare).
+  function saveWeeks(){
+    const keep=new Set();
+    for(let i=-8;i<=8;i++)keep.add(addDays(currentStart,i*7));
+    for(const k of Object.keys(weeks)){
+      const wk=weeks[k];
+      const hasLock=wk?.days?.some(d=>Object.values(d.locks||{}).some(Boolean));
+      if(!keep.has(k)&&!hasLock)delete weeks[k];
+    }
+    localStorage.setItem(storageKey,JSON.stringify(weeks));
+  }
   function loadWeeks(){try{return JSON.parse(localStorage.getItem(storageKey))??{};}catch{return{};}}
   function createCell(html,className){const el=document.createElement('div');el.className=className;el.innerHTML=html;return el;}
   function getContractLabel(a){return{Lucrezia:'38h · 2-3 ch.',Manuela:'25h · max 1 ch.',Madalina:'24h · 2-3 ch.'}[a];}
