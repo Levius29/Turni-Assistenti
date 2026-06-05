@@ -742,7 +742,8 @@
       for(let k=0;k<Da.length;k++){const md=Ds[k];
         if(isSat){const working=(l.hours>0?1:0)+(m.hours>0?1:0)+(md.hours>0?1:0);if(working!==1)continue;}
         else{
-          if((l.coversMorning?1:0)+(m.coversMorning?1:0)+(md.coversMorning?1:0)<req.morning)continue;
+          // Una sola apertura alle 8:30 (come la chiusura): esattamente req.morning. La 2ª presenza mattutina (morningPair) parte dopo.
+          {const _o=(l.coversMorning?1:0)+(m.coversMorning?1:0)+(md.coversMorning?1:0);if(_o!==req.morning)continue;}
           if(req.morningPair&&(l.startMin!=null&&l.startMin<810&&l.endMin>=810?1:0)+(m.startMin!=null&&m.startMin<810&&m.endMin>=810?1:0)+(md.startMin!=null&&md.startMin<810&&md.endMin>=810?1:0)<req.morningPair)continue;
           if((l.isAfternoon?1:0)+(m.isAfternoon?1:0)+(md.isAfternoon?1:0)<req.afternoon)continue;
           if((l.coversClose?1:0)+(m.coversClose?1:0)+(md.coversClose?1:0)<req.close)continue;
