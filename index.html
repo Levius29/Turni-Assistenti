@@ -626,7 +626,7 @@
   // Lo studio deve essere coperto in continuita' 08:30-19:00: l'unico buco ammesso e' la pausa pranzo (<= 30 min).
   function gapOf(shifts,dayKey){if(!WEEKDAY_KEYS.includes(dayKey))return 0;const intervals=shifts.filter(s=>s.hours>0&&s.startMin!=null).map(s=>[s.startMin,s.endMin]).sort((a,b)=>a[0]-b[0]);let cursor=STUDIO_OPEN,gap=0;for(const[st,en]of intervals){if(st>cursor)gap=Math.max(gap,st-cursor);cursor=Math.max(cursor,en);}if(cursor<STUDIO_CLOSE)gap=Math.max(gap,STUDIO_CLOSE-cursor);return gap;}
   function maxUncoveredGap(day){return gapOf(shiftsOf(day),day.key);}
-  function validateWeek(week){const w=[],stats=getAssistantStats(week);for(const[name]of Object.entries(ASSISTANTS)){const baseRules=ASSISTANTS[name];const rules=(name==='Manuela'&&(stats.Manuela.hours>baseRules.weeklyHours||stats.Manuela.afternoons>baseRules.maxAfternoons))?{...baseRules,weeklyHours:29,maxAfternoons:2}:baseRules;const s=stats[name];if(s.hours!==rules.weeklyHours)w.push({message:`${name}: ${s.hours}h su ${rules.weeklyHours}h`});if(s.afternoons<rules.minAfternoons)w.push({message:`${name}: pochi pomeriggi (${s.afternoons}/${rules.minAfternoons})`});if(s.afternoons>rules.maxAfternoons)w.push({message:`${name}: troppi pomeriggi (${s.afternoons}/${rules.maxAfternoons})`});if(name==='Manuela'&&s.afternoons>=2&&!week.days.some(d=>isManuelaClose1519(d.assignments.Manuela)))w.push({message:'Manuela: straordinario pomeridiano richiede turno 15:00-19:00'});if(name==='Manuela'&&s.afternoons>2)w.push({message:'Manuela: mai più di 2 pomeriggi'});}for(const day of week.days){const req=getRequiredCoverage(day),cov=getCoverage(day);if(cov.morning<req.morning)w.push({message:`${day.label}: apertura 08:30 scoperta`});if(cov.morningPair<req.morningPair)w.push({message:`${day.label}: serve doppia mattina (fino alle 13:30)`});if(day.key==='sat'&&cov.morning>1)w.push({message:`${day.label}: sabato solo un'assistente`});if(cov.afternoon<req.afternoon)w.push({message:`${day.label}: pomeriggio richiede ${req.afternoon}`});if(cov.close<req.close)w.push({message:`${day.label}: chiusura 19:00 scoperta`});if(cov.nearClose<req.nearClose)w.push({message:`${day.label}: serve una seconda assistente fino alle 18:00`});if(maxUncoveredGap(day)>LUNCH_GAP_MAX)w.push({message:`${day.label}: studio scoperto >30 min (pausa pranzo max 30')`});for(const n of ASSISTANT_NAMES){const sh=getShift(day.assignments[n]);if(sh.isLong&&!ASSISTANTS[n].canWorkLong&&!(WEEKDAY_KEYS.includes(day.key)&&day.exceptions?.extraMorning&&day.exceptions?.extraAfternoon))w.push({message:`${n}: turno lungo non previsto (${day.label})`});if(sh.hours>8.5)w.push({message:`${n}: giornata pesante >8.5h (${day.label})`});}}return w;}
+  function validateWeek(week){const w=[],stats=getAssistantStats(week);for(const[name]of Object.entries(ASSISTANTS)){const baseRules=ASSISTANTS[name];const rules=(name==='Manuela'&&(stats.Manuela.hours>baseRules.weeklyHours||stats.Manuela.afternoons>baseRules.maxAfternoons))?{...baseRules,weeklyHours:29,maxAfternoons:2}:baseRules;const s=stats[name];if(s.hours!==rules.weeklyHours)w.push({message:`${name}: ${s.hours}h su ${rules.weeklyHours}h`});if(s.afternoons<rules.minAfternoons)w.push({message:`${name}: pochi pomeriggi (${s.afternoons}/${rules.minAfternoons})`});if(s.afternoons>rules.maxAfternoons)w.push({message:`${name}: troppi pomeriggi (${s.afternoons}/${rules.maxAfternoons})`});if(name==='Manuela'&&s.afternoons>=2&&!week.days.some(d=>isManuelaClose1519(d.assignments.Manuela)))w.push({message:'Manuela: straordinario pomeridiano richiede turno 15:00-19:00'});if(name==='Manuela'&&s.afternoons>2)w.push({message:'Manuela: mai più di 2 pomeriggi'});}for(const day of week.days){const req=getRequiredCoverage(day),cov=getCoverage(day);if(cov.morning<req.morning)w.push({message:`${day.label}: apertura 08:30 scoperta`});if(cov.morningPair<req.morningPair)w.push({message:`${day.label}: serve doppia mattina (fino alle 13:30)`});if(day.key==='sat'&&cov.morning>1)w.push({message:`${day.label}: sabato solo un'assistente`});if(cov.afternoon<req.afternoon)w.push({message:`${day.label}: pomeriggio richiede ${req.afternoon}`});if(cov.close<req.close)w.push({message:`${day.label}: chiusura 19:00 scoperta`});if(cov.nearClose<req.nearClose)w.push({message:`${day.label}: serve una seconda assistente fino alle 18:00`});if(maxUncoveredGap(day)>LUNCH_GAP_MAX)w.push({message:`${day.label}: studio scoperto >30 min (pausa pranzo max 30')`});for(const n of ASSISTANT_NAMES){const sh=getShift(day.assignments[n]);if(sh.isLong&&!ASSISTANTS[n].canWorkLong)w.push({message:`${n}: turno lungo non previsto (${day.label})`});if(sh.hours>8.5)w.push({message:`${n}: giornata pesante >8.5h (${day.label})`});}}return w;}
   function formatWeekRange(week){return`${formatItalianDate(week.days[0].date)} - ${formatItalianDate(week.days[week.days.length-1].date)}`;}
   function formatWeekRangeShort(week){return`${formatDateShort(week.days[0].date)}–${formatDateShort(week.days[week.days.length-1].date)}`;}
 
@@ -640,10 +640,7 @@
       for(let s=STUDIO_OPEN;s<=STUDIO_CLOSE-300;s+=SLOT){if(s+300<=STUDIO_CLOSE)out.push({s,e:s+300});if(s+360<=STUDIO_CLOSE)out.push({s,e:s+360});}
       return out;
     }
-    // Giorno con doppia mattina + doppio pomeriggio: serve copertura continua con 2+2 assistenti,
-    // quindi si sblocca il turno lungo straordinario anche per chi normalmente non lo fa (Manuela/Madalina).
-    const doubleDouble=WEEKDAY_KEYS.includes(day.key)&&day.exceptions?.extraMorning&&day.exceptions?.extraAfternoon;
-    const canLong=ASSISTANTS[assistant].canWorkLong||doubleDouble;
+    const canLong=ASSISTANTS[assistant].canWorkLong;
     const out=['OFF'];
     for(const p of BASE_PAIRS){if(!canLong&&(p.e-p.s)>=LONG_SPAN)continue;out.push(p);}
     return out;
@@ -652,9 +649,9 @@
   // Domanda di presenze pomeridiane (turni isAfternoon) richieste nella settimana, e tetto massimo dato il limite pomeriggi di Manuela.
   // Ogni presenza isAfternoon finisce >=18:00, oltre ogni soglia: consuma sempre 1 quota pomeriggio. Quindi domanda<=capacita' e' condizione necessaria.
   function afternoonDemand(week){return week.days.reduce((n,d)=>n+getRequiredCoverage(d).afternoon,0);}
-  function afternoonCapacity(manuelaMax){return ASSISTANTS.Lucrezia.maxAfternoons+ASSISTANTS.Madalina.maxAfternoons+manuelaMax;}
-  // Solver a priorità: prima cerca soluzioni con 2 chiusure Lucrezia (poi 3); lo straordinario Manuela (+4h, 2 pomeriggi) resta l'ultima risorsa.
-  // Il pre-check sulla domanda pomeridiana salta i passaggi matematicamente impossibili (es. 3 giorni doppi richiedono lo straordinario).
+  // Solver a priorità: cerca la distribuzione pomeriggi più semplice (Luc2/Man1/Mad2), poi sale a tier
+  // via via meno preferiti (Madalina 3, poi Lucrezia 3, infine Manuela 2 con straordinario). Dentro ogni
+  // tier preferisce 2 chiusure Lucrezia (poi 3). Il pre-check sulla domanda salta i tier matematicamente impossibili.
   const SOLVE_BUDGET_FAST=60000, SOLVE_BUDGET_FULL=1500000;
   // Ordina le combo di un giorno preferendo, per ogni assistente, le ore vicine alla sua media giornaliera:
   // così il backtracking trova quasi subito la soluzione nei casi normali. È solo un ordinamento, non scarta nulla.
@@ -666,19 +663,29 @@
   // Firma di una settimana (assegnamenti di tutti i giorni/assistenti): per riconoscere/escludere una soluzione già trovata.
   function weekAssignmentSig(week){return week.days.map(d=>ASSISTANT_NAMES.map(n=>{const a=d.assignments[n];return isOff(a)?'OFF':`${a.s}-${a.e}`;}).join(',')).join('|');}
   // avoidSigs (opzionale, Set<string>): scarta le soluzioni con queste firme, per ciclare tutte le proposte.
+  // Tier di distribuzione pomeriggi, dal più preferito: base Luc2/Man1/Mad2, poi Madalina 3,
+  // poi Lucrezia 3, infine Manuela 2 con straordinario (29h). minAfternoons restano Luc2/Man1/Mad2.
+  const AFTERNOON_TIERS=[
+    {caps:{Lucrezia:2,Manuela:1,Madalina:2},ot:false},
+    {caps:{Lucrezia:2,Manuela:1,Madalina:3},ot:false},
+    {caps:{Lucrezia:3,Manuela:1,Madalina:3},ot:false},
+    {caps:{Lucrezia:3,Manuela:2,Madalina:3},ot:true},
+  ];
   function solveWeek(seedWeek,avoidSigs){
     const demand=afternoonDemand(seedWeek);
     const baseCombos=seedWeek.days.map((day,idx)=>getDayCombos(seedWeek,day,idx));
     const fastCombos=heuristicCombos(baseCombos);
+    const orig=Object.fromEntries(ASSISTANT_NAMES.map(n=>[n,{...ASSISTANTS[n]}]));
+    const restore=()=>{for(const n of ASSISTANT_NAMES)ASSISTANTS[n]={...orig[n]};};
     const attempt=(combos,budget)=>{
-      if(demand<=afternoonCapacity(ASSISTANTS.Manuela.maxAfternoons)){
-        for(const maxCloses of [2,3]){const r=solveWeekCore(seedWeek,maxCloses,combos,budget,avoidSigs);if(r.solved)return{...r,overtime:false};}
-      }
-      if(demand<=afternoonCapacity(2)){
-        const origManuela={...ASSISTANTS.Manuela};
-        ASSISTANTS.Manuela={...origManuela,weeklyHours:29,maxAfternoons:2};
-        for(const maxCloses of [2,3]){const r2=solveWeekCore(seedWeek,maxCloses,combos,budget,avoidSigs);if(r2.solved){ASSISTANTS.Manuela=origManuela;r2.week.overtimeUsed=true;return{...r2,overtime:true};}}
-        ASSISTANTS.Manuela=origManuela;
+      for(const tier of AFTERNOON_TIERS){
+        if(demand>tier.caps.Lucrezia+tier.caps.Manuela+tier.caps.Madalina)continue;
+        for(const n of ASSISTANT_NAMES)ASSISTANTS[n].maxAfternoons=tier.caps[n];
+        if(tier.ot)ASSISTANTS.Manuela.weeklyHours=29;
+        let found=null;
+        for(const maxCloses of [2,3]){const r=solveWeekCore(seedWeek,maxCloses,combos,budget,avoidSigs);if(r.solved){found=r;break;}}
+        restore();
+        if(found){if(tier.ot)found.week.overtimeUsed=true;return{...found,overtime:tier.ot};}
       }
       return null;
     };
