@@ -347,3 +347,15 @@ export function diversifyTimes(week){
 export function regenerateAlternativeWithFeedback(start,current,avoidSigs){const seed=createBaseWeek(start);applyPreviousWeekState(seed,current);const r=solveWeek(seed,avoidSigs);if(!r.solved)return{week:null,solved:false};let week=r.week;const dv=diversifyTimes(week);if(validateWeek(dv).length===0&&(!avoidSigs||!avoidSigs.has(weekAssignmentSig(dv))))week=dv;const otMsg=r.overtime?` ⚠️ Straordinario Manuela (+4h pom. extra, 29h totali).`:'';return{week,solved:true,message:'Soluzione alternativa trovata.'+otMsg};}
 export function updateShiftWithFeedback(week,dayKey,assistant,shiftId){const day=week.days.find(d=>d.key===dayKey);if(day)day.assignments[assistant]=shiftId;return{week,message:`${assistant} · ${day?.label} aggiornato.`};}
 export function getLockedShiftCount(week){return week.days.reduce((c,d)=>c+Object.values(d.locks).filter(Boolean).length,0);}
+
+// ── OTTIMIZZATORE (Fase 4): funzioni pure di costo ──
+// Varianza di popolazione (media degli scarti quadratici). Misura di squilibrio.
+export function variance(arr){if(arr.length===0)return 0;const m=arr.reduce((a,b)=>a+b,0)/arr.length;return arr.reduce((a,b)=>a+(b-m)*(b-m),0)/arr.length;}
+// Ledger equità: somma opens/closes/saturdays/workDays per persona sulle ultime N settimane
+// (più recenti per startDate). Persone non più in organico vengono ignorate (solo ASSISTANT_NAMES correnti).
+export function buildEquityLedger(pastWeeks,N=8){
+  const sorted=[...pastWeeks].filter(Boolean).sort((a,b)=>a.startDate<b.startDate?1:-1).slice(0,N);
+  const led=Object.fromEntries(ASSISTANT_NAMES.map(n=>[n,{opens:0,closes:0,saturdays:0,workDays:0}]));
+  for(const wk of sorted){const st=getAssistantStats(wk);for(const n of ASSISTANT_NAMES){const s=st[n];led[n].opens+=s.opens;led[n].closes+=s.closes;led[n].saturdays+=s.saturdays;led[n].workDays+=s.workDays;}}
+  return led;
+}
