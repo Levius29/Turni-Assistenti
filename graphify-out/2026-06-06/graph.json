@@ -51,6 +51,69 @@
   },
   "nodes": [
     {
+      "label": "settings.json",
+      "file_type": "code",
+      "source_file": ".claude/settings.json",
+      "source_location": "L1",
+      "id": "home_user_turni_assistenti_claude_settings_json",
+      "community": 4,
+      "norm_label": "settings.json"
+    },
+    {
+      "label": "hooks",
+      "file_type": "code",
+      "source_file": ".claude/settings.json",
+      "source_location": "L2",
+      "id": "claude_settings_hooks",
+      "community": 4,
+      "norm_label": "hooks"
+    },
+    {
+      "label": "PreToolUse",
+      "file_type": "code",
+      "source_file": ".claude/settings.json",
+      "source_location": "L3",
+      "id": "claude_settings_hooks_pretooluse",
+      "community": 4,
+      "norm_label": "pretooluse"
+    },
+    {
+      "label": "solver-logic.test.mjs",
+      "file_type": "code",
+      "source_file": "tests/solver-logic.test.mjs",
+      "source_location": "L1",
+      "id": "tests_solver_logic_test",
+      "community": 9,
+      "norm_label": "solver-logic.test.mjs"
+    },
+    {
+      "label": "html",
+      "file_type": "code",
+      "source_file": "tests/solver-logic.test.mjs",
+      "source_location": "L5",
+      "id": "tests_solver_logic_test_html",
+      "community": 9,
+      "norm_label": "html"
+    },
+    {
+      "label": "loadLogic()",
+      "file_type": "code",
+      "source_file": "tests/solver-logic.test.mjs",
+      "source_location": "L8",
+      "id": "tests_solver_logic_test_loadlogic",
+      "community": 9,
+      "norm_label": "loadlogic()"
+    },
+    {
+      "label": "solvedValid()",
+      "file_type": "code",
+      "source_file": "tests/solver-logic.test.mjs",
+      "source_location": "L66",
+      "id": "tests_solver_logic_test_solvedvalid",
+      "community": 9,
+      "norm_label": "solvedvalid()"
+    },
+    {
       "label": "ui-export.test.mjs",
       "file_type": "code",
       "source_file": "tests/ui-export.test.mjs",
@@ -78,6 +141,330 @@
       "norm_label": "loadlogic()"
     },
     {
+      "label": "CLAUDE.md",
+      "file_type": "document",
+      "source_file": "CLAUDE.md",
+      "source_location": "L1",
+      "id": "home_user_turni_assistenti_claude_md",
+      "community": 12,
+      "norm_label": "claude.md"
+    },
+    {
+      "label": "graphify",
+      "file_type": "document",
+      "source_file": "CLAUDE.md",
+      "source_location": "L1",
+      "id": "turni_assistenti_claude_graphify",
+      "community": 12,
+      "norm_label": "graphify"
+    },
+    {
+      "label": "2026-06-06-solver-audit.md",
+      "file_type": "document",
+      "source_file": "docs/superpowers/plans/2026-06-06-solver-audit.md",
+      "source_location": "L1",
+      "id": "plans_2026_06_06_solver_audit",
+      "community": 10,
+      "norm_label": "2026-06-06-solver-audit.md"
+    },
+    {
+      "label": "Solver Audit & Fix \u2014 Implementation Plan",
+      "file_type": "document",
+      "source_file": "docs/superpowers/plans/2026-06-06-solver-audit.md",
+      "source_location": "L1",
+      "id": "plans_2026_06_06_solver_audit_solver_audit_fix_implementation_plan",
+      "community": 10,
+      "norm_label": "solver audit & fix \u2014 implementation plan"
+    },
+    {
+      "label": "Convenzioni test",
+      "file_type": "document",
+      "source_file": "docs/superpowers/plans/2026-06-06-solver-audit.md",
+      "source_location": "L15",
+      "id": "plans_2026_06_06_solver_audit_convenzioni_test",
+      "community": 0,
+      "norm_label": "convenzioni test"
+    },
+    {
+      "label": "Task 1: #1+#2 \u2014 `coverageDeficit` (copertura cumulativa + debito pranzo)",
+      "file_type": "document",
+      "source_file": "docs/superpowers/plans/2026-06-06-solver-audit.md",
+      "source_location": "L35",
+      "id": "plans_2026_06_06_solver_audit_task_1_1_2_coveragedeficit_copertura_cumulativa_debito_pranzo",
+      "community": 0,
+      "norm_label": "task 1: #1+#2 \u2014 `coveragedeficit` (copertura cumulativa + debito pranzo)"
+    },
+    {
+      "label": "Task 2: #3 \u2014 `validateWeek` segnala giorni lavorati > max",
+      "file_type": "document",
+      "source_file": "docs/superpowers/plans/2026-06-06-solver-audit.md",
+      "source_location": "L100",
+      "id": "plans_2026_06_06_solver_audit_task_2_3_validateweek_segnala_giorni_lavorati_max",
+      "community": 0,
+      "norm_label": "task 2: #3 \u2014 `validateweek` segnala giorni lavorati > max"
+    },
+    {
+      "label": "Task 3: #4 \u2014 Niente mutazione globale di ASSISTANTS",
+      "file_type": "document",
+      "source_file": "docs/superpowers/plans/2026-06-06-solver-audit.md",
+      "source_location": "L133",
+      "id": "plans_2026_06_06_solver_audit_task_3_4_niente_mutazione_globale_di_assistants",
+      "community": 0,
+      "norm_label": "task 3: #4 \u2014 niente mutazione globale di assistants"
+    },
+    {
+      "label": "Task 4: #6 \u2014 `rem` calcolato una volta in `solveWeek`",
+      "file_type": "document",
+      "source_file": "docs/superpowers/plans/2026-06-06-solver-audit.md",
+      "source_location": "L166",
+      "id": "plans_2026_06_06_solver_audit_task_4_6_rem_calcolato_una_volta_in_solveweek",
+      "community": 0,
+      "norm_label": "task 4: #6 \u2014 `rem` calcolato una volta in `solveweek`"
+    },
+    {
+      "label": "Task 5: #5 \u2014 `getDayCombos` pre-dedup per-assistente",
+      "file_type": "document",
+      "source_file": "docs/superpowers/plans/2026-06-06-solver-audit.md",
+      "source_location": "L177",
+      "id": "plans_2026_06_06_solver_audit_task_5_5_getdaycombos_pre_dedup_per_assistente",
+      "community": 0,
+      "norm_label": "task 5: #5 \u2014 `getdaycombos` pre-dedup per-assistente"
+    },
+    {
+      "label": "Task 6: #7 \u2014 \"Alternativa\" con variet\u00e0 oraria",
+      "file_type": "document",
+      "source_file": "docs/superpowers/plans/2026-06-06-solver-audit.md",
+      "source_location": "L214",
+      "id": "plans_2026_06_06_solver_audit_task_6_7_alternativa_con_variet\u00e0_oraria",
+      "community": 0,
+      "norm_label": "task 6: #7 \u2014 \"alternativa\" con varieta oraria"
+    },
+    {
+      "label": "Task 7: #9 \u2014 Pruning storage",
+      "file_type": "document",
+      "source_file": "docs/superpowers/plans/2026-06-06-solver-audit.md",
+      "source_location": "L243",
+      "id": "plans_2026_06_06_solver_audit_task_7_9_pruning_storage",
+      "community": 0,
+      "norm_label": "task 7: #9 \u2014 pruning storage"
+    },
+    {
+      "label": "Task 8: #10 \u2014 Status \"Calcolo turni\u2026\" prima del solve",
+      "file_type": "document",
+      "source_file": "docs/superpowers/plans/2026-06-06-solver-audit.md",
+      "source_location": "L266",
+      "id": "plans_2026_06_06_solver_audit_task_8_10_status_calcolo_turni_prima_del_solve",
+      "community": 0,
+      "norm_label": "task 8: #10 \u2014 status \"calcolo turni...\" prima del solve"
+    },
+    {
+      "label": "Task 9: #11 \u2014 jsPDF SRI + crossorigin",
+      "file_type": "document",
+      "source_file": "docs/superpowers/plans/2026-06-06-solver-audit.md",
+      "source_location": "L276",
+      "id": "plans_2026_06_06_solver_audit_task_9_11_jspdf_sri_crossorigin",
+      "community": 0,
+      "norm_label": "task 9: #11 \u2014 jspdf sri + crossorigin"
+    },
+    {
+      "label": "Task 10: Verifica finale + graphify update",
+      "file_type": "document",
+      "source_file": "docs/superpowers/plans/2026-06-06-solver-audit.md",
+      "source_location": "L288",
+      "id": "plans_2026_06_06_solver_audit_task_10_verifica_finale_graphify_update",
+      "community": 0,
+      "norm_label": "task 10: verifica finale + graphify update"
+    },
+    {
+      "label": "Self-Review",
+      "file_type": "document",
+      "source_file": "docs/superpowers/plans/2026-06-06-solver-audit.md",
+      "source_location": "L297",
+      "id": "plans_2026_06_06_solver_audit_self_review",
+      "community": 10,
+      "norm_label": "self-review"
+    },
+    {
+      "label": "2026-06-06-solver-audit-design.md",
+      "file_type": "document",
+      "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
+      "source_location": "L1",
+      "id": "specs_2026_06_06_solver_audit_design",
+      "community": 2,
+      "norm_label": "2026-06-06-solver-audit-design.md"
+    },
+    {
+      "label": "Audit & miglioramento solver turni \u2014 Design",
+      "file_type": "document",
+      "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
+      "source_location": "L1",
+      "id": "specs_2026_06_06_solver_audit_design_audit_miglioramento_solver_turni_design",
+      "community": 2,
+      "norm_label": "audit & miglioramento solver turni \u2014 design"
+    },
+    {
+      "label": "Contesto",
+      "file_type": "document",
+      "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
+      "source_location": "L7",
+      "id": "specs_2026_06_06_solver_audit_design_contesto",
+      "community": 2,
+      "norm_label": "contesto"
+    },
+    {
+      "label": "Principio architetturale",
+      "file_type": "document",
+      "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
+      "source_location": "L18",
+      "id": "specs_2026_06_06_solver_audit_design_principio_architetturale",
+      "community": 2,
+      "norm_label": "principio architetturale"
+    },
+    {
+      "label": "Fix di correttezza",
+      "file_type": "document",
+      "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
+      "source_location": "L25",
+      "id": "specs_2026_06_06_solver_audit_design_fix_di_correttezza",
+      "community": 5,
+      "norm_label": "fix di correttezza"
+    },
+    {
+      "label": "#1 + #2 \u2014 Copertura unificata: `coverageDeficit`",
+      "file_type": "document",
+      "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
+      "source_location": "L27",
+      "id": "specs_2026_06_06_solver_audit_design_1_2_copertura_unificata_coveragedeficit",
+      "community": 5,
+      "norm_label": "#1 + #2 \u2014 copertura unificata: `coveragedeficit`"
+    },
+    {
+      "label": "#3 \u2014 `validateWeek` controlla i giorni lavorati",
+      "file_type": "document",
+      "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
+      "source_location": "L47",
+      "id": "specs_2026_06_06_solver_audit_design_3_validateweek_controlla_i_giorni_lavorati",
+      "community": 5,
+      "norm_label": "#3 \u2014 `validateweek` controlla i giorni lavorati"
+    },
+    {
+      "label": "#4 \u2014 Niente mutazione globale di `ASSISTANTS`",
+      "file_type": "document",
+      "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
+      "source_location": "L54",
+      "id": "specs_2026_06_06_solver_audit_design_4_niente_mutazione_globale_di_assistants",
+      "community": 5,
+      "norm_label": "#4 \u2014 niente mutazione globale di `assistants`"
+    },
+    {
+      "label": "Fix di velocit\u00e0",
+      "file_type": "document",
+      "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
+      "source_location": "L62",
+      "id": "specs_2026_06_06_solver_audit_design_fix_di_velocit\u00e0",
+      "community": 2,
+      "norm_label": "fix di velocita"
+    },
+    {
+      "label": "#5 \u2014 `getDayCombos` da O(N\u00b3) a ~O(K\u00b3)",
+      "file_type": "document",
+      "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
+      "source_location": "L64",
+      "id": "specs_2026_06_06_solver_audit_design_5_getdaycombos_da_o_n3_a_o_k3",
+      "community": 2,
+      "norm_label": "#5 \u2014 `getdaycombos` da o(n3) a ~o(k3)"
+    },
+    {
+      "label": "#6 \u2014 `rem` calcolato una volta",
+      "file_type": "document",
+      "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
+      "source_location": "L72",
+      "id": "specs_2026_06_06_solver_audit_design_6_rem_calcolato_una_volta",
+      "community": 2,
+      "norm_label": "#6 \u2014 `rem` calcolato una volta"
+    },
+    {
+      "label": "Combinazioni",
+      "file_type": "document",
+      "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
+      "source_location": "L78",
+      "id": "specs_2026_06_06_solver_audit_design_combinazioni",
+      "community": 11,
+      "norm_label": "combinazioni"
+    },
+    {
+      "label": "#7 \u2014 \"Alternativa\" con variet\u00e0 oraria reale",
+      "file_type": "document",
+      "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
+      "source_location": "L80",
+      "id": "specs_2026_06_06_solver_audit_design_7_alternativa_con_variet\u00e0_oraria_reale",
+      "community": 11,
+      "norm_label": "#7 \u2014 \"alternativa\" con varieta oraria reale"
+    },
+    {
+      "label": "#8 \u2014 Griglia 30 minuti",
+      "file_type": "document",
+      "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
+      "source_location": "L88",
+      "id": "specs_2026_06_06_solver_audit_design_8_griglia_30_minuti",
+      "community": 11,
+      "norm_label": "#8 \u2014 griglia 30 minuti"
+    },
+    {
+      "label": "Migliorie",
+      "file_type": "document",
+      "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
+      "source_location": "L92",
+      "id": "specs_2026_06_06_solver_audit_design_migliorie",
+      "community": 3,
+      "norm_label": "migliorie"
+    },
+    {
+      "label": "#9 \u2014 Pruning storage",
+      "file_type": "document",
+      "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
+      "source_location": "L94",
+      "id": "specs_2026_06_06_solver_audit_design_9_pruning_storage",
+      "community": 3,
+      "norm_label": "#9 \u2014 pruning storage"
+    },
+    {
+      "label": "#10 \u2014 Niente freeze UI durante il solve",
+      "file_type": "document",
+      "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
+      "source_location": "L99",
+      "id": "specs_2026_06_06_solver_audit_design_10_niente_freeze_ui_durante_il_solve",
+      "community": 3,
+      "norm_label": "#10 \u2014 niente freeze ui durante il solve"
+    },
+    {
+      "label": "#11 \u2014 jsPDF robusto",
+      "file_type": "document",
+      "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
+      "source_location": "L105",
+      "id": "specs_2026_06_06_solver_audit_design_11_jspdf_robusto",
+      "community": 3,
+      "norm_label": "#11 \u2014 jspdf robusto"
+    },
+    {
+      "label": "Test",
+      "file_type": "document",
+      "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
+      "source_location": "L111",
+      "id": "specs_2026_06_06_solver_audit_design_test",
+      "community": 2,
+      "norm_label": "test"
+    },
+    {
+      "label": "Fuori scope",
+      "file_type": "document",
+      "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
+      "source_location": "L124",
+      "id": "specs_2026_06_06_solver_audit_design_fuori_scope",
+      "community": 2,
+      "norm_label": "fuori scope"
+    },
+    {
       "label": "settings.json",
       "file_type": "code",
       "source_file": ".claude/settings.json",
@@ -85,24 +472,6 @@
       "community": 4,
       "norm_label": "settings.json",
       "id": "claude_settings"
-    },
-    {
-      "label": "hooks",
-      "file_type": "code",
-      "source_file": ".claude/settings.json",
-      "source_location": "L2",
-      "community": 4,
-      "norm_label": "hooks",
-      "id": "claude_settings_hooks"
-    },
-    {
-      "label": "PreToolUse",
-      "file_type": "code",
-      "source_file": ".claude/settings.json",
-      "source_location": "L3",
-      "community": 4,
-      "norm_label": "pretooluse",
-      "id": "claude_settings_hooks_pretooluse"
     },
     {
       "label": "CLAUDE.md",
@@ -166,22 +535,12 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "tests/ui-export.test.mjs",
-      "source_location": "L5",
+      "source_file": ".claude/settings.json",
+      "source_location": "L2",
       "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "tests_ui_export_test",
-      "target": "tests_ui_export_test_html"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "tests/ui-export.test.mjs",
-      "source_location": "L8",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "tests_ui_export_test",
-      "target": "tests_ui_export_test_loadlogic"
+      "source": "home_user_turni_assistenti_claude_settings_json",
+      "target": "claude_settings_hooks",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -202,6 +561,386 @@
       "confidence_score": 1.0,
       "source": "claude_settings_hooks",
       "target": "claude_settings_hooks_pretooluse"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/solver-logic.test.mjs",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "tests_solver_logic_test",
+      "target": "tests_solver_logic_test_html",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/solver-logic.test.mjs",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "tests_solver_logic_test",
+      "target": "tests_solver_logic_test_loadlogic",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/solver-logic.test.mjs",
+      "source_location": "L66",
+      "weight": 1.0,
+      "source": "tests_solver_logic_test",
+      "target": "tests_solver_logic_test_solvedvalid",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/ui-export.test.mjs",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tests_ui_export_test",
+      "target": "tests_ui_export_test_html"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/ui-export.test.mjs",
+      "source_location": "L8",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tests_ui_export_test",
+      "target": "tests_ui_export_test_loadlogic"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "CLAUDE.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "home_user_turni_assistenti_claude_md",
+      "target": "turni_assistenti_claude_graphify",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/plans/2026-06-06-solver-audit.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "plans_2026_06_06_solver_audit",
+      "target": "plans_2026_06_06_solver_audit_solver_audit_fix_implementation_plan",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/plans/2026-06-06-solver-audit.md",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "plans_2026_06_06_solver_audit_solver_audit_fix_implementation_plan",
+      "target": "plans_2026_06_06_solver_audit_convenzioni_test",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/plans/2026-06-06-solver-audit.md",
+      "source_location": "L297",
+      "weight": 1.0,
+      "source": "plans_2026_06_06_solver_audit_solver_audit_fix_implementation_plan",
+      "target": "plans_2026_06_06_solver_audit_self_review",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/plans/2026-06-06-solver-audit.md",
+      "source_location": "L288",
+      "weight": 1.0,
+      "source": "plans_2026_06_06_solver_audit_convenzioni_test",
+      "target": "plans_2026_06_06_solver_audit_task_10_verifica_finale_graphify_update",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/plans/2026-06-06-solver-audit.md",
+      "source_location": "L35",
+      "weight": 1.0,
+      "source": "plans_2026_06_06_solver_audit_convenzioni_test",
+      "target": "plans_2026_06_06_solver_audit_task_1_1_2_coveragedeficit_copertura_cumulativa_debito_pranzo",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/plans/2026-06-06-solver-audit.md",
+      "source_location": "L100",
+      "weight": 1.0,
+      "source": "plans_2026_06_06_solver_audit_convenzioni_test",
+      "target": "plans_2026_06_06_solver_audit_task_2_3_validateweek_segnala_giorni_lavorati_max",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/plans/2026-06-06-solver-audit.md",
+      "source_location": "L133",
+      "weight": 1.0,
+      "source": "plans_2026_06_06_solver_audit_convenzioni_test",
+      "target": "plans_2026_06_06_solver_audit_task_3_4_niente_mutazione_globale_di_assistants",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/plans/2026-06-06-solver-audit.md",
+      "source_location": "L166",
+      "weight": 1.0,
+      "source": "plans_2026_06_06_solver_audit_convenzioni_test",
+      "target": "plans_2026_06_06_solver_audit_task_4_6_rem_calcolato_una_volta_in_solveweek",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/plans/2026-06-06-solver-audit.md",
+      "source_location": "L177",
+      "weight": 1.0,
+      "source": "plans_2026_06_06_solver_audit_convenzioni_test",
+      "target": "plans_2026_06_06_solver_audit_task_5_5_getdaycombos_pre_dedup_per_assistente",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/plans/2026-06-06-solver-audit.md",
+      "source_location": "L214",
+      "weight": 1.0,
+      "source": "plans_2026_06_06_solver_audit_convenzioni_test",
+      "target": "plans_2026_06_06_solver_audit_task_6_7_alternativa_con_variet\u00e0_oraria",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/plans/2026-06-06-solver-audit.md",
+      "source_location": "L243",
+      "weight": 1.0,
+      "source": "plans_2026_06_06_solver_audit_convenzioni_test",
+      "target": "plans_2026_06_06_solver_audit_task_7_9_pruning_storage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/plans/2026-06-06-solver-audit.md",
+      "source_location": "L266",
+      "weight": 1.0,
+      "source": "plans_2026_06_06_solver_audit_convenzioni_test",
+      "target": "plans_2026_06_06_solver_audit_task_8_10_status_calcolo_turni_prima_del_solve",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/plans/2026-06-06-solver-audit.md",
+      "source_location": "L276",
+      "weight": 1.0,
+      "source": "plans_2026_06_06_solver_audit_convenzioni_test",
+      "target": "plans_2026_06_06_solver_audit_task_9_11_jspdf_sri_crossorigin",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "specs_2026_06_06_solver_audit_design",
+      "target": "specs_2026_06_06_solver_audit_design_audit_miglioramento_solver_turni_design",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
+      "source_location": "L78",
+      "weight": 1.0,
+      "source": "specs_2026_06_06_solver_audit_design_audit_miglioramento_solver_turni_design",
+      "target": "specs_2026_06_06_solver_audit_design_combinazioni",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "specs_2026_06_06_solver_audit_design_audit_miglioramento_solver_turni_design",
+      "target": "specs_2026_06_06_solver_audit_design_contesto",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
+      "source_location": "L25",
+      "weight": 1.0,
+      "source": "specs_2026_06_06_solver_audit_design_audit_miglioramento_solver_turni_design",
+      "target": "specs_2026_06_06_solver_audit_design_fix_di_correttezza",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
+      "source_location": "L62",
+      "weight": 1.0,
+      "source": "specs_2026_06_06_solver_audit_design_audit_miglioramento_solver_turni_design",
+      "target": "specs_2026_06_06_solver_audit_design_fix_di_velocit\u00e0",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
+      "source_location": "L124",
+      "weight": 1.0,
+      "source": "specs_2026_06_06_solver_audit_design_audit_miglioramento_solver_turni_design",
+      "target": "specs_2026_06_06_solver_audit_design_fuori_scope",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
+      "source_location": "L92",
+      "weight": 1.0,
+      "source": "specs_2026_06_06_solver_audit_design_audit_miglioramento_solver_turni_design",
+      "target": "specs_2026_06_06_solver_audit_design_migliorie",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
+      "source_location": "L18",
+      "weight": 1.0,
+      "source": "specs_2026_06_06_solver_audit_design_audit_miglioramento_solver_turni_design",
+      "target": "specs_2026_06_06_solver_audit_design_principio_architetturale",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
+      "source_location": "L111",
+      "weight": 1.0,
+      "source": "specs_2026_06_06_solver_audit_design_audit_miglioramento_solver_turni_design",
+      "target": "specs_2026_06_06_solver_audit_design_test",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
+      "source_location": "L27",
+      "weight": 1.0,
+      "source": "specs_2026_06_06_solver_audit_design_fix_di_correttezza",
+      "target": "specs_2026_06_06_solver_audit_design_1_2_copertura_unificata_coveragedeficit",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
+      "source_location": "L47",
+      "weight": 1.0,
+      "source": "specs_2026_06_06_solver_audit_design_fix_di_correttezza",
+      "target": "specs_2026_06_06_solver_audit_design_3_validateweek_controlla_i_giorni_lavorati",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
+      "source_location": "L54",
+      "weight": 1.0,
+      "source": "specs_2026_06_06_solver_audit_design_fix_di_correttezza",
+      "target": "specs_2026_06_06_solver_audit_design_4_niente_mutazione_globale_di_assistants",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
+      "source_location": "L64",
+      "weight": 1.0,
+      "source": "specs_2026_06_06_solver_audit_design_fix_di_velocit\u00e0",
+      "target": "specs_2026_06_06_solver_audit_design_5_getdaycombos_da_o_n3_a_o_k3",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
+      "source_location": "L72",
+      "weight": 1.0,
+      "source": "specs_2026_06_06_solver_audit_design_fix_di_velocit\u00e0",
+      "target": "specs_2026_06_06_solver_audit_design_6_rem_calcolato_una_volta",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
+      "source_location": "L80",
+      "weight": 1.0,
+      "source": "specs_2026_06_06_solver_audit_design_combinazioni",
+      "target": "specs_2026_06_06_solver_audit_design_7_alternativa_con_variet\u00e0_oraria_reale",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
+      "source_location": "L88",
+      "weight": 1.0,
+      "source": "specs_2026_06_06_solver_audit_design_combinazioni",
+      "target": "specs_2026_06_06_solver_audit_design_8_griglia_30_minuti",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
+      "source_location": "L99",
+      "weight": 1.0,
+      "source": "specs_2026_06_06_solver_audit_design_migliorie",
+      "target": "specs_2026_06_06_solver_audit_design_10_niente_freeze_ui_durante_il_solve",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
+      "source_location": "L105",
+      "weight": 1.0,
+      "source": "specs_2026_06_06_solver_audit_design_migliorie",
+      "target": "specs_2026_06_06_solver_audit_design_11_jspdf_robusto",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
+      "source_location": "L94",
+      "weight": 1.0,
+      "source": "specs_2026_06_06_solver_audit_design_migliorie",
+      "target": "specs_2026_06_06_solver_audit_design_9_pruning_storage",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -270,5 +1009,5 @@
       "source_file": "index.html"
     }
   ],
-  "built_at_commit": "58043cdffbdc1d90b7ee954ed66f418932a92243"
+  "built_at_commit": "6b448c5b721f61856a8a07efe744daa130b05c9a"
 }
