@@ -362,7 +362,7 @@
       "source_file": "src/app.js",
       "source_location": "L43",
       "id": "src_app_resetalthistory",
-      "community": 3,
+      "community": 16,
       "norm_label": "resetalthistory()"
     },
     {
@@ -371,7 +371,7 @@
       "source_file": "src/app.js",
       "source_location": "L44",
       "id": "src_app_requestalternative",
-      "community": 11,
+      "community": 5,
       "norm_label": "requestalternative()"
     },
     {
@@ -380,7 +380,7 @@
       "source_file": "src/app.js",
       "source_location": "L64",
       "id": "src_app_applytheme",
-      "community": 3,
+      "community": 19,
       "norm_label": "applytheme()"
     },
     {
@@ -389,7 +389,7 @@
       "source_file": "src/app.js",
       "source_location": "L65",
       "id": "src_app_toggletheme",
-      "community": 3,
+      "community": 19,
       "norm_label": "toggletheme()"
     },
     {
@@ -407,7 +407,7 @@
       "source_file": "src/app.js",
       "source_location": "L76",
       "id": "src_app_render",
-      "community": 3,
+      "community": 15,
       "norm_label": "render()"
     },
     {
@@ -461,7 +461,7 @@
       "source_file": "src/app.js",
       "source_location": "L181",
       "id": "src_app_buildshiftbadge",
-      "community": 3,
+      "community": 10,
       "norm_label": "buildshiftbadge()"
     },
     {
@@ -470,7 +470,7 @@
       "source_file": "src/app.js",
       "source_location": "L185",
       "id": "src_app_updateshiftbadge",
-      "community": 3,
+      "community": 10,
       "norm_label": "updateshiftbadge()"
     },
     {
@@ -506,7 +506,7 @@
       "source_file": "src/app.js",
       "source_location": "L213",
       "id": "src_app_rendersummary",
-      "community": 3,
+      "community": 17,
       "norm_label": "rendersummary()"
     },
     {
@@ -515,7 +515,7 @@
       "source_file": "src/app.js",
       "source_location": "L227",
       "id": "src_app_renderdayeditor",
-      "community": 3,
+      "community": 15,
       "norm_label": "renderdayeditor()"
     },
     {
@@ -524,7 +524,7 @@
       "source_file": "src/app.js",
       "source_location": "L248",
       "id": "src_app_renderwarnings",
-      "community": 5,
+      "community": 15,
       "norm_label": "renderwarnings()"
     },
     {
@@ -533,7 +533,7 @@
       "source_file": "src/app.js",
       "source_location": "L255",
       "id": "src_app_getcurrentweek",
-      "community": 3,
+      "community": 15,
       "norm_label": "getcurrentweek()"
     },
     {
@@ -542,7 +542,7 @@
       "source_file": "src/app.js",
       "source_location": "L256",
       "id": "src_app_changeweek",
-      "community": 3,
+      "community": 16,
       "norm_label": "changeweek()"
     },
     {
@@ -551,7 +551,7 @@
       "source_file": "src/app.js",
       "source_location": "L259",
       "id": "src_app_saveweeks",
-      "community": 3,
+      "community": 16,
       "norm_label": "saveweeks()"
     },
     {
@@ -587,7 +587,7 @@
       "source_file": "src/app.js",
       "source_location": "L274",
       "id": "src_app_showstatus",
-      "community": 3,
+      "community": 15,
       "norm_label": "showstatus()"
     },
     {
@@ -605,7 +605,7 @@
       "source_file": "src/app.js",
       "source_location": "L281",
       "id": "src_app_ensureweekshape",
-      "community": 3,
+      "community": 15,
       "norm_label": "ensureweekshape()"
     },
     {
@@ -632,7 +632,7 @@
       "source_file": "src/app.js",
       "source_location": "L293",
       "id": "src_app_exportpdf",
-      "community": 3,
+      "community": 15,
       "norm_label": "exportpdf()"
     },
     {
@@ -645,37 +645,37 @@
       "norm_label": "scheduler.js"
     },
     {
+      "label": "STAFF_CONFIG",
+      "file_type": "code",
+      "source_file": "src/scheduler.js",
+      "source_location": "L33",
+      "id": "src_scheduler_staff_config",
+      "community": 5,
+      "norm_label": "staff_config"
+    },
+    {
       "label": "ASSISTANT_NAMES",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L25",
+      "source_location": "L38",
       "id": "src_scheduler_assistant_names",
-      "community": 5,
+      "community": 3,
       "norm_label": "assistant_names"
-    },
-    {
-      "label": "ASSISTANTS",
-      "file_type": "code",
-      "source_file": "src/scheduler.js",
-      "source_location": "L26",
-      "id": "src_scheduler_assistants",
-      "community": 5,
-      "norm_label": "assistants"
     },
     {
       "label": "WEEKDAY_KEYS",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L31",
+      "source_location": "L43",
       "id": "src_scheduler_weekday_keys",
-      "community": 5,
+      "community": 3,
       "norm_label": "weekday_keys"
     },
     {
       "label": "fmt()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L37",
+      "source_location": "L49",
       "id": "src_scheduler_fmt",
       "community": 10,
       "norm_label": "fmt()"
@@ -684,7 +684,7 @@
       "label": "isOff()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L38",
+      "source_location": "L50",
       "id": "src_scheduler_isoff",
       "community": 10,
       "norm_label": "isoff()"
@@ -693,7 +693,7 @@
       "label": "SHIFT_OFF",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L39",
+      "source_location": "L51",
       "id": "src_scheduler_shift_off",
       "community": 5,
       "norm_label": "shift_off"
@@ -702,16 +702,16 @@
       "label": "_shiftCache",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L40",
+      "source_location": "L52",
       "id": "src_scheduler_shiftcache",
-      "community": 5,
+      "community": 3,
       "norm_label": "_shiftcache"
     },
     {
       "label": "deriveShift()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L42",
+      "source_location": "L54",
       "id": "src_scheduler_deriveshift",
       "community": 10,
       "norm_label": "deriveshift()"
@@ -720,7 +720,7 @@
       "label": "getShift()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L57",
+      "source_location": "L69",
       "id": "src_scheduler_getshift",
       "community": 10,
       "norm_label": "getshift()"
@@ -729,7 +729,7 @@
       "label": "BASE_PAIRS",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L59",
+      "source_location": "L71",
       "id": "src_scheduler_base_pairs",
       "community": 5,
       "norm_label": "base_pairs"
@@ -738,88 +738,88 @@
       "label": "LEGACY_TEMPLATES",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L61",
+      "source_location": "L73",
       "id": "src_scheduler_legacy_templates",
-      "community": 5,
+      "community": 3,
       "norm_label": "legacy_templates"
     },
     {
       "label": "WEEK_DAYS",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L62",
+      "source_location": "L74",
       "id": "src_scheduler_week_days",
-      "community": 5,
+      "community": 3,
       "norm_label": "week_days"
     },
     {
       "label": "addDays()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L67",
+      "source_location": "L79",
       "id": "src_scheduler_adddays",
-      "community": 3,
+      "community": 16,
       "norm_label": "adddays()"
     },
     {
       "label": "getCurrentMonday()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L68",
+      "source_location": "L80",
       "id": "src_scheduler_getcurrentmonday",
-      "community": 11,
+      "community": 5,
       "norm_label": "getcurrentmonday()"
     },
     {
       "label": "formatItalianDate()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L69",
+      "source_location": "L81",
       "id": "src_scheduler_formatitaliandate",
-      "community": 3,
+      "community": 15,
       "norm_label": "formatitaliandate()"
     },
     {
       "label": "formatDateShort()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L70",
+      "source_location": "L82",
       "id": "src_scheduler_formatdateshort",
-      "community": 3,
+      "community": 15,
       "norm_label": "formatdateshort()"
     },
     {
       "label": "assign()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L71",
+      "source_location": "L83",
       "id": "src_scheduler_assign",
-      "community": 11,
+      "community": 5,
       "norm_label": "assign()"
     },
     {
       "label": "createEmptyWeek()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L72",
+      "source_location": "L84",
       "id": "src_scheduler_createemptyweek",
-      "community": 11,
+      "community": 5,
       "norm_label": "createemptyweek()"
     },
     {
       "label": "createBaseWeek()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L74",
+      "source_location": "L87",
       "id": "src_scheduler_createbaseweek",
-      "community": 11,
+      "community": 5,
       "norm_label": "createbaseweek()"
     },
     {
       "label": "AFTERNOON_END_THRESHOLD",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L76",
+      "source_location": "L89",
       "id": "src_scheduler_afternoon_end_threshold",
       "community": 5,
       "norm_label": "afternoon_end_threshold"
@@ -828,16 +828,25 @@
       "label": "countsAsAfternoon()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L77",
+      "source_location": "L90",
       "id": "src_scheduler_countsasafternoon",
-      "community": 3,
+      "community": 17,
       "norm_label": "countsasafternoon()"
+    },
+    {
+      "label": "worksOvertimeShift()",
+      "file_type": "code",
+      "source_file": "src/scheduler.js",
+      "source_location": "L92",
+      "id": "src_scheduler_worksovertimeshift",
+      "community": 10,
+      "norm_label": "worksovertimeshift()"
     },
     {
       "label": "isManuelaClose1519()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L79",
+      "source_location": "L94",
       "id": "src_scheduler_ismanuelaclose1519",
       "community": 10,
       "norm_label": "ismanuelaclose1519()"
@@ -846,16 +855,16 @@
       "label": "getAssistantStats()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L80",
+      "source_location": "L95",
       "id": "src_scheduler_getassistantstats",
-      "community": 3,
+      "community": 17,
       "norm_label": "getassistantstats()"
     },
     {
       "label": "getRequiredCoverage()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L81",
+      "source_location": "L96",
       "id": "src_scheduler_getrequiredcoverage",
       "community": 5,
       "norm_label": "getrequiredcoverage()"
@@ -864,7 +873,7 @@
       "label": "shiftsOf()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L82",
+      "source_location": "L97",
       "id": "src_scheduler_shiftsof",
       "community": 5,
       "norm_label": "shiftsof()"
@@ -873,7 +882,7 @@
       "label": "coverageOf()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L85",
+      "source_location": "L100",
       "id": "src_scheduler_coverageof",
       "community": 5,
       "norm_label": "coverageof()"
@@ -882,7 +891,7 @@
       "label": "getCoverage()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L89",
+      "source_location": "L104",
       "id": "src_scheduler_getcoverage",
       "community": 5,
       "norm_label": "getcoverage()"
@@ -891,7 +900,7 @@
       "label": "coverageDeficit()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L93",
+      "source_location": "L108",
       "id": "src_scheduler_coveragedeficit",
       "community": 5,
       "norm_label": "coveragedeficit()"
@@ -900,7 +909,7 @@
       "label": "maxUncoveredGap()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L112",
+      "source_location": "L127",
       "id": "src_scheduler_maxuncoveredgap",
       "community": 5,
       "norm_label": "maxuncoveredgap()"
@@ -909,7 +918,7 @@
       "label": "validateWeek()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L113",
+      "source_location": "L128",
       "id": "src_scheduler_validateweek",
       "community": 5,
       "norm_label": "validateweek()"
@@ -918,25 +927,25 @@
       "label": "formatWeekRange()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L114",
+      "source_location": "L129",
       "id": "src_scheduler_formatweekrange",
-      "community": 3,
+      "community": 15,
       "norm_label": "formatweekrange()"
     },
     {
       "label": "formatWeekRangeShort()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L115",
+      "source_location": "L130",
       "id": "src_scheduler_formatweekrangeshort",
-      "community": 3,
+      "community": 15,
       "norm_label": "formatweekrangeshort()"
     },
     {
       "label": "getAllowedShifts()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L118",
+      "source_location": "L133",
       "id": "src_scheduler_getallowedshifts",
       "community": 5,
       "norm_label": "getallowedshifts()"
@@ -945,16 +954,16 @@
       "label": "generateWeek()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L132",
+      "source_location": "L147",
       "id": "src_scheduler_generateweek",
-      "community": 11,
+      "community": 5,
       "norm_label": "generateweek()"
     },
     {
       "label": "afternoonDemand()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L135",
+      "source_location": "L150",
       "id": "src_scheduler_afternoondemand",
       "community": 5,
       "norm_label": "afternoondemand()"
@@ -963,7 +972,7 @@
       "label": "heuristicCombos()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L142",
+      "source_location": "L157",
       "id": "src_scheduler_heuristiccombos",
       "community": 5,
       "norm_label": "heuristiccombos()"
@@ -972,25 +981,25 @@
       "label": "weekAssignmentSig()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L148",
+      "source_location": "L163",
       "id": "src_scheduler_weekassignmentsig",
-      "community": 11,
+      "community": 5,
       "norm_label": "weekassignmentsig()"
     },
     {
       "label": "AFTERNOON_TIERS",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L152",
+      "source_location": "L169",
       "id": "src_scheduler_afternoon_tiers",
-      "community": 5,
+      "community": 3,
       "norm_label": "afternoon_tiers"
     },
     {
       "label": "solveWeek()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L158",
+      "source_location": "L179",
       "id": "src_scheduler_solveweek",
       "community": 5,
       "norm_label": "solveweek()"
@@ -999,7 +1008,7 @@
       "label": "buildRem()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L186",
+      "source_location": "L207",
       "id": "src_scheduler_buildrem",
       "community": 5,
       "norm_label": "buildrem()"
@@ -1008,7 +1017,7 @@
       "label": "solveWeekCore()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L187",
+      "source_location": "L208",
       "id": "src_scheduler_solveweekcore",
       "community": 5,
       "norm_label": "solveweekcore()"
@@ -1017,7 +1026,7 @@
       "label": "getDayCombos()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L222",
+      "source_location": "L242",
       "id": "src_scheduler_getdaycombos",
       "community": 5,
       "norm_label": "getdaycombos()"
@@ -1026,7 +1035,7 @@
       "label": "cloneStats()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L266",
+      "source_location": "L297",
       "id": "src_scheduler_clonestats",
       "community": 5,
       "norm_label": "clonestats()"
@@ -1035,34 +1044,34 @@
       "label": "buildWeekFromDayAssignments()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L267",
+      "source_location": "L298",
       "id": "src_scheduler_buildweekfromdayassignments",
-      "community": 5,
+      "community": 3,
       "norm_label": "buildweekfromdayassignments()"
     },
     {
       "label": "applyPreviousWeekState()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L268",
+      "source_location": "L299",
       "id": "src_scheduler_applypreviousweekstate",
-      "community": 11,
+      "community": 5,
       "norm_label": "applypreviousweekstate()"
     },
     {
       "label": "regenerateWeekWithFeedback()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L269",
+      "source_location": "L300",
       "id": "src_scheduler_regenerateweekwithfeedback",
-      "community": 11,
+      "community": 5,
       "norm_label": "regenerateweekwithfeedback()"
     },
     {
       "label": "regenerateCleanWeekWithFeedback()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L270",
+      "source_location": "L301",
       "id": "src_scheduler_regeneratecleanweekwithfeedback",
       "community": 11,
       "norm_label": "regeneratecleanweekwithfeedback()"
@@ -1071,7 +1080,7 @@
       "label": "diversifyTimes()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L274",
+      "source_location": "L305",
       "id": "src_scheduler_diversifytimes",
       "community": 5,
       "norm_label": "diversifytimes()"
@@ -1080,16 +1089,16 @@
       "label": "regenerateAlternativeWithFeedback()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L292",
+      "source_location": "L323",
       "id": "src_scheduler_regeneratealternativewithfeedback",
-      "community": 11,
+      "community": 5,
       "norm_label": "regeneratealternativewithfeedback()"
     },
     {
       "label": "updateShiftWithFeedback()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L293",
+      "source_location": "L324",
       "id": "src_scheduler_updateshiftwithfeedback",
       "community": 10,
       "norm_label": "updateshiftwithfeedback()"
@@ -1098,10 +1107,37 @@
       "label": "getLockedShiftCount()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L294",
+      "source_location": "L325",
       "id": "src_scheduler_getlockedshiftcount",
-      "community": 3,
+      "community": 17,
       "norm_label": "getlockedshiftcount()"
+    },
+    {
+      "label": "generic-team.test.mjs",
+      "file_type": "code",
+      "source_file": "tests/generic-team.test.mjs",
+      "source_location": "L1",
+      "id": "tests_generic_team_test",
+      "community": 18,
+      "norm_label": "generic-team.test.mjs"
+    },
+    {
+      "label": "src",
+      "file_type": "code",
+      "source_file": "tests/generic-team.test.mjs",
+      "source_location": "L8",
+      "id": "tests_generic_team_test_src",
+      "community": 18,
+      "norm_label": "src"
+    },
+    {
+      "label": "loadWithStaff()",
+      "file_type": "code",
+      "source_file": "tests/generic-team.test.mjs",
+      "source_location": "L10",
+      "id": "tests_generic_team_test_loadwithstaff",
+      "community": 18,
+      "norm_label": "loadwithstaff()"
     },
     {
       "label": "regression.test.mjs",
@@ -1152,7 +1188,7 @@
       "label": "solvedValid()",
       "file_type": "code",
       "source_file": "tests/solver-logic.test.mjs",
-      "source_location": "L60",
+      "source_location": "L66",
       "id": "tests_solver_logic_test_solvedvalid",
       "community": 9,
       "norm_label": "solvedvalid()"
@@ -1518,6 +1554,15 @@
       "norm_label": "fuori scope"
     },
     {
+      "label": "ASSISTANTS",
+      "file_type": "code",
+      "source_file": "src/scheduler.js",
+      "source_location": "L39",
+      "id": "src_scheduler_assistants",
+      "community": 3,
+      "norm_label": "assistants"
+    },
+    {
       "label": "html",
       "file_type": "code",
       "source_file": "tests/solver-logic.test.mjs",
@@ -1630,9 +1675,9 @@
       "source_file": "jsconfig.json",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "jsconfig",
-      "target": "jsconfig_compileroptions",
-      "confidence_score": 1.0
+      "target": "jsconfig_compileroptions"
     },
     {
       "relation": "contains",
@@ -1640,9 +1685,9 @@
       "source_file": "jsconfig.json",
       "source_location": "L10",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "jsconfig",
-      "target": "jsconfig_include",
-      "confidence_score": 1.0
+      "target": "jsconfig_include"
     },
     {
       "relation": "contains",
@@ -1650,9 +1695,9 @@
       "source_file": "jsconfig.json",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "jsconfig_compileroptions",
-      "target": "jsconfig_compileroptions_checkjs",
-      "confidence_score": 1.0
+      "target": "jsconfig_compileroptions_checkjs"
     },
     {
       "relation": "contains",
@@ -1660,9 +1705,9 @@
       "source_file": "jsconfig.json",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "jsconfig_compileroptions",
-      "target": "jsconfig_compileroptions_lib",
-      "confidence_score": 1.0
+      "target": "jsconfig_compileroptions_lib"
     },
     {
       "relation": "contains",
@@ -1670,9 +1715,9 @@
       "source_file": "jsconfig.json",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "jsconfig_compileroptions",
-      "target": "jsconfig_compileroptions_module",
-      "confidence_score": 1.0
+      "target": "jsconfig_compileroptions_module"
     },
     {
       "relation": "contains",
@@ -1680,9 +1725,9 @@
       "source_file": "jsconfig.json",
       "source_location": "L5",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "jsconfig_compileroptions",
-      "target": "jsconfig_compileroptions_moduleresolution",
-      "confidence_score": 1.0
+      "target": "jsconfig_compileroptions_moduleresolution"
     },
     {
       "relation": "contains",
@@ -1690,9 +1735,9 @@
       "source_file": "jsconfig.json",
       "source_location": "L8",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "jsconfig_compileroptions",
-      "target": "jsconfig_compileroptions_noemit",
-      "confidence_score": 1.0
+      "target": "jsconfig_compileroptions_noemit"
     },
     {
       "relation": "contains",
@@ -1700,9 +1745,9 @@
       "source_file": "jsconfig.json",
       "source_location": "L4",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "jsconfig_compileroptions",
-      "target": "jsconfig_compileroptions_target",
-      "confidence_score": 1.0
+      "target": "jsconfig_compileroptions_target"
     },
     {
       "relation": "contains",
@@ -1710,9 +1755,9 @@
       "source_file": "package.json",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "package",
-      "target": "package_description",
-      "confidence_score": 1.0
+      "target": "package_description"
     },
     {
       "relation": "contains",
@@ -1720,9 +1765,9 @@
       "source_file": "package.json",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "package",
-      "target": "package_name",
-      "confidence_score": 1.0
+      "target": "package_name"
     },
     {
       "relation": "contains",
@@ -1730,9 +1775,9 @@
       "source_file": "package.json",
       "source_location": "L4",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "package",
-      "target": "package_private",
-      "confidence_score": 1.0
+      "target": "package_private"
     },
     {
       "relation": "contains",
@@ -1740,9 +1785,9 @@
       "source_file": "package.json",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "package",
-      "target": "package_scripts",
-      "confidence_score": 1.0
+      "target": "package_scripts"
     },
     {
       "relation": "contains",
@@ -1750,9 +1795,9 @@
       "source_file": "package.json",
       "source_location": "L5",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "package",
-      "target": "package_type",
-      "confidence_score": 1.0
+      "target": "package_type"
     },
     {
       "relation": "contains",
@@ -1760,9 +1805,9 @@
       "source_file": "package.json",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "package",
-      "target": "package_version",
-      "confidence_score": 1.0
+      "target": "package_version"
     },
     {
       "relation": "contains",
@@ -1770,9 +1815,9 @@
       "source_file": "package.json",
       "source_location": "L8",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "package_scripts",
-      "target": "package_scripts_test",
-      "confidence_score": 1.0
+      "target": "package_scripts_test"
     },
     {
       "relation": "contains",
@@ -1780,9 +1825,9 @@
       "source_file": "src/app.js",
       "source_location": "L42",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_app_althistory",
-      "confidence_score": 1.0
+      "target": "src_app_althistory"
     },
     {
       "relation": "contains",
@@ -1790,9 +1835,9 @@
       "source_file": "src/app.js",
       "source_location": "L207",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_app_applyshiftclass",
-      "confidence_score": 1.0
+      "target": "src_app_applyshiftclass"
     },
     {
       "relation": "contains",
@@ -1800,9 +1845,9 @@
       "source_file": "src/app.js",
       "source_location": "L64",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_app_applytheme",
-      "confidence_score": 1.0
+      "target": "src_app_applytheme"
     },
     {
       "relation": "contains",
@@ -1810,9 +1855,9 @@
       "source_file": "src/app.js",
       "source_location": "L96",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_app_builddesktopgrid",
-      "confidence_score": 1.0
+      "target": "src_app_builddesktopgrid"
     },
     {
       "relation": "contains",
@@ -1820,9 +1865,9 @@
       "source_file": "src/app.js",
       "source_location": "L122",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_app_buildmobilegrid",
-      "confidence_score": 1.0
+      "target": "src_app_buildmobilegrid"
     },
     {
       "relation": "contains",
@@ -1830,9 +1875,9 @@
       "source_file": "src/app.js",
       "source_location": "L181",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_app_buildshiftbadge",
-      "confidence_score": 1.0
+      "target": "src_app_buildshiftbadge"
     },
     {
       "relation": "contains",
@@ -1840,9 +1885,9 @@
       "source_file": "src/app.js",
       "source_location": "L147",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_app_buildshiftcontent",
-      "confidence_score": 1.0
+      "target": "src_app_buildshiftcontent"
     },
     {
       "relation": "contains",
@@ -1850,9 +1895,9 @@
       "source_file": "src/app.js",
       "source_location": "L68",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_app_buildthemetoggle",
-      "confidence_score": 1.0
+      "target": "src_app_buildthemetoggle"
     },
     {
       "relation": "contains",
@@ -1860,9 +1905,9 @@
       "source_file": "src/app.js",
       "source_location": "L256",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_app_changeweek",
-      "confidence_score": 1.0
+      "target": "src_app_changeweek"
     },
     {
       "relation": "contains",
@@ -1870,9 +1915,9 @@
       "source_file": "src/app.js",
       "source_location": "L270",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_app_createcell",
-      "confidence_score": 1.0
+      "target": "src_app_createcell"
     },
     {
       "relation": "contains",
@@ -1880,9 +1925,9 @@
       "source_file": "src/app.js",
       "source_location": "L196",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_app_createlocktoggle",
-      "confidence_score": 1.0
+      "target": "src_app_createlocktoggle"
     },
     {
       "relation": "contains",
@@ -1890,9 +1935,9 @@
       "source_file": "src/app.js",
       "source_location": "L9",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_app_currentstart",
-      "confidence_score": 1.0
+      "target": "src_app_currentstart"
     },
     {
       "relation": "contains",
@@ -1900,9 +1945,9 @@
       "source_file": "src/app.js",
       "source_location": "L20",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_app_dayeditordiv",
-      "confidence_score": 1.0
+      "target": "src_app_dayeditordiv"
     },
     {
       "relation": "contains",
@@ -1910,9 +1955,9 @@
       "source_file": "src/app.js",
       "source_location": "L25",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_app_deferheavy",
-      "confidence_score": 1.0
+      "target": "src_app_deferheavy"
     },
     {
       "relation": "contains",
@@ -1920,9 +1965,9 @@
       "source_file": "src/app.js",
       "source_location": "L26",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_app_dogenerate",
-      "confidence_score": 1.0
+      "target": "src_app_dogenerate"
     },
     {
       "relation": "contains",
@@ -1930,9 +1975,9 @@
       "source_file": "src/app.js",
       "source_location": "L27",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_app_doreset",
-      "confidence_score": 1.0
+      "target": "src_app_doreset"
     },
     {
       "relation": "contains",
@@ -1940,9 +1985,9 @@
       "source_file": "src/app.js",
       "source_location": "L289",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_app_drawpdfbadge",
-      "confidence_score": 1.0
+      "target": "src_app_drawpdfbadge"
     },
     {
       "relation": "contains",
@@ -1950,9 +1995,9 @@
       "source_file": "src/app.js",
       "source_location": "L281",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_app_ensureweekshape",
-      "confidence_score": 1.0
+      "target": "src_app_ensureweekshape"
     },
     {
       "relation": "contains",
@@ -1960,9 +2005,9 @@
       "source_file": "src/app.js",
       "source_location": "L293",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_app_exportpdf",
-      "confidence_score": 1.0
+      "target": "src_app_exportpdf"
     },
     {
       "relation": "contains",
@@ -1970,9 +2015,9 @@
       "source_file": "src/app.js",
       "source_location": "L271",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_app_getcontractlabel",
-      "confidence_score": 1.0
+      "target": "src_app_getcontractlabel"
     },
     {
       "relation": "contains",
@@ -1980,9 +2025,9 @@
       "source_file": "src/app.js",
       "source_location": "L255",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_app_getcurrentweek",
-      "confidence_score": 1.0
+      "target": "src_app_getcurrentweek"
     },
     {
       "relation": "contains",
@@ -1990,9 +2035,9 @@
       "source_file": "src/app.js",
       "source_location": "L284",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_app_getdayvariationlabel",
-      "confidence_score": 1.0
+      "target": "src_app_getdayvariationlabel"
     },
     {
       "relation": "contains",
@@ -2000,9 +2045,9 @@
       "source_file": "src/app.js",
       "source_location": "L279",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_app_getprintshiftlabel",
-      "confidence_score": 1.0
+      "target": "src_app_getprintshiftlabel"
     },
     {
       "relation": "contains",
@@ -2010,9 +2055,9 @@
       "source_file": "src/app.js",
       "source_location": "L194",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_app_getshiftbadgecodes",
-      "confidence_score": 1.0
+      "target": "src_app_getshiftbadgecodes"
     },
     {
       "relation": "contains",
@@ -2020,9 +2065,9 @@
       "source_file": "src/app.js",
       "source_location": "L95",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_app_isdayclosed",
-      "confidence_score": 1.0
+      "target": "src_app_isdayclosed"
     },
     {
       "relation": "contains",
@@ -2030,9 +2075,9 @@
       "source_file": "src/app.js",
       "source_location": "L269",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_app_loadweeks",
-      "confidence_score": 1.0
+      "target": "src_app_loadweeks"
     },
     {
       "relation": "contains",
@@ -2040,9 +2085,9 @@
       "source_file": "src/app.js",
       "source_location": "L76",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_app_render",
-      "confidence_score": 1.0
+      "target": "src_app_render"
     },
     {
       "relation": "contains",
@@ -2050,9 +2095,9 @@
       "source_file": "src/app.js",
       "source_location": "L227",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_app_renderdayeditor",
-      "confidence_score": 1.0
+      "target": "src_app_renderdayeditor"
     },
     {
       "relation": "contains",
@@ -2060,9 +2105,9 @@
       "source_file": "src/app.js",
       "source_location": "L87",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_app_rendergrid",
-      "confidence_score": 1.0
+      "target": "src_app_rendergrid"
     },
     {
       "relation": "contains",
@@ -2070,9 +2115,9 @@
       "source_file": "src/app.js",
       "source_location": "L213",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_app_rendersummary",
-      "confidence_score": 1.0
+      "target": "src_app_rendersummary"
     },
     {
       "relation": "contains",
@@ -2080,9 +2125,9 @@
       "source_file": "src/app.js",
       "source_location": "L248",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_app_renderwarnings",
-      "confidence_score": 1.0
+      "target": "src_app_renderwarnings"
     },
     {
       "relation": "contains",
@@ -2090,9 +2135,9 @@
       "source_file": "src/app.js",
       "source_location": "L44",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_app_requestalternative",
-      "confidence_score": 1.0
+      "target": "src_app_requestalternative"
     },
     {
       "relation": "contains",
@@ -2100,9 +2145,9 @@
       "source_file": "src/app.js",
       "source_location": "L43",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_app_resetalthistory",
-      "confidence_score": 1.0
+      "target": "src_app_resetalthistory"
     },
     {
       "relation": "contains",
@@ -2110,9 +2155,9 @@
       "source_file": "src/app.js",
       "source_location": "L259",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_app_saveweeks",
-      "confidence_score": 1.0
+      "target": "src_app_saveweeks"
     },
     {
       "relation": "contains",
@@ -2120,9 +2165,9 @@
       "source_file": "src/app.js",
       "source_location": "L15",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_app_schedulegrid",
-      "confidence_score": 1.0
+      "target": "src_app_schedulegrid"
     },
     {
       "relation": "contains",
@@ -2130,9 +2175,9 @@
       "source_file": "src/app.js",
       "source_location": "L274",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_app_showstatus",
-      "confidence_score": 1.0
+      "target": "src_app_showstatus"
     },
     {
       "relation": "contains",
@@ -2140,9 +2185,9 @@
       "source_file": "src/app.js",
       "source_location": "L21",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_app_statusmsg",
-      "confidence_score": 1.0
+      "target": "src_app_statusmsg"
     },
     {
       "relation": "contains",
@@ -2150,9 +2195,9 @@
       "source_file": "src/app.js",
       "source_location": "L18",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_app_summarydiv",
-      "confidence_score": 1.0
+      "target": "src_app_summarydiv"
     },
     {
       "relation": "contains",
@@ -2160,9 +2205,9 @@
       "source_file": "src/app.js",
       "source_location": "L65",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_app_toggletheme",
-      "confidence_score": 1.0
+      "target": "src_app_toggletheme"
     },
     {
       "relation": "contains",
@@ -2170,9 +2215,9 @@
       "source_file": "src/app.js",
       "source_location": "L185",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_app_updateshiftbadge",
-      "confidence_score": 1.0
+      "target": "src_app_updateshiftbadge"
     },
     {
       "relation": "contains",
@@ -2180,9 +2225,9 @@
       "source_file": "src/app.js",
       "source_location": "L19",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_app_warningsdiv",
-      "confidence_score": 1.0
+      "target": "src_app_warningsdiv"
     },
     {
       "relation": "contains",
@@ -2190,9 +2235,9 @@
       "source_file": "src/app.js",
       "source_location": "L16",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_app_weeklabel",
-      "confidence_score": 1.0
+      "target": "src_app_weeklabel"
     },
     {
       "relation": "contains",
@@ -2200,9 +2245,9 @@
       "source_file": "src/app.js",
       "source_location": "L17",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_app_weeklabelmob",
-      "confidence_score": 1.0
+      "target": "src_app_weeklabelmob"
     },
     {
       "relation": "contains",
@@ -2210,9 +2255,9 @@
       "source_file": "src/app.js",
       "source_location": "L8",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_app_weeks",
-      "confidence_score": 1.0
+      "target": "src_app_weeks"
     },
     {
       "relation": "imports_from",
@@ -2221,9 +2266,9 @@
       "source_file": "src/app.js",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_scheduler",
-      "confidence_score": 1.0
+      "target": "src_scheduler"
     },
     {
       "relation": "imports",
@@ -2232,9 +2277,9 @@
       "source_file": "src/app.js",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_scheduler_adddays",
-      "confidence_score": 1.0
+      "target": "src_scheduler_adddays"
     },
     {
       "relation": "imports",
@@ -2243,9 +2288,9 @@
       "source_file": "src/app.js",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_scheduler_afternoon_end_threshold",
-      "confidence_score": 1.0
+      "target": "src_scheduler_afternoon_end_threshold"
     },
     {
       "relation": "imports",
@@ -2254,9 +2299,9 @@
       "source_file": "src/app.js",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_scheduler_afternoon_tiers",
-      "confidence_score": 1.0
+      "target": "src_scheduler_afternoon_tiers"
     },
     {
       "relation": "imports",
@@ -2265,9 +2310,9 @@
       "source_file": "src/app.js",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_scheduler_afternoondemand",
-      "confidence_score": 1.0
+      "target": "src_scheduler_afternoondemand"
     },
     {
       "relation": "imports",
@@ -2276,9 +2321,9 @@
       "source_file": "src/app.js",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_scheduler_applypreviousweekstate",
-      "confidence_score": 1.0
+      "target": "src_scheduler_applypreviousweekstate"
     },
     {
       "relation": "imports",
@@ -2287,9 +2332,9 @@
       "source_file": "src/app.js",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_scheduler_assign",
-      "confidence_score": 1.0
+      "target": "src_scheduler_assign"
     },
     {
       "relation": "imports",
@@ -2298,9 +2343,9 @@
       "source_file": "src/app.js",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_scheduler_assistant_names",
-      "confidence_score": 1.0
+      "target": "src_scheduler_assistant_names"
     },
     {
       "relation": "imports",
@@ -2309,9 +2354,9 @@
       "source_file": "src/app.js",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_scheduler_assistants",
-      "confidence_score": 1.0
+      "target": "src_scheduler_assistants"
     },
     {
       "relation": "imports",
@@ -2320,9 +2365,9 @@
       "source_file": "src/app.js",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_scheduler_base_pairs",
-      "confidence_score": 1.0
+      "target": "src_scheduler_base_pairs"
     },
     {
       "relation": "imports",
@@ -2331,9 +2376,9 @@
       "source_file": "src/app.js",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_scheduler_buildrem",
-      "confidence_score": 1.0
+      "target": "src_scheduler_buildrem"
     },
     {
       "relation": "imports",
@@ -2342,9 +2387,9 @@
       "source_file": "src/app.js",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_scheduler_buildweekfromdayassignments",
-      "confidence_score": 1.0
+      "target": "src_scheduler_buildweekfromdayassignments"
     },
     {
       "relation": "imports",
@@ -2353,9 +2398,9 @@
       "source_file": "src/app.js",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_scheduler_clonestats",
-      "confidence_score": 1.0
+      "target": "src_scheduler_clonestats"
     },
     {
       "relation": "imports",
@@ -2364,9 +2409,9 @@
       "source_file": "src/app.js",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_scheduler_countsasafternoon",
-      "confidence_score": 1.0
+      "target": "src_scheduler_countsasafternoon"
     },
     {
       "relation": "imports",
@@ -2375,9 +2420,9 @@
       "source_file": "src/app.js",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_scheduler_coveragedeficit",
-      "confidence_score": 1.0
+      "target": "src_scheduler_coveragedeficit"
     },
     {
       "relation": "imports",
@@ -2386,9 +2431,9 @@
       "source_file": "src/app.js",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_scheduler_coverageof",
-      "confidence_score": 1.0
+      "target": "src_scheduler_coverageof"
     },
     {
       "relation": "imports",
@@ -2397,9 +2442,9 @@
       "source_file": "src/app.js",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_scheduler_createbaseweek",
-      "confidence_score": 1.0
+      "target": "src_scheduler_createbaseweek"
     },
     {
       "relation": "imports",
@@ -2408,9 +2453,9 @@
       "source_file": "src/app.js",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_scheduler_createemptyweek",
-      "confidence_score": 1.0
+      "target": "src_scheduler_createemptyweek"
     },
     {
       "relation": "imports",
@@ -2419,9 +2464,9 @@
       "source_file": "src/app.js",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_scheduler_deriveshift",
-      "confidence_score": 1.0
+      "target": "src_scheduler_deriveshift"
     },
     {
       "relation": "imports",
@@ -2430,9 +2475,9 @@
       "source_file": "src/app.js",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_scheduler_diversifytimes",
-      "confidence_score": 1.0
+      "target": "src_scheduler_diversifytimes"
     },
     {
       "relation": "imports",
@@ -2441,9 +2486,9 @@
       "source_file": "src/app.js",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_scheduler_fmt",
-      "confidence_score": 1.0
+      "target": "src_scheduler_fmt"
     },
     {
       "relation": "imports",
@@ -2452,9 +2497,9 @@
       "source_file": "src/app.js",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_scheduler_formatdateshort",
-      "confidence_score": 1.0
+      "target": "src_scheduler_formatdateshort"
     },
     {
       "relation": "imports",
@@ -2463,9 +2508,9 @@
       "source_file": "src/app.js",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_scheduler_formatitaliandate",
-      "confidence_score": 1.0
+      "target": "src_scheduler_formatitaliandate"
     },
     {
       "relation": "imports",
@@ -2474,9 +2519,9 @@
       "source_file": "src/app.js",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_scheduler_formatweekrange",
-      "confidence_score": 1.0
+      "target": "src_scheduler_formatweekrange"
     },
     {
       "relation": "imports",
@@ -2485,9 +2530,9 @@
       "source_file": "src/app.js",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_scheduler_formatweekrangeshort",
-      "confidence_score": 1.0
+      "target": "src_scheduler_formatweekrangeshort"
     },
     {
       "relation": "imports",
@@ -2496,9 +2541,9 @@
       "source_file": "src/app.js",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_scheduler_generateweek",
-      "confidence_score": 1.0
+      "target": "src_scheduler_generateweek"
     },
     {
       "relation": "imports",
@@ -2507,9 +2552,9 @@
       "source_file": "src/app.js",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_scheduler_getallowedshifts",
-      "confidence_score": 1.0
+      "target": "src_scheduler_getallowedshifts"
     },
     {
       "relation": "imports",
@@ -2518,9 +2563,9 @@
       "source_file": "src/app.js",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_scheduler_getassistantstats",
-      "confidence_score": 1.0
+      "target": "src_scheduler_getassistantstats"
     },
     {
       "relation": "imports",
@@ -2529,9 +2574,9 @@
       "source_file": "src/app.js",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_scheduler_getcoverage",
-      "confidence_score": 1.0
+      "target": "src_scheduler_getcoverage"
     },
     {
       "relation": "imports",
@@ -2540,9 +2585,9 @@
       "source_file": "src/app.js",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_scheduler_getcurrentmonday",
-      "confidence_score": 1.0
+      "target": "src_scheduler_getcurrentmonday"
     },
     {
       "relation": "imports",
@@ -2551,9 +2596,9 @@
       "source_file": "src/app.js",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_scheduler_getdaycombos",
-      "confidence_score": 1.0
+      "target": "src_scheduler_getdaycombos"
     },
     {
       "relation": "imports",
@@ -2562,9 +2607,9 @@
       "source_file": "src/app.js",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_scheduler_getlockedshiftcount",
-      "confidence_score": 1.0
+      "target": "src_scheduler_getlockedshiftcount"
     },
     {
       "relation": "imports",
@@ -2573,9 +2618,9 @@
       "source_file": "src/app.js",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_scheduler_getrequiredcoverage",
-      "confidence_score": 1.0
+      "target": "src_scheduler_getrequiredcoverage"
     },
     {
       "relation": "imports",
@@ -2584,9 +2629,9 @@
       "source_file": "src/app.js",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_scheduler_getshift",
-      "confidence_score": 1.0
+      "target": "src_scheduler_getshift"
     },
     {
       "relation": "imports",
@@ -2595,9 +2640,9 @@
       "source_file": "src/app.js",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_scheduler_heuristiccombos",
-      "confidence_score": 1.0
+      "target": "src_scheduler_heuristiccombos"
     },
     {
       "relation": "imports",
@@ -2606,9 +2651,9 @@
       "source_file": "src/app.js",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_scheduler_ismanuelaclose1519",
-      "confidence_score": 1.0
+      "target": "src_scheduler_ismanuelaclose1519"
     },
     {
       "relation": "imports",
@@ -2617,9 +2662,9 @@
       "source_file": "src/app.js",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_scheduler_isoff",
-      "confidence_score": 1.0
+      "target": "src_scheduler_isoff"
     },
     {
       "relation": "imports",
@@ -2628,9 +2673,9 @@
       "source_file": "src/app.js",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_scheduler_legacy_templates",
-      "confidence_score": 1.0
+      "target": "src_scheduler_legacy_templates"
     },
     {
       "relation": "imports",
@@ -2639,9 +2684,9 @@
       "source_file": "src/app.js",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_scheduler_maxuncoveredgap",
-      "confidence_score": 1.0
+      "target": "src_scheduler_maxuncoveredgap"
     },
     {
       "relation": "imports",
@@ -2650,9 +2695,9 @@
       "source_file": "src/app.js",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_scheduler_regeneratealternativewithfeedback",
-      "confidence_score": 1.0
+      "target": "src_scheduler_regeneratealternativewithfeedback"
     },
     {
       "relation": "imports",
@@ -2661,9 +2706,9 @@
       "source_file": "src/app.js",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_scheduler_regeneratecleanweekwithfeedback",
-      "confidence_score": 1.0
+      "target": "src_scheduler_regeneratecleanweekwithfeedback"
     },
     {
       "relation": "imports",
@@ -2672,9 +2717,9 @@
       "source_file": "src/app.js",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_scheduler_regenerateweekwithfeedback",
-      "confidence_score": 1.0
+      "target": "src_scheduler_regenerateweekwithfeedback"
     },
     {
       "relation": "imports",
@@ -2683,9 +2728,9 @@
       "source_file": "src/app.js",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_scheduler_shift_off",
-      "confidence_score": 1.0
+      "target": "src_scheduler_shift_off"
     },
     {
       "relation": "imports",
@@ -2694,9 +2739,9 @@
       "source_file": "src/app.js",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_scheduler_shiftcache",
-      "confidence_score": 1.0
+      "target": "src_scheduler_shiftcache"
     },
     {
       "relation": "imports",
@@ -2705,9 +2750,9 @@
       "source_file": "src/app.js",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_scheduler_shiftsof",
-      "confidence_score": 1.0
+      "target": "src_scheduler_shiftsof"
     },
     {
       "relation": "imports",
@@ -2716,9 +2761,9 @@
       "source_file": "src/app.js",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_scheduler_solveweek",
-      "confidence_score": 1.0
+      "target": "src_scheduler_solveweek"
     },
     {
       "relation": "imports",
@@ -2727,9 +2772,9 @@
       "source_file": "src/app.js",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_scheduler_solveweekcore",
-      "confidence_score": 1.0
+      "target": "src_scheduler_solveweekcore"
     },
     {
       "relation": "imports",
@@ -2738,9 +2783,9 @@
       "source_file": "src/app.js",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_scheduler_updateshiftwithfeedback",
-      "confidence_score": 1.0
+      "target": "src_scheduler_updateshiftwithfeedback"
     },
     {
       "relation": "imports",
@@ -2749,9 +2794,9 @@
       "source_file": "src/app.js",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_scheduler_validateweek",
-      "confidence_score": 1.0
+      "target": "src_scheduler_validateweek"
     },
     {
       "relation": "imports",
@@ -2760,9 +2805,9 @@
       "source_file": "src/app.js",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_scheduler_week_days",
-      "confidence_score": 1.0
+      "target": "src_scheduler_week_days"
     },
     {
       "relation": "imports",
@@ -2771,9 +2816,9 @@
       "source_file": "src/app.js",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_scheduler_weekassignmentsig",
-      "confidence_score": 1.0
+      "target": "src_scheduler_weekassignmentsig"
     },
     {
       "relation": "imports",
@@ -2782,9 +2827,9 @@
       "source_file": "src/app.js",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_scheduler_weekday_keys",
-      "confidence_score": 1.0
+      "target": "src_scheduler_weekday_keys"
     },
     {
       "relation": "calls",
@@ -2793,9 +2838,9 @@
       "source_file": "src/app.js",
       "source_location": "L25",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app_deferheavy",
-      "target": "src_app_showstatus",
-      "confidence_score": 1.0
+      "target": "src_app_showstatus"
     },
     {
       "relation": "calls",
@@ -2804,9 +2849,9 @@
       "source_file": "src/app.js",
       "source_location": "L26",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app_dogenerate",
-      "target": "src_app_deferheavy",
-      "confidence_score": 1.0
+      "target": "src_app_deferheavy"
     },
     {
       "relation": "calls",
@@ -2815,9 +2860,9 @@
       "source_file": "src/app.js",
       "source_location": "L27",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app_doreset",
-      "target": "src_app_deferheavy",
-      "confidence_score": 1.0
+      "target": "src_app_deferheavy"
     },
     {
       "relation": "calls",
@@ -2826,9 +2871,9 @@
       "source_file": "src/app.js",
       "source_location": "L45",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app_requestalternative",
-      "target": "src_app_deferheavy",
-      "confidence_score": 1.0
+      "target": "src_app_deferheavy"
     },
     {
       "relation": "calls",
@@ -2837,9 +2882,9 @@
       "source_file": "src/app.js",
       "source_location": "L26",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app_dogenerate",
-      "target": "src_scheduler_regenerateweekwithfeedback",
-      "confidence_score": 1.0
+      "target": "src_scheduler_regenerateweekwithfeedback"
     },
     {
       "relation": "calls",
@@ -2848,9 +2893,9 @@
       "source_file": "src/app.js",
       "source_location": "L27",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app_doreset",
-      "target": "src_scheduler_regeneratecleanweekwithfeedback",
-      "confidence_score": 1.0
+      "target": "src_scheduler_regeneratecleanweekwithfeedback"
     },
     {
       "relation": "calls",
@@ -2859,9 +2904,9 @@
       "source_file": "src/app.js",
       "source_location": "L256",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app_changeweek",
-      "target": "src_app_resetalthistory",
-      "confidence_score": 1.0
+      "target": "src_app_resetalthistory"
     },
     {
       "relation": "calls",
@@ -2870,9 +2915,9 @@
       "source_file": "src/app.js",
       "source_location": "L50",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app_requestalternative",
-      "target": "src_scheduler_regeneratealternativewithfeedback",
-      "confidence_score": 1.0
+      "target": "src_scheduler_regeneratealternativewithfeedback"
     },
     {
       "relation": "calls",
@@ -2881,9 +2926,9 @@
       "source_file": "src/app.js",
       "source_location": "L48",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app_requestalternative",
-      "target": "src_scheduler_weekassignmentsig",
-      "confidence_score": 1.0
+      "target": "src_scheduler_weekassignmentsig"
     },
     {
       "relation": "calls",
@@ -2892,9 +2937,9 @@
       "source_file": "src/app.js",
       "source_location": "L65",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app_toggletheme",
-      "target": "src_app_applytheme",
-      "confidence_score": 1.0
+      "target": "src_app_applytheme"
     },
     {
       "relation": "calls",
@@ -2903,9 +2948,9 @@
       "source_file": "src/app.js",
       "source_location": "L65",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app_toggletheme",
-      "target": "src_app_render",
-      "confidence_score": 1.0
+      "target": "src_app_render"
     },
     {
       "relation": "calls",
@@ -2914,9 +2959,9 @@
       "source_file": "src/app.js",
       "source_location": "L97",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app_builddesktopgrid",
-      "target": "src_app_buildthemetoggle",
-      "confidence_score": 1.0
+      "target": "src_app_buildthemetoggle"
     },
     {
       "relation": "calls",
@@ -2925,9 +2970,9 @@
       "source_file": "src/app.js",
       "source_location": "L124",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app_buildmobilegrid",
-      "target": "src_app_buildthemetoggle",
-      "confidence_score": 1.0
+      "target": "src_app_buildthemetoggle"
     },
     {
       "relation": "calls",
@@ -2936,9 +2981,9 @@
       "source_file": "src/app.js",
       "source_location": "L256",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app_changeweek",
-      "target": "src_app_render",
-      "confidence_score": 1.0
+      "target": "src_app_render"
     },
     {
       "relation": "calls",
@@ -2947,9 +2992,9 @@
       "source_file": "src/app.js",
       "source_location": "L78",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app_render",
-      "target": "src_app_ensureweekshape",
-      "confidence_score": 1.0
+      "target": "src_app_ensureweekshape"
     },
     {
       "relation": "calls",
@@ -2958,9 +3003,9 @@
       "source_file": "src/app.js",
       "source_location": "L77",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app_render",
-      "target": "src_app_getcurrentweek",
-      "confidence_score": 1.0
+      "target": "src_app_getcurrentweek"
     },
     {
       "relation": "calls",
@@ -2969,9 +3014,9 @@
       "source_file": "src/app.js",
       "source_location": "L83",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app_render",
-      "target": "src_app_renderdayeditor",
-      "confidence_score": 1.0
+      "target": "src_app_renderdayeditor"
     },
     {
       "relation": "calls",
@@ -2980,9 +3025,9 @@
       "source_file": "src/app.js",
       "source_location": "L81",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app_render",
-      "target": "src_app_rendergrid",
-      "confidence_score": 1.0
+      "target": "src_app_rendergrid"
     },
     {
       "relation": "calls",
@@ -2991,9 +3036,9 @@
       "source_file": "src/app.js",
       "source_location": "L82",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app_render",
-      "target": "src_app_rendersummary",
-      "confidence_score": 1.0
+      "target": "src_app_rendersummary"
     },
     {
       "relation": "calls",
@@ -3002,9 +3047,9 @@
       "source_file": "src/app.js",
       "source_location": "L84",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app_render",
-      "target": "src_app_renderwarnings",
-      "confidence_score": 1.0
+      "target": "src_app_renderwarnings"
     },
     {
       "relation": "calls",
@@ -3013,9 +3058,9 @@
       "source_file": "src/app.js",
       "source_location": "L79",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app_render",
-      "target": "src_scheduler_formatweekrange",
-      "confidence_score": 1.0
+      "target": "src_scheduler_formatweekrange"
     },
     {
       "relation": "calls",
@@ -3024,9 +3069,9 @@
       "source_file": "src/app.js",
       "source_location": "L80",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app_render",
-      "target": "src_scheduler_formatweekrangeshort",
-      "confidence_score": 1.0
+      "target": "src_scheduler_formatweekrangeshort"
     },
     {
       "relation": "calls",
@@ -3035,9 +3080,9 @@
       "source_file": "src/app.js",
       "source_location": "L92",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app_rendergrid",
-      "target": "src_app_builddesktopgrid",
-      "confidence_score": 1.0
+      "target": "src_app_builddesktopgrid"
     },
     {
       "relation": "calls",
@@ -3046,9 +3091,9 @@
       "source_file": "src/app.js",
       "source_location": "L91",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app_rendergrid",
-      "target": "src_app_buildmobilegrid",
-      "confidence_score": 1.0
+      "target": "src_app_buildmobilegrid"
     },
     {
       "relation": "calls",
@@ -3057,9 +3102,9 @@
       "source_file": "src/app.js",
       "source_location": "L99",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app_builddesktopgrid",
-      "target": "src_app_isdayclosed",
-      "confidence_score": 1.0
+      "target": "src_app_isdayclosed"
     },
     {
       "relation": "calls",
@@ -3068,9 +3113,9 @@
       "source_file": "src/app.js",
       "source_location": "L128",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app_buildmobilegrid",
-      "target": "src_app_isdayclosed",
-      "confidence_score": 1.0
+      "target": "src_app_isdayclosed"
     },
     {
       "relation": "calls",
@@ -3079,9 +3124,9 @@
       "source_file": "src/app.js",
       "source_location": "L111",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app_builddesktopgrid",
-      "target": "src_app_buildshiftcontent",
-      "confidence_score": 1.0
+      "target": "src_app_buildshiftcontent"
     },
     {
       "relation": "calls",
@@ -3090,9 +3135,9 @@
       "source_file": "src/app.js",
       "source_location": "L97",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app_builddesktopgrid",
-      "target": "src_app_createcell",
-      "confidence_score": 1.0
+      "target": "src_app_createcell"
     },
     {
       "relation": "calls",
@@ -3101,9 +3146,9 @@
       "source_file": "src/app.js",
       "source_location": "L112",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app_builddesktopgrid",
-      "target": "src_app_createlocktoggle",
-      "confidence_score": 1.0
+      "target": "src_app_createlocktoggle"
     },
     {
       "relation": "calls",
@@ -3112,9 +3157,9 @@
       "source_file": "src/app.js",
       "source_location": "L108",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app_builddesktopgrid",
-      "target": "src_app_getcontractlabel",
-      "confidence_score": 1.0
+      "target": "src_app_getcontractlabel"
     },
     {
       "relation": "calls",
@@ -3123,9 +3168,9 @@
       "source_file": "src/app.js",
       "source_location": "L113",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app_builddesktopgrid",
-      "target": "src_app_getprintshiftlabel",
-      "confidence_score": 1.0
+      "target": "src_app_getprintshiftlabel"
     },
     {
       "relation": "calls",
@@ -3134,9 +3179,9 @@
       "source_file": "src/app.js",
       "source_location": "L101",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app_builddesktopgrid",
-      "target": "src_scheduler_formatdateshort",
-      "confidence_score": 1.0
+      "target": "src_scheduler_formatdateshort"
     },
     {
       "relation": "calls",
@@ -3145,9 +3190,9 @@
       "source_file": "src/app.js",
       "source_location": "L136",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app_buildmobilegrid",
-      "target": "src_app_buildshiftcontent",
-      "confidence_score": 1.0
+      "target": "src_app_buildshiftcontent"
     },
     {
       "relation": "calls",
@@ -3156,9 +3201,9 @@
       "source_file": "src/app.js",
       "source_location": "L137",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app_buildmobilegrid",
-      "target": "src_app_createlocktoggle",
-      "confidence_score": 1.0
+      "target": "src_app_createlocktoggle"
     },
     {
       "relation": "calls",
@@ -3167,9 +3212,9 @@
       "source_file": "src/app.js",
       "source_location": "L138",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app_buildmobilegrid",
-      "target": "src_app_getprintshiftlabel",
-      "confidence_score": 1.0
+      "target": "src_app_getprintshiftlabel"
     },
     {
       "relation": "calls",
@@ -3178,9 +3223,9 @@
       "source_file": "src/app.js",
       "source_location": "L131",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app_buildmobilegrid",
-      "target": "src_scheduler_formatdateshort",
-      "confidence_score": 1.0
+      "target": "src_scheduler_formatdateshort"
     },
     {
       "relation": "calls",
@@ -3189,9 +3234,9 @@
       "source_file": "src/app.js",
       "source_location": "L176",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app_buildshiftcontent",
-      "target": "src_app_applyshiftclass",
-      "confidence_score": 1.0
+      "target": "src_app_applyshiftclass"
     },
     {
       "relation": "calls",
@@ -3200,9 +3245,9 @@
       "source_file": "src/app.js",
       "source_location": "L177",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app_buildshiftcontent",
-      "target": "src_app_buildshiftbadge",
-      "confidence_score": 1.0
+      "target": "src_app_buildshiftbadge"
     },
     {
       "relation": "calls",
@@ -3211,9 +3256,9 @@
       "source_file": "src/app.js",
       "source_location": "L154",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app_buildshiftcontent",
-      "target": "src_scheduler_fmt",
-      "confidence_score": 1.0
+      "target": "src_scheduler_fmt"
     },
     {
       "relation": "calls",
@@ -3222,9 +3267,9 @@
       "source_file": "src/app.js",
       "source_location": "L150",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app_buildshiftcontent",
-      "target": "src_scheduler_getallowedshifts",
-      "confidence_score": 1.0
+      "target": "src_scheduler_getallowedshifts"
     },
     {
       "relation": "calls",
@@ -3233,9 +3278,9 @@
       "source_file": "src/app.js",
       "source_location": "L158",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app_buildshiftcontent",
-      "target": "src_scheduler_getshift",
-      "confidence_score": 1.0
+      "target": "src_scheduler_getshift"
     },
     {
       "relation": "calls",
@@ -3244,9 +3289,9 @@
       "source_file": "src/app.js",
       "source_location": "L150",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app_buildshiftcontent",
-      "target": "src_scheduler_isoff",
-      "confidence_score": 1.0
+      "target": "src_scheduler_isoff"
     },
     {
       "relation": "calls",
@@ -3255,9 +3300,9 @@
       "source_file": "src/app.js",
       "source_location": "L168",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app_buildshiftcontent",
-      "target": "src_scheduler_updateshiftwithfeedback",
-      "confidence_score": 1.0
+      "target": "src_scheduler_updateshiftwithfeedback"
     },
     {
       "relation": "calls",
@@ -3266,9 +3311,9 @@
       "source_file": "src/app.js",
       "source_location": "L183",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app_buildshiftbadge",
-      "target": "src_app_updateshiftbadge",
-      "confidence_score": 1.0
+      "target": "src_app_updateshiftbadge"
     },
     {
       "relation": "calls",
@@ -3277,9 +3322,9 @@
       "source_file": "src/app.js",
       "source_location": "L186",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app_updateshiftbadge",
-      "target": "src_scheduler_getshift",
-      "confidence_score": 1.0
+      "target": "src_scheduler_getshift"
     },
     {
       "relation": "calls",
@@ -3288,9 +3333,9 @@
       "source_file": "src/app.js",
       "source_location": "L209",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app_applyshiftclass",
-      "target": "src_scheduler_getshift",
-      "confidence_score": 1.0
+      "target": "src_scheduler_getshift"
     },
     {
       "relation": "calls",
@@ -3299,9 +3344,9 @@
       "source_file": "src/app.js",
       "source_location": "L214",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app_rendersummary",
-      "target": "src_scheduler_getassistantstats",
-      "confidence_score": 1.0
+      "target": "src_scheduler_getassistantstats"
     },
     {
       "relation": "calls",
@@ -3310,9 +3355,9 @@
       "source_file": "src/app.js",
       "source_location": "L215",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app_rendersummary",
-      "target": "src_scheduler_getlockedshiftcount",
-      "confidence_score": 1.0
+      "target": "src_scheduler_getlockedshiftcount"
     },
     {
       "relation": "calls",
@@ -3321,9 +3366,9 @@
       "source_file": "src/app.js",
       "source_location": "L233",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app_renderdayeditor",
-      "target": "src_scheduler_formatdateshort",
-      "confidence_score": 1.0
+      "target": "src_scheduler_formatdateshort"
     },
     {
       "relation": "calls",
@@ -3332,9 +3377,9 @@
       "source_file": "src/app.js",
       "source_location": "L249",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app_renderwarnings",
-      "target": "src_scheduler_validateweek",
-      "confidence_score": 1.0
+      "target": "src_scheduler_validateweek"
     },
     {
       "relation": "calls",
@@ -3343,9 +3388,9 @@
       "source_file": "src/app.js",
       "source_location": "L295",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app_exportpdf",
-      "target": "src_app_getcurrentweek",
-      "confidence_score": 1.0
+      "target": "src_app_getcurrentweek"
     },
     {
       "relation": "calls",
@@ -3354,9 +3399,9 @@
       "source_file": "src/app.js",
       "source_location": "L255",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app_getcurrentweek",
-      "target": "src_app_ensureweekshape",
-      "confidence_score": 1.0
+      "target": "src_app_ensureweekshape"
     },
     {
       "relation": "calls",
@@ -3365,9 +3410,9 @@
       "source_file": "src/app.js",
       "source_location": "L255",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app_getcurrentweek",
-      "target": "src_scheduler_createemptyweek",
-      "confidence_score": 1.0
+      "target": "src_scheduler_createemptyweek"
     },
     {
       "relation": "calls",
@@ -3376,9 +3421,9 @@
       "source_file": "src/app.js",
       "source_location": "L256",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app_changeweek",
-      "target": "src_app_saveweeks",
-      "confidence_score": 1.0
+      "target": "src_app_saveweeks"
     },
     {
       "relation": "calls",
@@ -3387,9 +3432,9 @@
       "source_file": "src/app.js",
       "source_location": "L256",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app_changeweek",
-      "target": "src_scheduler_adddays",
-      "confidence_score": 1.0
+      "target": "src_scheduler_adddays"
     },
     {
       "relation": "calls",
@@ -3398,9 +3443,9 @@
       "source_file": "src/app.js",
       "source_location": "L256",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app_changeweek",
-      "target": "src_scheduler_generateweek",
-      "confidence_score": 1.0
+      "target": "src_scheduler_generateweek"
     },
     {
       "relation": "calls",
@@ -3409,9 +3454,9 @@
       "source_file": "src/app.js",
       "source_location": "L261",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app_saveweeks",
-      "target": "src_scheduler_adddays",
-      "confidence_score": 1.0
+      "target": "src_scheduler_adddays"
     },
     {
       "relation": "calls",
@@ -3420,9 +3465,9 @@
       "source_file": "src/app.js",
       "source_location": "L294",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app_exportpdf",
-      "target": "src_app_showstatus",
-      "confidence_score": 1.0
+      "target": "src_app_showstatus"
     },
     {
       "relation": "calls",
@@ -3431,9 +3476,9 @@
       "source_file": "src/app.js",
       "source_location": "L279",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app_getprintshiftlabel",
-      "target": "src_scheduler_fmt",
-      "confidence_score": 1.0
+      "target": "src_scheduler_fmt"
     },
     {
       "relation": "calls",
@@ -3442,9 +3487,9 @@
       "source_file": "src/app.js",
       "source_location": "L279",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app_getprintshiftlabel",
-      "target": "src_scheduler_getshift",
-      "confidence_score": 1.0
+      "target": "src_scheduler_getshift"
     },
     {
       "relation": "calls",
@@ -3453,9 +3498,9 @@
       "source_file": "src/app.js",
       "source_location": "L281",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app_ensureweekshape",
-      "target": "src_scheduler_getshift",
-      "confidence_score": 1.0
+      "target": "src_scheduler_getshift"
     },
     {
       "relation": "calls",
@@ -3464,9 +3509,9 @@
       "source_file": "src/app.js",
       "source_location": "L305",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app_exportpdf",
-      "target": "src_scheduler_formatdateshort",
-      "confidence_score": 1.0
+      "target": "src_scheduler_formatdateshort"
     },
     {
       "relation": "calls",
@@ -3475,9 +3520,9 @@
       "source_file": "src/app.js",
       "source_location": "L302",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app_exportpdf",
-      "target": "src_scheduler_formatweekrange",
-      "confidence_score": 1.0
+      "target": "src_scheduler_formatweekrange"
     },
     {
       "relation": "calls",
@@ -3486,9 +3531,9 @@
       "source_file": "src/app.js",
       "source_location": "L299",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app_exportpdf",
-      "target": "src_scheduler_getassistantstats",
-      "confidence_score": 1.0
+      "target": "src_scheduler_getassistantstats"
     },
     {
       "relation": "calls",
@@ -3497,9 +3542,9 @@
       "source_file": "src/app.js",
       "source_location": "L305",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app_exportpdf",
-      "target": "src_scheduler_getshift",
-      "confidence_score": 1.0
+      "target": "src_scheduler_getshift"
     },
     {
       "relation": "contains",
@@ -3507,9 +3552,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L67",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler",
-      "target": "src_scheduler_adddays",
-      "confidence_score": 1.0
+      "target": "src_scheduler_adddays"
     },
     {
       "relation": "contains",
@@ -3517,9 +3562,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L76",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler",
-      "target": "src_scheduler_afternoon_end_threshold",
-      "confidence_score": 1.0
+      "target": "src_scheduler_afternoon_end_threshold"
     },
     {
       "relation": "contains",
@@ -3527,9 +3572,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L152",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler",
-      "target": "src_scheduler_afternoon_tiers",
-      "confidence_score": 1.0
+      "target": "src_scheduler_afternoon_tiers"
     },
     {
       "relation": "contains",
@@ -3537,9 +3582,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L135",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler",
-      "target": "src_scheduler_afternoondemand",
-      "confidence_score": 1.0
+      "target": "src_scheduler_afternoondemand"
     },
     {
       "relation": "contains",
@@ -3547,9 +3592,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L268",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler",
-      "target": "src_scheduler_applypreviousweekstate",
-      "confidence_score": 1.0
+      "target": "src_scheduler_applypreviousweekstate"
     },
     {
       "relation": "contains",
@@ -3557,9 +3602,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L71",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler",
-      "target": "src_scheduler_assign",
-      "confidence_score": 1.0
+      "target": "src_scheduler_assign"
     },
     {
       "relation": "contains",
@@ -3567,9 +3612,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L25",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler",
-      "target": "src_scheduler_assistant_names",
-      "confidence_score": 1.0
+      "target": "src_scheduler_assistant_names"
     },
     {
       "relation": "contains",
@@ -3577,9 +3622,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L26",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler",
-      "target": "src_scheduler_assistants",
-      "confidence_score": 1.0
+      "target": "src_scheduler_assistants"
     },
     {
       "relation": "contains",
@@ -3587,9 +3632,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L59",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler",
-      "target": "src_scheduler_base_pairs",
-      "confidence_score": 1.0
+      "target": "src_scheduler_base_pairs"
     },
     {
       "relation": "contains",
@@ -3597,9 +3642,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L186",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler",
-      "target": "src_scheduler_buildrem",
-      "confidence_score": 1.0
+      "target": "src_scheduler_buildrem"
     },
     {
       "relation": "contains",
@@ -3607,9 +3652,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L267",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler",
-      "target": "src_scheduler_buildweekfromdayassignments",
-      "confidence_score": 1.0
+      "target": "src_scheduler_buildweekfromdayassignments"
     },
     {
       "relation": "contains",
@@ -3617,9 +3662,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L266",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler",
-      "target": "src_scheduler_clonestats",
-      "confidence_score": 1.0
+      "target": "src_scheduler_clonestats"
     },
     {
       "relation": "contains",
@@ -3627,9 +3672,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L77",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler",
-      "target": "src_scheduler_countsasafternoon",
-      "confidence_score": 1.0
+      "target": "src_scheduler_countsasafternoon"
     },
     {
       "relation": "contains",
@@ -3637,9 +3682,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L93",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler",
-      "target": "src_scheduler_coveragedeficit",
-      "confidence_score": 1.0
+      "target": "src_scheduler_coveragedeficit"
     },
     {
       "relation": "contains",
@@ -3647,9 +3692,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L85",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler",
-      "target": "src_scheduler_coverageof",
-      "confidence_score": 1.0
+      "target": "src_scheduler_coverageof"
     },
     {
       "relation": "contains",
@@ -3657,9 +3702,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L74",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler",
-      "target": "src_scheduler_createbaseweek",
-      "confidence_score": 1.0
+      "target": "src_scheduler_createbaseweek"
     },
     {
       "relation": "contains",
@@ -3667,9 +3712,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L72",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler",
-      "target": "src_scheduler_createemptyweek",
-      "confidence_score": 1.0
+      "target": "src_scheduler_createemptyweek"
     },
     {
       "relation": "contains",
@@ -3677,9 +3722,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L42",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler",
-      "target": "src_scheduler_deriveshift",
-      "confidence_score": 1.0
+      "target": "src_scheduler_deriveshift"
     },
     {
       "relation": "contains",
@@ -3687,9 +3732,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L274",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler",
-      "target": "src_scheduler_diversifytimes",
-      "confidence_score": 1.0
+      "target": "src_scheduler_diversifytimes"
     },
     {
       "relation": "contains",
@@ -3697,9 +3742,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L37",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler",
-      "target": "src_scheduler_fmt",
-      "confidence_score": 1.0
+      "target": "src_scheduler_fmt"
     },
     {
       "relation": "contains",
@@ -3707,9 +3752,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L70",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler",
-      "target": "src_scheduler_formatdateshort",
-      "confidence_score": 1.0
+      "target": "src_scheduler_formatdateshort"
     },
     {
       "relation": "contains",
@@ -3717,9 +3762,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L69",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler",
-      "target": "src_scheduler_formatitaliandate",
-      "confidence_score": 1.0
+      "target": "src_scheduler_formatitaliandate"
     },
     {
       "relation": "contains",
@@ -3727,9 +3772,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L114",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler",
-      "target": "src_scheduler_formatweekrange",
-      "confidence_score": 1.0
+      "target": "src_scheduler_formatweekrange"
     },
     {
       "relation": "contains",
@@ -3737,9 +3782,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L115",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler",
-      "target": "src_scheduler_formatweekrangeshort",
-      "confidence_score": 1.0
+      "target": "src_scheduler_formatweekrangeshort"
     },
     {
       "relation": "contains",
@@ -3747,9 +3792,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L132",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler",
-      "target": "src_scheduler_generateweek",
-      "confidence_score": 1.0
+      "target": "src_scheduler_generateweek"
     },
     {
       "relation": "contains",
@@ -3757,9 +3802,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L118",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler",
-      "target": "src_scheduler_getallowedshifts",
-      "confidence_score": 1.0
+      "target": "src_scheduler_getallowedshifts"
     },
     {
       "relation": "contains",
@@ -3767,9 +3812,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L80",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler",
-      "target": "src_scheduler_getassistantstats",
-      "confidence_score": 1.0
+      "target": "src_scheduler_getassistantstats"
     },
     {
       "relation": "contains",
@@ -3777,9 +3822,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L89",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler",
-      "target": "src_scheduler_getcoverage",
-      "confidence_score": 1.0
+      "target": "src_scheduler_getcoverage"
     },
     {
       "relation": "contains",
@@ -3787,9 +3832,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L68",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler",
-      "target": "src_scheduler_getcurrentmonday",
-      "confidence_score": 1.0
+      "target": "src_scheduler_getcurrentmonday"
     },
     {
       "relation": "contains",
@@ -3797,9 +3842,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L222",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler",
-      "target": "src_scheduler_getdaycombos",
-      "confidence_score": 1.0
+      "target": "src_scheduler_getdaycombos"
     },
     {
       "relation": "contains",
@@ -3807,9 +3852,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L294",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler",
-      "target": "src_scheduler_getlockedshiftcount",
-      "confidence_score": 1.0
+      "target": "src_scheduler_getlockedshiftcount"
     },
     {
       "relation": "contains",
@@ -3817,9 +3862,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L81",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler",
-      "target": "src_scheduler_getrequiredcoverage",
-      "confidence_score": 1.0
+      "target": "src_scheduler_getrequiredcoverage"
     },
     {
       "relation": "contains",
@@ -3827,9 +3872,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L57",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler",
-      "target": "src_scheduler_getshift",
-      "confidence_score": 1.0
+      "target": "src_scheduler_getshift"
     },
     {
       "relation": "contains",
@@ -3837,9 +3882,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L142",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler",
-      "target": "src_scheduler_heuristiccombos",
-      "confidence_score": 1.0
+      "target": "src_scheduler_heuristiccombos"
     },
     {
       "relation": "contains",
@@ -3847,9 +3892,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L79",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler",
-      "target": "src_scheduler_ismanuelaclose1519",
-      "confidence_score": 1.0
+      "target": "src_scheduler_ismanuelaclose1519"
     },
     {
       "relation": "contains",
@@ -3857,9 +3902,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L38",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler",
-      "target": "src_scheduler_isoff",
-      "confidence_score": 1.0
+      "target": "src_scheduler_isoff"
     },
     {
       "relation": "contains",
@@ -3867,9 +3912,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L61",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler",
-      "target": "src_scheduler_legacy_templates",
-      "confidence_score": 1.0
+      "target": "src_scheduler_legacy_templates"
     },
     {
       "relation": "contains",
@@ -3877,9 +3922,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L112",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler",
-      "target": "src_scheduler_maxuncoveredgap",
-      "confidence_score": 1.0
+      "target": "src_scheduler_maxuncoveredgap"
     },
     {
       "relation": "contains",
@@ -3887,9 +3932,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L292",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler",
-      "target": "src_scheduler_regeneratealternativewithfeedback",
-      "confidence_score": 1.0
+      "target": "src_scheduler_regeneratealternativewithfeedback"
     },
     {
       "relation": "contains",
@@ -3897,9 +3942,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L270",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler",
-      "target": "src_scheduler_regeneratecleanweekwithfeedback",
-      "confidence_score": 1.0
+      "target": "src_scheduler_regeneratecleanweekwithfeedback"
     },
     {
       "relation": "contains",
@@ -3907,9 +3952,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L269",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler",
-      "target": "src_scheduler_regenerateweekwithfeedback",
-      "confidence_score": 1.0
+      "target": "src_scheduler_regenerateweekwithfeedback"
     },
     {
       "relation": "contains",
@@ -3917,9 +3962,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L39",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler",
-      "target": "src_scheduler_shift_off",
-      "confidence_score": 1.0
+      "target": "src_scheduler_shift_off"
     },
     {
       "relation": "contains",
@@ -3927,9 +3972,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L40",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler",
-      "target": "src_scheduler_shiftcache",
-      "confidence_score": 1.0
+      "target": "src_scheduler_shiftcache"
     },
     {
       "relation": "contains",
@@ -3937,9 +3982,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L82",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler",
-      "target": "src_scheduler_shiftsof",
-      "confidence_score": 1.0
+      "target": "src_scheduler_shiftsof"
     },
     {
       "relation": "contains",
@@ -3947,9 +3992,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L158",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler",
-      "target": "src_scheduler_solveweek",
-      "confidence_score": 1.0
+      "target": "src_scheduler_solveweek"
     },
     {
       "relation": "contains",
@@ -3957,8 +4002,18 @@
       "source_file": "src/scheduler.js",
       "source_location": "L187",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler",
-      "target": "src_scheduler_solveweekcore",
+      "target": "src_scheduler_solveweekcore"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L33",
+      "weight": 1.0,
+      "source": "src_scheduler",
+      "target": "src_scheduler_staff_config",
       "confidence_score": 1.0
     },
     {
@@ -3967,9 +4022,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L293",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler",
-      "target": "src_scheduler_updateshiftwithfeedback",
-      "confidence_score": 1.0
+      "target": "src_scheduler_updateshiftwithfeedback"
     },
     {
       "relation": "contains",
@@ -3977,9 +4032,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L113",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler",
-      "target": "src_scheduler_validateweek",
-      "confidence_score": 1.0
+      "target": "src_scheduler_validateweek"
     },
     {
       "relation": "contains",
@@ -3987,9 +4042,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L62",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler",
-      "target": "src_scheduler_week_days",
-      "confidence_score": 1.0
+      "target": "src_scheduler_week_days"
     },
     {
       "relation": "contains",
@@ -3997,9 +4052,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L148",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler",
-      "target": "src_scheduler_weekassignmentsig",
-      "confidence_score": 1.0
+      "target": "src_scheduler_weekassignmentsig"
     },
     {
       "relation": "contains",
@@ -4007,8 +4062,18 @@
       "source_file": "src/scheduler.js",
       "source_location": "L31",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler",
-      "target": "src_scheduler_weekday_keys",
+      "target": "src_scheduler_weekday_keys"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L92",
+      "weight": 1.0,
+      "source": "src_scheduler",
+      "target": "src_scheduler_worksovertimeshift",
       "confidence_score": 1.0
     },
     {
@@ -4018,9 +4083,9 @@
       "source_file": "tests/regression.test.mjs",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_regression_test",
-      "target": "src_scheduler",
-      "confidence_score": 1.0
+      "target": "src_scheduler"
     },
     {
       "relation": "imports_from",
@@ -4029,9 +4094,9 @@
       "source_file": "tests/solver-logic.test.mjs",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_solver_logic_test",
-      "target": "src_scheduler",
-      "confidence_score": 1.0
+      "target": "src_scheduler"
     },
     {
       "relation": "imports_from",
@@ -4040,9 +4105,9 @@
       "source_file": "tests/ui-export.test.mjs",
       "source_location": "L9",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_ui_export_test",
-      "target": "src_scheduler",
-      "confidence_score": 1.0
+      "target": "src_scheduler"
     },
     {
       "relation": "calls",
@@ -4051,7 +4116,18 @@
       "source_file": "src/scheduler.js",
       "source_location": "L49",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler_deriveshift",
+      "target": "src_scheduler_fmt"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L128",
+      "weight": 1.0,
+      "source": "src_scheduler_validateweek",
       "target": "src_scheduler_fmt",
       "confidence_score": 1.0
     },
@@ -4062,9 +4138,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L43",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler_deriveshift",
-      "target": "src_scheduler_isoff",
-      "confidence_score": 1.0
+      "target": "src_scheduler_isoff"
     },
     {
       "relation": "calls",
@@ -4073,9 +4149,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L57",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler_getshift",
-      "target": "src_scheduler_deriveshift",
-      "confidence_score": 1.0
+      "target": "src_scheduler_deriveshift"
     },
     {
       "relation": "calls",
@@ -4084,9 +4160,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L280",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler_diversifytimes",
-      "target": "src_scheduler_getshift",
-      "confidence_score": 1.0
+      "target": "src_scheduler_getshift"
     },
     {
       "relation": "calls",
@@ -4095,9 +4171,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L80",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler_getassistantstats",
-      "target": "src_scheduler_getshift",
-      "confidence_score": 1.0
+      "target": "src_scheduler_getshift"
     },
     {
       "relation": "calls",
@@ -4106,9 +4182,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L79",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler_ismanuelaclose1519",
-      "target": "src_scheduler_getshift",
-      "confidence_score": 1.0
+      "target": "src_scheduler_getshift"
     },
     {
       "relation": "calls",
@@ -4117,7 +4193,18 @@
       "source_file": "src/scheduler.js",
       "source_location": "L113",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler_validateweek",
+      "target": "src_scheduler_getshift"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L92",
+      "weight": 1.0,
+      "source": "src_scheduler_worksovertimeshift",
       "target": "src_scheduler_getshift",
       "confidence_score": 1.0
     },
@@ -4128,9 +4215,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L132",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler_generateweek",
-      "target": "src_scheduler_getcurrentmonday",
-      "confidence_score": 1.0
+      "target": "src_scheduler_getcurrentmonday"
     },
     {
       "relation": "calls",
@@ -4139,9 +4226,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L114",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler_formatweekrange",
-      "target": "src_scheduler_formatitaliandate",
-      "confidence_score": 1.0
+      "target": "src_scheduler_formatitaliandate"
     },
     {
       "relation": "calls",
@@ -4150,9 +4237,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L115",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler_formatweekrangeshort",
-      "target": "src_scheduler_formatdateshort",
-      "confidence_score": 1.0
+      "target": "src_scheduler_formatdateshort"
     },
     {
       "relation": "calls",
@@ -4161,9 +4248,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L74",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler_createbaseweek",
-      "target": "src_scheduler_assign",
-      "confidence_score": 1.0
+      "target": "src_scheduler_assign"
     },
     {
       "relation": "calls",
@@ -4172,9 +4259,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L74",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler_createbaseweek",
-      "target": "src_scheduler_createemptyweek",
-      "confidence_score": 1.0
+      "target": "src_scheduler_createemptyweek"
     },
     {
       "relation": "calls",
@@ -4183,9 +4270,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L132",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler_generateweek",
-      "target": "src_scheduler_createbaseweek",
-      "confidence_score": 1.0
+      "target": "src_scheduler_createbaseweek"
     },
     {
       "relation": "calls",
@@ -4194,9 +4281,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L292",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler_regeneratealternativewithfeedback",
-      "target": "src_scheduler_createbaseweek",
-      "confidence_score": 1.0
+      "target": "src_scheduler_createbaseweek"
     },
     {
       "relation": "calls",
@@ -4205,9 +4292,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L269",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler_regenerateweekwithfeedback",
-      "target": "src_scheduler_createbaseweek",
-      "confidence_score": 1.0
+      "target": "src_scheduler_createbaseweek"
     },
     {
       "relation": "calls",
@@ -4216,8 +4303,19 @@
       "source_file": "src/scheduler.js",
       "source_location": "L80",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler_getassistantstats",
-      "target": "src_scheduler_countsasafternoon",
+      "target": "src_scheduler_countsasafternoon"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L94",
+      "weight": 1.0,
+      "source": "src_scheduler_ismanuelaclose1519",
+      "target": "src_scheduler_worksovertimeshift",
       "confidence_score": 1.0
     },
     {
@@ -4227,9 +4325,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L113",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler_validateweek",
-      "target": "src_scheduler_getassistantstats",
-      "confidence_score": 1.0
+      "target": "src_scheduler_getassistantstats"
     },
     {
       "relation": "calls",
@@ -4238,9 +4336,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L225",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler_getdaycombos",
-      "target": "src_scheduler_getrequiredcoverage",
-      "confidence_score": 1.0
+      "target": "src_scheduler_getrequiredcoverage"
     },
     {
       "relation": "calls",
@@ -4249,9 +4347,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L113",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler_validateweek",
-      "target": "src_scheduler_getrequiredcoverage",
-      "confidence_score": 1.0
+      "target": "src_scheduler_getrequiredcoverage"
     },
     {
       "relation": "calls",
@@ -4260,9 +4358,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L89",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler_getcoverage",
-      "target": "src_scheduler_shiftsof",
-      "confidence_score": 1.0
+      "target": "src_scheduler_shiftsof"
     },
     {
       "relation": "calls",
@@ -4271,9 +4369,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L112",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler_maxuncoveredgap",
-      "target": "src_scheduler_shiftsof",
-      "confidence_score": 1.0
+      "target": "src_scheduler_shiftsof"
     },
     {
       "relation": "calls",
@@ -4282,9 +4380,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L89",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler_getcoverage",
-      "target": "src_scheduler_coverageof",
-      "confidence_score": 1.0
+      "target": "src_scheduler_coverageof"
     },
     {
       "relation": "calls",
@@ -4293,9 +4391,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L113",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler_validateweek",
-      "target": "src_scheduler_getcoverage",
-      "confidence_score": 1.0
+      "target": "src_scheduler_getcoverage"
     },
     {
       "relation": "calls",
@@ -4304,9 +4402,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L112",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler_maxuncoveredgap",
-      "target": "src_scheduler_coveragedeficit",
-      "confidence_score": 1.0
+      "target": "src_scheduler_coveragedeficit"
     },
     {
       "relation": "calls",
@@ -4315,9 +4413,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L113",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler_validateweek",
-      "target": "src_scheduler_maxuncoveredgap",
-      "confidence_score": 1.0
+      "target": "src_scheduler_maxuncoveredgap"
     },
     {
       "relation": "calls",
@@ -4326,9 +4424,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L287",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler_diversifytimes",
-      "target": "src_scheduler_validateweek",
-      "confidence_score": 1.0
+      "target": "src_scheduler_validateweek"
     },
     {
       "relation": "calls",
@@ -4337,9 +4435,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L292",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler_regeneratealternativewithfeedback",
-      "target": "src_scheduler_validateweek",
-      "confidence_score": 1.0
+      "target": "src_scheduler_validateweek"
     },
     {
       "relation": "calls",
@@ -4348,9 +4446,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L186",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler_buildrem",
-      "target": "src_scheduler_getallowedshifts",
-      "confidence_score": 1.0
+      "target": "src_scheduler_getallowedshifts"
     },
     {
       "relation": "calls",
@@ -4359,9 +4457,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L282",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler_diversifytimes",
-      "target": "src_scheduler_getallowedshifts",
-      "confidence_score": 1.0
+      "target": "src_scheduler_getallowedshifts"
     },
     {
       "relation": "calls",
@@ -4370,9 +4468,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L223",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler_getdaycombos",
-      "target": "src_scheduler_getallowedshifts",
-      "confidence_score": 1.0
+      "target": "src_scheduler_getallowedshifts"
     },
     {
       "relation": "calls",
@@ -4381,9 +4479,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L132",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler_generateweek",
-      "target": "src_scheduler_applypreviousweekstate",
-      "confidence_score": 1.0
+      "target": "src_scheduler_applypreviousweekstate"
     },
     {
       "relation": "calls",
@@ -4392,9 +4490,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L132",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler_generateweek",
-      "target": "src_scheduler_solveweek",
-      "confidence_score": 1.0
+      "target": "src_scheduler_solveweek"
     },
     {
       "relation": "calls",
@@ -4403,9 +4501,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L270",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler_regeneratecleanweekwithfeedback",
-      "target": "src_scheduler_generateweek",
-      "confidence_score": 1.0
+      "target": "src_scheduler_generateweek"
     },
     {
       "relation": "calls",
@@ -4414,9 +4512,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L159",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler_solveweek",
-      "target": "src_scheduler_afternoondemand",
-      "confidence_score": 1.0
+      "target": "src_scheduler_afternoondemand"
     },
     {
       "relation": "calls",
@@ -4425,9 +4523,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L161",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler_solveweek",
-      "target": "src_scheduler_heuristiccombos",
-      "confidence_score": 1.0
+      "target": "src_scheduler_heuristiccombos"
     },
     {
       "relation": "calls",
@@ -4436,9 +4534,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L292",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler_regeneratealternativewithfeedback",
-      "target": "src_scheduler_weekassignmentsig",
-      "confidence_score": 1.0
+      "target": "src_scheduler_weekassignmentsig"
     },
     {
       "relation": "calls",
@@ -4447,9 +4545,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L292",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler_regeneratealternativewithfeedback",
-      "target": "src_scheduler_solveweek",
-      "confidence_score": 1.0
+      "target": "src_scheduler_solveweek"
     },
     {
       "relation": "calls",
@@ -4458,9 +4556,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L269",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler_regenerateweekwithfeedback",
-      "target": "src_scheduler_solveweek",
-      "confidence_score": 1.0
+      "target": "src_scheduler_solveweek"
     },
     {
       "relation": "calls",
@@ -4469,9 +4567,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L165",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler_solveweek",
-      "target": "src_scheduler_buildrem",
-      "confidence_score": 1.0
+      "target": "src_scheduler_buildrem"
     },
     {
       "relation": "calls",
@@ -4480,9 +4578,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L195",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler_solveweekcore",
-      "target": "src_scheduler_buildrem",
-      "confidence_score": 1.0
+      "target": "src_scheduler_buildrem"
     },
     {
       "relation": "calls",
@@ -4491,9 +4589,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L292",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler_regeneratealternativewithfeedback",
-      "target": "src_scheduler_applypreviousweekstate",
-      "confidence_score": 1.0
+      "target": "src_scheduler_applypreviousweekstate"
     },
     {
       "relation": "calls",
@@ -4502,9 +4600,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L269",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler_regenerateweekwithfeedback",
-      "target": "src_scheduler_applypreviousweekstate",
-      "confidence_score": 1.0
+      "target": "src_scheduler_applypreviousweekstate"
     },
     {
       "relation": "calls",
@@ -4513,9 +4611,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L269",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler_regenerateweekwithfeedback",
-      "target": "src_scheduler_getlockedshiftcount",
-      "confidence_score": 1.0
+      "target": "src_scheduler_getlockedshiftcount"
     },
     {
       "relation": "calls",
@@ -4524,8 +4622,28 @@
       "source_file": "src/scheduler.js",
       "source_location": "L292",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler_regeneratealternativewithfeedback",
-      "target": "src_scheduler_diversifytimes",
+      "target": "src_scheduler_diversifytimes"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/generic-team.test.mjs",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "tests_generic_team_test",
+      "target": "tests_generic_team_test_loadwithstaff",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/generic-team.test.mjs",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "tests_generic_team_test",
+      "target": "tests_generic_team_test_src",
       "confidence_score": 1.0
     },
     {
@@ -4534,9 +4652,9 @@
       "source_file": "tests/regression.test.mjs",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_regression_test",
-      "target": "tests_regression_test_sigof",
-      "confidence_score": 1.0
+      "target": "tests_regression_test_sigof"
     },
     {
       "relation": "contains",
@@ -4544,9 +4662,9 @@
       "source_file": "tests/regression.test.mjs",
       "source_location": "L12",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_regression_test",
-      "target": "tests_regression_test_snapshots",
-      "confidence_score": 1.0
+      "target": "tests_regression_test_snapshots"
     },
     {
       "relation": "contains",
@@ -4584,9 +4702,9 @@
       "source_file": "tests/ui-export.test.mjs",
       "source_location": "L6",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_ui_export_test",
-      "target": "tests_ui_export_test_app",
-      "confidence_score": 1.0
+      "target": "tests_ui_export_test_app"
     },
     {
       "relation": "contains",
@@ -5005,5 +5123,5 @@
       "source_file": "index.html"
     }
   ],
-  "built_at_commit": "a2d7715e8e9c2018b38af86e98ec7e99b70e812c"
+  "built_at_commit": "8ceef2016a7280e3b715dca2da67e0a7a35a7695"
 }
