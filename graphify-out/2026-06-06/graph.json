@@ -335,7 +335,7 @@
       "source_file": "src/app.js",
       "source_location": "L30",
       "id": "src_app_deferheavy",
-      "community": 11,
+      "community": 3,
       "norm_label": "deferheavy()"
     },
     {
@@ -344,7 +344,7 @@
       "source_file": "src/app.js",
       "source_location": "L31",
       "id": "src_app_dogenerate",
-      "community": 11,
+      "community": 3,
       "norm_label": "dogenerate()"
     },
     {
@@ -353,7 +353,7 @@
       "source_file": "src/app.js",
       "source_location": "L32",
       "id": "src_app_doreset",
-      "community": 11,
+      "community": 3,
       "norm_label": "doreset()"
     },
     {
@@ -380,7 +380,7 @@
       "source_file": "src/app.js",
       "source_location": "L49",
       "id": "src_app_requestalternative",
-      "community": 11,
+      "community": 3,
       "norm_label": "requestalternative()"
     },
     {
@@ -434,7 +434,7 @@
       "source_file": "src/app.js",
       "source_location": "L141",
       "id": "src_app_render",
-      "community": 3,
+      "community": 10,
       "norm_label": "render()"
     },
     {
@@ -479,14 +479,14 @@
       "source_file": "src/app.js",
       "source_location": "L212",
       "id": "src_app_buildshiftcontent",
-      "community": 10,
+      "community": 8,
       "norm_label": "buildshiftcontent()"
     },
     {
       "label": "buildShiftBadge()",
       "file_type": "code",
       "source_file": "src/app.js",
-      "source_location": "L246",
+      "source_location": "L248",
       "id": "src_app_buildshiftbadge",
       "community": 3,
       "norm_label": "buildshiftbadge()"
@@ -495,7 +495,7 @@
       "label": "updateShiftBadge()",
       "file_type": "code",
       "source_file": "src/app.js",
-      "source_location": "L250",
+      "source_location": "L252",
       "id": "src_app_updateshiftbadge",
       "community": 3,
       "norm_label": "updateshiftbadge()"
@@ -504,7 +504,7 @@
       "label": "getShiftBadgeCodes()",
       "file_type": "code",
       "source_file": "src/app.js",
-      "source_location": "L259",
+      "source_location": "L261",
       "id": "src_app_getshiftbadgecodes",
       "community": 3,
       "norm_label": "getshiftbadgecodes()"
@@ -513,7 +513,7 @@
       "label": "createLockToggle()",
       "file_type": "code",
       "source_file": "src/app.js",
-      "source_location": "L261",
+      "source_location": "L263",
       "id": "src_app_createlocktoggle",
       "community": 8,
       "norm_label": "createlocktoggle()"
@@ -522,52 +522,52 @@
       "label": "applyShiftClass()",
       "file_type": "code",
       "source_file": "src/app.js",
-      "source_location": "L272",
+      "source_location": "L274",
       "id": "src_app_applyshiftclass",
-      "community": 10,
+      "community": 8,
       "norm_label": "applyshiftclass()"
     },
     {
       "label": "renderSummary()",
       "file_type": "code",
       "source_file": "src/app.js",
-      "source_location": "L278",
+      "source_location": "L280",
       "id": "src_app_rendersummary",
-      "community": 3,
+      "community": 10,
       "norm_label": "rendersummary()"
     },
     {
       "label": "renderDayEditor()",
       "file_type": "code",
       "source_file": "src/app.js",
-      "source_location": "L293",
+      "source_location": "L295",
       "id": "src_app_renderdayeditor",
-      "community": 3,
+      "community": 10,
       "norm_label": "renderdayeditor()"
     },
     {
       "label": "renderWarnings()",
       "file_type": "code",
       "source_file": "src/app.js",
-      "source_location": "L314",
+      "source_location": "L323",
       "id": "src_app_renderwarnings",
-      "community": 10,
+      "community": 5,
       "norm_label": "renderwarnings()"
     },
     {
       "label": "getCurrentWeek()",
       "file_type": "code",
       "source_file": "src/app.js",
-      "source_location": "L321",
+      "source_location": "L330",
       "id": "src_app_getcurrentweek",
-      "community": 3,
+      "community": 10,
       "norm_label": "getcurrentweek()"
     },
     {
       "label": "changeWeek()",
       "file_type": "code",
       "source_file": "src/app.js",
-      "source_location": "L322",
+      "source_location": "L331",
       "id": "src_app_changeweek",
       "community": 3,
       "norm_label": "changeweek()"
@@ -576,7 +576,7 @@
       "label": "saveWeeks()",
       "file_type": "code",
       "source_file": "src/app.js",
-      "source_location": "L325",
+      "source_location": "L334",
       "id": "src_app_saveweeks",
       "community": 3,
       "norm_label": "saveweeks()"
@@ -585,7 +585,7 @@
       "label": "loadWeeks()",
       "file_type": "code",
       "source_file": "src/app.js",
-      "source_location": "L335",
+      "source_location": "L344",
       "id": "src_app_loadweeks",
       "community": 3,
       "norm_label": "loadweeks()"
@@ -594,7 +594,7 @@
       "label": "createCell()",
       "file_type": "code",
       "source_file": "src/app.js",
-      "source_location": "L336",
+      "source_location": "L345",
       "id": "src_app_createcell",
       "community": 8,
       "norm_label": "createcell()"
@@ -603,7 +603,7 @@
       "label": "getContractLabel()",
       "file_type": "code",
       "source_file": "src/app.js",
-      "source_location": "L337",
+      "source_location": "L346",
       "id": "src_app_getcontractlabel",
       "community": 8,
       "norm_label": "getcontractlabel()"
@@ -612,7 +612,7 @@
       "label": "showStatus()",
       "file_type": "code",
       "source_file": "src/app.js",
-      "source_location": "L340",
+      "source_location": "L349",
       "id": "src_app_showstatus",
       "community": 3,
       "norm_label": "showstatus()"
@@ -621,25 +621,25 @@
       "label": "getPrintShiftLabel()",
       "file_type": "code",
       "source_file": "src/app.js",
-      "source_location": "L345",
+      "source_location": "L354",
       "id": "src_app_getprintshiftlabel",
-      "community": 10,
+      "community": 8,
       "norm_label": "getprintshiftlabel()"
     },
     {
       "label": "ensureWeekShape()",
       "file_type": "code",
       "source_file": "src/app.js",
-      "source_location": "L347",
+      "source_location": "L356",
       "id": "src_app_ensureweekshape",
-      "community": 3,
+      "community": 10,
       "norm_label": "ensureweekshape()"
     },
     {
       "label": "getDayVariationLabel()",
       "file_type": "code",
       "source_file": "src/app.js",
-      "source_location": "L350",
+      "source_location": "L359",
       "id": "src_app_getdayvariationlabel",
       "community": 3,
       "norm_label": "getdayvariationlabel()"
@@ -648,7 +648,7 @@
       "label": "drawPdfBadge()",
       "file_type": "code",
       "source_file": "src/app.js",
-      "source_location": "L355",
+      "source_location": "L366",
       "id": "src_app_drawpdfbadge",
       "community": 3,
       "norm_label": "drawpdfbadge()"
@@ -657,9 +657,9 @@
       "label": "exportPDF()",
       "file_type": "code",
       "source_file": "src/app.js",
-      "source_location": "L359",
+      "source_location": "L370",
       "id": "src_app_exportpdf",
-      "community": 3,
+      "community": 10,
       "norm_label": "exportpdf()"
     },
     {
@@ -731,7 +731,7 @@
       "source_file": "src/scheduler.js",
       "source_location": "L63",
       "id": "src_scheduler_fmt",
-      "community": 10,
+      "community": 8,
       "norm_label": "fmt()"
     },
     {
@@ -740,7 +740,7 @@
       "source_file": "src/scheduler.js",
       "source_location": "L64",
       "id": "src_scheduler_isoff",
-      "community": 10,
+      "community": 8,
       "norm_label": "isoff()"
     },
     {
@@ -767,7 +767,7 @@
       "source_file": "src/scheduler.js",
       "source_location": "L68",
       "id": "src_scheduler_deriveshift",
-      "community": 10,
+      "community": 8,
       "norm_label": "deriveshift()"
     },
     {
@@ -821,7 +821,7 @@
       "source_file": "src/scheduler.js",
       "source_location": "L94",
       "id": "src_scheduler_getcurrentmonday",
-      "community": 11,
+      "community": 3,
       "norm_label": "getcurrentmonday()"
     },
     {
@@ -830,7 +830,7 @@
       "source_file": "src/scheduler.js",
       "source_location": "L95",
       "id": "src_scheduler_formatitaliandate",
-      "community": 3,
+      "community": 10,
       "norm_label": "formatitaliandate()"
     },
     {
@@ -839,7 +839,7 @@
       "source_file": "src/scheduler.js",
       "source_location": "L96",
       "id": "src_scheduler_formatdateshort",
-      "community": 3,
+      "community": 10,
       "norm_label": "formatdateshort()"
     },
     {
@@ -848,7 +848,7 @@
       "source_file": "src/scheduler.js",
       "source_location": "L97",
       "id": "src_scheduler_assign",
-      "community": 11,
+      "community": 3,
       "norm_label": "assign()"
     },
     {
@@ -857,7 +857,7 @@
       "source_file": "src/scheduler.js",
       "source_location": "L98",
       "id": "src_scheduler_createemptyweek",
-      "community": 11,
+      "community": 3,
       "norm_label": "createemptyweek()"
     },
     {
@@ -866,7 +866,7 @@
       "source_file": "src/scheduler.js",
       "source_location": "L101",
       "id": "src_scheduler_createbaseweek",
-      "community": 11,
+      "community": 3,
       "norm_label": "createbaseweek()"
     },
     {
@@ -884,7 +884,7 @@
       "source_file": "src/scheduler.js",
       "source_location": "L104",
       "id": "src_scheduler_countsasafternoon",
-      "community": 3,
+      "community": 10,
       "norm_label": "countsasafternoon()"
     },
     {
@@ -911,7 +911,7 @@
       "source_file": "src/scheduler.js",
       "source_location": "L109",
       "id": "src_scheduler_getassistantstats",
-      "community": 3,
+      "community": 10,
       "norm_label": "getassistantstats()"
     },
     {
@@ -920,7 +920,7 @@
       "source_file": "src/scheduler.js",
       "source_location": "L110",
       "id": "src_scheduler_getrequiredcoverage",
-      "community": 10,
+      "community": 5,
       "norm_label": "getrequiredcoverage()"
     },
     {
@@ -933,10 +933,46 @@
       "norm_label": "shiftsof()"
     },
     {
-      "label": "coverageOf()",
+      "label": "holidayWeekdayCount()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
       "source_location": "L114",
+      "id": "src_scheduler_holidayweekdaycount",
+      "community": 5,
+      "norm_label": "holidayweekdaycount()"
+    },
+    {
+      "label": "effectiveWeeklyHours()",
+      "file_type": "code",
+      "source_file": "src/scheduler.js",
+      "source_location": "L115",
+      "id": "src_scheduler_effectiveweeklyhours",
+      "community": 5,
+      "norm_label": "effectiveweeklyhours()"
+    },
+    {
+      "label": "personalAbsenceDays()",
+      "file_type": "code",
+      "source_file": "src/scheduler.js",
+      "source_location": "L116",
+      "id": "src_scheduler_personalabsencedays",
+      "community": 5,
+      "norm_label": "personalabsencedays()"
+    },
+    {
+      "label": "effectiveWorkDays()",
+      "file_type": "code",
+      "source_file": "src/scheduler.js",
+      "source_location": "L118",
+      "id": "src_scheduler_effectiveworkdays",
+      "community": 5,
+      "norm_label": "effectiveworkdays()"
+    },
+    {
+      "label": "coverageOf()",
+      "file_type": "code",
+      "source_file": "src/scheduler.js",
+      "source_location": "L121",
       "id": "src_scheduler_coverageof",
       "community": 5,
       "norm_label": "coverageof()"
@@ -945,7 +981,7 @@
       "label": "getCoverage()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L118",
+      "source_location": "L125",
       "id": "src_scheduler_getcoverage",
       "community": 5,
       "norm_label": "getcoverage()"
@@ -954,7 +990,7 @@
       "label": "coverageDeficit()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L122",
+      "source_location": "L129",
       "id": "src_scheduler_coveragedeficit",
       "community": 5,
       "norm_label": "coveragedeficit()"
@@ -963,7 +999,7 @@
       "label": "maxUncoveredGap()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L141",
+      "source_location": "L148",
       "id": "src_scheduler_maxuncoveredgap",
       "community": 5,
       "norm_label": "maxuncoveredgap()"
@@ -972,79 +1008,79 @@
       "label": "validateWeek()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L142",
+      "source_location": "L149",
       "id": "src_scheduler_validateweek",
-      "community": 10,
+      "community": 5,
       "norm_label": "validateweek()"
     },
     {
       "label": "formatWeekRange()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L143",
+      "source_location": "L150",
       "id": "src_scheduler_formatweekrange",
-      "community": 3,
+      "community": 10,
       "norm_label": "formatweekrange()"
     },
     {
       "label": "formatWeekRangeShort()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L144",
+      "source_location": "L151",
       "id": "src_scheduler_formatweekrangeshort",
-      "community": 3,
+      "community": 10,
       "norm_label": "formatweekrangeshort()"
     },
     {
       "label": "getAllowedShifts()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L147",
+      "source_location": "L154",
       "id": "src_scheduler_getallowedshifts",
-      "community": 10,
+      "community": 5,
       "norm_label": "getallowedshifts()"
     },
     {
       "label": "generateWeek()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L161",
+      "source_location": "L170",
       "id": "src_scheduler_generateweek",
-      "community": 11,
+      "community": 3,
       "norm_label": "generateweek()"
     },
     {
       "label": "afternoonDemand()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L164",
+      "source_location": "L173",
       "id": "src_scheduler_afternoondemand",
-      "community": 11,
+      "community": 5,
       "norm_label": "afternoondemand()"
     },
     {
       "label": "heuristicCombos()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L171",
+      "source_location": "L180",
       "id": "src_scheduler_heuristiccombos",
-      "community": 11,
+      "community": 5,
       "norm_label": "heuristiccombos()"
     },
     {
       "label": "weekAssignmentSig()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L177",
+      "source_location": "L186",
       "id": "src_scheduler_weekassignmentsig",
-      "community": 11,
+      "community": 3,
       "norm_label": "weekassignmentsig()"
     },
     {
       "label": "computeAfternoonTiers()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L183",
+      "source_location": "L192",
       "id": "src_scheduler_computeafternoontiers",
       "community": 5,
       "norm_label": "computeafternoontiers()"
@@ -1053,7 +1089,7 @@
       "label": "AFTERNOON_TIERS",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L193",
+      "source_location": "L202",
       "id": "src_scheduler_afternoon_tiers",
       "community": 5,
       "norm_label": "afternoon_tiers"
@@ -1062,16 +1098,16 @@
       "label": "solveWeek()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L194",
+      "source_location": "L203",
       "id": "src_scheduler_solveweek",
-      "community": 11,
+      "community": 5,
       "norm_label": "solveweek()"
     },
     {
       "label": "buildRem()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L222",
+      "source_location": "L231",
       "id": "src_scheduler_buildrem",
       "community": 5,
       "norm_label": "buildrem()"
@@ -1080,7 +1116,7 @@
       "label": "solveWeekCore()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L223",
+      "source_location": "L232",
       "id": "src_scheduler_solveweekcore",
       "community": 5,
       "norm_label": "solveweekcore()"
@@ -1089,16 +1125,16 @@
       "label": "getDayCombos()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L257",
+      "source_location": "L266",
       "id": "src_scheduler_getdaycombos",
-      "community": 10,
+      "community": 5,
       "norm_label": "getdaycombos()"
     },
     {
       "label": "cloneStats()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L312",
+      "source_location": "L321",
       "id": "src_scheduler_clonestats",
       "community": 5,
       "norm_label": "clonestats()"
@@ -1107,7 +1143,7 @@
       "label": "buildWeekFromDayAssignments()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L313",
+      "source_location": "L322",
       "id": "src_scheduler_buildweekfromdayassignments",
       "community": 5,
       "norm_label": "buildweekfromdayassignments()"
@@ -1116,64 +1152,73 @@
       "label": "applyPreviousWeekState()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L314",
+      "source_location": "L323",
       "id": "src_scheduler_applypreviousweekstate",
-      "community": 11,
+      "community": 3,
       "norm_label": "applypreviousweekstate()"
     },
     {
       "label": "regenerateWeekWithFeedback()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L315",
+      "source_location": "L324",
       "id": "src_scheduler_regenerateweekwithfeedback",
-      "community": 11,
+      "community": 3,
       "norm_label": "regenerateweekwithfeedback()"
     },
     {
       "label": "regenerateCleanWeekWithFeedback()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L316",
+      "source_location": "L325",
       "id": "src_scheduler_regeneratecleanweekwithfeedback",
-      "community": 11,
+      "community": 3,
       "norm_label": "regeneratecleanweekwithfeedback()"
     },
     {
       "label": "diversifyTimes()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L320",
+      "source_location": "L329",
       "id": "src_scheduler_diversifytimes",
-      "community": 10,
+      "community": 5,
       "norm_label": "diversifytimes()"
     },
     {
       "label": "regenerateAlternativeWithFeedback()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L338",
+      "source_location": "L347",
       "id": "src_scheduler_regeneratealternativewithfeedback",
-      "community": 11,
+      "community": 3,
       "norm_label": "regeneratealternativewithfeedback()"
     },
     {
       "label": "updateShiftWithFeedback()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L339",
+      "source_location": "L348",
       "id": "src_scheduler_updateshiftwithfeedback",
-      "community": 10,
+      "community": 8,
       "norm_label": "updateshiftwithfeedback()"
     },
     {
       "label": "getLockedShiftCount()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L340",
+      "source_location": "L349",
       "id": "src_scheduler_getlockedshiftcount",
       "community": 3,
       "norm_label": "getlockedshiftcount()"
+    },
+    {
+      "label": "absences.test.mjs",
+      "file_type": "code",
+      "source_file": "tests/absences.test.mjs",
+      "source_location": "L1",
+      "id": "tests_absences_test",
+      "community": 5,
+      "norm_label": "absences.test.mjs"
     },
     {
       "label": "generic-team.test.mjs",
@@ -1181,7 +1226,7 @@
       "source_file": "tests/generic-team.test.mjs",
       "source_location": "L1",
       "id": "tests_generic_team_test",
-      "community": 5,
+      "community": 11,
       "norm_label": "generic-team.test.mjs"
     },
     {
@@ -1190,7 +1235,7 @@
       "source_file": "tests/generic-team.test.mjs",
       "source_location": "L7",
       "id": "tests_generic_team_test_staff4",
-      "community": 5,
+      "community": 11,
       "norm_label": "staff4"
     },
     {
@@ -1199,7 +1244,7 @@
       "source_file": "tests/regression.test.mjs",
       "source_location": "L1",
       "id": "tests_regression_test",
-      "community": 5,
+      "community": 15,
       "norm_label": "regression.test.mjs"
     },
     {
@@ -1208,7 +1253,7 @@
       "source_file": "tests/regression.test.mjs",
       "source_location": "L7",
       "id": "tests_regression_test_sigof",
-      "community": 5,
+      "community": 15,
       "norm_label": "sigof()"
     },
     {
@@ -1217,7 +1262,7 @@
       "source_file": "tests/regression.test.mjs",
       "source_location": "L12",
       "id": "tests_regression_test_snapshots",
-      "community": 5,
+      "community": 15,
       "norm_label": "snapshots"
     },
     {
@@ -1621,7 +1666,7 @@
       "file_type": "code",
       "source_file": "tests/generic-team.test.mjs",
       "source_location": "L8",
-      "community": 5,
+      "community": 11,
       "norm_label": "src",
       "id": "tests_generic_team_test_src"
     },
@@ -1630,7 +1675,7 @@
       "file_type": "code",
       "source_file": "tests/generic-team.test.mjs",
       "source_location": "L10",
-      "community": 5,
+      "community": 11,
       "norm_label": "loadwithstaff()",
       "id": "tests_generic_team_test_loadwithstaff"
     },
@@ -2137,9 +2182,9 @@
       "source_file": "src/app.js",
       "source_location": "L80",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_app_injectteambuttons",
-      "confidence_score": 1.0
+      "target": "src_app_injectteambuttons"
     },
     {
       "relation": "contains",
@@ -2167,9 +2212,9 @@
       "source_file": "src/app.js",
       "source_location": "L86",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_app_openteameditor",
-      "confidence_score": 1.0
+      "target": "src_app_openteameditor"
     },
     {
       "relation": "contains",
@@ -2247,9 +2292,9 @@
       "source_file": "src/app.js",
       "source_location": "L12",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_app_savestaff",
-      "confidence_score": 1.0
+      "target": "src_app_savestaff"
     },
     {
       "relation": "contains",
@@ -2566,9 +2611,9 @@
       "source_file": "src/app.js",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_scheduler_defaultstaffconfig",
-      "confidence_score": 1.0
+      "target": "src_scheduler_defaultstaffconfig"
     },
     {
       "relation": "imports",
@@ -2753,9 +2798,9 @@
       "source_file": "src/app.js",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_scheduler_getstaffconfig",
-      "confidence_score": 1.0
+      "target": "src_scheduler_getstaffconfig"
     },
     {
       "relation": "imports",
@@ -2819,9 +2864,9 @@
       "source_file": "src/app.js",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app",
-      "target": "src_scheduler_reconfigure",
-      "confidence_score": 1.0
+      "target": "src_scheduler_reconfigure"
     },
     {
       "relation": "imports",
@@ -2973,9 +3018,9 @@
       "source_file": "src/app.js",
       "source_location": "L12",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app_savestaff",
-      "target": "src_scheduler_getstaffconfig",
-      "confidence_score": 1.0
+      "target": "src_scheduler_getstaffconfig"
     },
     {
       "relation": "calls",
@@ -3127,9 +3172,9 @@
       "source_file": "src/app.js",
       "source_location": "L130",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app_openteameditor",
-      "target": "src_scheduler_generateweek",
-      "confidence_score": 1.0
+      "target": "src_scheduler_generateweek"
     },
     {
       "relation": "calls",
@@ -3138,9 +3183,9 @@
       "source_file": "src/app.js",
       "source_location": "L92",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app_openteameditor",
-      "target": "src_scheduler_getstaffconfig",
-      "confidence_score": 1.0
+      "target": "src_scheduler_getstaffconfig"
     },
     {
       "relation": "calls",
@@ -3149,9 +3194,9 @@
       "source_file": "src/app.js",
       "source_location": "L129",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_app_openteameditor",
-      "target": "src_scheduler_reconfigure",
-      "confidence_score": 1.0
+      "target": "src_scheduler_reconfigure"
     },
     {
       "relation": "calls",
@@ -3295,6 +3340,17 @@
       "confidence_score": 1.0,
       "source": "src_app_buildmobilegrid",
       "target": "src_app_isdayclosed"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L243",
+      "weight": 1.0,
+      "source": "src_app_buildshiftcontent",
+      "target": "src_app_isdayclosed",
+      "confidence_score": 1.0
     },
     {
       "relation": "calls",
@@ -3851,9 +3907,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L183",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler",
-      "target": "src_scheduler_computeafternoontiers",
-      "confidence_score": 1.0
+      "target": "src_scheduler_computeafternoontiers"
     },
     {
       "relation": "contains",
@@ -3911,9 +3967,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L33",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler",
-      "target": "src_scheduler_defaultstaffconfig",
-      "confidence_score": 1.0
+      "target": "src_scheduler_defaultstaffconfig"
     },
     {
       "relation": "contains",
@@ -3934,6 +3990,26 @@
       "confidence_score": 1.0,
       "source": "src_scheduler",
       "target": "src_scheduler_diversifytimes"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L115",
+      "weight": 1.0,
+      "source": "src_scheduler",
+      "target": "src_scheduler_effectiveweeklyhours",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L118",
+      "weight": 1.0,
+      "source": "src_scheduler",
+      "target": "src_scheduler_effectiveworkdays",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -4081,9 +4157,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L56",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler",
-      "target": "src_scheduler_getstaffconfig",
-      "confidence_score": 1.0
+      "target": "src_scheduler_getstaffconfig"
     },
     {
       "relation": "contains",
@@ -4094,6 +4170,16 @@
       "confidence_score": 1.0,
       "source": "src_scheduler",
       "target": "src_scheduler_heuristiccombos"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L114",
+      "weight": 1.0,
+      "source": "src_scheduler",
+      "target": "src_scheduler_holidayweekdaycount",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -4139,11 +4225,21 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/scheduler.js",
-      "source_location": "L46",
+      "source_location": "L116",
       "weight": 1.0,
       "source": "src_scheduler",
-      "target": "src_scheduler_reconfigure",
+      "target": "src_scheduler_personalabsencedays",
       "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L46",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler",
+      "target": "src_scheduler_reconfigure"
     },
     {
       "relation": "contains",
@@ -4299,12 +4395,23 @@
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
+      "source_file": "tests/absences.test.mjs",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "tests_absences_test",
+      "target": "src_scheduler",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
       "source_file": "tests/generic-team.test.mjs",
       "source_location": "L3",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_generic_team_test",
-      "target": "src_scheduler",
-      "confidence_score": 1.0
+      "target": "src_scheduler"
     },
     {
       "relation": "imports_from",
@@ -4346,9 +4453,9 @@
       "source_file": "src/scheduler.js",
       "source_location": "L53",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "src_scheduler_reconfigure",
-      "target": "src_scheduler_computeafternoontiers",
-      "confidence_score": 1.0
+      "target": "src_scheduler_computeafternoontiers"
     },
     {
       "relation": "calls",
@@ -4613,6 +4720,61 @@
       "confidence_score": 1.0,
       "source": "src_scheduler_maxuncoveredgap",
       "target": "src_scheduler_shiftsof"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L115",
+      "weight": 1.0,
+      "source": "src_scheduler_effectiveweeklyhours",
+      "target": "src_scheduler_holidayweekdaycount",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L118",
+      "weight": 1.0,
+      "source": "src_scheduler_effectiveworkdays",
+      "target": "src_scheduler_holidayweekdaycount",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L149",
+      "weight": 1.0,
+      "source": "src_scheduler_validateweek",
+      "target": "src_scheduler_effectiveweeklyhours",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L118",
+      "weight": 1.0,
+      "source": "src_scheduler_effectiveworkdays",
+      "target": "src_scheduler_personalabsencedays",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L149",
+      "weight": 1.0,
+      "source": "src_scheduler_validateweek",
+      "target": "src_scheduler_effectiveworkdays",
+      "confidence_score": 1.0
     },
     {
       "relation": "calls",
@@ -4893,9 +5055,9 @@
       "source_file": "tests/generic-team.test.mjs",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_generic_team_test",
-      "target": "tests_generic_team_test_staff4",
-      "confidence_score": 1.0
+      "target": "tests_generic_team_test_staff4"
     },
     {
       "relation": "contains",
@@ -5374,5 +5536,5 @@
       "source_file": "index.html"
     }
   ],
-  "built_at_commit": "991d3e27da1eff9e31f17f8da82288c8bcf56356"
+  "built_at_commit": "9fe87f0096ed407119656c0743121410631890fd"
 }

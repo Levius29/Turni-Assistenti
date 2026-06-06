@@ -1,16 +1,16 @@
 # Graph Report - Turni-Assistenti-online  (2026-06-06)
 
 ## Corpus Check
-- 13 files · ~10,932 words
+- 13 files · ~10,955 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 188 nodes · 355 edges · 16 communities (8 shown, 8 thin omitted)
+- 188 nodes · 356 edges · 17 communities (9 shown, 8 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 1 edges (avg confidence: 0.85)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `9fe87f00`
+- Built from commit: `993144e5`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -31,6 +31,7 @@
 - [[_COMMUNITY_Community 13|Community 13]]
 - [[_COMMUNITY_Community 14|Community 14]]
 - [[_COMMUNITY_Community 15|Community 15]]
+- [[_COMMUNITY_Community 16|Community 16]]
 
 ## God Nodes (most connected - your core abstractions)
 1. `getShift()` - 14 edges
@@ -47,13 +48,13 @@
 ## Surprising Connections (you probably didn't know these)
 - `CLAUDE.md - Project Documentation` --conceptually_related_to--> `settings.json - Claude Code Hooks Config`  [INFERRED]
   CLAUDE.md → .claude/settings.json
-- `openTeamEditor()` --calls--> `reconfigure()`  [EXTRACTED]
+- `openTeamEditor()` --calls--> `fmt()`  [EXTRACTED]
+  src/app.js → src/scheduler.js
+- `openTeamEditor()` --calls--> `generateWeek()`  [EXTRACTED]
   src/app.js → src/scheduler.js
 - `buildDesktopGrid()` --calls--> `formatDateShort()`  [EXTRACTED]
   src/app.js → src/scheduler.js
 - `buildMobileGrid()` --calls--> `formatDateShort()`  [EXTRACTED]
-  src/app.js → src/scheduler.js
-- `buildShiftContent()` --calls--> `getAllowedShifts()`  [EXTRACTED]
   src/app.js → src/scheduler.js
 
 ## Import Cycles
@@ -64,7 +65,7 @@
 - **Coverage Constraint Subsystem** — index_get_coverage, index_get_required_coverage, index_max_uncovered_gap, concept_studio_continuity [EXTRACTED 1.00]
 - **UI Rendering Pipeline** — index_render, index_render_grid, index_render_summary, index_render_warnings, index_render_day_editor [EXTRACTED 1.00]
 
-## Communities (16 total, 8 thin omitted)
+## Communities (17 total, 8 thin omitted)
 
 ### Community 0 - "Community 0"
 Cohesion: 0.14
@@ -75,20 +76,24 @@ Cohesion: 0.10
 Nodes (19): #10 — Niente freeze UI durante il solve, #11 — jsPDF robusto, #1 + #2 — Copertura unificata: `coverageDeficit`, #3 — `validateWeek` controlla i giorni lavorati, #4 — Niente mutazione globale di `ASSISTANTS`, #5 — `getDayCombos` da O(N³) a ~O(K³), #6 — `rem` calcolato una volta, #7 — "Alternativa" con varietà oraria reale (+11 more)
 
 ### Community 3 - "Community 3"
-Cohesion: 0.08
-Nodes (37): _altHistory, applyTheme(), buildShiftBadge(), changeWeek(), currentStart, dayEditorDiv, deferHeavy(), doGenerate() (+29 more)
+Cohesion: 0.09
+Nodes (35): _altHistory, applyTheme(), changeWeek(), currentStart, dayEditorDiv, deferHeavy(), doGenerate(), doReset() (+27 more)
 
 ### Community 5 - "Community 5"
-Cohesion: 0.07
-Nodes (38): renderWarnings(), AFTERNOON_END_THRESHOLD, AFTERNOON_TIERS, afternoonDemand(), ASSISTANT_NAMES, ASSISTANTS, BASE_PAIRS, buildRem() (+30 more)
+Cohesion: 0.08
+Nodes (33): renderWarnings(), AFTERNOON_END_THRESHOLD, AFTERNOON_TIERS, ASSISTANT_NAMES, ASSISTANTS, BASE_PAIRS, buildRem(), buildWeekFromDayAssignments() (+25 more)
 
 ### Community 8 - "Export Tests"
-Cohesion: 0.21
-Nodes (15): applyShiftClass(), buildDesktopGrid(), buildMobileGrid(), buildShiftContent(), buildThemeToggle(), createCell(), createLockToggle(), getContractLabel() (+7 more)
+Cohesion: 0.18
+Nodes (17): applyShiftClass(), buildDesktopGrid(), buildMobileGrid(), buildShiftBadge(), buildShiftContent(), buildThemeToggle(), createCell(), createLockToggle() (+9 more)
 
 ### Community 10 - "Community 10"
 Cohesion: 0.21
 Nodes (15): ensureWeekShape(), exportPDF(), getCurrentWeek(), render(), renderDayEditor(), renderSummary(), countsAsAfternoon(), formatDateShort() (+7 more)
+
+### Community 11 - "Community 11"
+Cohesion: 0.40
+Nodes (5): openTeamEditor(), saveStaff(), computeAfternoonTiers(), getStaffConfig(), reconfigure()
 
 ### Community 13 - "Community 13"
 Cohesion: 0.22
@@ -117,6 +122,6 @@ _Questions this graph is uniquely positioned to answer:_
 - **Should `Community 2` be split into smaller, more focused modules?**
   _Cohesion score 0.1 - nodes in this community are weakly interconnected._
 - **Should `Community 3` be split into smaller, more focused modules?**
-  _Cohesion score 0.07973421926910298 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.08658536585365853 - nodes in this community are weakly interconnected._
 - **Should `Community 5` be split into smaller, more focused modules?**
-  _Cohesion score 0.07317073170731707 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.08108108108108109 - nodes in this community are weakly interconnected._
