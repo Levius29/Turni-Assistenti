@@ -1,6 +1,6 @@
 // UI / DOM / PDF. Estratto da index.html.
 import {
-  AFTERNOON_END_THRESHOLD, AFTERNOON_TIERS, ASSISTANTS, ASSISTANT_NAMES, BASE_PAIRS, LEGACY_TEMPLATES, LONG_SPAN, LUNCH_GAP_MAX, SHIFT_MAX_SPAN, SHIFT_MIN_SPAN, SHIFT_OFF, SLOT, SOLVE_BUDGET_FAST, SOLVE_BUDGET_FULL, STUDIO_CLOSE, STUDIO_OPEN, WEEKDAY_KEYS, WEEK_DAYS, _shiftCache, addDays, afternoonDemand, applyPreviousWeekState, assign, buildRem, buildWeekFromDayAssignments, cloneStats, countsAsAfternoon, coverageDeficit, coverageOf, createBaseWeek, createEmptyWeek, deriveShift, diversifyTimes, fmt, formatDateShort, formatItalianDate, formatWeekRange, formatWeekRangeShort, generateWeek, getAllowedShifts, getAssistantStats, getCoverage, getCurrentMonday, getDayCombos, getLockedShiftCount, getRequiredCoverage, getShift, heuristicCombos, isManuelaClose1519, isOff, maxUncoveredGap, regenerateAlternativeWithFeedback, regenerateCleanWeekWithFeedback, regenerateWeekWithFeedback, shiftsOf, solveWeek, solveWeekCore, updateShiftWithFeedback, validateWeek, weekAssignmentSig,
+  AFTERNOON_END_THRESHOLD, AFTERNOON_TIERS, ASSISTANTS, ASSISTANT_NAMES, BASE_PAIRS, LEGACY_TEMPLATES, LONG_SPAN, LUNCH_GAP_MAX, SHIFT_MAX_SPAN, SHIFT_MIN_SPAN, SHIFT_OFF, SLOT, SOLVE_BUDGET_FAST, SOLVE_BUDGET_FULL, STUDIO_CLOSE, STUDIO_OPEN, WEEKDAY_KEYS, WEEK_DAYS, _shiftCache, addDays, afternoonDemand, applyPreviousWeekState, assign, buildEquityLedger, buildRem, buildWeekFromDayAssignments, cloneStats, countsAsAfternoon, coverageDeficit, coverageOf, createBaseWeek, createEmptyWeek, deriveShift, diversifyTimes, fmt, formatDateShort, formatItalianDate, formatWeekRange, formatWeekRangeShort, generateWeek, getAllowedShifts, getAssistantStats, getCoverage, getCurrentMonday, getDayCombos, getLockedShiftCount, getRequiredCoverage, getShift, heuristicCombos, isManuelaClose1519, isOff, maxUncoveredGap, regenerateAlternativeWithFeedback, regenerateCleanWeekWithFeedback, regenerateWeekWithFeedback, shiftsOf, solveWeek, solveWeekCore, updateShiftWithFeedback, validateWeek, weekAssignmentSig,
   defaultStaffConfig, getStaffConfig, reconfigure
 } from './scheduler.js';
 
@@ -13,7 +13,9 @@ import {
   let weeks=loadWeeks();
   let currentStart=getCurrentMonday();
   let selectedDayKey='mon';
-  if(!weeks[currentStart])weeks[currentStart]=generateWeek({startDate:currentStart});
+  // Ledger equità dalle ultime 8 settimane salvate, esclusa quella in editing (currentStart).
+  function buildLedgerFromStorage(){return buildEquityLedger(Object.entries(weeks).filter(([s])=>s!==currentStart).map(([,w])=>w),8);}
+  if(!weeks[currentStart])weeks[currentStart]=generateWeek({startDate:currentStart,ledger:buildLedgerFromStorage()});
   saveWeeks();
 
   // ── DOM REFS ──
@@ -28,8 +30,8 @@ import {
   // ── EVENT LISTENERS ──
   // Mostra subito lo status e rimanda il solve sincrono al tick successivo, così l'UI ridisegna prima del blocco.
   function deferHeavy(label,job){showStatus(label);setTimeout(job,0);}
-  const doGenerate=()=>deferHeavy('Calcolo turni…',()=>{resetAltHistory();const r=regenerateWeekWithFeedback(currentStart,getCurrentWeek());weeks[currentStart]=r.week;saveWeeks();showStatus(r.message);render();});
-  const doReset=()=>deferHeavy('Calcolo turni…',()=>{resetAltHistory();const r=regenerateCleanWeekWithFeedback(currentStart);weeks[currentStart]=r.week;saveWeeks();showStatus(r.message);render();});
+  const doGenerate=()=>deferHeavy('Calcolo turni…',()=>{resetAltHistory();const r=regenerateWeekWithFeedback(currentStart,getCurrentWeek(),buildLedgerFromStorage());weeks[currentStart]=r.week;saveWeeks();showStatus(r.message);render();});
+  const doReset=()=>deferHeavy('Calcolo turni…',()=>{resetAltHistory();const r=regenerateCleanWeekWithFeedback(currentStart,buildLedgerFromStorage());weeks[currentStart]=r.week;saveWeeks();showStatus(r.message);render();});
   document.querySelector('#prevWeek').addEventListener('click',()=>changeWeek(-7));
   document.querySelector('#nextWeek').addEventListener('click',()=>changeWeek(7));
   document.querySelector('#generateWeek').addEventListener('click',doGenerate);
@@ -52,11 +54,11 @@ import {
       const cur=getCurrentWeek();
       _altHistory.push(weekAssignmentSig(cur));
       const avoid=new Set(_altHistory);
-      const r=regenerateAlternativeWithFeedback(currentStart,cur,avoid);
+      const r=regenerateAlternativeWithFeedback(currentStart,cur,avoid,buildLedgerFromStorage());
       if(r.solved){weeks[currentStart]=r.week;saveWeeks();showStatus(r.message);render();return;}
       // Wrap: nessuna nuova → torna alla prima soluzione del ciclo
       _altHistory=[];
-      const r2=regenerateAlternativeWithFeedback(currentStart,cur,null);
+      const r2=regenerateAlternativeWithFeedback(currentStart,cur,null,buildLedgerFromStorage());
       if(r2.solved){weeks[currentStart]=r2.week;saveWeeks();showStatus('Ciclo completato — tornata alla prima soluzione.');render();}
       else{showStatus('Nessuna soluzione alternativa disponibile.');}
     });
@@ -102,15 +104,36 @@ import {
             <label class="t-field" title="Un turno conta come pomeriggio per questa persona se finisce DOPO quest'ora">Pom. dopo<input class="field" type="time" step="1800" value="${fmt(c.afternoonThresholdMin??960)}" data-i="${i}" data-k="afternoonThresholdMin"></label>
             <label class="t-field t-check"><input type="checkbox" ${c.canWorkLong?'checked':''} data-i="${i}" data-k="canWorkLong">Turni lunghi</label>
           </div>`;
+        const pf=c.preferences||{};
+        el.innerHTML+=`
+          <div class="t-grid t-prefs">
+            <label class="t-field">Libero pref.<select class="field" data-i="${i}" data-k="preferredDayOff">
+              <option value=""${!pf.preferredDayOff?' selected':''}>—</option>
+              ${['mon','tue','wed','thu','fri'].map((k,j)=>`<option value="${k}"${pf.preferredDayOff===k?' selected':''}>${['Lun','Mar','Mer','Gio','Ven'][j]}</option>`).join('')}
+            </select></label>
+            <label class="t-field">Finestra pref.<select class="field" data-i="${i}" data-k="preferredWindow">
+              <option value=""${!pf.preferredWindow?' selected':''}>—</option>
+              <option value="early"${pf.preferredWindow==='early'?' selected':''}>Presto</option>
+              <option value="late"${pf.preferredWindow==='late'?' selected':''}>Tardi</option>
+              <option value="morning"${pf.preferredWindow==='morning'?' selected':''}>Mattina</option>
+              <option value="afternoon"${pf.preferredWindow==='afternoon'?' selected':''}>Pomeriggio</option>
+            </select></label>
+            <label class="t-field t-check"><input type="checkbox" ${pf.avoidClose?'checked':''} data-i="${i}" data-k="avoidClose">Evita chiusura</label>
+            <label class="t-field t-check"><input type="checkbox" ${pf.avoidOpen?'checked':''} data-i="${i}" data-k="avoidOpen">Evita apertura</label>
+          </div>`;
         rowsBox.appendChild(el);});
     }
-    rowsBox.addEventListener('input',e=>{const t=e.target,i=+t.dataset.i,k=t.dataset.k;if(Number.isNaN(i)||!k)return;
+    function onFieldChange(t){const i=+t.dataset.i,k=t.dataset.k;if(Number.isNaN(i)||!k)return;
       if(k==='name')rows[i].name=t.value;
       else if(k==='canWorkLong')rows[i].c.canWorkLong=t.checked;
       else if(k==='afternoonThresholdMin'){const[h,mm]=t.value.split(':').map(Number);if(!Number.isNaN(h))rows[i].c.afternoonThresholdMin=h*60+(mm||0);}
-      else rows[i].c[k]=k==='weeklyHours'?parseFloat(t.value):parseInt(t.value,10);});
+      else if(k==='preferredDayOff'||k==='preferredWindow'){rows[i].c.preferences={...(rows[i].c.preferences||{}),[k]:t.value||undefined};}
+      else if(k==='avoidClose'||k==='avoidOpen'){rows[i].c.preferences={...(rows[i].c.preferences||{}),[k]:t.checked};}
+      else rows[i].c[k]=k==='weeklyHours'?parseFloat(t.value):parseInt(t.value,10);}
+    rowsBox.addEventListener('input',e=>onFieldChange(e.target));
+    rowsBox.addEventListener('change',e=>onFieldChange(e.target));
     rowsBox.addEventListener('click',e=>{const del=e.target.closest('.t-del');if(!del)return;rows.splice(+del.dataset.i,1);renderRows();});
-    card.querySelector('.btn-add').addEventListener('click',()=>{const pr=Math.max(0,...rows.map(r=>r.c.escalationPriority??0))+1;rows.push({name:'',c:{weeklyHours:25,minAfternoons:1,maxAfternoons:2,canWorkLong:false,maxWorkDays:5,afternoonThresholdMin:960,escalationPriority:pr}});renderRows();});
+    card.querySelector('.btn-add').addEventListener('click',()=>{const pr=Math.max(0,...rows.map(r=>r.c.escalationPriority??0))+1;rows.push({name:'',c:{weeklyHours:25,minAfternoons:1,maxAfternoons:2,canWorkLong:false,maxWorkDays:5,afternoonThresholdMin:960,escalationPriority:pr,preferences:{}}});renderRows();});
     const close=()=>{overlay.classList.remove('visible');setTimeout(()=>overlay.remove(),200);};
     const showErr=m=>{errBox.textContent=m;errBox.hidden=false;};
     card.querySelector('.modal-x').addEventListener('click',close);
@@ -129,7 +152,7 @@ import {
         newCfg[r.name.trim()]={...c,weeklyHours:c.weeklyHours,minAfternoons:c.minAfternoons,maxAfternoons:c.maxAfternoons,canWorkLong:!!c.canWorkLong};
       }
       reconfigure(newCfg);saveStaff();
-      weeks[currentStart]=generateWeek({startDate:currentStart});saveWeeks();
+      weeks[currentStart]=generateWeek({startDate:currentStart,ledger:buildLedgerFromStorage()});saveWeeks();
       close();render();showStatus('Team aggiornato.');
     });
     renderRows();
@@ -330,7 +353,7 @@ import {
   }
 
   function getCurrentWeek(){if(!weeks[currentStart])weeks[currentStart]=createEmptyWeek(currentStart);ensureWeekShape(weeks[currentStart]);return weeks[currentStart];}
-  function changeWeek(days){resetAltHistory();currentStart=addDays(currentStart,days);selectedDayKey='mon';if(!weeks[currentStart])weeks[currentStart]=generateWeek({startDate:currentStart});saveWeeks();render();}
+  function changeWeek(days){resetAltHistory();currentStart=addDays(currentStart,days);selectedDayKey='mon';if(!weeks[currentStart])weeks[currentStart]=generateWeek({startDate:currentStart,ledger:buildLedgerFromStorage()});saveWeeks();render();}
   // Pruning: conserva solo le settimane nella finestra ±8 attorno alla corrente
   // e quelle con almeno un turno bloccato (edit manuali da preservare).
   function saveWeeks(){
