@@ -78,3 +78,21 @@ test('diagnoseInfeasibility: spiega una settimana impossibile', () => {
   assert.equal(typeof r.reason, 'string');
   assert.ok(r.reason.length > 0);
 });
+
+// generateWeek usa l'ottimizzatore: produce una settimana valida e accetta un ledger.
+test('generateWeek: settimana valida via ottimizzatore con ledger', () => {
+  M.reconfigure(M.defaultStaffConfig());
+  const led = M.buildEquityLedger([], 8);
+  const wk = M.generateWeek({ startDate: '2026-06-08', ledger: led });
+  assert.equal(M.validateWeek(wk).length, 0);
+});
+
+// Alternativa: con avoidSigs ritorna una settimana DIVERSA da quella corrente.
+test('regenerateAlternativeWithFeedback: ritorna una settimana distinta', () => {
+  M.reconfigure(M.defaultStaffConfig());
+  const led = M.buildEquityLedger([], 8);
+  const cur = M.generateWeek({ startDate: '2026-06-08', ledger: led });
+  const sig = M.weekAssignmentSig(cur);
+  const r = M.regenerateAlternativeWithFeedback('2026-06-08', cur, new Set([sig]), led);
+  if (r.solved) assert.notEqual(M.weekAssignmentSig(r.week), sig, 'l\'alternativa deve differire');
+});
