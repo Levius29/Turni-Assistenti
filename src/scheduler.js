@@ -30,16 +30,30 @@
 //   escalationPriority    : ordine con cui si alza il tetto pomeriggi (più basso = prima).
 //   closePref {preferred,max} : ricerca preferisce `preferred` chiusure, poi `max`.
 //   overtime {weeklyHours,maxAfternoons,requiresShift} : politica straordinario opzionale.
-export const STAFF_CONFIG = {
+export function defaultStaffConfig(){return {
     Lucrezia: { weeklyHours: 38, minAfternoons: 2, maxAfternoons: 3, canWorkLong: true,  maxWorkDays: 5, afternoonThresholdMin: 1020, escalationPriority: 2, closePref: { preferred: 2, max: 3 } },
     Manuela:  { weeklyHours: 25, minAfternoons: 1, maxAfternoons: 1, canWorkLong: false, workDays: 5,    afternoonThresholdMin: 900,  escalationPriority: 3, overtime: { weeklyHours: 29, maxAfternoons: 2, requiresShift: { s: 900, e: 1140 } } },
     Madalina: { weeklyHours: 24, minAfternoons: 2, maxAfternoons: 3, canWorkLong: false, workDays: 5,    afternoonThresholdMin: 960,  escalationPriority: 1 },
-  };
-export const ASSISTANT_NAMES = Object.keys(STAFF_CONFIG);
-export const ASSISTANTS = STAFF_CONFIG; // i campi extra sono ignorati dai check contrattuali
+  };}
+// Stato del team mutabile a runtime: i `let` esportati sono live-binding, reconfigure() ricalcola tutto il derivato.
+export let STAFF_CONFIG = defaultStaffConfig();
+export let ASSISTANT_NAMES = Object.keys(STAFF_CONFIG);
+export let ASSISTANTS = STAFF_CONFIG; // i campi extra sono ignorati dai check contrattuali
 // Ruoli derivati dalla config (≤1 ciascuno per ora; null se nessuno).
-export const OVERTIME_PERSON = ASSISTANT_NAMES.find(n => STAFF_CONFIG[n].overtime) ?? null;
-export const CLOSE_PREF_PERSON = ASSISTANT_NAMES.find(n => STAFF_CONFIG[n].closePref) ?? null;
+export let OVERTIME_PERSON = ASSISTANT_NAMES.find(n => STAFF_CONFIG[n].overtime) ?? null;
+export let CLOSE_PREF_PERSON = ASSISTANT_NAMES.find(n => STAFF_CONFIG[n].closePref) ?? null;
+// Cambia il team a runtime e ricalcola nomi, ruoli, soglie e tier. cfg: { nome: Contract }.
+export function reconfigure(cfg){
+  STAFF_CONFIG = cfg;
+  ASSISTANTS = cfg;
+  ASSISTANT_NAMES = Object.keys(cfg);
+  OVERTIME_PERSON = ASSISTANT_NAMES.find(n => cfg[n].overtime) ?? null;
+  CLOSE_PREF_PERSON = ASSISTANT_NAMES.find(n => cfg[n].closePref) ?? null;
+  AFTERNOON_END_THRESHOLD = Object.fromEntries(ASSISTANT_NAMES.map(n => [n, cfg[n].afternoonThresholdMin]));
+  AFTERNOON_TIERS = computeAfternoonTiers();
+  return STAFF_CONFIG;
+}
+export function getStaffConfig(){return STAFF_CONFIG;}
 export const WEEKDAY_KEYS = ['mon','tue','wed','thu','fri'];
   // ── MODELLO TURNI FLESSIBILI ──
   // Un assegnamento è 'OFF' (riposo) oppure {s:minutiEntrata, e:minutiUscita}.
@@ -86,7 +100,7 @@ export function createEmptyWeek(startDate){return{startDate,days:WEEK_DAYS.map((
   // non influenza la soluzione (verificato), quindi è indipendente dai nomi → team generico.
 export function createBaseWeek(startDate){return createEmptyWeek(startDate);}
   // Quota pomeriggi: soglia oraria di fine turno per-assistente, derivata dalla config.
-export const AFTERNOON_END_THRESHOLD=Object.fromEntries(ASSISTANT_NAMES.map(n=>[n,STAFF_CONFIG[n].afternoonThresholdMin]));
+export let AFTERNOON_END_THRESHOLD=Object.fromEntries(ASSISTANT_NAMES.map(n=>[n,STAFF_CONFIG[n].afternoonThresholdMin]));
 export function countsAsAfternoon(assistant,shift){if(shift.hours===0||shift.endMin==null)return false;return shift.endMin>AFTERNOON_END_THRESHOLD[assistant];}
   // Lo straordinario pomeridiano di una persona può richiedere un turno specifico (es. 15:00-19:00).
 export function worksOvertimeShift(name,a){const o=STAFF_CONFIG[name]?.overtime?.requiresShift;if(!o)return false;const s=getShift(a);return s.startMin===o.s&&s.endMin===o.e;}
@@ -166,7 +180,7 @@ export function weekAssignmentSig(week){return week.days.map(d=>ASSISTANT_NAMES.
   // minAfternoons, poi si alza il tetto di una persona alla volta fino al suo soffitto
   // (maxAfternoons, o overtime.maxAfternoons se ha lo straordinario), nell'ordine di
   // escalationPriority. I tier che richiedono straordinario hanno ot:true.
-export const AFTERNOON_TIERS=(()=>{
+export function computeAfternoonTiers(){
     const base=Object.fromEntries(ASSISTANT_NAMES.map(n=>[n,STAFF_CONFIG[n].minAfternoons]));
     const ceil=n=>{const c=STAFF_CONFIG[n];return c.overtime?c.overtime.maxAfternoons:c.maxAfternoons;};
     const escalators=ASSISTANT_NAMES.filter(n=>ceil(n)>STAFF_CONFIG[n].minAfternoons)
@@ -175,7 +189,8 @@ export const AFTERNOON_TIERS=(()=>{
     let caps={...base};
     for(const n of escalators){caps={...caps,[n]:ceil(n)};tiers.push({caps:{...caps},ot:!!STAFF_CONFIG[n].overtime});}
     return tiers;
-  })();
+  }
+export let AFTERNOON_TIERS=computeAfternoonTiers();
 export function solveWeek(seedWeek,avoidSigs){
     const demand=afternoonDemand(seedWeek);
     const baseCombos=seedWeek.days.map((day,idx)=>getDayCombos(seedWeek,day,idx));
