@@ -399,3 +399,17 @@ export function windowPenalty(pref,sh){
   if(pref==='afternoon')return sh.coversAfternoon?0:Math.max(0,13*60-sh.startMin)/60+1;
   return 0;
 }
+// Insieme di orari canonici {s,e} (dai template legacy) per il tie-break deterministico.
+export const CANONICAL_SHIFTS=Object.values(LEGACY_TEMPLATES);
+// Costo ordine: somma, per ogni turno lavorato, la distanza (in ore) dal template canonico più vicino.
+// Termine minimo (W_TIDY piccolo): a parità di equità+preferenze preferisce orari "tondi" e rende la scelta stabile.
+export function tidyCost(week){
+  let cost=0;
+  for(const day of week.days)for(const n of ASSISTANT_NAMES){
+    const sh=getShift(day.assignments[n]);if(sh.hours===0)continue;
+    let best=Infinity;
+    for(const t of CANONICAL_SHIFTS){const d=(Math.abs(sh.startMin-t.s)+Math.abs(sh.endMin-t.e))/60;if(d<best)best=d;}
+    cost+=best===Infinity?0:best;
+  }
+  return cost;
+}
