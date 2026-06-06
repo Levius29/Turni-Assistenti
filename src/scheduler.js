@@ -413,3 +413,7 @@ export function tidyCost(week){
   }
   return cost;
 }
+// Costo totale di una settimana (somma pesata). Più basso = migliore.
+export function costOfWeek(week,ledger){
+  return W_EQ*equityCost(week,ledger)+W_PREF*preferenceCost(week)+W_TIDY*tidyCost(week);
+}
