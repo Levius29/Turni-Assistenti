@@ -200,6 +200,11 @@ export function computeAfternoonTiers(){
     return tiers;
   }
 export let AFTERNOON_TIERS=computeAfternoonTiers();
+// Regole effettive per un tier di distribuzione pomeriggi (tetti pomeriggi + ore/giorni effettivi
+// considerando festività/assenze). Estratto da solveWeek per riuso nel collettore ottimizzato.
+export function buildTierRules(seedWeek,tier){
+  return Object.fromEntries(ASSISTANT_NAMES.map(n=>{const c=STAFF_CONFIG[n];const inOt=tier.ot&&c.overtime&&tier.caps[n]>c.maxAfternoons;const baseWh=inOt?c.overtime.weeklyHours:ASSISTANTS[n].weeklyHours;const r={...ASSISTANTS[n],maxAfternoons:tier.caps[n],weeklyHours:effectiveWeeklyHours(n,seedWeek,baseWh)};if('workDays'in ASSISTANTS[n])r.workDays=effectiveWorkDays(n,seedWeek,ASSISTANTS[n].workDays);if('maxWorkDays'in ASSISTANTS[n])r.maxWorkDays=effectiveWorkDays(n,seedWeek,ASSISTANTS[n].maxWorkDays);return[n,r];}));
+}
 export function solveWeek(seedWeek,avoidSigs){
     const demand=afternoonDemand(seedWeek);
     const baseCombos=seedWeek.days.map((day,idx)=>getDayCombos(seedWeek,day,idx));
@@ -211,7 +216,7 @@ export function solveWeek(seedWeek,avoidSigs){
     const attempt=(combos,budget)=>{
       for(const tier of AFTERNOON_TIERS){
         if(demand>tier.caps.Lucrezia+tier.caps.Manuela+tier.caps.Madalina)continue;
-        const tierRules=Object.fromEntries(ASSISTANT_NAMES.map(n=>{const c=STAFF_CONFIG[n];const inOt=tier.ot&&c.overtime&&tier.caps[n]>c.maxAfternoons;const baseWh=inOt?c.overtime.weeklyHours:ASSISTANTS[n].weeklyHours;const r={...ASSISTANTS[n],maxAfternoons:tier.caps[n],weeklyHours:effectiveWeeklyHours(n,seedWeek,baseWh)};if('workDays'in ASSISTANTS[n])r.workDays=effectiveWorkDays(n,seedWeek,ASSISTANTS[n].workDays);if('maxWorkDays'in ASSISTANTS[n])r.maxWorkDays=effectiveWorkDays(n,seedWeek,ASSISTANTS[n].maxWorkDays);return[n,r];}));
+        const tierRules=buildTierRules(seedWeek,tier);
         let found=null;
         for(const maxCloses of [2,3]){const r=solveWeekCore(seedWeek,maxCloses,combos,budget,avoidSigs,tierRules,pre);if(r.solved){found=r;break;}}
         if(found){if(tier.ot)found.week.overtimeUsed=true;return{...found,overtime:tier.ot};}
