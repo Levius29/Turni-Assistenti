@@ -21,3 +21,26 @@ test('costOfWeek: combina i tre termini ed è deterministico', () => {
   assert.ok(Math.abs(M.costOfWeek(wk, led) - expected) < 1e-9);
   assert.equal(M.costOfWeek(wk, led), M.costOfWeek(wk, led));
 });
+
+// collectFeasibleWeeks: ritorna un pool di settimane TUTTE valide, dal primo tier ammesso, entro il cap.
+test('collectFeasibleWeeks: pool di sole settimane valide, rispetta il cap', () => {
+  M.reconfigure(M.defaultStaffConfig());
+  const seed = M.createBaseWeek('2026-06-08');
+  const { pool } = M.collectFeasibleWeeks(seed, { cap: 50 });
+  assert.ok(pool.length > 0, 'almeno una settimana feasible');
+  assert.ok(pool.length <= 50, 'rispetta il cap');
+  for (const w of pool) assert.equal(M.validateWeek(w).length, 0, 'ogni settimana del pool è valida');
+  // Tutte distinte per firma.
+  const sigs = new Set(pool.map(M.weekAssignmentSig));
+  assert.equal(sigs.size, pool.length, 'nessun duplicato nel pool');
+});
+
+// avoidSigs: le firme escluse non compaiono nel pool.
+test('collectFeasibleWeeks: avoidSigs esclude le firme indicate', () => {
+  M.reconfigure(M.defaultStaffConfig());
+  const seed = M.createBaseWeek('2026-06-08');
+  const first = M.collectFeasibleWeeks(seed, { cap: 10 }).pool[0];
+  const sig = M.weekAssignmentSig(first);
+  const { pool } = M.collectFeasibleWeeks(seed, { cap: 50, avoidSigs: new Set([sig]) });
+  assert.ok(!pool.some(w => M.weekAssignmentSig(w) === sig), 'la firma esclusa non è nel pool');
+});
