@@ -208,31 +208,42 @@ export function buildTierRules(seedWeek,tier){
 // Raccoglie settimane feasible (tutte valide) dal PRIMO tier di distribuzione pomeriggi ammesso,
 // fino a `cap` soluzioni o esaurimento `budget`. Riusa getDayCombos/buildRem/validateWeek.
 // Mantiene i vincoli hard (incluso il tetto chiusure closePref.max della persona con preferenza).
-export function collectFeasibleWeeks(seedWeek,{cap=2000,budget=SOLVE_BUDGET_FULL,avoidSigs}={}){
+// Raccoglie settimane feasible (tutte valide) dal PRIMO tier di distribuzione pomeriggi ammesso,
+// fino a `cap` soluzioni o esaurimento `budget`. Riusa getDayCombos/buildRem/validateWeek.
+// Memoizza gli stati (pos,stats) SENZA alcuna completazione valida (dead): la validità dipende solo
+// dagli aggregati, non dal prefisso, quindi è sound anche raccogliendo molte soluzioni distinte.
+export function collectFeasibleWeeks(seedWeek,{cap=400,budget=SOLVE_BUDGET_FULL,avoidSigs}={}){
   const demand=afternoonDemand(seedWeek);
-  const combosByDay=seedWeek.days.map((day,idx)=>getDayCombos(seedWeek,day,idx));
+  const baseCombos=seedWeek.days.map((day,idx)=>getDayCombos(seedWeek,day,idx));
+  const combosByDay=heuristicCombos(baseCombos);
   const D=seedWeek.days.length;
-  const order=[...Array(D).keys()].sort((a,b)=>combosByDay[a].length-combosByDay[b].length);
+  const order=[...Array(D).keys()].sort((a,b)=>baseCombos[a].length-baseCombos[b].length);
   const orderedCombos=order.map(i=>combosByDay[i]);
   const rem=buildRem(seedWeek.days,order);
   const closeMax=CLOSE_PREF_PERSON?(STAFF_CONFIG[CLOSE_PREF_PERSON].closePref?.max??Infinity):Infinity;
   for(const tier of AFTERNOON_TIERS){
     if(demand>Object.values(tier.caps).reduce((a,b)=>a+b,0))continue;
     const tierRules=buildTierRules(seedWeek,tier);
-    const pool=[],seen=new Set();let nodes=0;const placed=new Array(D);
+    const pool=[],seen=new Set(),dead=new Set();let nodes=0;const placed=new Array(D);
+    const keyOf=(pos,st)=>{let s=pos+'|';for(const a of ASSISTANT_NAMES){const x=st[a];s+=Math.round(x.hours*2)+','+x.afternoons+','+x.workDays+','+(x.closes||0)+';';}return s;};
     const feasibleAhead=(nextPos,st)=>{for(const a of ASSISTANT_NAMES){const rules=tierRules[a],s=st[a],r=rem[nextPos][a];if(s.hours>rules.weeklyHours)return false;if(s.afternoons>rules.maxAfternoons)return false;if(rules.workDays&&s.workDays>rules.workDays)return false;if(rules.maxWorkDays&&s.workDays>rules.maxWorkDays)return false;if(s.hours+r.maxHours<rules.weeklyHours)return false;if(s.hours+r.minHours>rules.weeklyHours)return false;if(s.afternoons+r.maxAfternoons<rules.minAfternoons)return false;if(rules.workDays&&(s.workDays+r.maxWorkDays<rules.workDays||s.workDays+r.minWorkDays>rules.workDays))return false;if(rules.maxWorkDays&&s.workDays+r.minWorkDays>rules.maxWorkDays)return false;}return true;};
     const visit=(pos,stats)=>{
-      if(nodes>budget||pool.length>=cap)return;nodes++;
-      if(pos===D){const w=buildWeekFromDayAssignments(seedWeek,placed);if(validateWeek(w,tierRules).length===0){const sig=weekAssignmentSig(w);if((!avoidSigs||!avoidSigs.has(sig))&&!seen.has(sig)){seen.add(sig);pool.push(w);}}return;}
+      if(nodes>budget||pool.length>=cap)return false;nodes++;
+      if(pos===D){const w=buildWeekFromDayAssignments(seedWeek,placed);if(validateWeek(w,tierRules).length!==0)return false;const sig=weekAssignmentSig(w);if((!avoidSigs||!avoidSigs.has(sig))&&!seen.has(sig)){seen.add(sig);pool.push(w);}return true;}
+      const key=keyOf(pos,stats);if(dead.has(key))return false;
+      let anyValid=false;
       for(const combo of orderedCombos[pos]){
         const d=combo.d,next=cloneStats(stats);
         for(const a of ASSISTANT_NAMES){const da=d[a];next[a].hours+=da.h;next[a].afternoons+=da.af;next[a].workDays+=da.wd;}
         if(CLOSE_PREF_PERSON){next[CLOSE_PREF_PERSON].closes+=d[CLOSE_PREF_PERSON].close;if(next[CLOSE_PREF_PERSON].closes>closeMax)continue;}
         if(OVERTIME_PERSON){const _thr=STAFF_CONFIG[OVERTIME_PERSON].maxAfternoons+1,_req=STAFF_CONFIG[OVERTIME_PERSON].overtime.requiresShift;if(_req&&next[OVERTIME_PERSON].afternoons>=_thr){let has=d[OVERTIME_PERSON].oReq;if(!has)for(let q=0;q<pos;q++){const pc=placed[order[q]];if(pc&&pc.d[OVERTIME_PERSON].oReq){has=true;break;}}if(!has)continue;}}
         if(!feasibleAhead(pos+1,next))continue;
-        placed[order[pos]]=combo;visit(pos+1,next);placed[order[pos]]=undefined;
-        if(nodes>budget||pool.length>=cap)return;
+        placed[order[pos]]=combo;const got=visit(pos+1,next);placed[order[pos]]=undefined;
+        if(got)anyValid=true;
+        if(nodes>budget||pool.length>=cap)return anyValid;
       }
+      if(!anyValid)dead.add(key);
+      return anyValid;
     };
     visit(0,Object.fromEntries(ASSISTANT_NAMES.map(n=>[n,{hours:0,afternoons:0,workDays:0,closes:0}])));
     if(pool.length)return{pool,overtime:tier.ot,tier};
