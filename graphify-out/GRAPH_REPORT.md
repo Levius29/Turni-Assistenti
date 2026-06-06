@@ -1,16 +1,16 @@
 # Graph Report - Turni-Assistenti-online  (2026-06-06)
 
 ## Corpus Check
-- 6 files · ~8,615 words
+- 12 files · ~9,931 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 52 nodes · 43 edges · 13 communities (5 shown, 8 thin omitted)
-- Extraction: 98% EXTRACTED · 2% INFERRED · 0% AMBIGUOUS · INFERRED: 1 edges (avg confidence: 0.85)
+- 175 nodes · 327 edges · 20 communities (11 shown, 9 thin omitted)
+- Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 1 edges (avg confidence: 0.85)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `6b448c5b`
+- Built from commit: `8ceef201`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -28,22 +28,37 @@
 - [[_COMMUNITY_Community 10|Community 10]]
 - [[_COMMUNITY_Community 11|Community 11]]
 - [[_COMMUNITY_Community 12|Community 12]]
+- [[_COMMUNITY_Community 13|Community 13]]
+- [[_COMMUNITY_Community 14|Community 14]]
+- [[_COMMUNITY_Community 15|Community 15]]
+- [[_COMMUNITY_Community 16|Community 16]]
+- [[_COMMUNITY_Community 17|Community 17]]
+- [[_COMMUNITY_Community 18|Community 18]]
+- [[_COMMUNITY_Community 19|Community 19]]
 
 ## God Nodes (most connected - your core abstractions)
-1. `Convenzioni test` - 11 edges
-2. `Audit & miglioramento solver turni — Design` - 9 edges
-3. `Fix di correttezza` - 4 edges
-4. `Migliorie` - 4 edges
-5. `hooks` - 3 edges
-6. `Solver Audit & Fix — Implementation Plan` - 3 edges
-7. `Fix di velocità` - 3 edges
-8. `Combinazioni` - 3 edges
-9. `PreToolUse` - 1 edges
-10. `html` - 1 edges
+1. `getShift()` - 14 edges
+2. `render()` - 11 edges
+3. `validateWeek()` - 11 edges
+4. `Convenzioni test` - 11 edges
+5. `buildDesktopGrid()` - 10 edges
+6. `buildShiftContent()` - 10 edges
+7. `regenerateAlternativeWithFeedback()` - 9 edges
+8. `Audit & miglioramento solver turni — Design` - 9 edges
+9. `buildMobileGrid()` - 8 edges
+10. `generateWeek()` - 8 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `CLAUDE.md - Project Documentation` --conceptually_related_to--> `settings.json - Claude Code Hooks Config`  [INFERRED]
   CLAUDE.md → .claude/settings.json
+- `doGenerate()` --calls--> `regenerateWeekWithFeedback()`  [EXTRACTED]
+  src/app.js → src/scheduler.js
+- `buildDesktopGrid()` --calls--> `formatDateShort()`  [EXTRACTED]
+  src/app.js → src/scheduler.js
+- `buildMobileGrid()` --calls--> `formatDateShort()`  [EXTRACTED]
+  src/app.js → src/scheduler.js
+- `buildShiftContent()` --calls--> `getAllowedShifts()`  [EXTRACTED]
+  src/app.js → src/scheduler.js
 
 ## Import Cycles
 - None detected.
@@ -53,41 +68,69 @@
 - **Coverage Constraint Subsystem** — index_get_coverage, index_get_required_coverage, index_max_uncovered_gap, concept_studio_continuity [EXTRACTED 1.00]
 - **UI Rendering Pipeline** — index_render, index_render_grid, index_render_summary, index_render_warnings, index_render_day_editor [EXTRACTED 1.00]
 
-## Communities (13 total, 8 thin omitted)
+## Communities (20 total, 9 thin omitted)
 
 ### Community 0 - "Community 0"
-Cohesion: 0.18
-Nodes (11): Convenzioni test, Task 10: Verifica finale + graphify update, Task 1: #1+#2 — `coverageDeficit` (copertura cumulativa + debito pranzo), Task 2: #3 — `validateWeek` segnala giorni lavorati > max, Task 3: #4 — Niente mutazione globale di ASSISTANTS, Task 4: #6 — `rem` calcolato una volta in `solveWeek`, Task 5: #5 — `getDayCombos` pre-dedup per-assistente, Task 6: #7 — "Alternativa" con varietà oraria (+3 more)
+Cohesion: 0.14
+Nodes (13): Convenzioni test, Self-Review, Solver Audit & Fix — Implementation Plan, Task 10: Verifica finale + graphify update, Task 1: #1+#2 — `coverageDeficit` (copertura cumulativa + debito pranzo), Task 2: #3 — `validateWeek` segnala giorni lavorati > max, Task 3: #4 — Niente mutazione globale di ASSISTANTS, Task 4: #6 — `rem` calcolato una volta in `solveWeek` (+5 more)
 
 ### Community 2 - "Community 2"
-Cohesion: 0.22
-Nodes (8): #5 — `getDayCombos` da O(N³) a ~O(K³), #6 — `rem` calcolato una volta, Audit & miglioramento solver turni — Design, Contesto, Fix di velocità, Fuori scope, Principio architetturale, Test
+Cohesion: 0.10
+Nodes (19): #10 — Niente freeze UI durante il solve, #11 — jsPDF robusto, #1 + #2 — Copertura unificata: `coverageDeficit`, #3 — `validateWeek` controlla i giorni lavorati, #4 — Niente mutazione globale di `ASSISTANTS`, #5 — `getDayCombos` da O(N³) a ~O(K³), #6 — `rem` calcolato una volta, #7 — "Alternativa" con varietà oraria reale (+11 more)
 
 ### Community 3 - "Community 3"
-Cohesion: 0.50
-Nodes (4): #10 — Niente freeze UI durante il solve, #11 — jsPDF robusto, #9 — Pruning storage, Migliorie
+Cohesion: 0.09
+Nodes (18): _altHistory, currentStart, dayEditorDiv, scheduleGrid, statusMsg, summaryDiv, warningsDiv, weekLabel (+10 more)
 
 ### Community 5 - "Community 5"
-Cohesion: 0.50
-Nodes (4): #1 + #2 — Copertura unificata: `coverageDeficit`, #3 — `validateWeek` controlla i giorni lavorati, #4 — Niente mutazione globale di `ASSISTANTS`, Fix di correttezza
+Cohesion: 0.12
+Nodes (31): requestAlternative(), AFTERNOON_END_THRESHOLD, afternoonDemand(), applyPreviousWeekState(), assign(), BASE_PAIRS, buildRem(), cloneStats() (+23 more)
+
+### Community 10 - "Community 10"
+Cohesion: 0.16
+Nodes (20): applyShiftClass(), buildDesktopGrid(), buildMobileGrid(), buildShiftBadge(), buildShiftContent(), buildThemeToggle(), createCell(), createLockToggle() (+12 more)
 
 ### Community 11 - "Community 11"
+Cohesion: 0.50
+Nodes (4): deferHeavy(), doGenerate(), doReset(), regenerateCleanWeekWithFeedback()
+
+### Community 13 - "Community 13"
+Cohesion: 0.22
+Nodes (8): compilerOptions, checkJs, lib, module, moduleResolution, noEmit, target, include
+
+### Community 14 - "Community 14"
+Cohesion: 0.25
+Nodes (7): description, name, private, scripts, test, type, version
+
+### Community 15 - "Community 15"
+Cohesion: 0.25
+Nodes (11): ensureWeekShape(), exportPDF(), getCurrentWeek(), render(), renderDayEditor(), renderWarnings(), showStatus(), formatDateShort() (+3 more)
+
+### Community 16 - "Community 16"
 Cohesion: 0.67
-Nodes (3): #7 — "Alternativa" con varietà oraria reale, #8 — Griglia 30 minuti, Combinazioni
+Nodes (4): changeWeek(), resetAltHistory(), saveWeeks(), addDays()
+
+### Community 17 - "Community 17"
+Cohesion: 0.50
+Nodes (4): renderSummary(), countsAsAfternoon(), getAssistantStats(), getLockedShiftCount()
 
 ## Knowledge Gaps
-- **33 isolated node(s):** `PreToolUse`, `html`, `html`, `graphify`, `Task 1: #1+#2 — `coverageDeficit` (copertura cumulativa + debito pranzo)` (+28 more)
+- **60 isolated node(s):** `PreToolUse`, `module`, `target`, `moduleResolution`, `lib` (+55 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **8 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **9 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `Audit & miglioramento solver turni — Design` connect `Community 2` to `Community 3`, `Community 11`, `Community 5`?**
-  _High betweenness centrality (0.120) - this node is a cross-community bridge._
-- **Why does `Convenzioni test` connect `Community 0` to `Community 10`?**
-  _High betweenness centrality (0.059) - this node is a cross-community bridge._
-- **Why does `Fix di correttezza` connect `Community 5` to `Community 2`?**
-  _High betweenness centrality (0.040) - this node is a cross-community bridge._
-- **What connects `PreToolUse`, `html`, `html` to the rest of the system?**
-  _33 weakly-connected nodes found - possible documentation gaps or missing edges._
+- **Why does `getShift()` connect `Community 10` to `Community 17`, `Community 3`, `Community 5`, `Community 15`?**
+  _High betweenness centrality (0.005) - this node is a cross-community bridge._
+- **What connects `PreToolUse`, `module`, `target` to the rest of the system?**
+  _60 weakly-connected nodes found - possible documentation gaps or missing edges._
+- **Should `Community 0` be split into smaller, more focused modules?**
+  _Cohesion score 0.14285714285714285 - nodes in this community are weakly interconnected._
+- **Should `Community 2` be split into smaller, more focused modules?**
+  _Cohesion score 0.1 - nodes in this community are weakly interconnected._
+- **Should `Community 3` be split into smaller, more focused modules?**
+  _Cohesion score 0.08695652173913043 - nodes in this community are weakly interconnected._
+- **Should `Community 5` be split into smaller, more focused modules?**
+  _Cohesion score 0.11586452762923351 - nodes in this community are weakly interconnected._

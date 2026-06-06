@@ -1,27 +1,72 @@
 {
   ".claude/settings.json": {
-    "mtime": 1780597920.3939817,
+    "mtime": 1780695132.2615056,
     "ast_hash": "bfee062c3962c14264fd704e975a6b38",
     "semantic_hash": "bfee062c3962c14264fd704e975a6b38"
   },
   "tests/ui-export.test.mjs": {
-    "mtime": 1780607746.972551,
-    "ast_hash": "255a157e4c15eafe863fd379c365ebeb",
+    "mtime": 1780737615.1821132,
+    "ast_hash": "3312d6b225eee2046437c4f99c554152",
     "semantic_hash": ""
   },
   ".github/workflows/deploy.yml": {
-    "mtime": 1780563190.6763947,
-    "ast_hash": "c6820df9d7ef354e491c1ed904aa82ec",
-    "semantic_hash": "c6820df9d7ef354e491c1ed904aa82ec"
+    "mtime": 1780737615.1791,
+    "ast_hash": "50541d7c932921b4878f5d615cecb97c",
+    "semantic_hash": ""
   },
   "CLAUDE.md": {
-    "mtime": 1780597920.3939817,
+    "mtime": 1780695132.2616403,
     "ast_hash": "82efb97a359f5c7290bf2513d14686be",
     "semantic_hash": "82efb97a359f5c7290bf2513d14686be"
   },
   "index.html": {
-    "mtime": 1780663407.632457,
-    "ast_hash": "80d24aee01c67cf8a198887ec8e38f20",
+    "mtime": 1780737615.1794984,
+    "ast_hash": "24beb4347149323dfb24ef64970a5ff6",
+    "semantic_hash": ""
+  },
+  "tests/solver-logic.test.mjs": {
+    "mtime": 1780737615.181769,
+    "ast_hash": "9b138d9655fd3b387f2fef7b6d20b77f",
+    "semantic_hash": ""
+  },
+  "docs/superpowers/plans/2026-06-06-solver-audit.md": {
+    "mtime": 1780699562.6907198,
+    "ast_hash": "9e0f9632ff5e6bcf15eefc085732a93d",
+    "semantic_hash": ""
+  },
+  "docs/superpowers/specs/2026-06-06-solver-audit-design.md": {
+    "mtime": 1780699562.6910577,
+    "ast_hash": "7dd60c9ff6275dbfe0bcb06ed083cbdd",
+    "semantic_hash": ""
+  },
+  "jsconfig.json": {
+    "mtime": 1780737615.17984,
+    "ast_hash": "593cfe0d03619c39231f512a0888712f",
+    "semantic_hash": ""
+  },
+  "package.json": {
+    "mtime": 1780737615.1801338,
+    "ast_hash": "5aa00a96d9b5a449fa3599b680aabe97",
+    "semantic_hash": ""
+  },
+  "src/app.js": {
+    "mtime": 1780737615.180557,
+    "ast_hash": "da87ff6c036f2e1adad5ffd019340a62",
+    "semantic_hash": ""
+  },
+  "src/scheduler.js": {
+    "mtime": 1780737615.180943,
+    "ast_hash": "e55607fcdaac226df76de9aa6f4c2b9c",
+    "semantic_hash": ""
+  },
+  "tests/regression.test.mjs": {
+    "mtime": 1780740397.678798,
+    "ast_hash": "c08e6db3f0336d374d6ba3b5c419fd57",
+    "semantic_hash": ""
+  },
+  ".github/workflows/ci.yml": {
+    "mtime": 1780737615.178713,
+    "ast_hash": "a5b8d228183854f5b0bd5f0a22d62b5b",
     "semantic_hash": ""
   }
 }

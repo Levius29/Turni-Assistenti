@@ -78,6 +78,1095 @@
       "norm_label": "pretooluse"
     },
     {
+      "label": "jsconfig.json",
+      "file_type": "code",
+      "source_file": "jsconfig.json",
+      "source_location": "L1",
+      "id": "jsconfig",
+      "community": 13,
+      "norm_label": "jsconfig.json"
+    },
+    {
+      "label": "compilerOptions",
+      "file_type": "code",
+      "source_file": "jsconfig.json",
+      "source_location": "L2",
+      "id": "jsconfig_compileroptions",
+      "community": 13,
+      "norm_label": "compileroptions"
+    },
+    {
+      "label": "module",
+      "file_type": "code",
+      "source_file": "jsconfig.json",
+      "source_location": "L3",
+      "id": "jsconfig_compileroptions_module",
+      "community": 13,
+      "norm_label": "module"
+    },
+    {
+      "label": "target",
+      "file_type": "code",
+      "source_file": "jsconfig.json",
+      "source_location": "L4",
+      "id": "jsconfig_compileroptions_target",
+      "community": 13,
+      "norm_label": "target"
+    },
+    {
+      "label": "moduleResolution",
+      "file_type": "code",
+      "source_file": "jsconfig.json",
+      "source_location": "L5",
+      "id": "jsconfig_compileroptions_moduleresolution",
+      "community": 13,
+      "norm_label": "moduleresolution"
+    },
+    {
+      "label": "lib",
+      "file_type": "code",
+      "source_file": "jsconfig.json",
+      "source_location": "L6",
+      "id": "jsconfig_compileroptions_lib",
+      "community": 13,
+      "norm_label": "lib"
+    },
+    {
+      "label": "checkJs",
+      "file_type": "code",
+      "source_file": "jsconfig.json",
+      "source_location": "L7",
+      "id": "jsconfig_compileroptions_checkjs",
+      "community": 13,
+      "norm_label": "checkjs"
+    },
+    {
+      "label": "noEmit",
+      "file_type": "code",
+      "source_file": "jsconfig.json",
+      "source_location": "L8",
+      "id": "jsconfig_compileroptions_noemit",
+      "community": 13,
+      "norm_label": "noemit"
+    },
+    {
+      "label": "include",
+      "file_type": "code",
+      "source_file": "jsconfig.json",
+      "source_location": "L10",
+      "id": "jsconfig_include",
+      "community": 13,
+      "norm_label": "include"
+    },
+    {
+      "label": "package.json",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L1",
+      "id": "package",
+      "community": 14,
+      "norm_label": "package.json"
+    },
+    {
+      "label": "name",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L2",
+      "id": "package_name",
+      "community": 14,
+      "norm_label": "name"
+    },
+    {
+      "label": "version",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L3",
+      "id": "package_version",
+      "community": 14,
+      "norm_label": "version"
+    },
+    {
+      "label": "private",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L4",
+      "id": "package_private",
+      "community": 14,
+      "norm_label": "private"
+    },
+    {
+      "label": "type",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L5",
+      "id": "package_type",
+      "community": 14,
+      "norm_label": "type"
+    },
+    {
+      "label": "description",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L6",
+      "id": "package_description",
+      "community": 14,
+      "norm_label": "description"
+    },
+    {
+      "label": "scripts",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L7",
+      "id": "package_scripts",
+      "community": 14,
+      "norm_label": "scripts"
+    },
+    {
+      "label": "test",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L8",
+      "id": "package_scripts_test",
+      "community": 14,
+      "norm_label": "test"
+    },
+    {
+      "label": "app.js",
+      "file_type": "code",
+      "source_file": "src/app.js",
+      "source_location": "L1",
+      "id": "src_app",
+      "community": 3,
+      "norm_label": "app.js"
+    },
+    {
+      "label": "weeks",
+      "file_type": "code",
+      "source_file": "src/app.js",
+      "source_location": "L8",
+      "id": "src_app_weeks",
+      "community": 3,
+      "norm_label": "weeks"
+    },
+    {
+      "label": "currentStart",
+      "file_type": "code",
+      "source_file": "src/app.js",
+      "source_location": "L9",
+      "id": "src_app_currentstart",
+      "community": 3,
+      "norm_label": "currentstart"
+    },
+    {
+      "label": "scheduleGrid",
+      "file_type": "code",
+      "source_file": "src/app.js",
+      "source_location": "L15",
+      "id": "src_app_schedulegrid",
+      "community": 3,
+      "norm_label": "schedulegrid"
+    },
+    {
+      "label": "weekLabel",
+      "file_type": "code",
+      "source_file": "src/app.js",
+      "source_location": "L16",
+      "id": "src_app_weeklabel",
+      "community": 3,
+      "norm_label": "weeklabel"
+    },
+    {
+      "label": "weekLabelMob",
+      "file_type": "code",
+      "source_file": "src/app.js",
+      "source_location": "L17",
+      "id": "src_app_weeklabelmob",
+      "community": 3,
+      "norm_label": "weeklabelmob"
+    },
+    {
+      "label": "summaryDiv",
+      "file_type": "code",
+      "source_file": "src/app.js",
+      "source_location": "L18",
+      "id": "src_app_summarydiv",
+      "community": 3,
+      "norm_label": "summarydiv"
+    },
+    {
+      "label": "warningsDiv",
+      "file_type": "code",
+      "source_file": "src/app.js",
+      "source_location": "L19",
+      "id": "src_app_warningsdiv",
+      "community": 3,
+      "norm_label": "warningsdiv"
+    },
+    {
+      "label": "dayEditorDiv",
+      "file_type": "code",
+      "source_file": "src/app.js",
+      "source_location": "L20",
+      "id": "src_app_dayeditordiv",
+      "community": 3,
+      "norm_label": "dayeditordiv"
+    },
+    {
+      "label": "statusMsg",
+      "file_type": "code",
+      "source_file": "src/app.js",
+      "source_location": "L21",
+      "id": "src_app_statusmsg",
+      "community": 3,
+      "norm_label": "statusmsg"
+    },
+    {
+      "label": "deferHeavy()",
+      "file_type": "code",
+      "source_file": "src/app.js",
+      "source_location": "L25",
+      "id": "src_app_deferheavy",
+      "community": 11,
+      "norm_label": "deferheavy()"
+    },
+    {
+      "label": "doGenerate()",
+      "file_type": "code",
+      "source_file": "src/app.js",
+      "source_location": "L26",
+      "id": "src_app_dogenerate",
+      "community": 11,
+      "norm_label": "dogenerate()"
+    },
+    {
+      "label": "doReset()",
+      "file_type": "code",
+      "source_file": "src/app.js",
+      "source_location": "L27",
+      "id": "src_app_doreset",
+      "community": 11,
+      "norm_label": "doreset()"
+    },
+    {
+      "label": "_altHistory",
+      "file_type": "code",
+      "source_file": "src/app.js",
+      "source_location": "L42",
+      "id": "src_app_althistory",
+      "community": 3,
+      "norm_label": "_althistory"
+    },
+    {
+      "label": "resetAltHistory()",
+      "file_type": "code",
+      "source_file": "src/app.js",
+      "source_location": "L43",
+      "id": "src_app_resetalthistory",
+      "community": 16,
+      "norm_label": "resetalthistory()"
+    },
+    {
+      "label": "requestAlternative()",
+      "file_type": "code",
+      "source_file": "src/app.js",
+      "source_location": "L44",
+      "id": "src_app_requestalternative",
+      "community": 5,
+      "norm_label": "requestalternative()"
+    },
+    {
+      "label": "applyTheme()",
+      "file_type": "code",
+      "source_file": "src/app.js",
+      "source_location": "L64",
+      "id": "src_app_applytheme",
+      "community": 19,
+      "norm_label": "applytheme()"
+    },
+    {
+      "label": "toggleTheme()",
+      "file_type": "code",
+      "source_file": "src/app.js",
+      "source_location": "L65",
+      "id": "src_app_toggletheme",
+      "community": 19,
+      "norm_label": "toggletheme()"
+    },
+    {
+      "label": "buildThemeToggle()",
+      "file_type": "code",
+      "source_file": "src/app.js",
+      "source_location": "L68",
+      "id": "src_app_buildthemetoggle",
+      "community": 10,
+      "norm_label": "buildthemetoggle()"
+    },
+    {
+      "label": "render()",
+      "file_type": "code",
+      "source_file": "src/app.js",
+      "source_location": "L76",
+      "id": "src_app_render",
+      "community": 15,
+      "norm_label": "render()"
+    },
+    {
+      "label": "renderGrid()",
+      "file_type": "code",
+      "source_file": "src/app.js",
+      "source_location": "L87",
+      "id": "src_app_rendergrid",
+      "community": 10,
+      "norm_label": "rendergrid()"
+    },
+    {
+      "label": "isDayClosed()",
+      "file_type": "code",
+      "source_file": "src/app.js",
+      "source_location": "L95",
+      "id": "src_app_isdayclosed",
+      "community": 10,
+      "norm_label": "isdayclosed()"
+    },
+    {
+      "label": "buildDesktopGrid()",
+      "file_type": "code",
+      "source_file": "src/app.js",
+      "source_location": "L96",
+      "id": "src_app_builddesktopgrid",
+      "community": 10,
+      "norm_label": "builddesktopgrid()"
+    },
+    {
+      "label": "buildMobileGrid()",
+      "file_type": "code",
+      "source_file": "src/app.js",
+      "source_location": "L122",
+      "id": "src_app_buildmobilegrid",
+      "community": 10,
+      "norm_label": "buildmobilegrid()"
+    },
+    {
+      "label": "buildShiftContent()",
+      "file_type": "code",
+      "source_file": "src/app.js",
+      "source_location": "L147",
+      "id": "src_app_buildshiftcontent",
+      "community": 10,
+      "norm_label": "buildshiftcontent()"
+    },
+    {
+      "label": "buildShiftBadge()",
+      "file_type": "code",
+      "source_file": "src/app.js",
+      "source_location": "L181",
+      "id": "src_app_buildshiftbadge",
+      "community": 10,
+      "norm_label": "buildshiftbadge()"
+    },
+    {
+      "label": "updateShiftBadge()",
+      "file_type": "code",
+      "source_file": "src/app.js",
+      "source_location": "L185",
+      "id": "src_app_updateshiftbadge",
+      "community": 10,
+      "norm_label": "updateshiftbadge()"
+    },
+    {
+      "label": "getShiftBadgeCodes()",
+      "file_type": "code",
+      "source_file": "src/app.js",
+      "source_location": "L194",
+      "id": "src_app_getshiftbadgecodes",
+      "community": 3,
+      "norm_label": "getshiftbadgecodes()"
+    },
+    {
+      "label": "createLockToggle()",
+      "file_type": "code",
+      "source_file": "src/app.js",
+      "source_location": "L196",
+      "id": "src_app_createlocktoggle",
+      "community": 10,
+      "norm_label": "createlocktoggle()"
+    },
+    {
+      "label": "applyShiftClass()",
+      "file_type": "code",
+      "source_file": "src/app.js",
+      "source_location": "L207",
+      "id": "src_app_applyshiftclass",
+      "community": 10,
+      "norm_label": "applyshiftclass()"
+    },
+    {
+      "label": "renderSummary()",
+      "file_type": "code",
+      "source_file": "src/app.js",
+      "source_location": "L213",
+      "id": "src_app_rendersummary",
+      "community": 17,
+      "norm_label": "rendersummary()"
+    },
+    {
+      "label": "renderDayEditor()",
+      "file_type": "code",
+      "source_file": "src/app.js",
+      "source_location": "L227",
+      "id": "src_app_renderdayeditor",
+      "community": 15,
+      "norm_label": "renderdayeditor()"
+    },
+    {
+      "label": "renderWarnings()",
+      "file_type": "code",
+      "source_file": "src/app.js",
+      "source_location": "L248",
+      "id": "src_app_renderwarnings",
+      "community": 15,
+      "norm_label": "renderwarnings()"
+    },
+    {
+      "label": "getCurrentWeek()",
+      "file_type": "code",
+      "source_file": "src/app.js",
+      "source_location": "L255",
+      "id": "src_app_getcurrentweek",
+      "community": 15,
+      "norm_label": "getcurrentweek()"
+    },
+    {
+      "label": "changeWeek()",
+      "file_type": "code",
+      "source_file": "src/app.js",
+      "source_location": "L256",
+      "id": "src_app_changeweek",
+      "community": 16,
+      "norm_label": "changeweek()"
+    },
+    {
+      "label": "saveWeeks()",
+      "file_type": "code",
+      "source_file": "src/app.js",
+      "source_location": "L259",
+      "id": "src_app_saveweeks",
+      "community": 16,
+      "norm_label": "saveweeks()"
+    },
+    {
+      "label": "loadWeeks()",
+      "file_type": "code",
+      "source_file": "src/app.js",
+      "source_location": "L269",
+      "id": "src_app_loadweeks",
+      "community": 3,
+      "norm_label": "loadweeks()"
+    },
+    {
+      "label": "createCell()",
+      "file_type": "code",
+      "source_file": "src/app.js",
+      "source_location": "L270",
+      "id": "src_app_createcell",
+      "community": 10,
+      "norm_label": "createcell()"
+    },
+    {
+      "label": "getContractLabel()",
+      "file_type": "code",
+      "source_file": "src/app.js",
+      "source_location": "L271",
+      "id": "src_app_getcontractlabel",
+      "community": 10,
+      "norm_label": "getcontractlabel()"
+    },
+    {
+      "label": "showStatus()",
+      "file_type": "code",
+      "source_file": "src/app.js",
+      "source_location": "L274",
+      "id": "src_app_showstatus",
+      "community": 15,
+      "norm_label": "showstatus()"
+    },
+    {
+      "label": "getPrintShiftLabel()",
+      "file_type": "code",
+      "source_file": "src/app.js",
+      "source_location": "L279",
+      "id": "src_app_getprintshiftlabel",
+      "community": 10,
+      "norm_label": "getprintshiftlabel()"
+    },
+    {
+      "label": "ensureWeekShape()",
+      "file_type": "code",
+      "source_file": "src/app.js",
+      "source_location": "L281",
+      "id": "src_app_ensureweekshape",
+      "community": 15,
+      "norm_label": "ensureweekshape()"
+    },
+    {
+      "label": "getDayVariationLabel()",
+      "file_type": "code",
+      "source_file": "src/app.js",
+      "source_location": "L284",
+      "id": "src_app_getdayvariationlabel",
+      "community": 3,
+      "norm_label": "getdayvariationlabel()"
+    },
+    {
+      "label": "drawPdfBadge()",
+      "file_type": "code",
+      "source_file": "src/app.js",
+      "source_location": "L289",
+      "id": "src_app_drawpdfbadge",
+      "community": 3,
+      "norm_label": "drawpdfbadge()"
+    },
+    {
+      "label": "exportPDF()",
+      "file_type": "code",
+      "source_file": "src/app.js",
+      "source_location": "L293",
+      "id": "src_app_exportpdf",
+      "community": 15,
+      "norm_label": "exportpdf()"
+    },
+    {
+      "label": "scheduler.js",
+      "file_type": "code",
+      "source_file": "src/scheduler.js",
+      "source_location": "L1",
+      "id": "src_scheduler",
+      "community": 5,
+      "norm_label": "scheduler.js"
+    },
+    {
+      "label": "STAFF_CONFIG",
+      "file_type": "code",
+      "source_file": "src/scheduler.js",
+      "source_location": "L33",
+      "id": "src_scheduler_staff_config",
+      "community": 5,
+      "norm_label": "staff_config"
+    },
+    {
+      "label": "ASSISTANT_NAMES",
+      "file_type": "code",
+      "source_file": "src/scheduler.js",
+      "source_location": "L38",
+      "id": "src_scheduler_assistant_names",
+      "community": 3,
+      "norm_label": "assistant_names"
+    },
+    {
+      "label": "WEEKDAY_KEYS",
+      "file_type": "code",
+      "source_file": "src/scheduler.js",
+      "source_location": "L43",
+      "id": "src_scheduler_weekday_keys",
+      "community": 3,
+      "norm_label": "weekday_keys"
+    },
+    {
+      "label": "fmt()",
+      "file_type": "code",
+      "source_file": "src/scheduler.js",
+      "source_location": "L49",
+      "id": "src_scheduler_fmt",
+      "community": 10,
+      "norm_label": "fmt()"
+    },
+    {
+      "label": "isOff()",
+      "file_type": "code",
+      "source_file": "src/scheduler.js",
+      "source_location": "L50",
+      "id": "src_scheduler_isoff",
+      "community": 10,
+      "norm_label": "isoff()"
+    },
+    {
+      "label": "SHIFT_OFF",
+      "file_type": "code",
+      "source_file": "src/scheduler.js",
+      "source_location": "L51",
+      "id": "src_scheduler_shift_off",
+      "community": 5,
+      "norm_label": "shift_off"
+    },
+    {
+      "label": "_shiftCache",
+      "file_type": "code",
+      "source_file": "src/scheduler.js",
+      "source_location": "L52",
+      "id": "src_scheduler_shiftcache",
+      "community": 3,
+      "norm_label": "_shiftcache"
+    },
+    {
+      "label": "deriveShift()",
+      "file_type": "code",
+      "source_file": "src/scheduler.js",
+      "source_location": "L54",
+      "id": "src_scheduler_deriveshift",
+      "community": 10,
+      "norm_label": "deriveshift()"
+    },
+    {
+      "label": "getShift()",
+      "file_type": "code",
+      "source_file": "src/scheduler.js",
+      "source_location": "L69",
+      "id": "src_scheduler_getshift",
+      "community": 10,
+      "norm_label": "getshift()"
+    },
+    {
+      "label": "BASE_PAIRS",
+      "file_type": "code",
+      "source_file": "src/scheduler.js",
+      "source_location": "L71",
+      "id": "src_scheduler_base_pairs",
+      "community": 5,
+      "norm_label": "base_pairs"
+    },
+    {
+      "label": "LEGACY_TEMPLATES",
+      "file_type": "code",
+      "source_file": "src/scheduler.js",
+      "source_location": "L73",
+      "id": "src_scheduler_legacy_templates",
+      "community": 3,
+      "norm_label": "legacy_templates"
+    },
+    {
+      "label": "WEEK_DAYS",
+      "file_type": "code",
+      "source_file": "src/scheduler.js",
+      "source_location": "L74",
+      "id": "src_scheduler_week_days",
+      "community": 3,
+      "norm_label": "week_days"
+    },
+    {
+      "label": "addDays()",
+      "file_type": "code",
+      "source_file": "src/scheduler.js",
+      "source_location": "L79",
+      "id": "src_scheduler_adddays",
+      "community": 16,
+      "norm_label": "adddays()"
+    },
+    {
+      "label": "getCurrentMonday()",
+      "file_type": "code",
+      "source_file": "src/scheduler.js",
+      "source_location": "L80",
+      "id": "src_scheduler_getcurrentmonday",
+      "community": 5,
+      "norm_label": "getcurrentmonday()"
+    },
+    {
+      "label": "formatItalianDate()",
+      "file_type": "code",
+      "source_file": "src/scheduler.js",
+      "source_location": "L81",
+      "id": "src_scheduler_formatitaliandate",
+      "community": 15,
+      "norm_label": "formatitaliandate()"
+    },
+    {
+      "label": "formatDateShort()",
+      "file_type": "code",
+      "source_file": "src/scheduler.js",
+      "source_location": "L82",
+      "id": "src_scheduler_formatdateshort",
+      "community": 15,
+      "norm_label": "formatdateshort()"
+    },
+    {
+      "label": "assign()",
+      "file_type": "code",
+      "source_file": "src/scheduler.js",
+      "source_location": "L83",
+      "id": "src_scheduler_assign",
+      "community": 5,
+      "norm_label": "assign()"
+    },
+    {
+      "label": "createEmptyWeek()",
+      "file_type": "code",
+      "source_file": "src/scheduler.js",
+      "source_location": "L84",
+      "id": "src_scheduler_createemptyweek",
+      "community": 5,
+      "norm_label": "createemptyweek()"
+    },
+    {
+      "label": "createBaseWeek()",
+      "file_type": "code",
+      "source_file": "src/scheduler.js",
+      "source_location": "L87",
+      "id": "src_scheduler_createbaseweek",
+      "community": 5,
+      "norm_label": "createbaseweek()"
+    },
+    {
+      "label": "AFTERNOON_END_THRESHOLD",
+      "file_type": "code",
+      "source_file": "src/scheduler.js",
+      "source_location": "L89",
+      "id": "src_scheduler_afternoon_end_threshold",
+      "community": 5,
+      "norm_label": "afternoon_end_threshold"
+    },
+    {
+      "label": "countsAsAfternoon()",
+      "file_type": "code",
+      "source_file": "src/scheduler.js",
+      "source_location": "L90",
+      "id": "src_scheduler_countsasafternoon",
+      "community": 17,
+      "norm_label": "countsasafternoon()"
+    },
+    {
+      "label": "worksOvertimeShift()",
+      "file_type": "code",
+      "source_file": "src/scheduler.js",
+      "source_location": "L92",
+      "id": "src_scheduler_worksovertimeshift",
+      "community": 10,
+      "norm_label": "worksovertimeshift()"
+    },
+    {
+      "label": "isManuelaClose1519()",
+      "file_type": "code",
+      "source_file": "src/scheduler.js",
+      "source_location": "L94",
+      "id": "src_scheduler_ismanuelaclose1519",
+      "community": 10,
+      "norm_label": "ismanuelaclose1519()"
+    },
+    {
+      "label": "getAssistantStats()",
+      "file_type": "code",
+      "source_file": "src/scheduler.js",
+      "source_location": "L95",
+      "id": "src_scheduler_getassistantstats",
+      "community": 17,
+      "norm_label": "getassistantstats()"
+    },
+    {
+      "label": "getRequiredCoverage()",
+      "file_type": "code",
+      "source_file": "src/scheduler.js",
+      "source_location": "L96",
+      "id": "src_scheduler_getrequiredcoverage",
+      "community": 5,
+      "norm_label": "getrequiredcoverage()"
+    },
+    {
+      "label": "shiftsOf()",
+      "file_type": "code",
+      "source_file": "src/scheduler.js",
+      "source_location": "L97",
+      "id": "src_scheduler_shiftsof",
+      "community": 5,
+      "norm_label": "shiftsof()"
+    },
+    {
+      "label": "coverageOf()",
+      "file_type": "code",
+      "source_file": "src/scheduler.js",
+      "source_location": "L100",
+      "id": "src_scheduler_coverageof",
+      "community": 5,
+      "norm_label": "coverageof()"
+    },
+    {
+      "label": "getCoverage()",
+      "file_type": "code",
+      "source_file": "src/scheduler.js",
+      "source_location": "L104",
+      "id": "src_scheduler_getcoverage",
+      "community": 5,
+      "norm_label": "getcoverage()"
+    },
+    {
+      "label": "coverageDeficit()",
+      "file_type": "code",
+      "source_file": "src/scheduler.js",
+      "source_location": "L108",
+      "id": "src_scheduler_coveragedeficit",
+      "community": 5,
+      "norm_label": "coveragedeficit()"
+    },
+    {
+      "label": "maxUncoveredGap()",
+      "file_type": "code",
+      "source_file": "src/scheduler.js",
+      "source_location": "L127",
+      "id": "src_scheduler_maxuncoveredgap",
+      "community": 5,
+      "norm_label": "maxuncoveredgap()"
+    },
+    {
+      "label": "validateWeek()",
+      "file_type": "code",
+      "source_file": "src/scheduler.js",
+      "source_location": "L128",
+      "id": "src_scheduler_validateweek",
+      "community": 5,
+      "norm_label": "validateweek()"
+    },
+    {
+      "label": "formatWeekRange()",
+      "file_type": "code",
+      "source_file": "src/scheduler.js",
+      "source_location": "L129",
+      "id": "src_scheduler_formatweekrange",
+      "community": 15,
+      "norm_label": "formatweekrange()"
+    },
+    {
+      "label": "formatWeekRangeShort()",
+      "file_type": "code",
+      "source_file": "src/scheduler.js",
+      "source_location": "L130",
+      "id": "src_scheduler_formatweekrangeshort",
+      "community": 15,
+      "norm_label": "formatweekrangeshort()"
+    },
+    {
+      "label": "getAllowedShifts()",
+      "file_type": "code",
+      "source_file": "src/scheduler.js",
+      "source_location": "L133",
+      "id": "src_scheduler_getallowedshifts",
+      "community": 5,
+      "norm_label": "getallowedshifts()"
+    },
+    {
+      "label": "generateWeek()",
+      "file_type": "code",
+      "source_file": "src/scheduler.js",
+      "source_location": "L147",
+      "id": "src_scheduler_generateweek",
+      "community": 5,
+      "norm_label": "generateweek()"
+    },
+    {
+      "label": "afternoonDemand()",
+      "file_type": "code",
+      "source_file": "src/scheduler.js",
+      "source_location": "L150",
+      "id": "src_scheduler_afternoondemand",
+      "community": 5,
+      "norm_label": "afternoondemand()"
+    },
+    {
+      "label": "heuristicCombos()",
+      "file_type": "code",
+      "source_file": "src/scheduler.js",
+      "source_location": "L157",
+      "id": "src_scheduler_heuristiccombos",
+      "community": 5,
+      "norm_label": "heuristiccombos()"
+    },
+    {
+      "label": "weekAssignmentSig()",
+      "file_type": "code",
+      "source_file": "src/scheduler.js",
+      "source_location": "L163",
+      "id": "src_scheduler_weekassignmentsig",
+      "community": 5,
+      "norm_label": "weekassignmentsig()"
+    },
+    {
+      "label": "AFTERNOON_TIERS",
+      "file_type": "code",
+      "source_file": "src/scheduler.js",
+      "source_location": "L169",
+      "id": "src_scheduler_afternoon_tiers",
+      "community": 3,
+      "norm_label": "afternoon_tiers"
+    },
+    {
+      "label": "solveWeek()",
+      "file_type": "code",
+      "source_file": "src/scheduler.js",
+      "source_location": "L179",
+      "id": "src_scheduler_solveweek",
+      "community": 5,
+      "norm_label": "solveweek()"
+    },
+    {
+      "label": "buildRem()",
+      "file_type": "code",
+      "source_file": "src/scheduler.js",
+      "source_location": "L207",
+      "id": "src_scheduler_buildrem",
+      "community": 5,
+      "norm_label": "buildrem()"
+    },
+    {
+      "label": "solveWeekCore()",
+      "file_type": "code",
+      "source_file": "src/scheduler.js",
+      "source_location": "L208",
+      "id": "src_scheduler_solveweekcore",
+      "community": 5,
+      "norm_label": "solveweekcore()"
+    },
+    {
+      "label": "getDayCombos()",
+      "file_type": "code",
+      "source_file": "src/scheduler.js",
+      "source_location": "L242",
+      "id": "src_scheduler_getdaycombos",
+      "community": 5,
+      "norm_label": "getdaycombos()"
+    },
+    {
+      "label": "cloneStats()",
+      "file_type": "code",
+      "source_file": "src/scheduler.js",
+      "source_location": "L297",
+      "id": "src_scheduler_clonestats",
+      "community": 5,
+      "norm_label": "clonestats()"
+    },
+    {
+      "label": "buildWeekFromDayAssignments()",
+      "file_type": "code",
+      "source_file": "src/scheduler.js",
+      "source_location": "L298",
+      "id": "src_scheduler_buildweekfromdayassignments",
+      "community": 3,
+      "norm_label": "buildweekfromdayassignments()"
+    },
+    {
+      "label": "applyPreviousWeekState()",
+      "file_type": "code",
+      "source_file": "src/scheduler.js",
+      "source_location": "L299",
+      "id": "src_scheduler_applypreviousweekstate",
+      "community": 5,
+      "norm_label": "applypreviousweekstate()"
+    },
+    {
+      "label": "regenerateWeekWithFeedback()",
+      "file_type": "code",
+      "source_file": "src/scheduler.js",
+      "source_location": "L300",
+      "id": "src_scheduler_regenerateweekwithfeedback",
+      "community": 5,
+      "norm_label": "regenerateweekwithfeedback()"
+    },
+    {
+      "label": "regenerateCleanWeekWithFeedback()",
+      "file_type": "code",
+      "source_file": "src/scheduler.js",
+      "source_location": "L301",
+      "id": "src_scheduler_regeneratecleanweekwithfeedback",
+      "community": 11,
+      "norm_label": "regeneratecleanweekwithfeedback()"
+    },
+    {
+      "label": "diversifyTimes()",
+      "file_type": "code",
+      "source_file": "src/scheduler.js",
+      "source_location": "L305",
+      "id": "src_scheduler_diversifytimes",
+      "community": 5,
+      "norm_label": "diversifytimes()"
+    },
+    {
+      "label": "regenerateAlternativeWithFeedback()",
+      "file_type": "code",
+      "source_file": "src/scheduler.js",
+      "source_location": "L323",
+      "id": "src_scheduler_regeneratealternativewithfeedback",
+      "community": 5,
+      "norm_label": "regeneratealternativewithfeedback()"
+    },
+    {
+      "label": "updateShiftWithFeedback()",
+      "file_type": "code",
+      "source_file": "src/scheduler.js",
+      "source_location": "L324",
+      "id": "src_scheduler_updateshiftwithfeedback",
+      "community": 10,
+      "norm_label": "updateshiftwithfeedback()"
+    },
+    {
+      "label": "getLockedShiftCount()",
+      "file_type": "code",
+      "source_file": "src/scheduler.js",
+      "source_location": "L325",
+      "id": "src_scheduler_getlockedshiftcount",
+      "community": 17,
+      "norm_label": "getlockedshiftcount()"
+    },
+    {
+      "label": "generic-team.test.mjs",
+      "file_type": "code",
+      "source_file": "tests/generic-team.test.mjs",
+      "source_location": "L1",
+      "id": "tests_generic_team_test",
+      "community": 18,
+      "norm_label": "generic-team.test.mjs"
+    },
+    {
+      "label": "src",
+      "file_type": "code",
+      "source_file": "tests/generic-team.test.mjs",
+      "source_location": "L8",
+      "id": "tests_generic_team_test_src",
+      "community": 18,
+      "norm_label": "src"
+    },
+    {
+      "label": "loadWithStaff()",
+      "file_type": "code",
+      "source_file": "tests/generic-team.test.mjs",
+      "source_location": "L10",
+      "id": "tests_generic_team_test_loadwithstaff",
+      "community": 18,
+      "norm_label": "loadwithstaff()"
+    },
+    {
+      "label": "regression.test.mjs",
+      "file_type": "code",
+      "source_file": "tests/regression.test.mjs",
+      "source_location": "L1",
+      "id": "tests_regression_test",
+      "community": 5,
+      "norm_label": "regression.test.mjs"
+    },
+    {
+      "label": "sigOf()",
+      "file_type": "code",
+      "source_file": "tests/regression.test.mjs",
+      "source_location": "L7",
+      "id": "tests_regression_test_sigof",
+      "community": 5,
+      "norm_label": "sigof()"
+    },
+    {
+      "label": "SNAPSHOTS",
+      "file_type": "code",
+      "source_file": "tests/regression.test.mjs",
+      "source_location": "L12",
+      "id": "tests_regression_test_snapshots",
+      "community": 5,
+      "norm_label": "snapshots"
+    },
+    {
       "label": "solver-logic.test.mjs",
       "file_type": "code",
       "source_file": "tests/solver-logic.test.mjs",
@@ -87,19 +1176,10 @@
       "norm_label": "solver-logic.test.mjs"
     },
     {
-      "label": "html",
-      "file_type": "code",
-      "source_file": "tests/solver-logic.test.mjs",
-      "source_location": "L5",
-      "id": "tests_solver_logic_test_html",
-      "community": 9,
-      "norm_label": "html"
-    },
-    {
       "label": "loadLogic()",
       "file_type": "code",
       "source_file": "tests/solver-logic.test.mjs",
-      "source_location": "L8",
+      "source_location": "L6",
       "id": "tests_solver_logic_test_loadlogic",
       "community": 9,
       "norm_label": "loadlogic()"
@@ -132,10 +1212,19 @@
       "norm_label": "html"
     },
     {
+      "label": "app",
+      "file_type": "code",
+      "source_file": "tests/ui-export.test.mjs",
+      "source_location": "L6",
+      "id": "tests_ui_export_test_app",
+      "community": 8,
+      "norm_label": "app"
+    },
+    {
       "label": "loadLogic()",
       "file_type": "code",
       "source_file": "tests/ui-export.test.mjs",
-      "source_location": "L8",
+      "source_location": "L10",
       "id": "tests_ui_export_test_loadlogic",
       "community": 8,
       "norm_label": "loadlogic()"
@@ -164,7 +1253,7 @@
       "source_file": "docs/superpowers/plans/2026-06-06-solver-audit.md",
       "source_location": "L1",
       "id": "plans_2026_06_06_solver_audit",
-      "community": 10,
+      "community": 0,
       "norm_label": "2026-06-06-solver-audit.md"
     },
     {
@@ -173,7 +1262,7 @@
       "source_file": "docs/superpowers/plans/2026-06-06-solver-audit.md",
       "source_location": "L1",
       "id": "plans_2026_06_06_solver_audit_solver_audit_fix_implementation_plan",
-      "community": 10,
+      "community": 0,
       "norm_label": "solver audit & fix \u2014 implementation plan"
     },
     {
@@ -281,7 +1370,7 @@
       "source_file": "docs/superpowers/plans/2026-06-06-solver-audit.md",
       "source_location": "L297",
       "id": "plans_2026_06_06_solver_audit_self_review",
-      "community": 10,
+      "community": 0,
       "norm_label": "self-review"
     },
     {
@@ -326,7 +1415,7 @@
       "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
       "source_location": "L25",
       "id": "specs_2026_06_06_solver_audit_design_fix_di_correttezza",
-      "community": 5,
+      "community": 2,
       "norm_label": "fix di correttezza"
     },
     {
@@ -335,7 +1424,7 @@
       "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
       "source_location": "L27",
       "id": "specs_2026_06_06_solver_audit_design_1_2_copertura_unificata_coveragedeficit",
-      "community": 5,
+      "community": 2,
       "norm_label": "#1 + #2 \u2014 copertura unificata: `coveragedeficit`"
     },
     {
@@ -344,7 +1433,7 @@
       "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
       "source_location": "L47",
       "id": "specs_2026_06_06_solver_audit_design_3_validateweek_controlla_i_giorni_lavorati",
-      "community": 5,
+      "community": 2,
       "norm_label": "#3 \u2014 `validateweek` controlla i giorni lavorati"
     },
     {
@@ -353,7 +1442,7 @@
       "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
       "source_location": "L54",
       "id": "specs_2026_06_06_solver_audit_design_4_niente_mutazione_globale_di_assistants",
-      "community": 5,
+      "community": 2,
       "norm_label": "#4 \u2014 niente mutazione globale di `assistants`"
     },
     {
@@ -389,7 +1478,7 @@
       "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
       "source_location": "L78",
       "id": "specs_2026_06_06_solver_audit_design_combinazioni",
-      "community": 11,
+      "community": 2,
       "norm_label": "combinazioni"
     },
     {
@@ -398,7 +1487,7 @@
       "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
       "source_location": "L80",
       "id": "specs_2026_06_06_solver_audit_design_7_alternativa_con_variet\u00e0_oraria_reale",
-      "community": 11,
+      "community": 2,
       "norm_label": "#7 \u2014 \"alternativa\" con varieta oraria reale"
     },
     {
@@ -407,7 +1496,7 @@
       "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
       "source_location": "L88",
       "id": "specs_2026_06_06_solver_audit_design_8_griglia_30_minuti",
-      "community": 11,
+      "community": 2,
       "norm_label": "#8 \u2014 griglia 30 minuti"
     },
     {
@@ -416,7 +1505,7 @@
       "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
       "source_location": "L92",
       "id": "specs_2026_06_06_solver_audit_design_migliorie",
-      "community": 3,
+      "community": 2,
       "norm_label": "migliorie"
     },
     {
@@ -425,7 +1514,7 @@
       "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
       "source_location": "L94",
       "id": "specs_2026_06_06_solver_audit_design_9_pruning_storage",
-      "community": 3,
+      "community": 2,
       "norm_label": "#9 \u2014 pruning storage"
     },
     {
@@ -434,7 +1523,7 @@
       "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
       "source_location": "L99",
       "id": "specs_2026_06_06_solver_audit_design_10_niente_freeze_ui_durante_il_solve",
-      "community": 3,
+      "community": 2,
       "norm_label": "#10 \u2014 niente freeze ui durante il solve"
     },
     {
@@ -443,7 +1532,7 @@
       "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
       "source_location": "L105",
       "id": "specs_2026_06_06_solver_audit_design_11_jspdf_robusto",
-      "community": 3,
+      "community": 2,
       "norm_label": "#11 \u2014 jspdf robusto"
     },
     {
@@ -463,6 +1552,24 @@
       "id": "specs_2026_06_06_solver_audit_design_fuori_scope",
       "community": 2,
       "norm_label": "fuori scope"
+    },
+    {
+      "label": "ASSISTANTS",
+      "file_type": "code",
+      "source_file": "src/scheduler.js",
+      "source_location": "L39",
+      "id": "src_scheduler_assistants",
+      "community": 3,
+      "norm_label": "assistants"
+    },
+    {
+      "label": "html",
+      "file_type": "code",
+      "source_file": "tests/solver-logic.test.mjs",
+      "source_location": "L5",
+      "community": 9,
+      "norm_label": "html",
+      "id": "tests_solver_logic_test_html"
     },
     {
       "label": "settings.json",
@@ -538,9 +1645,9 @@
       "source_file": ".claude/settings.json",
       "source_location": "L2",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "home_user_turni_assistenti_claude_settings_json",
-      "target": "claude_settings_hooks",
-      "confidence_score": 1.0
+      "target": "claude_settings_hooks"
     },
     {
       "relation": "contains",
@@ -565,12 +1672,3009 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "jsconfig.json",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "jsconfig",
+      "target": "jsconfig_compileroptions"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "jsconfig.json",
+      "source_location": "L10",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "jsconfig",
+      "target": "jsconfig_include"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "jsconfig.json",
+      "source_location": "L7",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "jsconfig_compileroptions",
+      "target": "jsconfig_compileroptions_checkjs"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "jsconfig.json",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "jsconfig_compileroptions",
+      "target": "jsconfig_compileroptions_lib"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "jsconfig.json",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "jsconfig_compileroptions",
+      "target": "jsconfig_compileroptions_module"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "jsconfig.json",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "jsconfig_compileroptions",
+      "target": "jsconfig_compileroptions_moduleresolution"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "jsconfig.json",
+      "source_location": "L8",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "jsconfig_compileroptions",
+      "target": "jsconfig_compileroptions_noemit"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "jsconfig.json",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "jsconfig_compileroptions",
+      "target": "jsconfig_compileroptions_target"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "package",
+      "target": "package_description"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "package",
+      "target": "package_name"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L4",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "package",
+      "target": "package_private"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L7",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "package",
+      "target": "package_scripts"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L5",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "package",
+      "target": "package_type"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "package",
+      "target": "package_version"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L8",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "package_scripts",
+      "target": "package_scripts_test"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L42",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_app_althistory"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L207",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_app_applyshiftclass"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L64",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_app_applytheme"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L96",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_app_builddesktopgrid"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L122",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_app_buildmobilegrid"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L181",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_app_buildshiftbadge"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L147",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_app_buildshiftcontent"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L68",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_app_buildthemetoggle"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L256",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_app_changeweek"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L270",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_app_createcell"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L196",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_app_createlocktoggle"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_app_currentstart"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L20",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_app_dayeditordiv"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L25",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_app_deferheavy"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L26",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_app_dogenerate"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L27",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_app_doreset"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L289",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_app_drawpdfbadge"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L281",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_app_ensureweekshape"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L293",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_app_exportpdf"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L271",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_app_getcontractlabel"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L255",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_app_getcurrentweek"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L284",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_app_getdayvariationlabel"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L279",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_app_getprintshiftlabel"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L194",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_app_getshiftbadgecodes"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L95",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_app_isdayclosed"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L269",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_app_loadweeks"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L76",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_app_render"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L227",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_app_renderdayeditor"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L87",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_app_rendergrid"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L213",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_app_rendersummary"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L248",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_app_renderwarnings"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L44",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_app_requestalternative"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L43",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_app_resetalthistory"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L259",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_app_saveweeks"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L15",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_app_schedulegrid"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L274",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_app_showstatus"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L21",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_app_statusmsg"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L18",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_app_summarydiv"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L65",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_app_toggletheme"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L185",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_app_updateshiftbadge"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L19",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_app_warningsdiv"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L16",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_app_weeklabel"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L17",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_app_weeklabelmob"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L8",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_app_weeks"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_scheduler"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_scheduler_adddays"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_scheduler_afternoon_end_threshold"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_scheduler_afternoon_tiers"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_scheduler_afternoondemand"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_scheduler_applypreviousweekstate"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_scheduler_assign"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_scheduler_assistant_names"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_scheduler_assistants"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_scheduler_base_pairs"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_scheduler_buildrem"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_scheduler_buildweekfromdayassignments"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_scheduler_clonestats"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_scheduler_countsasafternoon"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_scheduler_coveragedeficit"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_scheduler_coverageof"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_scheduler_createbaseweek"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_scheduler_createemptyweek"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_scheduler_deriveshift"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_scheduler_diversifytimes"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_scheduler_fmt"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_scheduler_formatdateshort"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_scheduler_formatitaliandate"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_scheduler_formatweekrange"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_scheduler_formatweekrangeshort"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_scheduler_generateweek"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_scheduler_getallowedshifts"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_scheduler_getassistantstats"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_scheduler_getcoverage"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_scheduler_getcurrentmonday"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_scheduler_getdaycombos"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_scheduler_getlockedshiftcount"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_scheduler_getrequiredcoverage"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_scheduler_getshift"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_scheduler_heuristiccombos"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_scheduler_ismanuelaclose1519"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_scheduler_isoff"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_scheduler_legacy_templates"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_scheduler_maxuncoveredgap"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_scheduler_regeneratealternativewithfeedback"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_scheduler_regeneratecleanweekwithfeedback"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_scheduler_regenerateweekwithfeedback"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_scheduler_shift_off"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_scheduler_shiftcache"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_scheduler_shiftsof"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_scheduler_solveweek"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_scheduler_solveweekcore"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_scheduler_updateshiftwithfeedback"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_scheduler_validateweek"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_scheduler_week_days"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_scheduler_weekassignmentsig"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L2",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app",
+      "target": "src_scheduler_weekday_keys"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L25",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app_deferheavy",
+      "target": "src_app_showstatus"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L26",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app_dogenerate",
+      "target": "src_app_deferheavy"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L27",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app_doreset",
+      "target": "src_app_deferheavy"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L45",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app_requestalternative",
+      "target": "src_app_deferheavy"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L26",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app_dogenerate",
+      "target": "src_scheduler_regenerateweekwithfeedback"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L27",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app_doreset",
+      "target": "src_scheduler_regeneratecleanweekwithfeedback"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L256",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app_changeweek",
+      "target": "src_app_resetalthistory"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L50",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app_requestalternative",
+      "target": "src_scheduler_regeneratealternativewithfeedback"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L48",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app_requestalternative",
+      "target": "src_scheduler_weekassignmentsig"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L65",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app_toggletheme",
+      "target": "src_app_applytheme"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L65",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app_toggletheme",
+      "target": "src_app_render"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L97",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app_builddesktopgrid",
+      "target": "src_app_buildthemetoggle"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L124",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app_buildmobilegrid",
+      "target": "src_app_buildthemetoggle"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L256",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app_changeweek",
+      "target": "src_app_render"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L78",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app_render",
+      "target": "src_app_ensureweekshape"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L77",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app_render",
+      "target": "src_app_getcurrentweek"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L83",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app_render",
+      "target": "src_app_renderdayeditor"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L81",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app_render",
+      "target": "src_app_rendergrid"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L82",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app_render",
+      "target": "src_app_rendersummary"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L84",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app_render",
+      "target": "src_app_renderwarnings"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L79",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app_render",
+      "target": "src_scheduler_formatweekrange"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L80",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app_render",
+      "target": "src_scheduler_formatweekrangeshort"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L92",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app_rendergrid",
+      "target": "src_app_builddesktopgrid"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L91",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app_rendergrid",
+      "target": "src_app_buildmobilegrid"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L99",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app_builddesktopgrid",
+      "target": "src_app_isdayclosed"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L128",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app_buildmobilegrid",
+      "target": "src_app_isdayclosed"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L111",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app_builddesktopgrid",
+      "target": "src_app_buildshiftcontent"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L97",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app_builddesktopgrid",
+      "target": "src_app_createcell"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L112",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app_builddesktopgrid",
+      "target": "src_app_createlocktoggle"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L108",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app_builddesktopgrid",
+      "target": "src_app_getcontractlabel"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L113",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app_builddesktopgrid",
+      "target": "src_app_getprintshiftlabel"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L101",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app_builddesktopgrid",
+      "target": "src_scheduler_formatdateshort"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L136",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app_buildmobilegrid",
+      "target": "src_app_buildshiftcontent"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L137",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app_buildmobilegrid",
+      "target": "src_app_createlocktoggle"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L138",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app_buildmobilegrid",
+      "target": "src_app_getprintshiftlabel"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L131",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app_buildmobilegrid",
+      "target": "src_scheduler_formatdateshort"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L176",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app_buildshiftcontent",
+      "target": "src_app_applyshiftclass"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L177",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app_buildshiftcontent",
+      "target": "src_app_buildshiftbadge"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L154",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app_buildshiftcontent",
+      "target": "src_scheduler_fmt"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L150",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app_buildshiftcontent",
+      "target": "src_scheduler_getallowedshifts"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L158",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app_buildshiftcontent",
+      "target": "src_scheduler_getshift"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L150",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app_buildshiftcontent",
+      "target": "src_scheduler_isoff"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L168",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app_buildshiftcontent",
+      "target": "src_scheduler_updateshiftwithfeedback"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L183",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app_buildshiftbadge",
+      "target": "src_app_updateshiftbadge"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L186",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app_updateshiftbadge",
+      "target": "src_scheduler_getshift"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L209",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app_applyshiftclass",
+      "target": "src_scheduler_getshift"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L214",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app_rendersummary",
+      "target": "src_scheduler_getassistantstats"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L215",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app_rendersummary",
+      "target": "src_scheduler_getlockedshiftcount"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L233",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app_renderdayeditor",
+      "target": "src_scheduler_formatdateshort"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L249",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app_renderwarnings",
+      "target": "src_scheduler_validateweek"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L295",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app_exportpdf",
+      "target": "src_app_getcurrentweek"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L255",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app_getcurrentweek",
+      "target": "src_app_ensureweekshape"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L255",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app_getcurrentweek",
+      "target": "src_scheduler_createemptyweek"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L256",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app_changeweek",
+      "target": "src_app_saveweeks"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L256",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app_changeweek",
+      "target": "src_scheduler_adddays"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L256",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app_changeweek",
+      "target": "src_scheduler_generateweek"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L261",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app_saveweeks",
+      "target": "src_scheduler_adddays"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L294",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app_exportpdf",
+      "target": "src_app_showstatus"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L279",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app_getprintshiftlabel",
+      "target": "src_scheduler_fmt"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L279",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app_getprintshiftlabel",
+      "target": "src_scheduler_getshift"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L281",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app_ensureweekshape",
+      "target": "src_scheduler_getshift"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L305",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app_exportpdf",
+      "target": "src_scheduler_formatdateshort"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L302",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app_exportpdf",
+      "target": "src_scheduler_formatweekrange"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L299",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app_exportpdf",
+      "target": "src_scheduler_getassistantstats"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L305",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_app_exportpdf",
+      "target": "src_scheduler_getshift"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L67",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler",
+      "target": "src_scheduler_adddays"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L76",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler",
+      "target": "src_scheduler_afternoon_end_threshold"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L152",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler",
+      "target": "src_scheduler_afternoon_tiers"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L135",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler",
+      "target": "src_scheduler_afternoondemand"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L268",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler",
+      "target": "src_scheduler_applypreviousweekstate"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L71",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler",
+      "target": "src_scheduler_assign"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L25",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler",
+      "target": "src_scheduler_assistant_names"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L26",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler",
+      "target": "src_scheduler_assistants"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L59",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler",
+      "target": "src_scheduler_base_pairs"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L186",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler",
+      "target": "src_scheduler_buildrem"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L267",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler",
+      "target": "src_scheduler_buildweekfromdayassignments"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L266",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler",
+      "target": "src_scheduler_clonestats"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L77",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler",
+      "target": "src_scheduler_countsasafternoon"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L93",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler",
+      "target": "src_scheduler_coveragedeficit"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L85",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler",
+      "target": "src_scheduler_coverageof"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L74",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler",
+      "target": "src_scheduler_createbaseweek"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L72",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler",
+      "target": "src_scheduler_createemptyweek"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L42",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler",
+      "target": "src_scheduler_deriveshift"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L274",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler",
+      "target": "src_scheduler_diversifytimes"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L37",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler",
+      "target": "src_scheduler_fmt"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L70",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler",
+      "target": "src_scheduler_formatdateshort"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L69",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler",
+      "target": "src_scheduler_formatitaliandate"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L114",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler",
+      "target": "src_scheduler_formatweekrange"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L115",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler",
+      "target": "src_scheduler_formatweekrangeshort"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L132",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler",
+      "target": "src_scheduler_generateweek"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L118",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler",
+      "target": "src_scheduler_getallowedshifts"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L80",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler",
+      "target": "src_scheduler_getassistantstats"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L89",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler",
+      "target": "src_scheduler_getcoverage"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L68",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler",
+      "target": "src_scheduler_getcurrentmonday"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L222",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler",
+      "target": "src_scheduler_getdaycombos"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L294",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler",
+      "target": "src_scheduler_getlockedshiftcount"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L81",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler",
+      "target": "src_scheduler_getrequiredcoverage"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L57",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler",
+      "target": "src_scheduler_getshift"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L142",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler",
+      "target": "src_scheduler_heuristiccombos"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L79",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler",
+      "target": "src_scheduler_ismanuelaclose1519"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L38",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler",
+      "target": "src_scheduler_isoff"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L61",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler",
+      "target": "src_scheduler_legacy_templates"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L112",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler",
+      "target": "src_scheduler_maxuncoveredgap"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L292",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler",
+      "target": "src_scheduler_regeneratealternativewithfeedback"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L270",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler",
+      "target": "src_scheduler_regeneratecleanweekwithfeedback"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L269",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler",
+      "target": "src_scheduler_regenerateweekwithfeedback"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L39",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler",
+      "target": "src_scheduler_shift_off"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L40",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler",
+      "target": "src_scheduler_shiftcache"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L82",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler",
+      "target": "src_scheduler_shiftsof"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L158",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler",
+      "target": "src_scheduler_solveweek"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L187",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler",
+      "target": "src_scheduler_solveweekcore"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L33",
+      "weight": 1.0,
+      "source": "src_scheduler",
+      "target": "src_scheduler_staff_config",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L293",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler",
+      "target": "src_scheduler_updateshiftwithfeedback"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L113",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler",
+      "target": "src_scheduler_validateweek"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L62",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler",
+      "target": "src_scheduler_week_days"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L148",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler",
+      "target": "src_scheduler_weekassignmentsig"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L31",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler",
+      "target": "src_scheduler_weekday_keys"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L92",
+      "weight": 1.0,
+      "source": "src_scheduler",
+      "target": "src_scheduler_worksovertimeshift",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/regression.test.mjs",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tests_regression_test",
+      "target": "src_scheduler"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/solver-logic.test.mjs",
+      "source_location": "L3",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tests_solver_logic_test",
+      "target": "src_scheduler"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/ui-export.test.mjs",
+      "source_location": "L9",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tests_ui_export_test",
+      "target": "src_scheduler"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L49",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler_deriveshift",
+      "target": "src_scheduler_fmt"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L128",
+      "weight": 1.0,
+      "source": "src_scheduler_validateweek",
+      "target": "src_scheduler_fmt",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L43",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler_deriveshift",
+      "target": "src_scheduler_isoff"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L57",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler_getshift",
+      "target": "src_scheduler_deriveshift"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L280",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler_diversifytimes",
+      "target": "src_scheduler_getshift"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L80",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler_getassistantstats",
+      "target": "src_scheduler_getshift"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L79",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler_ismanuelaclose1519",
+      "target": "src_scheduler_getshift"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L113",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler_validateweek",
+      "target": "src_scheduler_getshift"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L92",
+      "weight": 1.0,
+      "source": "src_scheduler_worksovertimeshift",
+      "target": "src_scheduler_getshift",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L132",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler_generateweek",
+      "target": "src_scheduler_getcurrentmonday"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L114",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler_formatweekrange",
+      "target": "src_scheduler_formatitaliandate"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L115",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler_formatweekrangeshort",
+      "target": "src_scheduler_formatdateshort"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L74",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler_createbaseweek",
+      "target": "src_scheduler_assign"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L74",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler_createbaseweek",
+      "target": "src_scheduler_createemptyweek"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L132",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler_generateweek",
+      "target": "src_scheduler_createbaseweek"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L292",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler_regeneratealternativewithfeedback",
+      "target": "src_scheduler_createbaseweek"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L269",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler_regenerateweekwithfeedback",
+      "target": "src_scheduler_createbaseweek"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L80",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler_getassistantstats",
+      "target": "src_scheduler_countsasafternoon"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L94",
+      "weight": 1.0,
+      "source": "src_scheduler_ismanuelaclose1519",
+      "target": "src_scheduler_worksovertimeshift",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L113",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler_validateweek",
+      "target": "src_scheduler_getassistantstats"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L225",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler_getdaycombos",
+      "target": "src_scheduler_getrequiredcoverage"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L113",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler_validateweek",
+      "target": "src_scheduler_getrequiredcoverage"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L89",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler_getcoverage",
+      "target": "src_scheduler_shiftsof"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L112",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler_maxuncoveredgap",
+      "target": "src_scheduler_shiftsof"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L89",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler_getcoverage",
+      "target": "src_scheduler_coverageof"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L113",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler_validateweek",
+      "target": "src_scheduler_getcoverage"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L112",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler_maxuncoveredgap",
+      "target": "src_scheduler_coveragedeficit"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L113",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler_validateweek",
+      "target": "src_scheduler_maxuncoveredgap"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L287",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler_diversifytimes",
+      "target": "src_scheduler_validateweek"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L292",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler_regeneratealternativewithfeedback",
+      "target": "src_scheduler_validateweek"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L186",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler_buildrem",
+      "target": "src_scheduler_getallowedshifts"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L282",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler_diversifytimes",
+      "target": "src_scheduler_getallowedshifts"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L223",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler_getdaycombos",
+      "target": "src_scheduler_getallowedshifts"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L132",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler_generateweek",
+      "target": "src_scheduler_applypreviousweekstate"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L132",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler_generateweek",
+      "target": "src_scheduler_solveweek"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L270",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler_regeneratecleanweekwithfeedback",
+      "target": "src_scheduler_generateweek"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L159",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler_solveweek",
+      "target": "src_scheduler_afternoondemand"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L161",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler_solveweek",
+      "target": "src_scheduler_heuristiccombos"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L292",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler_regeneratealternativewithfeedback",
+      "target": "src_scheduler_weekassignmentsig"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L292",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler_regeneratealternativewithfeedback",
+      "target": "src_scheduler_solveweek"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L269",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler_regenerateweekwithfeedback",
+      "target": "src_scheduler_solveweek"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L165",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler_solveweek",
+      "target": "src_scheduler_buildrem"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L195",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler_solveweekcore",
+      "target": "src_scheduler_buildrem"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L292",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler_regeneratealternativewithfeedback",
+      "target": "src_scheduler_applypreviousweekstate"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L269",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler_regenerateweekwithfeedback",
+      "target": "src_scheduler_applypreviousweekstate"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L269",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler_regenerateweekwithfeedback",
+      "target": "src_scheduler_getlockedshiftcount"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L292",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "src_scheduler_regeneratealternativewithfeedback",
+      "target": "src_scheduler_diversifytimes"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/generic-team.test.mjs",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "tests_generic_team_test",
+      "target": "tests_generic_team_test_loadwithstaff",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/generic-team.test.mjs",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "tests_generic_team_test",
+      "target": "tests_generic_team_test_src",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/regression.test.mjs",
+      "source_location": "L7",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tests_regression_test",
+      "target": "tests_regression_test_sigof"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/regression.test.mjs",
+      "source_location": "L12",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tests_regression_test",
+      "target": "tests_regression_test_snapshots"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "tests/solver-logic.test.mjs",
       "source_location": "L5",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_solver_logic_test",
-      "target": "tests_solver_logic_test_html",
-      "confidence_score": 1.0
+      "target": "tests_solver_logic_test_html"
     },
     {
       "relation": "contains",
@@ -578,9 +4682,9 @@
       "source_file": "tests/solver-logic.test.mjs",
       "source_location": "L8",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_solver_logic_test",
-      "target": "tests_solver_logic_test_loadlogic",
-      "confidence_score": 1.0
+      "target": "tests_solver_logic_test_loadlogic"
     },
     {
       "relation": "contains",
@@ -588,9 +4692,19 @@
       "source_file": "tests/solver-logic.test.mjs",
       "source_location": "L66",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "tests_solver_logic_test",
-      "target": "tests_solver_logic_test_solvedvalid",
-      "confidence_score": 1.0
+      "target": "tests_solver_logic_test_solvedvalid"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/ui-export.test.mjs",
+      "source_location": "L6",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "tests_ui_export_test",
+      "target": "tests_ui_export_test_app"
     },
     {
       "relation": "contains",
@@ -618,9 +4732,9 @@
       "source_file": "CLAUDE.md",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "home_user_turni_assistenti_claude_md",
-      "target": "turni_assistenti_claude_graphify",
-      "confidence_score": 1.0
+      "target": "turni_assistenti_claude_graphify"
     },
     {
       "relation": "contains",
@@ -628,9 +4742,9 @@
       "source_file": "docs/superpowers/plans/2026-06-06-solver-audit.md",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "plans_2026_06_06_solver_audit",
-      "target": "plans_2026_06_06_solver_audit_solver_audit_fix_implementation_plan",
-      "confidence_score": 1.0
+      "target": "plans_2026_06_06_solver_audit_solver_audit_fix_implementation_plan"
     },
     {
       "relation": "contains",
@@ -638,9 +4752,9 @@
       "source_file": "docs/superpowers/plans/2026-06-06-solver-audit.md",
       "source_location": "L15",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "plans_2026_06_06_solver_audit_solver_audit_fix_implementation_plan",
-      "target": "plans_2026_06_06_solver_audit_convenzioni_test",
-      "confidence_score": 1.0
+      "target": "plans_2026_06_06_solver_audit_convenzioni_test"
     },
     {
       "relation": "contains",
@@ -648,9 +4762,9 @@
       "source_file": "docs/superpowers/plans/2026-06-06-solver-audit.md",
       "source_location": "L297",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "plans_2026_06_06_solver_audit_solver_audit_fix_implementation_plan",
-      "target": "plans_2026_06_06_solver_audit_self_review",
-      "confidence_score": 1.0
+      "target": "plans_2026_06_06_solver_audit_self_review"
     },
     {
       "relation": "contains",
@@ -658,9 +4772,9 @@
       "source_file": "docs/superpowers/plans/2026-06-06-solver-audit.md",
       "source_location": "L288",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "plans_2026_06_06_solver_audit_convenzioni_test",
-      "target": "plans_2026_06_06_solver_audit_task_10_verifica_finale_graphify_update",
-      "confidence_score": 1.0
+      "target": "plans_2026_06_06_solver_audit_task_10_verifica_finale_graphify_update"
     },
     {
       "relation": "contains",
@@ -668,9 +4782,9 @@
       "source_file": "docs/superpowers/plans/2026-06-06-solver-audit.md",
       "source_location": "L35",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "plans_2026_06_06_solver_audit_convenzioni_test",
-      "target": "plans_2026_06_06_solver_audit_task_1_1_2_coveragedeficit_copertura_cumulativa_debito_pranzo",
-      "confidence_score": 1.0
+      "target": "plans_2026_06_06_solver_audit_task_1_1_2_coveragedeficit_copertura_cumulativa_debito_pranzo"
     },
     {
       "relation": "contains",
@@ -678,9 +4792,9 @@
       "source_file": "docs/superpowers/plans/2026-06-06-solver-audit.md",
       "source_location": "L100",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "plans_2026_06_06_solver_audit_convenzioni_test",
-      "target": "plans_2026_06_06_solver_audit_task_2_3_validateweek_segnala_giorni_lavorati_max",
-      "confidence_score": 1.0
+      "target": "plans_2026_06_06_solver_audit_task_2_3_validateweek_segnala_giorni_lavorati_max"
     },
     {
       "relation": "contains",
@@ -688,9 +4802,9 @@
       "source_file": "docs/superpowers/plans/2026-06-06-solver-audit.md",
       "source_location": "L133",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "plans_2026_06_06_solver_audit_convenzioni_test",
-      "target": "plans_2026_06_06_solver_audit_task_3_4_niente_mutazione_globale_di_assistants",
-      "confidence_score": 1.0
+      "target": "plans_2026_06_06_solver_audit_task_3_4_niente_mutazione_globale_di_assistants"
     },
     {
       "relation": "contains",
@@ -698,9 +4812,9 @@
       "source_file": "docs/superpowers/plans/2026-06-06-solver-audit.md",
       "source_location": "L166",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "plans_2026_06_06_solver_audit_convenzioni_test",
-      "target": "plans_2026_06_06_solver_audit_task_4_6_rem_calcolato_una_volta_in_solveweek",
-      "confidence_score": 1.0
+      "target": "plans_2026_06_06_solver_audit_task_4_6_rem_calcolato_una_volta_in_solveweek"
     },
     {
       "relation": "contains",
@@ -708,9 +4822,9 @@
       "source_file": "docs/superpowers/plans/2026-06-06-solver-audit.md",
       "source_location": "L177",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "plans_2026_06_06_solver_audit_convenzioni_test",
-      "target": "plans_2026_06_06_solver_audit_task_5_5_getdaycombos_pre_dedup_per_assistente",
-      "confidence_score": 1.0
+      "target": "plans_2026_06_06_solver_audit_task_5_5_getdaycombos_pre_dedup_per_assistente"
     },
     {
       "relation": "contains",
@@ -718,9 +4832,9 @@
       "source_file": "docs/superpowers/plans/2026-06-06-solver-audit.md",
       "source_location": "L214",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "plans_2026_06_06_solver_audit_convenzioni_test",
-      "target": "plans_2026_06_06_solver_audit_task_6_7_alternativa_con_variet\u00e0_oraria",
-      "confidence_score": 1.0
+      "target": "plans_2026_06_06_solver_audit_task_6_7_alternativa_con_variet\u00e0_oraria"
     },
     {
       "relation": "contains",
@@ -728,9 +4842,9 @@
       "source_file": "docs/superpowers/plans/2026-06-06-solver-audit.md",
       "source_location": "L243",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "plans_2026_06_06_solver_audit_convenzioni_test",
-      "target": "plans_2026_06_06_solver_audit_task_7_9_pruning_storage",
-      "confidence_score": 1.0
+      "target": "plans_2026_06_06_solver_audit_task_7_9_pruning_storage"
     },
     {
       "relation": "contains",
@@ -738,9 +4852,9 @@
       "source_file": "docs/superpowers/plans/2026-06-06-solver-audit.md",
       "source_location": "L266",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "plans_2026_06_06_solver_audit_convenzioni_test",
-      "target": "plans_2026_06_06_solver_audit_task_8_10_status_calcolo_turni_prima_del_solve",
-      "confidence_score": 1.0
+      "target": "plans_2026_06_06_solver_audit_task_8_10_status_calcolo_turni_prima_del_solve"
     },
     {
       "relation": "contains",
@@ -748,9 +4862,9 @@
       "source_file": "docs/superpowers/plans/2026-06-06-solver-audit.md",
       "source_location": "L276",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "plans_2026_06_06_solver_audit_convenzioni_test",
-      "target": "plans_2026_06_06_solver_audit_task_9_11_jspdf_sri_crossorigin",
-      "confidence_score": 1.0
+      "target": "plans_2026_06_06_solver_audit_task_9_11_jspdf_sri_crossorigin"
     },
     {
       "relation": "contains",
@@ -758,9 +4872,9 @@
       "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
       "source_location": "L1",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "specs_2026_06_06_solver_audit_design",
-      "target": "specs_2026_06_06_solver_audit_design_audit_miglioramento_solver_turni_design",
-      "confidence_score": 1.0
+      "target": "specs_2026_06_06_solver_audit_design_audit_miglioramento_solver_turni_design"
     },
     {
       "relation": "contains",
@@ -768,9 +4882,9 @@
       "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
       "source_location": "L78",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "specs_2026_06_06_solver_audit_design_audit_miglioramento_solver_turni_design",
-      "target": "specs_2026_06_06_solver_audit_design_combinazioni",
-      "confidence_score": 1.0
+      "target": "specs_2026_06_06_solver_audit_design_combinazioni"
     },
     {
       "relation": "contains",
@@ -778,9 +4892,9 @@
       "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
       "source_location": "L7",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "specs_2026_06_06_solver_audit_design_audit_miglioramento_solver_turni_design",
-      "target": "specs_2026_06_06_solver_audit_design_contesto",
-      "confidence_score": 1.0
+      "target": "specs_2026_06_06_solver_audit_design_contesto"
     },
     {
       "relation": "contains",
@@ -788,9 +4902,9 @@
       "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
       "source_location": "L25",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "specs_2026_06_06_solver_audit_design_audit_miglioramento_solver_turni_design",
-      "target": "specs_2026_06_06_solver_audit_design_fix_di_correttezza",
-      "confidence_score": 1.0
+      "target": "specs_2026_06_06_solver_audit_design_fix_di_correttezza"
     },
     {
       "relation": "contains",
@@ -798,9 +4912,9 @@
       "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
       "source_location": "L62",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "specs_2026_06_06_solver_audit_design_audit_miglioramento_solver_turni_design",
-      "target": "specs_2026_06_06_solver_audit_design_fix_di_velocit\u00e0",
-      "confidence_score": 1.0
+      "target": "specs_2026_06_06_solver_audit_design_fix_di_velocit\u00e0"
     },
     {
       "relation": "contains",
@@ -808,9 +4922,9 @@
       "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
       "source_location": "L124",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "specs_2026_06_06_solver_audit_design_audit_miglioramento_solver_turni_design",
-      "target": "specs_2026_06_06_solver_audit_design_fuori_scope",
-      "confidence_score": 1.0
+      "target": "specs_2026_06_06_solver_audit_design_fuori_scope"
     },
     {
       "relation": "contains",
@@ -818,9 +4932,9 @@
       "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
       "source_location": "L92",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "specs_2026_06_06_solver_audit_design_audit_miglioramento_solver_turni_design",
-      "target": "specs_2026_06_06_solver_audit_design_migliorie",
-      "confidence_score": 1.0
+      "target": "specs_2026_06_06_solver_audit_design_migliorie"
     },
     {
       "relation": "contains",
@@ -828,9 +4942,9 @@
       "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
       "source_location": "L18",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "specs_2026_06_06_solver_audit_design_audit_miglioramento_solver_turni_design",
-      "target": "specs_2026_06_06_solver_audit_design_principio_architetturale",
-      "confidence_score": 1.0
+      "target": "specs_2026_06_06_solver_audit_design_principio_architetturale"
     },
     {
       "relation": "contains",
@@ -838,9 +4952,9 @@
       "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
       "source_location": "L111",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "specs_2026_06_06_solver_audit_design_audit_miglioramento_solver_turni_design",
-      "target": "specs_2026_06_06_solver_audit_design_test",
-      "confidence_score": 1.0
+      "target": "specs_2026_06_06_solver_audit_design_test"
     },
     {
       "relation": "contains",
@@ -848,9 +4962,9 @@
       "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
       "source_location": "L27",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "specs_2026_06_06_solver_audit_design_fix_di_correttezza",
-      "target": "specs_2026_06_06_solver_audit_design_1_2_copertura_unificata_coveragedeficit",
-      "confidence_score": 1.0
+      "target": "specs_2026_06_06_solver_audit_design_1_2_copertura_unificata_coveragedeficit"
     },
     {
       "relation": "contains",
@@ -858,9 +4972,9 @@
       "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
       "source_location": "L47",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "specs_2026_06_06_solver_audit_design_fix_di_correttezza",
-      "target": "specs_2026_06_06_solver_audit_design_3_validateweek_controlla_i_giorni_lavorati",
-      "confidence_score": 1.0
+      "target": "specs_2026_06_06_solver_audit_design_3_validateweek_controlla_i_giorni_lavorati"
     },
     {
       "relation": "contains",
@@ -868,9 +4982,9 @@
       "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
       "source_location": "L54",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "specs_2026_06_06_solver_audit_design_fix_di_correttezza",
-      "target": "specs_2026_06_06_solver_audit_design_4_niente_mutazione_globale_di_assistants",
-      "confidence_score": 1.0
+      "target": "specs_2026_06_06_solver_audit_design_4_niente_mutazione_globale_di_assistants"
     },
     {
       "relation": "contains",
@@ -878,9 +4992,9 @@
       "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
       "source_location": "L64",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "specs_2026_06_06_solver_audit_design_fix_di_velocit\u00e0",
-      "target": "specs_2026_06_06_solver_audit_design_5_getdaycombos_da_o_n3_a_o_k3",
-      "confidence_score": 1.0
+      "target": "specs_2026_06_06_solver_audit_design_5_getdaycombos_da_o_n3_a_o_k3"
     },
     {
       "relation": "contains",
@@ -888,9 +5002,9 @@
       "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
       "source_location": "L72",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "specs_2026_06_06_solver_audit_design_fix_di_velocit\u00e0",
-      "target": "specs_2026_06_06_solver_audit_design_6_rem_calcolato_una_volta",
-      "confidence_score": 1.0
+      "target": "specs_2026_06_06_solver_audit_design_6_rem_calcolato_una_volta"
     },
     {
       "relation": "contains",
@@ -898,9 +5012,9 @@
       "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
       "source_location": "L80",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "specs_2026_06_06_solver_audit_design_combinazioni",
-      "target": "specs_2026_06_06_solver_audit_design_7_alternativa_con_variet\u00e0_oraria_reale",
-      "confidence_score": 1.0
+      "target": "specs_2026_06_06_solver_audit_design_7_alternativa_con_variet\u00e0_oraria_reale"
     },
     {
       "relation": "contains",
@@ -908,9 +5022,9 @@
       "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
       "source_location": "L88",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "specs_2026_06_06_solver_audit_design_combinazioni",
-      "target": "specs_2026_06_06_solver_audit_design_8_griglia_30_minuti",
-      "confidence_score": 1.0
+      "target": "specs_2026_06_06_solver_audit_design_8_griglia_30_minuti"
     },
     {
       "relation": "contains",
@@ -918,9 +5032,9 @@
       "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
       "source_location": "L99",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "specs_2026_06_06_solver_audit_design_migliorie",
-      "target": "specs_2026_06_06_solver_audit_design_10_niente_freeze_ui_durante_il_solve",
-      "confidence_score": 1.0
+      "target": "specs_2026_06_06_solver_audit_design_10_niente_freeze_ui_durante_il_solve"
     },
     {
       "relation": "contains",
@@ -928,9 +5042,9 @@
       "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
       "source_location": "L105",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "specs_2026_06_06_solver_audit_design_migliorie",
-      "target": "specs_2026_06_06_solver_audit_design_11_jspdf_robusto",
-      "confidence_score": 1.0
+      "target": "specs_2026_06_06_solver_audit_design_11_jspdf_robusto"
     },
     {
       "relation": "contains",
@@ -938,9 +5052,9 @@
       "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
       "source_location": "L94",
       "weight": 1.0,
+      "confidence_score": 1.0,
       "source": "specs_2026_06_06_solver_audit_design_migliorie",
-      "target": "specs_2026_06_06_solver_audit_design_9_pruning_storage",
-      "confidence_score": 1.0
+      "target": "specs_2026_06_06_solver_audit_design_9_pruning_storage"
     },
     {
       "relation": "contains",
@@ -1009,5 +5123,5 @@
       "source_file": "index.html"
     }
   ],
-  "built_at_commit": "6b448c5b721f61856a8a07efe744daa130b05c9a"
+  "built_at_commit": "8ceef2016a7280e3b715dca2da67e0a7a35a7695"
 }
