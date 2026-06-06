@@ -99,6 +99,7 @@ import {
             <label class="t-field">Ore/sett<input class="field" type="number" min="0" step="0.5" value="${c.weeklyHours}" data-i="${i}" data-k="weeklyHours"></label>
             <label class="t-field">Pom. min<input class="field" type="number" min="0" value="${c.minAfternoons}" data-i="${i}" data-k="minAfternoons"></label>
             <label class="t-field">Pom. max<input class="field" type="number" min="0" value="${c.maxAfternoons}" data-i="${i}" data-k="maxAfternoons"></label>
+            <label class="t-field" title="Un turno conta come pomeriggio per questa persona se finisce DOPO quest'ora">Pom. dopo<input class="field" type="time" step="1800" value="${fmt(c.afternoonThresholdMin??960)}" data-i="${i}" data-k="afternoonThresholdMin"></label>
             <label class="t-field t-check"><input type="checkbox" ${c.canWorkLong?'checked':''} data-i="${i}" data-k="canWorkLong">Turni lunghi</label>
           </div>`;
         rowsBox.appendChild(el);});
@@ -106,6 +107,7 @@ import {
     rowsBox.addEventListener('input',e=>{const t=e.target,i=+t.dataset.i,k=t.dataset.k;if(Number.isNaN(i)||!k)return;
       if(k==='name')rows[i].name=t.value;
       else if(k==='canWorkLong')rows[i].c.canWorkLong=t.checked;
+      else if(k==='afternoonThresholdMin'){const[h,mm]=t.value.split(':').map(Number);if(!Number.isNaN(h))rows[i].c.afternoonThresholdMin=h*60+(mm||0);}
       else rows[i].c[k]=k==='weeklyHours'?parseFloat(t.value):parseInt(t.value,10);});
     rowsBox.addEventListener('click',e=>{const del=e.target.closest('.t-del');if(!del)return;rows.splice(+del.dataset.i,1);renderRows();});
     card.querySelector('.btn-add').addEventListener('click',()=>{const pr=Math.max(0,...rows.map(r=>r.c.escalationPriority??0))+1;rows.push({name:'',c:{weeklyHours:25,minAfternoons:1,maxAfternoons:2,canWorkLong:false,maxWorkDays:5,afternoonThresholdMin:960,escalationPriority:pr}});renderRows();});
