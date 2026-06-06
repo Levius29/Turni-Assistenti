@@ -40,3 +40,21 @@ test('getAllowedShifts forza OFF per festività e assenza', () => {
   tue.exceptions.holiday = true;
   for (const n of M.ASSISTANT_NAMES) assert.deepEqual(M.getAllowedShifts(n, tue, true), ['OFF']);
 });
+
+// Bug fix: rigenerando, le assenze personali (ferie/malattia) devono essere preservate come le festività.
+test('applyPreviousWeekState preserva le assenze personali', () => {
+  const prev = M.createBaseWeek('2026-06-08');
+  prev.days.find(d => d.key === 'mon').absences = { Madalina: 'vacation' };
+  const seed = M.createBaseWeek('2026-06-08');
+  M.applyPreviousWeekState(seed, prev);
+  assert.equal(seed.days.find(d => d.key === 'mon').absences.Madalina, 'vacation', 'assenza riportata nella nuova settimana');
+});
+
+// End-to-end: dopo "Genera", chi era assente resta OFF quel giorno.
+test('regenerateWeekWithFeedback: assenza personale resta OFF dopo rigenerazione', () => {
+  const prev = M.solveWeek(M.createBaseWeek('2026-06-08')).week;
+  prev.days.find(d => d.key === 'mon').absences = { Madalina: 'vacation' };
+  const { week } = M.regenerateWeekWithFeedback('2026-06-08', prev);
+  assert.equal(week.days.find(d => d.key === 'mon').assignments.Madalina, 'OFF', 'Madalina assente lunedì anche dopo Genera');
+  assert.equal(M.validateWeek(week).length, 0, 'settimana valida');
+});
