@@ -157,7 +157,7 @@ import {
     else{buildDesktopGrid(week);}
   }
 
-  function isDayClosed(day){return day.key==='sat'&&!day.exceptions?.satOpen;}
+  function isDayClosed(day){return!!day.exceptions?.holiday||(day.key==='sat'&&!day.exceptions?.satOpen);}
   function buildDesktopGrid(week){
     const corner=createCell('','grid-cell head-cell');corner.append(buildThemeToggle());scheduleGrid.append(corner);
     for(const day of week.days){
@@ -240,6 +240,8 @@ import {
     exit.addEventListener('change',commit);
     applyShiftClass(entry,day.assignments[assistant]);
     const badge=buildShiftBadge(day.assignments[assistant]);
+    const absent=!isDayClosed(day)&&day.absences?.[assistant];
+    if(absent){badge.innerHTML=`<span class="badge-code" style="background:#9b6dd6">${absent==='sick'?'Malattia':'Ferie'}</span>`;entry.disabled=true;}
     return{entry,exit,badge};
   }
 
@@ -293,10 +295,13 @@ import {
   function renderDayEditor(week){
     const day=week.days.find(d=>d.key===selectedDayKey)??week.days[0];
     const isSat=day.key==='sat';
+    const isHol=!!day.exceptions.holiday;
     const toggle=isSat
       ?`<label class="checkbox-inline"><input id="satOpen" type="checkbox"><span>Aperto</span></label>`
-      :`<label class="checkbox-inline" title="Doppia assistente il pomeriggio"><input id="extraAfternoon" type="checkbox"><span>2× Pom.</span></label> <label class="checkbox-inline" title="Doppia assistente di mattina (almeno fino alle 13:30)"><input id="extraMorning" type="checkbox"><span>2× Matt.</span></label>`;
-    dayEditorDiv.innerHTML=`<div class="day-label-row">${day.label} <span class="day-date">${formatDateShort(day.date)}</span>${toggle}</div><div class="day-fields-row"><select id="eventType" class="field field-sm"><option value="">Nessun evento</option><option value="chirurgia">Chirurgia</option><option value="ortodonzia">Ortodonzia</option><option value="dottore">Dottore in più</option><option value="altro">Altro</option></select></div>`;
+      :`<label class="checkbox-inline" title="Doppia assistente il pomeriggio"><input id="extraAfternoon" type="checkbox"><span>2× Pom.</span></label> <label class="checkbox-inline" title="Doppia assistente di mattina (almeno fino alle 13:30)"><input id="extraMorning" type="checkbox"><span>2× Matt.</span></label> <label class="checkbox-inline" title="Studio chiuso (festività): nessuno lavora, ore ridotte"><input id="holiday" type="checkbox"><span>Festività</span></label>`;
+    // Assenze: solo nei giorni feriali non festivi.
+    const absHtml=(!isSat&&!isHol)?`<div class="day-fields-row" style="flex-wrap:wrap;gap:6px;margin-top:8px">${ASSISTANT_NAMES.map(n=>`<label class="t-field" style="flex:1;min-width:88px">${n}<select class="field field-sm abs-sel" data-n="${n}"><option value="">Presente</option><option value="vacation">Ferie</option><option value="sick">Malattia</option></select></label>`).join('')}</div>`:'';
+    dayEditorDiv.innerHTML=`<div class="day-label-row">${day.label} <span class="day-date">${formatDateShort(day.date)}</span>${toggle}</div><div class="day-fields-row"><select id="eventType" class="field field-sm"><option value="">Nessun evento</option><option value="chirurgia">Chirurgia</option><option value="ortodonzia">Ortodonzia</option><option value="dottore">Dottore in più</option><option value="altro">Altro</option></select></div>${absHtml}`;
     const sel=dayEditorDiv.querySelector('#eventType');
     sel.value=day.exceptions.eventType;
     sel.addEventListener('change',()=>{day.exceptions.eventType=sel.value;saveWeeks();render();});
@@ -308,6 +313,10 @@ import {
       extra.addEventListener('change',()=>{day.exceptions.extraAfternoon=extra.checked;saveWeeks();render();});
       const extraM=dayEditorDiv.querySelector('#extraMorning');extraM.checked=day.exceptions.extraMorning;
       extraM.addEventListener('change',()=>{day.exceptions.extraMorning=extraM.checked;saveWeeks();render();});
+      const hol=dayEditorDiv.querySelector('#holiday');hol.checked=isHol;
+      hol.addEventListener('change',()=>{day.exceptions.holiday=hol.checked;if(hol.checked){day.absences={};for(const n of ASSISTANT_NAMES){day.assignments[n]='OFF';day.locks[n]=false;}}saveWeeks();render();});
+      day.absences=day.absences||{};
+      for(const s of dayEditorDiv.querySelectorAll('.abs-sel')){const n=s.dataset.n;s.value=day.absences[n]||'';s.addEventListener('change',()=>{if(s.value)day.absences[n]=s.value;else delete day.absences[n];if(s.value){day.assignments[n]='OFF';day.locks[n]=false;}saveWeeks();render();});}
     }
   }
 
@@ -344,13 +353,15 @@ import {
   }
   function getPrintShiftLabel(a){const s=getShift(a);return s.id==='OFF'?'Riposo':`${fmt(s.startMin)}-${fmt(s.endMin)}`;}
   // Normalizza la forma della settimana e migra eventuali vecchi id-template (v1) verso {s,e}.
-  function ensureWeekShape(week){for(const day of week.days){const hadSatOpen='satOpen'in(day.exceptions??{});day.exceptions={eventType:'',note:'',extraAfternoon:false,extraMorning:false,satOpen:false,...day.exceptions};day.assignments={...Object.fromEntries(ASSISTANT_NAMES.map(n=>[n,'OFF'])),...day.assignments};day.locks={...Object.fromEntries(ASSISTANT_NAMES.map(n=>[n,false])),...day.locks};for(const n of ASSISTANT_NAMES){const a=day.assignments[n];if(typeof a==='string'&&a!=='OFF')day.assignments[n]=LEGACY_TEMPLATES[a]??'OFF';}if(day.key==='sat'&&!hadSatOpen&&ASSISTANT_NAMES.some(n=>getShift(day.assignments[n]).hours>0))day.exceptions.satOpen=true;}const satDay=week.days.find(d=>d.key==='sat');if(satDay&&!satDay.exceptions.satOpen){for(const n of ASSISTANT_NAMES)if(!satDay.locks[n])satDay.assignments[n]='OFF';}}
+  function ensureWeekShape(week){for(const day of week.days){const hadSatOpen='satOpen'in(day.exceptions??{});day.exceptions={eventType:'',note:'',extraAfternoon:false,extraMorning:false,satOpen:false,holiday:false,...day.exceptions};day.absences=day.absences||{};day.assignments={...Object.fromEntries(ASSISTANT_NAMES.map(n=>[n,'OFF'])),...day.assignments};day.locks={...Object.fromEntries(ASSISTANT_NAMES.map(n=>[n,false])),...day.locks};for(const n of ASSISTANT_NAMES){const a=day.assignments[n];if(typeof a==='string'&&a!=='OFF')day.assignments[n]=LEGACY_TEMPLATES[a]??'OFF';}if(day.exceptions.holiday)for(const n of ASSISTANT_NAMES){day.assignments[n]='OFF';day.locks[n]=false;}else for(const n of ASSISTANT_NAMES)if(day.absences[n]){day.assignments[n]='OFF';day.locks[n]=false;}if(day.key==='sat'&&!hadSatOpen&&ASSISTANT_NAMES.some(n=>getShift(day.assignments[n]).hours>0))day.exceptions.satOpen=true;}const satDay=week.days.find(d=>d.key==='sat');if(satDay&&!satDay.exceptions.satOpen){for(const n of ASSISTANT_NAMES)if(!satDay.locks[n])satDay.assignments[n]='OFF';}}
 
   // ── PDF EXPORT ──
   function getDayVariationLabel(day){
     const eventLabels={chirurgia:'Chirurgia',ortodonzia:'Ortodonzia',dottore:'Dottore in più',altro:'Altro'};
     const satLabel=day.key==='sat'?(day.exceptions.satOpen?'Aperto':'Chiuso'):'';
-    return[satLabel,eventLabels[day.exceptions.eventType]??day.exceptions.eventType,day.exceptions.extraAfternoon&&day.key!=='sat'?'2× Pom.':'',day.exceptions.extraMorning&&day.key!=='sat'?'2× Matt.':''].filter(Boolean).join(' · ');
+    const holLabel=day.exceptions.holiday?'Festività (chiuso)':'';
+    const absLabel=Object.entries(day.absences||{}).filter(([,v])=>v).map(([n,v])=>`${n}: ${v==='sick'?'Malattia':'Ferie'}`).join(', ');
+    return[satLabel,holLabel,eventLabels[day.exceptions.eventType]??day.exceptions.eventType,day.exceptions.extraAfternoon&&day.key!=='sat'?'2× Pom.':'',day.exceptions.extraMorning&&day.key!=='sat'?'2× Matt.':'',absLabel].filter(Boolean).join(' · ');
   }
   function drawPdfBadge(doc,x,y,code){
     doc.setDrawColor(30,30,30);doc.setFillColor(255,255,255);doc.roundedRect(x,y,5,4,0.8,0.8,'FD');
@@ -381,7 +392,7 @@ import {
       didParseCell:data=>{
         if(data.section!=='body')return;
         const day=week.days[data.row.index];
-        const closed=day.key==='sat'&&!day.exceptions.satOpen;
+        const closed=day.exceptions.holiday||(day.key==='sat'&&!day.exceptions.satOpen);
         if(data.column.index===0){
           if(closed){data.cell.styles.fillColor=[235,235,235];data.cell.styles.textColor=[120,120,120];}
           return;
