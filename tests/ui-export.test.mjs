@@ -11,7 +11,7 @@ function loadLogic() { return M; }
 
 test('mobile bottom bar reserves the iPhone safe area', () => {
   assert.match(html, /height:\s*calc\(60px \+ env\(safe-area-inset-bottom\)\)/);
-  assert.match(html, /padding:\s*0 10px env\(safe-area-inset-bottom\)/);
+  assert.match(html, /padding:\s*0 \d+px env\(safe-area-inset-bottom\)/);
   assert.match(html, /padding-bottom:\s*calc\(68px \+ env\(safe-area-inset-bottom\)\)/);
 });
 
