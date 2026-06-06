@@ -212,7 +212,7 @@ export function buildTierRules(seedWeek,tier){
 // fino a `cap` soluzioni o esaurimento `budget`. Riusa getDayCombos/buildRem/validateWeek.
 // Memoizza gli stati (pos,stats) SENZA alcuna completazione valida (dead): la validità dipende solo
 // dagli aggregati, non dal prefisso, quindi è sound anche raccogliendo molte soluzioni distinte.
-export function collectFeasibleWeeks(seedWeek,{cap=150,budget=SOLVE_BUDGET_FULL,avoidSigs}={}){
+export function collectFeasibleWeeks(seedWeek,{cap=70,budget=SOLVE_BUDGET_FULL,avoidSigs}={}){
   const demand=afternoonDemand(seedWeek);
   const baseCombos=seedWeek.days.map((day,idx)=>getDayCombos(seedWeek,day,idx));
   const combosByDay=heuristicCombos(baseCombos);
