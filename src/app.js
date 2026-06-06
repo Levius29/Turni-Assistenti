@@ -1,10 +1,15 @@
 // UI / DOM / PDF. Estratto da index.html.
 import {
-  AFTERNOON_END_THRESHOLD, AFTERNOON_TIERS, ASSISTANTS, ASSISTANT_NAMES, BASE_PAIRS, LEGACY_TEMPLATES, LONG_SPAN, LUNCH_GAP_MAX, SHIFT_MAX_SPAN, SHIFT_MIN_SPAN, SHIFT_OFF, SLOT, SOLVE_BUDGET_FAST, SOLVE_BUDGET_FULL, STUDIO_CLOSE, STUDIO_OPEN, WEEKDAY_KEYS, WEEK_DAYS, _shiftCache, addDays, afternoonDemand, applyPreviousWeekState, assign, buildRem, buildWeekFromDayAssignments, cloneStats, countsAsAfternoon, coverageDeficit, coverageOf, createBaseWeek, createEmptyWeek, deriveShift, diversifyTimes, fmt, formatDateShort, formatItalianDate, formatWeekRange, formatWeekRangeShort, generateWeek, getAllowedShifts, getAssistantStats, getCoverage, getCurrentMonday, getDayCombos, getLockedShiftCount, getRequiredCoverage, getShift, heuristicCombos, isManuelaClose1519, isOff, maxUncoveredGap, regenerateAlternativeWithFeedback, regenerateCleanWeekWithFeedback, regenerateWeekWithFeedback, shiftsOf, solveWeek, solveWeekCore, updateShiftWithFeedback, validateWeek, weekAssignmentSig
+  AFTERNOON_END_THRESHOLD, AFTERNOON_TIERS, ASSISTANTS, ASSISTANT_NAMES, BASE_PAIRS, LEGACY_TEMPLATES, LONG_SPAN, LUNCH_GAP_MAX, SHIFT_MAX_SPAN, SHIFT_MIN_SPAN, SHIFT_OFF, SLOT, SOLVE_BUDGET_FAST, SOLVE_BUDGET_FULL, STUDIO_CLOSE, STUDIO_OPEN, WEEKDAY_KEYS, WEEK_DAYS, _shiftCache, addDays, afternoonDemand, applyPreviousWeekState, assign, buildRem, buildWeekFromDayAssignments, cloneStats, countsAsAfternoon, coverageDeficit, coverageOf, createBaseWeek, createEmptyWeek, deriveShift, diversifyTimes, fmt, formatDateShort, formatItalianDate, formatWeekRange, formatWeekRangeShort, generateWeek, getAllowedShifts, getAssistantStats, getCoverage, getCurrentMonday, getDayCombos, getLockedShiftCount, getRequiredCoverage, getShift, heuristicCombos, isManuelaClose1519, isOff, maxUncoveredGap, regenerateAlternativeWithFeedback, regenerateCleanWeekWithFeedback, regenerateWeekWithFeedback, shiftsOf, solveWeek, solveWeekCore, updateShiftWithFeedback, validateWeek, weekAssignmentSig,
+  defaultStaffConfig, getStaffConfig, reconfigure
 } from './scheduler.js';
 
   // ── STORAGE ──
   const storageKey='turni-assistenti.weeks.v1';
+  const staffKey='turni-assistenti.staff.v1';
+  // Carica il team salvato (se presente) PRIMA di generare qualsiasi settimana.
+  (function loadStaffConfig(){try{const s=JSON.parse(localStorage.getItem(staffKey));if(s&&Object.keys(s).length)reconfigure(s);}catch{}})();
+  function saveStaff(){localStorage.setItem(staffKey,JSON.stringify(getStaffConfig()));}
   let weeks=loadWeeks();
   let currentStart=getCurrentMonday();
   let selectedDayKey='mon';
@@ -69,6 +74,66 @@ import {
 
   let resizeTimer;
   window.addEventListener('resize',()=>{clearTimeout(resizeTimer);resizeTimer=setTimeout(()=>renderGrid(getCurrentWeek()),150);});
+
+  // ── TEAM EDITOR ──
+  const TEAM_ICON='<svg class="icon-svg" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a4 4 0 0 0-3-3.87M9 20H4v-2a4 4 0 0 1 3-3.87m6-1.13a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg>';
+  function injectTeamButtons(){
+    const wc=document.querySelector('.week-controls');
+    if(wc&&!document.querySelector('#teamBtn')){const b=document.createElement('button');b.type='button';b.id='teamBtn';b.title='Team & contratti';b.innerHTML=TEAM_ICON+' Team';b.addEventListener('click',openTeamEditor);wc.insertBefore(b,wc.firstChild);}
+    const bb=document.querySelector('.bottom-bar');
+    if(bb&&!document.querySelector('#teamBtnMob')){const b=document.createElement('button');b.type='button';b.id='teamBtnMob';b.className='bb-nav';b.title='Team & contratti';b.setAttribute('aria-label','Team');b.innerHTML=TEAM_ICON;b.addEventListener('click',openTeamEditor);bb.insertBefore(b,bb.firstChild);}
+  }
+  function openTeamEditor(){
+    const overlay=document.createElement('div');overlay.className='modal-overlay';
+    const card=document.createElement('div');card.className='modal-card';
+    card.innerHTML=`<div class="modal-head"><h2>Team &amp; contratti</h2><button class="modal-x" type="button" aria-label="Chiudi">✕</button></div><div class="team-rows"></div><div class="modal-err" hidden></div><div class="modal-foot"><button type="button" class="btn-add">+ Persona</button><div class="modal-actions"><button type="button" class="btn-cancel">Annulla</button><button type="button" class="btn-save">Salva</button></div></div>`;
+    overlay.appendChild(card);document.body.appendChild(overlay);
+    const rowsBox=card.querySelector('.team-rows'),errBox=card.querySelector('.modal-err');
+    let rows=Object.entries(structuredClone(getStaffConfig())).map(([name,c])=>({name,c}));
+    const esc=s=>String(s).replace(/"/g,'&quot;');
+    function renderRows(){
+      rowsBox.innerHTML='';
+      rows.forEach((row,i)=>{const c=row.c;const el=document.createElement('div');el.className='team-row';
+        el.innerHTML=`<div class="team-row-top"><input class="field t-name" value="${esc(row.name)}" data-i="${i}" data-k="name" placeholder="Nome"><button class="t-del" type="button" data-i="${i}" title="Rimuovi">✕</button></div>
+          <div class="t-grid">
+            <label class="t-field">Ore/sett<input class="field" type="number" min="0" step="0.5" value="${c.weeklyHours}" data-i="${i}" data-k="weeklyHours"></label>
+            <label class="t-field">Pom. min<input class="field" type="number" min="0" value="${c.minAfternoons}" data-i="${i}" data-k="minAfternoons"></label>
+            <label class="t-field">Pom. max<input class="field" type="number" min="0" value="${c.maxAfternoons}" data-i="${i}" data-k="maxAfternoons"></label>
+            <label class="t-field t-check"><input type="checkbox" ${c.canWorkLong?'checked':''} data-i="${i}" data-k="canWorkLong">Turni lunghi</label>
+          </div>`;
+        rowsBox.appendChild(el);});
+    }
+    rowsBox.addEventListener('input',e=>{const t=e.target,i=+t.dataset.i,k=t.dataset.k;if(Number.isNaN(i)||!k)return;
+      if(k==='name')rows[i].name=t.value;
+      else if(k==='canWorkLong')rows[i].c.canWorkLong=t.checked;
+      else rows[i].c[k]=k==='weeklyHours'?parseFloat(t.value):parseInt(t.value,10);});
+    rowsBox.addEventListener('click',e=>{const del=e.target.closest('.t-del');if(!del)return;rows.splice(+del.dataset.i,1);renderRows();});
+    card.querySelector('.btn-add').addEventListener('click',()=>{const pr=Math.max(0,...rows.map(r=>r.c.escalationPriority??0))+1;rows.push({name:'',c:{weeklyHours:25,minAfternoons:1,maxAfternoons:2,canWorkLong:false,maxWorkDays:5,afternoonThresholdMin:960,escalationPriority:pr}});renderRows();});
+    const close=()=>{overlay.classList.remove('visible');setTimeout(()=>overlay.remove(),200);};
+    const showErr=m=>{errBox.textContent=m;errBox.hidden=false;};
+    card.querySelector('.modal-x').addEventListener('click',close);
+    card.querySelector('.btn-cancel').addEventListener('click',close);
+    overlay.addEventListener('click',e=>{if(e.target===overlay)close();});
+    card.querySelector('.btn-save').addEventListener('click',()=>{
+      errBox.hidden=true;
+      const names=rows.map(r=>r.name.trim());
+      if(rows.length<1)return showErr('Serve almeno una persona.');
+      if(names.some(n=>!n))return showErr('Ogni persona deve avere un nome.');
+      if(new Set(names).size!==names.length)return showErr('Nomi duplicati.');
+      const newCfg={};
+      for(const r of rows){const c=r.c;
+        if(!(c.weeklyHours>0))return showErr(`${r.name}: ore settimanali non valide.`);
+        if(c.minAfternoons>c.maxAfternoons)return showErr(`${r.name}: pomeriggi min > max.`);
+        newCfg[r.name.trim()]={...c,weeklyHours:c.weeklyHours,minAfternoons:c.minAfternoons,maxAfternoons:c.maxAfternoons,canWorkLong:!!c.canWorkLong};
+      }
+      reconfigure(newCfg);saveStaff();
+      weeks[currentStart]=generateWeek({startDate:currentStart});saveWeeks();
+      close();render();showStatus('Team aggiornato.');
+    });
+    renderRows();
+    requestAnimationFrame(()=>overlay.classList.add('visible'));
+  }
+  injectTeamButtons();
 
   render();
 
@@ -214,9 +279,10 @@ import {
     const stats=getAssistantStats(week);
     const locked=getLockedShiftCount(week);
     const rows=ASSISTANT_NAMES.map(a=>{
-      const baseTgt={Lucrezia:38,Manuela:25,Madalina:24}[a];
-      const overtime=a==='Manuela'&&(stats.Manuela.hours>baseTgt||stats.Manuela.afternoons>ASSISTANTS.Manuela.maxAfternoons);
-      const ok=overtime?stats[a].hours===29:stats[a].hours===baseTgt;
+      const c=ASSISTANTS[a];
+      const baseTgt=c.weeklyHours;
+      const overtime=!!c.overtime&&(stats[a].hours>baseTgt||stats[a].afternoons>c.maxAfternoons);
+      const ok=stats[a].hours===(overtime?c.overtime.weeklyHours:baseTgt);
       const otBadge=overtime?` <span class="sum-ot">Straordinario</span>`:'';
       return`<div class="sum-row"><span class="sum-name">${a}</span><span class="sum-stats">${stats[a].hours}/${baseTgt}h · ${stats[a].afternoons} Pom. · ${stats[a].saturdays} Sab · ${stats[a].closes} C · ${stats[a].opens} A${otBadge}</span><span class="pill ${ok?'':'warn'}">${ok?'✓':'!'}</span></div>`;
     }).join('');
@@ -268,7 +334,7 @@ import {
   }
   function loadWeeks(){try{return JSON.parse(localStorage.getItem(storageKey))??{};}catch{return{};}}
   function createCell(html,className){const el=document.createElement('div');el.className=className;el.innerHTML=html;return el;}
-  function getContractLabel(a){return{Lucrezia:'38h · 2-3 ch.',Manuela:'25h · max 1 ch.',Madalina:'24h · 2-3 ch.'}[a];}
+  function getContractLabel(a){const c=ASSISTANTS[a];if(!c)return'';const ch=c.minAfternoons===c.maxAfternoons?`max ${c.maxAfternoons}`:`${c.minAfternoons}-${c.maxAfternoons}`;return`${c.weeklyHours}h · ${ch} ch.`;}
 
   let statusTimer;
   function showStatus(msg){

@@ -474,6 +474,31 @@
       .selected-day { background: none !important; box-shadow: none !important; }
       .grid-cell { border-color: #aaa; }
     }
+
+    /* ── Team editor modal ── */
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.45); display: flex; align-items: center; justify-content: center; z-index: 3000; padding: 16px; opacity: 0; pointer-events: none; transition: opacity 0.2s; }
+    .modal-overlay.visible { opacity: 1; pointer-events: auto; }
+    .modal-card { background: var(--surface); color: var(--text); border-radius: var(--radius-card); border: 1px solid var(--border); box-shadow: 0 20px 60px rgba(0,0,0,0.3); width: min(680px, 96vw); max-height: 90vh; display: flex; flex-direction: column; transform: translateY(8px); transition: transform 0.2s; }
+    .modal-overlay.visible .modal-card { transform: translateY(0); }
+    .modal-head { display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; border-bottom: 1px solid var(--border); }
+    .modal-head h2 { font-size: 15px; font-weight: 600; margin: 0; }
+    .modal-x { background: transparent; border: none; font-size: 18px; color: var(--text-light); cursor: pointer; width: 32px; height: 32px; border-radius: 8px; }
+    .modal-x:hover { background: var(--primary-soft); color: var(--primary); }
+    .team-rows { overflow-y: auto; padding: 14px 18px; display: flex; flex-direction: column; gap: 12px; }
+    .team-row { border: 1px solid var(--border); border-radius: var(--radius-xs); padding: 10px 12px; background: var(--surface-soft); }
+    .team-row-top { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+    .team-row-top .t-name { flex: 1; font-weight: 600; }
+    .t-del { background: var(--alert-bg); color: var(--alert); border: none; border-radius: 8px; min-width: 32px; height: 32px; cursor: pointer; font-size: 14px; }
+    .t-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 8px; }
+    .t-field { display: flex; flex-direction: column; gap: 3px; font-size: 11px; color: var(--text-light); }
+    .t-field input.field, .t-field select.field { font-size: 13px; padding: 6px 8px; min-height: 32px; }
+    .t-check { flex-direction: row; align-items: center; gap: 6px; }
+    .modal-foot { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 12px 18px; border-top: 1px solid var(--border); }
+    .modal-actions { display: flex; gap: 8px; }
+    .modal-foot button { border-radius: var(--radius-xs); padding: 8px 14px; font-size: 13px; font-weight: 500; cursor: pointer; min-height: 38px; border: 1px solid var(--border); background: var(--surface); color: var(--text); }
+    .modal-foot .btn-add:hover, .modal-foot .btn-cancel:hover { background: var(--primary-soft); color: var(--primary); border-color: var(--primary); }
+    .modal-foot .btn-save { background: linear-gradient(135deg, #2f6b5c, #3d8870); color: white; border-color: transparent; }
+    .modal-err { color: var(--alert); font-size: 12px; padding: 0 18px 10px; }
   </style>
 </head>
 <body>
