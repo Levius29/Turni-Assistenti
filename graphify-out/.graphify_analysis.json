@@ -1,0 +1,365 @@
+{
+  "communities": {
+    "0": [
+      "src_app",
+      "src_app_althistory",
+      "src_app_changeweek",
+      "src_app_currentstart",
+      "src_app_dayeditordiv",
+      "src_app_deferheavy",
+      "src_app_dogenerate",
+      "src_app_doreset",
+      "src_app_drawpdfbadge",
+      "src_app_getdayvariationlabel",
+      "src_app_getshiftbadgecodes",
+      "src_app_injectteambuttons",
+      "src_app_loadweeks",
+      "src_app_rendersummary",
+      "src_app_requestalternative",
+      "src_app_resetalthistory",
+      "src_app_saveweeks",
+      "src_app_schedulegrid",
+      "src_app_showstatus",
+      "src_app_statusmsg",
+      "src_app_summarydiv",
+      "src_app_warningsdiv",
+      "src_app_weeklabel",
+      "src_app_weeklabelmob",
+      "src_app_weeks",
+      "src_scheduler_adddays",
+      "src_scheduler_afternoon_tiers",
+      "src_scheduler_afternoondemand",
+      "src_scheduler_applypreviousweekstate",
+      "src_scheduler_assign",
+      "src_scheduler_assistant_names",
+      "src_scheduler_assistants",
+      "src_scheduler_base_pairs",
+      "src_scheduler_buildweekfromdayassignments",
+      "src_scheduler_createbaseweek",
+      "src_scheduler_createemptyweek",
+      "src_scheduler_generateweek",
+      "src_scheduler_getcurrentmonday",
+      "src_scheduler_getlockedshiftcount",
+      "src_scheduler_heuristiccombos",
+      "src_scheduler_legacy_templates",
+      "src_scheduler_regeneratealternativewithfeedback",
+      "src_scheduler_regeneratecleanweekwithfeedback",
+      "src_scheduler_regenerateweekwithfeedback",
+      "src_scheduler_solveweek",
+      "src_scheduler_week_days",
+      "src_scheduler_weekassignmentsig",
+      "src_scheduler_weekday_keys"
+    ],
+    "1": [
+      "src_scheduler",
+      "src_scheduler_afternoon_end_threshold",
+      "src_scheduler_buildrem",
+      "src_scheduler_clonestats",
+      "src_scheduler_countsasafternoon",
+      "src_scheduler_coveragedeficit",
+      "src_scheduler_coverageof",
+      "src_scheduler_defaultstaffconfig",
+      "src_scheduler_diversifytimes",
+      "src_scheduler_effectiveweeklyhours",
+      "src_scheduler_effectiveworkdays",
+      "src_scheduler_getallowedshifts",
+      "src_scheduler_getassistantstats",
+      "src_scheduler_getcoverage",
+      "src_scheduler_getdaycombos",
+      "src_scheduler_getrequiredcoverage",
+      "src_scheduler_holidayweekdaycount",
+      "src_scheduler_maxuncoveredgap",
+      "src_scheduler_personalabsencedays",
+      "src_scheduler_shift_off",
+      "src_scheduler_shiftcache",
+      "src_scheduler_shiftsof",
+      "src_scheduler_solveweekcore",
+      "src_scheduler_staff_config",
+      "src_scheduler_validateweek",
+      "tests_absences_test",
+      "tests_regression_test",
+      "tests_regression_test_sigof",
+      "tests_regression_test_snapshots"
+    ],
+    "2": [
+      "index_coveragedeficit",
+      "index_getdaycombos",
+      "index_solveweek",
+      "index_validateweek",
+      "solver_audit_design",
+      "specs_2026_06_06_solver_audit_design",
+      "specs_2026_06_06_solver_audit_design_10_niente_freeze_ui_durante_il_solve",
+      "specs_2026_06_06_solver_audit_design_11_jspdf_robusto",
+      "specs_2026_06_06_solver_audit_design_1_2_copertura_unificata_coveragedeficit",
+      "specs_2026_06_06_solver_audit_design_3_validateweek_controlla_i_giorni_lavorati",
+      "specs_2026_06_06_solver_audit_design_4_niente_mutazione_globale_di_assistants",
+      "specs_2026_06_06_solver_audit_design_5_getdaycombos_da_o_n3_a_o_k3",
+      "specs_2026_06_06_solver_audit_design_6_rem_calcolato_una_volta",
+      "specs_2026_06_06_solver_audit_design_7_alternativa_con_variet\u00e0_oraria_reale",
+      "specs_2026_06_06_solver_audit_design_8_griglia_30_minuti",
+      "specs_2026_06_06_solver_audit_design_9_pruning_storage",
+      "specs_2026_06_06_solver_audit_design_combinazioni",
+      "specs_2026_06_06_solver_audit_design_contesto",
+      "specs_2026_06_06_solver_audit_design_fix_di_correttezza",
+      "specs_2026_06_06_solver_audit_design_fix_di_velocit\u00e0",
+      "specs_2026_06_06_solver_audit_design_fuori_scope",
+      "specs_2026_06_06_solver_audit_design_migliorie",
+      "specs_2026_06_06_solver_audit_design_principio_architetturale",
+      "specs_2026_06_06_solver_audit_design_test"
+    ],
+    "3": [
+      "src_app_applyshiftclass",
+      "src_app_builddesktopgrid",
+      "src_app_buildmobilegrid",
+      "src_app_buildshiftbadge",
+      "src_app_buildshiftcontent",
+      "src_app_buildthemetoggle",
+      "src_app_createcell",
+      "src_app_createlocktoggle",
+      "src_app_getcontractlabel",
+      "src_app_getprintshiftlabel",
+      "src_app_isdayclosed",
+      "src_app_rendergrid",
+      "src_app_updateshiftbadge",
+      "src_scheduler_deriveshift",
+      "src_scheduler_fmt",
+      "src_scheduler_getshift",
+      "src_scheduler_ismanuelaclose1519",
+      "src_scheduler_isoff",
+      "src_scheduler_updateshiftwithfeedback",
+      "src_scheduler_worksovertimeshift"
+    ],
+    "4": [
+      "ci_yml",
+      "deploy_yml",
+      "index_html",
+      "index_jspdf",
+      "plans_2026_06_06_solver_audit",
+      "plans_2026_06_06_solver_audit_convenzioni_test",
+      "plans_2026_06_06_solver_audit_self_review",
+      "plans_2026_06_06_solver_audit_task_10_verifica_finale_graphify_update",
+      "plans_2026_06_06_solver_audit_task_1_1_2_coveragedeficit_copertura_cumulativa_debito_pranzo",
+      "plans_2026_06_06_solver_audit_task_2_3_validateweek_segnala_giorni_lavorati_max",
+      "plans_2026_06_06_solver_audit_task_3_4_niente_mutazione_globale_di_assistants",
+      "plans_2026_06_06_solver_audit_task_4_6_rem_calcolato_una_volta_in_solveweek",
+      "plans_2026_06_06_solver_audit_task_5_5_getdaycombos_pre_dedup_per_assistente",
+      "plans_2026_06_06_solver_audit_task_6_7_alternativa_con_variet\u00e0_oraria",
+      "plans_2026_06_06_solver_audit_task_7_9_pruning_storage",
+      "plans_2026_06_06_solver_audit_task_8_10_status_calcolo_turni_prima_del_solve",
+      "plans_2026_06_06_solver_audit_task_9_11_jspdf_sri_crossorigin",
+      "solver_audit_plan",
+      "solver_logic_test"
+    ],
+    "5": [
+      "src_app_applytheme",
+      "src_app_ensureweekshape",
+      "src_app_exportpdf",
+      "src_app_getcurrentweek",
+      "src_app_render",
+      "src_app_renderdayeditor",
+      "src_app_renderwarnings",
+      "src_app_toggletheme",
+      "src_scheduler_formatdateshort",
+      "src_scheduler_formatitaliandate",
+      "src_scheduler_formatweekrange",
+      "src_scheduler_formatweekrangeshort"
+    ],
+    "6": [
+      "jsconfig",
+      "jsconfig_compileroptions",
+      "jsconfig_compileroptions_checkjs",
+      "jsconfig_compileroptions_lib",
+      "jsconfig_compileroptions_module",
+      "jsconfig_compileroptions_moduleresolution",
+      "jsconfig_compileroptions_noemit",
+      "jsconfig_compileroptions_target",
+      "jsconfig_include"
+    ],
+    "7": [
+      "package",
+      "package_description",
+      "package_name",
+      "package_private",
+      "package_scripts",
+      "package_scripts_test",
+      "package_type",
+      "package_version"
+    ],
+    "8": [
+      "src_app_openteameditor",
+      "src_app_savestaff",
+      "src_scheduler_computeafternoontiers",
+      "src_scheduler_getstaffconfig",
+      "src_scheduler_reconfigure"
+    ],
+    "9": [
+      "tests_generic_team_test",
+      "tests_generic_team_test_loadwithstaff",
+      "tests_generic_team_test_src",
+      "tests_generic_team_test_staff4"
+    ],
+    "10": [
+      "tests_solver_logic_test",
+      "tests_solver_logic_test_html",
+      "tests_solver_logic_test_loadlogic",
+      "tests_solver_logic_test_solvedvalid"
+    ],
+    "11": [
+      "tests_ui_export_test",
+      "tests_ui_export_test_app",
+      "tests_ui_export_test_html",
+      "tests_ui_export_test_loadlogic"
+    ],
+    "12": [
+      "claude_settings",
+      "claude_settings_hooks",
+      "claude_settings_hooks_pretooluse"
+    ],
+    "13": [
+      "_claude_settings_json",
+      "claude_md"
+    ],
+    "14": [
+      "claude",
+      "claude_graphify"
+    ],
+    "15": [
+      "index_assistants"
+    ],
+    "16": [
+      "workflows_deploy_yml"
+    ]
+  },
+  "cohesion": {
+    "0": 0.06914893617021277,
+    "1": 0.11822660098522167,
+    "2": 0.08333333333333333,
+    "3": 0.16842105263157894,
+    "4": 0.10526315789473684,
+    "5": 0.22727272727272727,
+    "6": 0.2222222222222222,
+    "7": 0.25,
+    "8": 0.4,
+    "9": 0.5,
+    "10": 0.5,
+    "11": 0.5,
+    "12": 0.6666666666666666,
+    "13": 1.0,
+    "14": 1.0,
+    "15": 1.0,
+    "16": 1.0
+  },
+  "gods": [
+    {
+      "id": "src_scheduler_getshift",
+      "label": "getShift()",
+      "degree": 14
+    },
+    {
+      "id": "src_scheduler_validateweek",
+      "label": "validateWeek()",
+      "degree": 13
+    },
+    {
+      "id": "src_app_render",
+      "label": "render()",
+      "degree": 11
+    },
+    {
+      "id": "src_app_buildshiftcontent",
+      "label": "buildShiftContent()",
+      "degree": 11
+    },
+    {
+      "id": "plans_2026_06_06_solver_audit_convenzioni_test",
+      "label": "Convenzioni test",
+      "degree": 11
+    },
+    {
+      "id": "solver_audit_design",
+      "label": "Audit & miglioramento solver turni \u2014 Design",
+      "degree": 11
+    },
+    {
+      "id": "src_app_builddesktopgrid",
+      "label": "buildDesktopGrid()",
+      "degree": 10
+    },
+    {
+      "id": "src_scheduler_generateweek",
+      "label": "generateWeek()",
+      "degree": 9
+    },
+    {
+      "id": "src_scheduler_regeneratealternativewithfeedback",
+      "label": "regenerateAlternativeWithFeedback()",
+      "degree": 9
+    },
+    {
+      "id": "src_app_buildmobilegrid",
+      "label": "buildMobileGrid()",
+      "degree": 8
+    }
+  ],
+  "surprises": [
+    {
+      "source": "CLAUDE.md - Project Documentation",
+      "target": "settings.json - Claude Code Hooks Config",
+      "source_files": [
+        "CLAUDE.md",
+        ".claude/settings.json"
+      ],
+      "confidence": "INFERRED",
+      "relation": "conceptually_related_to",
+      "why": "inferred connection - not explicitly stated in source; crosses file types (doc \u2194 code); connects across different repos/directories"
+    },
+    {
+      "source": "CI Workflow",
+      "target": "tests/solver-logic.test.mjs",
+      "source_files": [
+        ".github/workflows/ci.yml",
+        "tests/solver-logic.test.mjs"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "crosses file types (doc \u2194 code); connects across different repos/directories"
+    },
+    {
+      "source": "Deploy Workflow",
+      "target": "tests/solver-logic.test.mjs",
+      "source_files": [
+        ".github/workflows/deploy.yml",
+        "tests/solver-logic.test.mjs"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "crosses file types (doc \u2194 code); connects across different repos/directories"
+    },
+    {
+      "source": "Audit & miglioramento solver turni \u2014 Design",
+      "target": "coverageDeficit",
+      "source_files": [
+        "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
+        "index.html"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "conceptually_related_to",
+      "why": "connects across different repos/directories; peripheral node `coverageDeficit` unexpectedly reaches hub `Audit & miglioramento solver turni \u2014 Design`"
+    },
+    {
+      "source": "openTeamEditor()",
+      "target": "fmt()",
+      "source_files": [
+        "src/app.js",
+        "src/scheduler.js"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "bridges separate communities"
+    }
+  ],
+  "tokens": {
+    "input": 15084,
+    "output": 1499
+  }
+}
