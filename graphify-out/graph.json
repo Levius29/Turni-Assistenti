@@ -4,1570 +4,2092 @@
   "graph": {},
   "nodes": [
     {
+      "label": "settings.json",
+      "file_type": "code",
+      "source_file": ".claude/settings.json",
+      "source_location": "L1",
+      "id": "home_user_turni_assistenti_claude_settings_json",
+      "community": 12,
+      "norm_label": "settings.json"
+    },
+    {
       "label": "hooks",
       "file_type": "code",
       "source_file": ".claude/settings.json",
       "source_location": "L2",
+      "id": "claude_settings_hooks",
       "community": 12,
-      "norm_label": "hooks",
-      "id": "claude_settings_hooks"
+      "norm_label": "hooks"
     },
     {
       "label": "PreToolUse",
       "file_type": "code",
       "source_file": ".claude/settings.json",
       "source_location": "L3",
+      "id": "claude_settings_hooks_pretooluse",
       "community": 12,
-      "norm_label": "pretooluse",
-      "id": "claude_settings_hooks_pretooluse"
+      "norm_label": "pretooluse"
     },
     {
       "label": "jsconfig.json",
       "file_type": "code",
       "source_file": "jsconfig.json",
       "source_location": "L1",
+      "id": "jsconfig",
       "community": 6,
-      "norm_label": "jsconfig.json",
-      "id": "jsconfig"
+      "norm_label": "jsconfig.json"
     },
     {
       "label": "compilerOptions",
       "file_type": "code",
       "source_file": "jsconfig.json",
       "source_location": "L2",
+      "id": "jsconfig_compileroptions",
       "community": 6,
-      "norm_label": "compileroptions",
-      "id": "jsconfig_compileroptions"
+      "norm_label": "compileroptions"
     },
     {
       "label": "module",
       "file_type": "code",
       "source_file": "jsconfig.json",
       "source_location": "L3",
+      "id": "jsconfig_compileroptions_module",
       "community": 6,
-      "norm_label": "module",
-      "id": "jsconfig_compileroptions_module"
+      "norm_label": "module"
     },
     {
       "label": "target",
       "file_type": "code",
       "source_file": "jsconfig.json",
       "source_location": "L4",
+      "id": "jsconfig_compileroptions_target",
       "community": 6,
-      "norm_label": "target",
-      "id": "jsconfig_compileroptions_target"
+      "norm_label": "target"
     },
     {
       "label": "moduleResolution",
       "file_type": "code",
       "source_file": "jsconfig.json",
       "source_location": "L5",
+      "id": "jsconfig_compileroptions_moduleresolution",
       "community": 6,
-      "norm_label": "moduleresolution",
-      "id": "jsconfig_compileroptions_moduleresolution"
+      "norm_label": "moduleresolution"
     },
     {
       "label": "lib",
       "file_type": "code",
       "source_file": "jsconfig.json",
       "source_location": "L6",
+      "id": "jsconfig_compileroptions_lib",
       "community": 6,
-      "norm_label": "lib",
-      "id": "jsconfig_compileroptions_lib"
+      "norm_label": "lib"
     },
     {
       "label": "checkJs",
       "file_type": "code",
       "source_file": "jsconfig.json",
       "source_location": "L7",
+      "id": "jsconfig_compileroptions_checkjs",
       "community": 6,
-      "norm_label": "checkjs",
-      "id": "jsconfig_compileroptions_checkjs"
+      "norm_label": "checkjs"
     },
     {
       "label": "noEmit",
       "file_type": "code",
       "source_file": "jsconfig.json",
       "source_location": "L8",
+      "id": "jsconfig_compileroptions_noemit",
       "community": 6,
-      "norm_label": "noemit",
-      "id": "jsconfig_compileroptions_noemit"
+      "norm_label": "noemit"
     },
     {
       "label": "include",
       "file_type": "code",
       "source_file": "jsconfig.json",
       "source_location": "L10",
+      "id": "jsconfig_include",
       "community": 6,
-      "norm_label": "include",
-      "id": "jsconfig_include"
+      "norm_label": "include"
     },
     {
       "label": "package.json",
       "file_type": "code",
       "source_file": "package.json",
       "source_location": "L1",
+      "id": "package",
       "community": 7,
-      "norm_label": "package.json",
-      "id": "package"
+      "norm_label": "package.json"
     },
     {
       "label": "name",
       "file_type": "code",
       "source_file": "package.json",
       "source_location": "L2",
+      "id": "package_name",
       "community": 7,
-      "norm_label": "name",
-      "id": "package_name"
+      "norm_label": "name"
     },
     {
       "label": "version",
       "file_type": "code",
       "source_file": "package.json",
       "source_location": "L3",
+      "id": "package_version",
       "community": 7,
-      "norm_label": "version",
-      "id": "package_version"
+      "norm_label": "version"
     },
     {
       "label": "private",
       "file_type": "code",
       "source_file": "package.json",
       "source_location": "L4",
+      "id": "package_private",
       "community": 7,
-      "norm_label": "private",
-      "id": "package_private"
+      "norm_label": "private"
     },
     {
       "label": "type",
       "file_type": "code",
       "source_file": "package.json",
       "source_location": "L5",
+      "id": "package_type",
       "community": 7,
-      "norm_label": "type",
-      "id": "package_type"
+      "norm_label": "type"
     },
     {
       "label": "description",
       "file_type": "code",
       "source_file": "package.json",
       "source_location": "L6",
+      "id": "package_description",
       "community": 7,
-      "norm_label": "description",
-      "id": "package_description"
+      "norm_label": "description"
     },
     {
       "label": "scripts",
       "file_type": "code",
       "source_file": "package.json",
       "source_location": "L7",
+      "id": "package_scripts",
       "community": 7,
-      "norm_label": "scripts",
-      "id": "package_scripts"
+      "norm_label": "scripts"
     },
     {
       "label": "test",
       "file_type": "code",
       "source_file": "package.json",
       "source_location": "L8",
+      "id": "package_scripts_test",
       "community": 7,
-      "norm_label": "test",
-      "id": "package_scripts_test"
+      "norm_label": "test"
     },
     {
       "label": "app.js",
       "file_type": "code",
       "source_file": "src/app.js",
       "source_location": "L1",
+      "id": "src_app",
       "community": 0,
-      "norm_label": "app.js",
-      "id": "src_app"
+      "norm_label": "app.js"
     },
     {
       "label": "saveStaff()",
       "file_type": "code",
       "source_file": "src/app.js",
       "source_location": "L12",
-      "community": 8,
-      "norm_label": "savestaff()",
-      "id": "src_app_savestaff"
+      "id": "src_app_savestaff",
+      "community": 0,
+      "norm_label": "savestaff()"
     },
     {
       "label": "weeks",
       "file_type": "code",
       "source_file": "src/app.js",
       "source_location": "L13",
+      "id": "src_app_weeks",
       "community": 0,
-      "norm_label": "weeks",
-      "id": "src_app_weeks"
+      "norm_label": "weeks"
     },
     {
       "label": "currentStart",
       "file_type": "code",
       "source_file": "src/app.js",
       "source_location": "L14",
+      "id": "src_app_currentstart",
       "community": 0,
-      "norm_label": "currentstart",
-      "id": "src_app_currentstart"
+      "norm_label": "currentstart"
+    },
+    {
+      "label": "buildLedgerFromStorage()",
+      "file_type": "code",
+      "source_file": "src/app.js",
+      "source_location": "L17",
+      "id": "src_app_buildledgerfromstorage",
+      "community": 0,
+      "norm_label": "buildledgerfromstorage()"
     },
     {
       "label": "scheduleGrid",
       "file_type": "code",
       "source_file": "src/app.js",
-      "source_location": "L20",
+      "source_location": "L22",
+      "id": "src_app_schedulegrid",
       "community": 0,
-      "norm_label": "schedulegrid",
-      "id": "src_app_schedulegrid"
+      "norm_label": "schedulegrid"
     },
     {
       "label": "weekLabel",
       "file_type": "code",
       "source_file": "src/app.js",
-      "source_location": "L21",
+      "source_location": "L23",
+      "id": "src_app_weeklabel",
       "community": 0,
-      "norm_label": "weeklabel",
-      "id": "src_app_weeklabel"
+      "norm_label": "weeklabel"
     },
     {
       "label": "weekLabelMob",
       "file_type": "code",
       "source_file": "src/app.js",
-      "source_location": "L22",
+      "source_location": "L24",
+      "id": "src_app_weeklabelmob",
       "community": 0,
-      "norm_label": "weeklabelmob",
-      "id": "src_app_weeklabelmob"
+      "norm_label": "weeklabelmob"
     },
     {
       "label": "summaryDiv",
       "file_type": "code",
       "source_file": "src/app.js",
-      "source_location": "L23",
+      "source_location": "L25",
+      "id": "src_app_summarydiv",
       "community": 0,
-      "norm_label": "summarydiv",
-      "id": "src_app_summarydiv"
+      "norm_label": "summarydiv"
     },
     {
       "label": "warningsDiv",
       "file_type": "code",
       "source_file": "src/app.js",
-      "source_location": "L24",
+      "source_location": "L26",
+      "id": "src_app_warningsdiv",
       "community": 0,
-      "norm_label": "warningsdiv",
-      "id": "src_app_warningsdiv"
+      "norm_label": "warningsdiv"
     },
     {
       "label": "dayEditorDiv",
       "file_type": "code",
       "source_file": "src/app.js",
-      "source_location": "L25",
+      "source_location": "L27",
+      "id": "src_app_dayeditordiv",
       "community": 0,
-      "norm_label": "dayeditordiv",
-      "id": "src_app_dayeditordiv"
+      "norm_label": "dayeditordiv"
     },
     {
       "label": "statusMsg",
       "file_type": "code",
       "source_file": "src/app.js",
-      "source_location": "L26",
+      "source_location": "L28",
+      "id": "src_app_statusmsg",
       "community": 0,
-      "norm_label": "statusmsg",
-      "id": "src_app_statusmsg"
+      "norm_label": "statusmsg"
     },
     {
       "label": "deferHeavy()",
       "file_type": "code",
       "source_file": "src/app.js",
-      "source_location": "L30",
-      "community": 0,
-      "norm_label": "deferheavy()",
-      "id": "src_app_deferheavy"
+      "source_location": "L32",
+      "id": "src_app_deferheavy",
+      "community": 17,
+      "norm_label": "deferheavy()"
     },
     {
       "label": "doGenerate()",
       "file_type": "code",
       "source_file": "src/app.js",
-      "source_location": "L31",
-      "community": 0,
-      "norm_label": "dogenerate()",
-      "id": "src_app_dogenerate"
+      "source_location": "L33",
+      "id": "src_app_dogenerate",
+      "community": 17,
+      "norm_label": "dogenerate()"
     },
     {
       "label": "doReset()",
       "file_type": "code",
       "source_file": "src/app.js",
-      "source_location": "L32",
-      "community": 0,
-      "norm_label": "doreset()",
-      "id": "src_app_doreset"
+      "source_location": "L34",
+      "id": "src_app_doreset",
+      "community": 17,
+      "norm_label": "doreset()"
     },
     {
       "label": "_altHistory",
       "file_type": "code",
       "source_file": "src/app.js",
-      "source_location": "L47",
+      "source_location": "L49",
+      "id": "src_app_althistory",
       "community": 0,
-      "norm_label": "_althistory",
-      "id": "src_app_althistory"
+      "norm_label": "_althistory"
     },
     {
       "label": "resetAltHistory()",
       "file_type": "code",
       "source_file": "src/app.js",
-      "source_location": "L48",
+      "source_location": "L50",
+      "id": "src_app_resetalthistory",
       "community": 0,
-      "norm_label": "resetalthistory()",
-      "id": "src_app_resetalthistory"
+      "norm_label": "resetalthistory()"
     },
     {
       "label": "requestAlternative()",
       "file_type": "code",
       "source_file": "src/app.js",
-      "source_location": "L49",
-      "community": 0,
-      "norm_label": "requestalternative()",
-      "id": "src_app_requestalternative"
+      "source_location": "L51",
+      "id": "src_app_requestalternative",
+      "community": 17,
+      "norm_label": "requestalternative()"
     },
     {
       "label": "applyTheme()",
       "file_type": "code",
       "source_file": "src/app.js",
-      "source_location": "L69",
-      "community": 5,
-      "norm_label": "applytheme()",
-      "id": "src_app_applytheme"
+      "source_location": "L71",
+      "id": "src_app_applytheme",
+      "community": 0,
+      "norm_label": "applytheme()"
     },
     {
       "label": "toggleTheme()",
       "file_type": "code",
       "source_file": "src/app.js",
-      "source_location": "L70",
-      "community": 5,
-      "norm_label": "toggletheme()",
-      "id": "src_app_toggletheme"
+      "source_location": "L72",
+      "id": "src_app_toggletheme",
+      "community": 0,
+      "norm_label": "toggletheme()"
     },
     {
       "label": "buildThemeToggle()",
       "file_type": "code",
       "source_file": "src/app.js",
-      "source_location": "L73",
-      "community": 3,
-      "norm_label": "buildthemetoggle()",
-      "id": "src_app_buildthemetoggle"
+      "source_location": "L75",
+      "id": "src_app_buildthemetoggle",
+      "community": 0,
+      "norm_label": "buildthemetoggle()"
     },
     {
       "label": "injectTeamButtons()",
       "file_type": "code",
       "source_file": "src/app.js",
-      "source_location": "L80",
+      "source_location": "L82",
+      "id": "src_app_injectteambuttons",
       "community": 0,
-      "norm_label": "injectteambuttons()",
-      "id": "src_app_injectteambuttons"
+      "norm_label": "injectteambuttons()"
     },
     {
       "label": "openTeamEditor()",
       "file_type": "code",
       "source_file": "src/app.js",
-      "source_location": "L86",
-      "community": 8,
-      "norm_label": "openteameditor()",
-      "id": "src_app_openteameditor"
+      "source_location": "L88",
+      "id": "src_app_openteameditor",
+      "community": 0,
+      "norm_label": "openteameditor()"
     },
     {
       "label": "render()",
       "file_type": "code",
       "source_file": "src/app.js",
-      "source_location": "L143",
-      "community": 5,
-      "norm_label": "render()",
-      "id": "src_app_render"
+      "source_location": "L166",
+      "id": "src_app_render",
+      "community": 0,
+      "norm_label": "render()"
     },
     {
       "label": "renderGrid()",
       "file_type": "code",
       "source_file": "src/app.js",
-      "source_location": "L154",
-      "community": 3,
-      "norm_label": "rendergrid()",
-      "id": "src_app_rendergrid"
+      "source_location": "L177",
+      "id": "src_app_rendergrid",
+      "community": 0,
+      "norm_label": "rendergrid()"
     },
     {
       "label": "isDayClosed()",
       "file_type": "code",
       "source_file": "src/app.js",
-      "source_location": "L162",
-      "community": 3,
-      "norm_label": "isdayclosed()",
-      "id": "src_app_isdayclosed"
+      "source_location": "L185",
+      "id": "src_app_isdayclosed",
+      "community": 0,
+      "norm_label": "isdayclosed()"
     },
     {
       "label": "buildDesktopGrid()",
       "file_type": "code",
       "source_file": "src/app.js",
-      "source_location": "L163",
-      "community": 3,
-      "norm_label": "builddesktopgrid()",
-      "id": "src_app_builddesktopgrid"
+      "source_location": "L186",
+      "id": "src_app_builddesktopgrid",
+      "community": 0,
+      "norm_label": "builddesktopgrid()"
     },
     {
       "label": "buildMobileGrid()",
       "file_type": "code",
       "source_file": "src/app.js",
-      "source_location": "L189",
-      "community": 3,
-      "norm_label": "buildmobilegrid()",
-      "id": "src_app_buildmobilegrid"
+      "source_location": "L212",
+      "id": "src_app_buildmobilegrid",
+      "community": 0,
+      "norm_label": "buildmobilegrid()"
     },
     {
       "label": "buildShiftContent()",
       "file_type": "code",
       "source_file": "src/app.js",
-      "source_location": "L214",
-      "community": 3,
-      "norm_label": "buildshiftcontent()",
-      "id": "src_app_buildshiftcontent"
+      "source_location": "L237",
+      "id": "src_app_buildshiftcontent",
+      "community": 0,
+      "norm_label": "buildshiftcontent()"
     },
     {
       "label": "buildShiftBadge()",
       "file_type": "code",
       "source_file": "src/app.js",
-      "source_location": "L250",
-      "community": 3,
-      "norm_label": "buildshiftbadge()",
-      "id": "src_app_buildshiftbadge"
+      "source_location": "L273",
+      "id": "src_app_buildshiftbadge",
+      "community": 0,
+      "norm_label": "buildshiftbadge()"
     },
     {
       "label": "updateShiftBadge()",
       "file_type": "code",
       "source_file": "src/app.js",
-      "source_location": "L254",
-      "community": 3,
-      "norm_label": "updateshiftbadge()",
-      "id": "src_app_updateshiftbadge"
+      "source_location": "L277",
+      "id": "src_app_updateshiftbadge",
+      "community": 0,
+      "norm_label": "updateshiftbadge()"
     },
     {
       "label": "getShiftBadgeCodes()",
       "file_type": "code",
       "source_file": "src/app.js",
-      "source_location": "L263",
+      "source_location": "L286",
+      "id": "src_app_getshiftbadgecodes",
       "community": 0,
-      "norm_label": "getshiftbadgecodes()",
-      "id": "src_app_getshiftbadgecodes"
+      "norm_label": "getshiftbadgecodes()"
     },
     {
       "label": "createLockToggle()",
       "file_type": "code",
       "source_file": "src/app.js",
-      "source_location": "L265",
-      "community": 3,
-      "norm_label": "createlocktoggle()",
-      "id": "src_app_createlocktoggle"
+      "source_location": "L288",
+      "id": "src_app_createlocktoggle",
+      "community": 0,
+      "norm_label": "createlocktoggle()"
     },
     {
       "label": "applyShiftClass()",
       "file_type": "code",
       "source_file": "src/app.js",
-      "source_location": "L276",
+      "source_location": "L299",
+      "id": "src_app_applyshiftclass",
       "community": 3,
-      "norm_label": "applyshiftclass()",
-      "id": "src_app_applyshiftclass"
+      "norm_label": "applyshiftclass()"
     },
     {
       "label": "renderSummary()",
       "file_type": "code",
       "source_file": "src/app.js",
-      "source_location": "L282",
-      "community": 0,
-      "norm_label": "rendersummary()",
-      "id": "src_app_rendersummary"
+      "source_location": "L305",
+      "id": "src_app_rendersummary",
+      "community": 3,
+      "norm_label": "rendersummary()"
     },
     {
       "label": "renderDayEditor()",
       "file_type": "code",
       "source_file": "src/app.js",
-      "source_location": "L297",
-      "community": 5,
-      "norm_label": "renderdayeditor()",
-      "id": "src_app_renderdayeditor"
+      "source_location": "L320",
+      "id": "src_app_renderdayeditor",
+      "community": 0,
+      "norm_label": "renderdayeditor()"
     },
     {
       "label": "renderWarnings()",
       "file_type": "code",
       "source_file": "src/app.js",
-      "source_location": "L325",
-      "community": 5,
-      "norm_label": "renderwarnings()",
-      "id": "src_app_renderwarnings"
+      "source_location": "L348",
+      "id": "src_app_renderwarnings",
+      "community": 1,
+      "norm_label": "renderwarnings()"
     },
     {
       "label": "getCurrentWeek()",
       "file_type": "code",
       "source_file": "src/app.js",
-      "source_location": "L332",
-      "community": 5,
-      "norm_label": "getcurrentweek()",
-      "id": "src_app_getcurrentweek"
+      "source_location": "L355",
+      "id": "src_app_getcurrentweek",
+      "community": 0,
+      "norm_label": "getcurrentweek()"
     },
     {
       "label": "changeWeek()",
       "file_type": "code",
       "source_file": "src/app.js",
-      "source_location": "L333",
+      "source_location": "L356",
+      "id": "src_app_changeweek",
       "community": 0,
-      "norm_label": "changeweek()",
-      "id": "src_app_changeweek"
+      "norm_label": "changeweek()"
     },
     {
       "label": "saveWeeks()",
       "file_type": "code",
       "source_file": "src/app.js",
-      "source_location": "L336",
+      "source_location": "L359",
+      "id": "src_app_saveweeks",
       "community": 0,
-      "norm_label": "saveweeks()",
-      "id": "src_app_saveweeks"
+      "norm_label": "saveweeks()"
     },
     {
       "label": "loadWeeks()",
       "file_type": "code",
       "source_file": "src/app.js",
-      "source_location": "L346",
+      "source_location": "L369",
+      "id": "src_app_loadweeks",
       "community": 0,
-      "norm_label": "loadweeks()",
-      "id": "src_app_loadweeks"
+      "norm_label": "loadweeks()"
     },
     {
       "label": "createCell()",
       "file_type": "code",
       "source_file": "src/app.js",
-      "source_location": "L347",
-      "community": 3,
-      "norm_label": "createcell()",
-      "id": "src_app_createcell"
+      "source_location": "L370",
+      "id": "src_app_createcell",
+      "community": 0,
+      "norm_label": "createcell()"
     },
     {
       "label": "getContractLabel()",
       "file_type": "code",
       "source_file": "src/app.js",
-      "source_location": "L348",
-      "community": 3,
-      "norm_label": "getcontractlabel()",
-      "id": "src_app_getcontractlabel"
+      "source_location": "L371",
+      "id": "src_app_getcontractlabel",
+      "community": 0,
+      "norm_label": "getcontractlabel()"
     },
     {
       "label": "showStatus()",
       "file_type": "code",
       "source_file": "src/app.js",
-      "source_location": "L351",
+      "source_location": "L374",
+      "id": "src_app_showstatus",
       "community": 0,
-      "norm_label": "showstatus()",
-      "id": "src_app_showstatus"
+      "norm_label": "showstatus()"
     },
     {
       "label": "getPrintShiftLabel()",
       "file_type": "code",
       "source_file": "src/app.js",
-      "source_location": "L356",
-      "community": 3,
-      "norm_label": "getprintshiftlabel()",
-      "id": "src_app_getprintshiftlabel"
+      "source_location": "L379",
+      "id": "src_app_getprintshiftlabel",
+      "community": 0,
+      "norm_label": "getprintshiftlabel()"
     },
     {
       "label": "ensureWeekShape()",
       "file_type": "code",
       "source_file": "src/app.js",
-      "source_location": "L358",
-      "community": 5,
-      "norm_label": "ensureweekshape()",
-      "id": "src_app_ensureweekshape"
+      "source_location": "L381",
+      "id": "src_app_ensureweekshape",
+      "community": 0,
+      "norm_label": "ensureweekshape()"
     },
     {
       "label": "getDayVariationLabel()",
       "file_type": "code",
       "source_file": "src/app.js",
-      "source_location": "L361",
+      "source_location": "L384",
+      "id": "src_app_getdayvariationlabel",
       "community": 0,
-      "norm_label": "getdayvariationlabel()",
-      "id": "src_app_getdayvariationlabel"
+      "norm_label": "getdayvariationlabel()"
     },
     {
       "label": "drawPdfBadge()",
       "file_type": "code",
       "source_file": "src/app.js",
-      "source_location": "L368",
+      "source_location": "L391",
+      "id": "src_app_drawpdfbadge",
       "community": 0,
-      "norm_label": "drawpdfbadge()",
-      "id": "src_app_drawpdfbadge"
+      "norm_label": "drawpdfbadge()"
     },
     {
       "label": "exportPDF()",
       "file_type": "code",
       "source_file": "src/app.js",
-      "source_location": "L372",
-      "community": 5,
-      "norm_label": "exportpdf()",
-      "id": "src_app_exportpdf"
+      "source_location": "L395",
+      "id": "src_app_exportpdf",
+      "community": 0,
+      "norm_label": "exportpdf()"
     },
     {
       "label": "scheduler.js",
       "file_type": "code",
       "source_file": "src/scheduler.js",
       "source_location": "L1",
+      "id": "src_scheduler",
       "community": 1,
-      "norm_label": "scheduler.js",
-      "id": "src_scheduler"
+      "norm_label": "scheduler.js"
     },
     {
       "label": "defaultStaffConfig()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
       "source_location": "L33",
+      "id": "src_scheduler_defaultstaffconfig",
       "community": 1,
-      "norm_label": "defaultstaffconfig()",
-      "id": "src_scheduler_defaultstaffconfig"
+      "norm_label": "defaultstaffconfig()"
     },
     {
       "label": "STAFF_CONFIG",
       "file_type": "code",
       "source_file": "src/scheduler.js",
       "source_location": "L39",
+      "id": "src_scheduler_staff_config",
       "community": 1,
-      "norm_label": "staff_config",
-      "id": "src_scheduler_staff_config"
+      "norm_label": "staff_config"
     },
     {
       "label": "ASSISTANT_NAMES",
       "file_type": "code",
       "source_file": "src/scheduler.js",
       "source_location": "L40",
-      "community": 0,
-      "norm_label": "assistant_names",
-      "id": "src_scheduler_assistant_names"
+      "id": "src_scheduler_assistant_names",
+      "community": 1,
+      "norm_label": "assistant_names"
     },
     {
       "label": "reconfigure()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
       "source_location": "L46",
-      "community": 8,
-      "norm_label": "reconfigure()",
-      "id": "src_scheduler_reconfigure"
+      "id": "src_scheduler_reconfigure",
+      "community": 0,
+      "norm_label": "reconfigure()"
     },
     {
       "label": "getStaffConfig()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
       "source_location": "L56",
-      "community": 8,
-      "norm_label": "getstaffconfig()",
-      "id": "src_scheduler_getstaffconfig"
+      "id": "src_scheduler_getstaffconfig",
+      "community": 0,
+      "norm_label": "getstaffconfig()"
     },
     {
       "label": "WEEKDAY_KEYS",
       "file_type": "code",
       "source_file": "src/scheduler.js",
       "source_location": "L57",
-      "community": 0,
-      "norm_label": "weekday_keys",
-      "id": "src_scheduler_weekday_keys"
+      "id": "src_scheduler_weekday_keys",
+      "community": 1,
+      "norm_label": "weekday_keys"
     },
     {
       "label": "fmt()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
       "source_location": "L63",
-      "community": 3,
-      "norm_label": "fmt()",
-      "id": "src_scheduler_fmt"
+      "id": "src_scheduler_fmt",
+      "community": 0,
+      "norm_label": "fmt()"
     },
     {
       "label": "isOff()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
       "source_location": "L64",
-      "community": 3,
-      "norm_label": "isoff()",
-      "id": "src_scheduler_isoff"
+      "id": "src_scheduler_isoff",
+      "community": 0,
+      "norm_label": "isoff()"
     },
     {
       "label": "SHIFT_OFF",
       "file_type": "code",
       "source_file": "src/scheduler.js",
       "source_location": "L65",
+      "id": "src_scheduler_shift_off",
       "community": 1,
-      "norm_label": "shift_off",
-      "id": "src_scheduler_shift_off"
+      "norm_label": "shift_off"
     },
     {
       "label": "_shiftCache",
       "file_type": "code",
       "source_file": "src/scheduler.js",
       "source_location": "L66",
+      "id": "src_scheduler_shiftcache",
       "community": 1,
-      "norm_label": "_shiftcache",
-      "id": "src_scheduler_shiftcache"
+      "norm_label": "_shiftcache"
     },
     {
       "label": "deriveShift()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
       "source_location": "L68",
-      "community": 3,
-      "norm_label": "deriveshift()",
-      "id": "src_scheduler_deriveshift"
+      "id": "src_scheduler_deriveshift",
+      "community": 0,
+      "norm_label": "deriveshift()"
     },
     {
       "label": "getShift()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
       "source_location": "L83",
+      "id": "src_scheduler_getshift",
       "community": 3,
-      "norm_label": "getshift()",
-      "id": "src_scheduler_getshift"
+      "norm_label": "getshift()"
     },
     {
       "label": "BASE_PAIRS",
       "file_type": "code",
       "source_file": "src/scheduler.js",
       "source_location": "L85",
-      "community": 0,
-      "norm_label": "base_pairs",
-      "id": "src_scheduler_base_pairs"
+      "id": "src_scheduler_base_pairs",
+      "community": 1,
+      "norm_label": "base_pairs"
     },
     {
       "label": "LEGACY_TEMPLATES",
       "file_type": "code",
       "source_file": "src/scheduler.js",
       "source_location": "L87",
-      "community": 0,
-      "norm_label": "legacy_templates",
-      "id": "src_scheduler_legacy_templates"
+      "id": "src_scheduler_legacy_templates",
+      "community": 1,
+      "norm_label": "legacy_templates"
     },
     {
       "label": "WEEK_DAYS",
       "file_type": "code",
       "source_file": "src/scheduler.js",
       "source_location": "L88",
-      "community": 0,
-      "norm_label": "week_days",
-      "id": "src_scheduler_week_days"
+      "id": "src_scheduler_week_days",
+      "community": 1,
+      "norm_label": "week_days"
     },
     {
       "label": "addDays()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
       "source_location": "L93",
+      "id": "src_scheduler_adddays",
       "community": 0,
-      "norm_label": "adddays()",
-      "id": "src_scheduler_adddays"
+      "norm_label": "adddays()"
     },
     {
       "label": "getCurrentMonday()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
       "source_location": "L94",
-      "community": 0,
-      "norm_label": "getcurrentmonday()",
-      "id": "src_scheduler_getcurrentmonday"
+      "id": "src_scheduler_getcurrentmonday",
+      "community": 17,
+      "norm_label": "getcurrentmonday()"
     },
     {
       "label": "formatItalianDate()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
       "source_location": "L95",
-      "community": 5,
-      "norm_label": "formatitaliandate()",
-      "id": "src_scheduler_formatitaliandate"
+      "id": "src_scheduler_formatitaliandate",
+      "community": 0,
+      "norm_label": "formatitaliandate()"
     },
     {
       "label": "formatDateShort()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
       "source_location": "L96",
-      "community": 5,
-      "norm_label": "formatdateshort()",
-      "id": "src_scheduler_formatdateshort"
+      "id": "src_scheduler_formatdateshort",
+      "community": 0,
+      "norm_label": "formatdateshort()"
     },
     {
       "label": "assign()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
       "source_location": "L97",
-      "community": 0,
-      "norm_label": "assign()",
-      "id": "src_scheduler_assign"
+      "id": "src_scheduler_assign",
+      "community": 17,
+      "norm_label": "assign()"
     },
     {
       "label": "createEmptyWeek()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
       "source_location": "L98",
-      "community": 0,
-      "norm_label": "createemptyweek()",
-      "id": "src_scheduler_createemptyweek"
+      "id": "src_scheduler_createemptyweek",
+      "community": 17,
+      "norm_label": "createemptyweek()"
     },
     {
       "label": "createBaseWeek()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
       "source_location": "L101",
-      "community": 0,
-      "norm_label": "createbaseweek()",
-      "id": "src_scheduler_createbaseweek"
+      "id": "src_scheduler_createbaseweek",
+      "community": 17,
+      "norm_label": "createbaseweek()"
     },
     {
       "label": "AFTERNOON_END_THRESHOLD",
       "file_type": "code",
       "source_file": "src/scheduler.js",
       "source_location": "L103",
+      "id": "src_scheduler_afternoon_end_threshold",
       "community": 1,
-      "norm_label": "afternoon_end_threshold",
-      "id": "src_scheduler_afternoon_end_threshold"
+      "norm_label": "afternoon_end_threshold"
     },
     {
       "label": "countsAsAfternoon()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
       "source_location": "L104",
-      "community": 1,
-      "norm_label": "countsasafternoon()",
-      "id": "src_scheduler_countsasafternoon"
+      "id": "src_scheduler_countsasafternoon",
+      "community": 3,
+      "norm_label": "countsasafternoon()"
     },
     {
       "label": "worksOvertimeShift()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
       "source_location": "L106",
+      "id": "src_scheduler_worksovertimeshift",
       "community": 3,
-      "norm_label": "worksovertimeshift()",
-      "id": "src_scheduler_worksovertimeshift"
+      "norm_label": "worksovertimeshift()"
     },
     {
       "label": "isManuelaClose1519()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
       "source_location": "L108",
+      "id": "src_scheduler_ismanuelaclose1519",
       "community": 3,
-      "norm_label": "ismanuelaclose1519()",
-      "id": "src_scheduler_ismanuelaclose1519"
+      "norm_label": "ismanuelaclose1519()"
     },
     {
       "label": "getAssistantStats()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
       "source_location": "L109",
-      "community": 1,
-      "norm_label": "getassistantstats()",
-      "id": "src_scheduler_getassistantstats"
+      "id": "src_scheduler_getassistantstats",
+      "community": 3,
+      "norm_label": "getassistantstats()"
     },
     {
       "label": "getRequiredCoverage()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
       "source_location": "L110",
+      "id": "src_scheduler_getrequiredcoverage",
       "community": 1,
-      "norm_label": "getrequiredcoverage()",
-      "id": "src_scheduler_getrequiredcoverage"
+      "norm_label": "getrequiredcoverage()"
     },
     {
       "label": "shiftsOf()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
       "source_location": "L111",
+      "id": "src_scheduler_shiftsof",
       "community": 1,
-      "norm_label": "shiftsof()",
-      "id": "src_scheduler_shiftsof"
+      "norm_label": "shiftsof()"
     },
     {
       "label": "holidayWeekdayCount()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
       "source_location": "L114",
+      "id": "src_scheduler_holidayweekdaycount",
       "community": 1,
-      "norm_label": "holidayweekdaycount()",
-      "id": "src_scheduler_holidayweekdaycount"
+      "norm_label": "holidayweekdaycount()"
     },
     {
       "label": "effectiveWeeklyHours()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
       "source_location": "L115",
+      "id": "src_scheduler_effectiveweeklyhours",
       "community": 1,
-      "norm_label": "effectiveweeklyhours()",
-      "id": "src_scheduler_effectiveweeklyhours"
+      "norm_label": "effectiveweeklyhours()"
     },
     {
       "label": "personalAbsenceDays()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
       "source_location": "L116",
+      "id": "src_scheduler_personalabsencedays",
       "community": 1,
-      "norm_label": "personalabsencedays()",
-      "id": "src_scheduler_personalabsencedays"
+      "norm_label": "personalabsencedays()"
     },
     {
       "label": "effectiveWorkDays()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
       "source_location": "L118",
+      "id": "src_scheduler_effectiveworkdays",
       "community": 1,
-      "norm_label": "effectiveworkdays()",
-      "id": "src_scheduler_effectiveworkdays"
+      "norm_label": "effectiveworkdays()"
     },
     {
       "label": "coverageOf()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
       "source_location": "L121",
+      "id": "src_scheduler_coverageof",
       "community": 1,
-      "norm_label": "coverageof()",
-      "id": "src_scheduler_coverageof"
+      "norm_label": "coverageof()"
     },
     {
       "label": "getCoverage()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
       "source_location": "L125",
+      "id": "src_scheduler_getcoverage",
       "community": 1,
-      "norm_label": "getcoverage()",
-      "id": "src_scheduler_getcoverage"
+      "norm_label": "getcoverage()"
     },
     {
       "label": "coverageDeficit()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
       "source_location": "L129",
+      "id": "src_scheduler_coveragedeficit",
       "community": 1,
-      "norm_label": "coveragedeficit()",
-      "id": "src_scheduler_coveragedeficit"
+      "norm_label": "coveragedeficit()"
     },
     {
       "label": "maxUncoveredGap()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
       "source_location": "L148",
+      "id": "src_scheduler_maxuncoveredgap",
       "community": 1,
-      "norm_label": "maxuncoveredgap()",
-      "id": "src_scheduler_maxuncoveredgap"
+      "norm_label": "maxuncoveredgap()"
     },
     {
       "label": "validateWeek()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
       "source_location": "L149",
+      "id": "src_scheduler_validateweek",
       "community": 1,
-      "norm_label": "validateweek()",
-      "id": "src_scheduler_validateweek"
+      "norm_label": "validateweek()"
     },
     {
       "label": "formatWeekRange()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
       "source_location": "L150",
-      "community": 5,
-      "norm_label": "formatweekrange()",
-      "id": "src_scheduler_formatweekrange"
+      "id": "src_scheduler_formatweekrange",
+      "community": 0,
+      "norm_label": "formatweekrange()"
     },
     {
       "label": "formatWeekRangeShort()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
       "source_location": "L151",
-      "community": 5,
-      "norm_label": "formatweekrangeshort()",
-      "id": "src_scheduler_formatweekrangeshort"
+      "id": "src_scheduler_formatweekrangeshort",
+      "community": 0,
+      "norm_label": "formatweekrangeshort()"
     },
     {
       "label": "getAllowedShifts()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
       "source_location": "L154",
+      "id": "src_scheduler_getallowedshifts",
       "community": 1,
-      "norm_label": "getallowedshifts()",
-      "id": "src_scheduler_getallowedshifts"
+      "norm_label": "getallowedshifts()"
     },
     {
       "label": "generateWeek()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
       "source_location": "L170",
-      "community": 0,
-      "norm_label": "generateweek()",
-      "id": "src_scheduler_generateweek"
+      "id": "src_scheduler_generateweek",
+      "community": 17,
+      "norm_label": "generateweek()"
     },
     {
       "label": "afternoonDemand()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
       "source_location": "L173",
-      "community": 0,
-      "norm_label": "afternoondemand()",
-      "id": "src_scheduler_afternoondemand"
+      "id": "src_scheduler_afternoondemand",
+      "community": 1,
+      "norm_label": "afternoondemand()"
     },
     {
       "label": "heuristicCombos()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
       "source_location": "L180",
-      "community": 0,
-      "norm_label": "heuristiccombos()",
-      "id": "src_scheduler_heuristiccombos"
+      "id": "src_scheduler_heuristiccombos",
+      "community": 1,
+      "norm_label": "heuristiccombos()"
     },
     {
       "label": "weekAssignmentSig()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
       "source_location": "L186",
-      "community": 0,
-      "norm_label": "weekassignmentsig()",
-      "id": "src_scheduler_weekassignmentsig"
+      "id": "src_scheduler_weekassignmentsig",
+      "community": 17,
+      "norm_label": "weekassignmentsig()"
     },
     {
       "label": "computeAfternoonTiers()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
       "source_location": "L192",
-      "community": 8,
-      "norm_label": "computeafternoontiers()",
-      "id": "src_scheduler_computeafternoontiers"
+      "id": "src_scheduler_computeafternoontiers",
+      "community": 0,
+      "norm_label": "computeafternoontiers()"
     },
     {
       "label": "AFTERNOON_TIERS",
       "file_type": "code",
       "source_file": "src/scheduler.js",
       "source_location": "L202",
-      "community": 0,
-      "norm_label": "afternoon_tiers",
-      "id": "src_scheduler_afternoon_tiers"
+      "id": "src_scheduler_afternoon_tiers",
+      "community": 1,
+      "norm_label": "afternoon_tiers"
+    },
+    {
+      "label": "buildTierRules()",
+      "file_type": "code",
+      "source_file": "src/scheduler.js",
+      "source_location": "L205",
+      "id": "src_scheduler_buildtierrules",
+      "community": 1,
+      "norm_label": "buildtierrules()"
+    },
+    {
+      "label": "collectFeasibleWeeks()",
+      "file_type": "code",
+      "source_file": "src/scheduler.js",
+      "source_location": "L215",
+      "id": "src_scheduler_collectfeasibleweeks",
+      "community": 1,
+      "norm_label": "collectfeasibleweeks()"
+    },
+    {
+      "label": "solveWeekOptimized()",
+      "file_type": "code",
+      "source_file": "src/scheduler.js",
+      "source_location": "L255",
+      "id": "src_scheduler_solveweekoptimized",
+      "community": 1,
+      "norm_label": "solveweekoptimized()"
+    },
+    {
+      "label": "diagnoseInfeasibility()",
+      "file_type": "code",
+      "source_file": "src/scheduler.js",
+      "source_location": "L264",
+      "id": "src_scheduler_diagnoseinfeasibility",
+      "community": 1,
+      "norm_label": "diagnoseinfeasibility()"
     },
     {
       "label": "solveWeek()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L203",
-      "community": 0,
-      "norm_label": "solveweek()",
-      "id": "src_scheduler_solveweek"
+      "source_location": "L280",
+      "id": "src_scheduler_solveweek",
+      "community": 1,
+      "norm_label": "solveweek()"
     },
     {
       "label": "buildRem()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L231",
+      "source_location": "L308",
+      "id": "src_scheduler_buildrem",
       "community": 1,
-      "norm_label": "buildrem()",
-      "id": "src_scheduler_buildrem"
+      "norm_label": "buildrem()"
     },
     {
       "label": "solveWeekCore()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L232",
+      "source_location": "L309",
+      "id": "src_scheduler_solveweekcore",
       "community": 1,
-      "norm_label": "solveweekcore()",
-      "id": "src_scheduler_solveweekcore"
+      "norm_label": "solveweekcore()"
     },
     {
       "label": "getDayCombos()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L266",
+      "source_location": "L343",
+      "id": "src_scheduler_getdaycombos",
       "community": 1,
-      "norm_label": "getdaycombos()",
-      "id": "src_scheduler_getdaycombos"
+      "norm_label": "getdaycombos()"
     },
     {
       "label": "cloneStats()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L321",
+      "source_location": "L398",
+      "id": "src_scheduler_clonestats",
       "community": 1,
-      "norm_label": "clonestats()",
-      "id": "src_scheduler_clonestats"
+      "norm_label": "clonestats()"
     },
     {
       "label": "buildWeekFromDayAssignments()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L322",
-      "community": 0,
-      "norm_label": "buildweekfromdayassignments()",
-      "id": "src_scheduler_buildweekfromdayassignments"
+      "source_location": "L399",
+      "id": "src_scheduler_buildweekfromdayassignments",
+      "community": 1,
+      "norm_label": "buildweekfromdayassignments()"
     },
     {
       "label": "applyPreviousWeekState()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L323",
-      "community": 0,
-      "norm_label": "applypreviousweekstate()",
-      "id": "src_scheduler_applypreviousweekstate"
+      "source_location": "L400",
+      "id": "src_scheduler_applypreviousweekstate",
+      "community": 17,
+      "norm_label": "applypreviousweekstate()"
     },
     {
       "label": "regenerateWeekWithFeedback()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L324",
-      "community": 0,
-      "norm_label": "regenerateweekwithfeedback()",
-      "id": "src_scheduler_regenerateweekwithfeedback"
+      "source_location": "L401",
+      "id": "src_scheduler_regenerateweekwithfeedback",
+      "community": 17,
+      "norm_label": "regenerateweekwithfeedback()"
     },
     {
       "label": "regenerateCleanWeekWithFeedback()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L325",
-      "community": 0,
-      "norm_label": "regeneratecleanweekwithfeedback()",
-      "id": "src_scheduler_regeneratecleanweekwithfeedback"
+      "source_location": "L402",
+      "id": "src_scheduler_regeneratecleanweekwithfeedback",
+      "community": 17,
+      "norm_label": "regeneratecleanweekwithfeedback()"
     },
     {
       "label": "diversifyTimes()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L329",
+      "source_location": "L406",
+      "id": "src_scheduler_diversifytimes",
       "community": 1,
-      "norm_label": "diversifytimes()",
-      "id": "src_scheduler_diversifytimes"
+      "norm_label": "diversifytimes()"
     },
     {
       "label": "regenerateAlternativeWithFeedback()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L347",
-      "community": 0,
-      "norm_label": "regeneratealternativewithfeedback()",
-      "id": "src_scheduler_regeneratealternativewithfeedback"
+      "source_location": "L424",
+      "id": "src_scheduler_regeneratealternativewithfeedback",
+      "community": 17,
+      "norm_label": "regeneratealternativewithfeedback()"
     },
     {
       "label": "updateShiftWithFeedback()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L348",
-      "community": 3,
-      "norm_label": "updateshiftwithfeedback()",
-      "id": "src_scheduler_updateshiftwithfeedback"
+      "source_location": "L425",
+      "id": "src_scheduler_updateshiftwithfeedback",
+      "community": 0,
+      "norm_label": "updateshiftwithfeedback()"
     },
     {
       "label": "getLockedShiftCount()",
       "file_type": "code",
       "source_file": "src/scheduler.js",
-      "source_location": "L349",
+      "source_location": "L426",
+      "id": "src_scheduler_getlockedshiftcount",
+      "community": 3,
+      "norm_label": "getlockedshiftcount()"
+    },
+    {
+      "label": "variance()",
+      "file_type": "code",
+      "source_file": "src/scheduler.js",
+      "source_location": "L430",
+      "id": "src_scheduler_variance",
+      "community": 3,
+      "norm_label": "variance()"
+    },
+    {
+      "label": "buildEquityLedger()",
+      "file_type": "code",
+      "source_file": "src/scheduler.js",
+      "source_location": "L433",
+      "id": "src_scheduler_buildequityledger",
       "community": 0,
-      "norm_label": "getlockedshiftcount()",
-      "id": "src_scheduler_getlockedshiftcount"
+      "norm_label": "buildequityledger()"
+    },
+    {
+      "label": "equityCost()",
+      "file_type": "code",
+      "source_file": "src/scheduler.js",
+      "source_location": "L444",
+      "id": "src_scheduler_equitycost",
+      "community": 3,
+      "norm_label": "equitycost()"
+    },
+    {
+      "label": "PREF_W",
+      "file_type": "code",
+      "source_file": "src/scheduler.js",
+      "source_location": "L454",
+      "id": "src_scheduler_pref_w",
+      "community": 1,
+      "norm_label": "pref_w"
+    },
+    {
+      "label": "preferenceCost()",
+      "file_type": "code",
+      "source_file": "src/scheduler.js",
+      "source_location": "L456",
+      "id": "src_scheduler_preferencecost",
+      "community": 3,
+      "norm_label": "preferencecost()"
+    },
+    {
+      "label": "windowPenalty()",
+      "file_type": "code",
+      "source_file": "src/scheduler.js",
+      "source_location": "L471",
+      "id": "src_scheduler_windowpenalty",
+      "community": 3,
+      "norm_label": "windowpenalty()"
+    },
+    {
+      "label": "CANONICAL_SHIFTS",
+      "file_type": "code",
+      "source_file": "src/scheduler.js",
+      "source_location": "L480",
+      "id": "src_scheduler_canonical_shifts",
+      "community": 1,
+      "norm_label": "canonical_shifts"
+    },
+    {
+      "label": "tidyCost()",
+      "file_type": "code",
+      "source_file": "src/scheduler.js",
+      "source_location": "L483",
+      "id": "src_scheduler_tidycost",
+      "community": 3,
+      "norm_label": "tidycost()"
+    },
+    {
+      "label": "costOfWeek()",
+      "file_type": "code",
+      "source_file": "src/scheduler.js",
+      "source_location": "L494",
+      "id": "src_scheduler_costofweek",
+      "community": 3,
+      "norm_label": "costofweek()"
     },
     {
       "label": "absences.test.mjs",
       "file_type": "code",
       "source_file": "tests/absences.test.mjs",
       "source_location": "L1",
+      "id": "tests_absences_test",
       "community": 1,
-      "norm_label": "absences.test.mjs",
-      "id": "tests_absences_test"
+      "norm_label": "absences.test.mjs"
+    },
+    {
+      "label": "equity.test.mjs",
+      "file_type": "code",
+      "source_file": "tests/equity.test.mjs",
+      "source_location": "L1",
+      "id": "tests_equity_test",
+      "community": 1,
+      "norm_label": "equity.test.mjs"
     },
     {
       "label": "generic-team.test.mjs",
       "file_type": "code",
       "source_file": "tests/generic-team.test.mjs",
       "source_location": "L1",
+      "id": "tests_generic_team_test",
       "community": 9,
-      "norm_label": "generic-team.test.mjs",
-      "id": "tests_generic_team_test"
+      "norm_label": "generic-team.test.mjs"
     },
     {
       "label": "STAFF4",
       "file_type": "code",
       "source_file": "tests/generic-team.test.mjs",
       "source_location": "L7",
+      "id": "tests_generic_team_test_staff4",
       "community": 9,
-      "norm_label": "staff4",
-      "id": "tests_generic_team_test_staff4"
+      "norm_label": "staff4"
+    },
+    {
+      "label": "optimizer.test.mjs",
+      "file_type": "code",
+      "source_file": "tests/optimizer.test.mjs",
+      "source_location": "L1",
+      "id": "tests_optimizer_test",
+      "community": 1,
+      "norm_label": "optimizer.test.mjs"
+    },
+    {
+      "label": "preferences.test.mjs",
+      "file_type": "code",
+      "source_file": "tests/preferences.test.mjs",
+      "source_location": "L1",
+      "id": "tests_preferences_test",
+      "community": 1,
+      "norm_label": "preferences.test.mjs"
     },
     {
       "label": "regression.test.mjs",
       "file_type": "code",
       "source_file": "tests/regression.test.mjs",
       "source_location": "L1",
-      "community": 1,
-      "norm_label": "regression.test.mjs",
-      "id": "tests_regression_test"
+      "id": "tests_regression_test",
+      "community": 18,
+      "norm_label": "regression.test.mjs"
     },
     {
       "label": "sigOf()",
       "file_type": "code",
       "source_file": "tests/regression.test.mjs",
       "source_location": "L7",
-      "community": 1,
-      "norm_label": "sigof()",
-      "id": "tests_regression_test_sigof"
+      "id": "tests_regression_test_sigof",
+      "community": 18,
+      "norm_label": "sigof()"
     },
     {
       "label": "SNAPSHOTS",
       "file_type": "code",
       "source_file": "tests/regression.test.mjs",
       "source_location": "L12",
-      "community": 1,
-      "norm_label": "snapshots",
-      "id": "tests_regression_test_snapshots"
+      "id": "tests_regression_test_snapshots",
+      "community": 18,
+      "norm_label": "snapshots"
     },
     {
       "label": "solver-logic.test.mjs",
       "file_type": "code",
       "source_file": "tests/solver-logic.test.mjs",
       "source_location": "L1",
+      "id": "tests_solver_logic_test",
       "community": 10,
-      "norm_label": "solver-logic.test.mjs",
-      "id": "tests_solver_logic_test"
+      "norm_label": "solver-logic.test.mjs"
     },
     {
       "label": "loadLogic()",
       "file_type": "code",
       "source_file": "tests/solver-logic.test.mjs",
       "source_location": "L6",
+      "id": "tests_solver_logic_test_loadlogic",
       "community": 10,
-      "norm_label": "loadlogic()",
-      "id": "tests_solver_logic_test_loadlogic"
+      "norm_label": "loadlogic()"
     },
     {
       "label": "solvedValid()",
       "file_type": "code",
       "source_file": "tests/solver-logic.test.mjs",
       "source_location": "L66",
+      "id": "tests_solver_logic_test_solvedvalid",
       "community": 10,
-      "norm_label": "solvedvalid()",
-      "id": "tests_solver_logic_test_solvedvalid"
+      "norm_label": "solvedvalid()"
     },
     {
       "label": "ui-export.test.mjs",
       "file_type": "code",
       "source_file": "tests/ui-export.test.mjs",
       "source_location": "L1",
+      "id": "tests_ui_export_test",
       "community": 11,
-      "norm_label": "ui-export.test.mjs",
-      "id": "tests_ui_export_test"
+      "norm_label": "ui-export.test.mjs"
     },
     {
       "label": "html",
       "file_type": "code",
       "source_file": "tests/ui-export.test.mjs",
       "source_location": "L5",
+      "id": "tests_ui_export_test_html",
       "community": 11,
-      "norm_label": "html",
-      "id": "tests_ui_export_test_html"
+      "norm_label": "html"
     },
     {
       "label": "app",
       "file_type": "code",
       "source_file": "tests/ui-export.test.mjs",
       "source_location": "L6",
+      "id": "tests_ui_export_test_app",
       "community": 11,
-      "norm_label": "app",
-      "id": "tests_ui_export_test_app"
+      "norm_label": "app"
     },
     {
       "label": "loadLogic()",
       "file_type": "code",
       "source_file": "tests/ui-export.test.mjs",
       "source_location": "L10",
+      "id": "tests_ui_export_test_loadlogic",
       "community": 11,
-      "norm_label": "loadlogic()",
-      "id": "tests_ui_export_test_loadlogic"
+      "norm_label": "loadlogic()"
+    },
+    {
+      "label": "CLAUDE.md",
+      "file_type": "document",
+      "source_file": "CLAUDE.md",
+      "source_location": "L1",
+      "id": "home_user_turni_assistenti_claude_md",
+      "community": 19,
+      "norm_label": "claude.md"
+    },
+    {
+      "label": "graphify",
+      "file_type": "document",
+      "source_file": "CLAUDE.md",
+      "source_location": "L1",
+      "id": "turni_assistenti_claude_graphify",
+      "community": 19,
+      "norm_label": "graphify"
+    },
+    {
+      "label": "2026-06-06-optimizer-phase4.md",
+      "file_type": "document",
+      "source_file": "docs/superpowers/plans/2026-06-06-optimizer-phase4.md",
+      "source_location": "L1",
+      "id": "plans_2026_06_06_optimizer_phase4",
+      "community": 8,
+      "norm_label": "2026-06-06-optimizer-phase4.md"
+    },
+    {
+      "label": "Ottimizzatore turni Fase 4 \u2014 Implementation Plan",
+      "file_type": "document",
+      "source_file": "docs/superpowers/plans/2026-06-06-optimizer-phase4.md",
+      "source_location": "L1",
+      "id": "plans_2026_06_06_optimizer_phase4_ottimizzatore_turni_fase_4_implementation_plan",
+      "community": 8,
+      "norm_label": "ottimizzatore turni fase 4 \u2014 implementation plan"
+    },
+    {
+      "label": "File Structure",
+      "file_type": "document",
+      "source_file": "docs/superpowers/plans/2026-06-06-optimizer-phase4.md",
+      "source_location": "L15",
+      "id": "plans_2026_06_06_optimizer_phase4_file_structure",
+      "community": 8,
+      "norm_label": "file structure"
+    },
+    {
+      "label": "Note di stile per l'esecutore",
+      "file_type": "document",
+      "source_file": "docs/superpowers/plans/2026-06-06-optimizer-phase4.md",
+      "source_location": "L28",
+      "id": "plans_2026_06_06_optimizer_phase4_note_di_stile_per_l_esecutore",
+      "community": 8,
+      "norm_label": "note di stile per l'esecutore"
+    },
+    {
+      "label": "Task 1: Ledger equit\u00e0 + helper varianza",
+      "file_type": "document",
+      "source_file": "docs/superpowers/plans/2026-06-06-optimizer-phase4.md",
+      "source_location": "L37",
+      "id": "plans_2026_06_06_optimizer_phase4_task_1_ledger_equit\u00e0_helper_varianza",
+      "community": 8,
+      "norm_label": "task 1: ledger equita + helper varianza"
+    },
+    {
+      "label": "Task 2: Costo equit\u00e0",
+      "file_type": "document",
+      "source_file": "docs/superpowers/plans/2026-06-06-optimizer-phase4.md",
+      "source_location": "L132",
+      "id": "plans_2026_06_06_optimizer_phase4_task_2_costo_equit\u00e0",
+      "community": 8,
+      "norm_label": "task 2: costo equita"
+    },
+    {
+      "label": "Task 3: Modello preferenze + costo preferenze",
+      "file_type": "document",
+      "source_file": "docs/superpowers/plans/2026-06-06-optimizer-phase4.md",
+      "source_location": "L210",
+      "id": "plans_2026_06_06_optimizer_phase4_task_3_modello_preferenze_costo_preferenze",
+      "community": 8,
+      "norm_label": "task 3: modello preferenze + costo preferenze"
+    },
+    {
+      "label": "Task 4: Costo ordine (tidy)",
+      "file_type": "document",
+      "source_file": "docs/superpowers/plans/2026-06-06-optimizer-phase4.md",
+      "source_location": "L330",
+      "id": "plans_2026_06_06_optimizer_phase4_task_4_costo_ordine_tidy",
+      "community": 8,
+      "norm_label": "task 4: costo ordine (tidy)"
+    },
+    {
+      "label": "Task 5: Funzione costo totale",
+      "file_type": "document",
+      "source_file": "docs/superpowers/plans/2026-06-06-optimizer-phase4.md",
+      "source_location": "L398",
+      "id": "plans_2026_06_06_optimizer_phase4_task_5_funzione_costo_totale",
+      "community": 8,
+      "norm_label": "task 5: funzione costo totale"
+    },
+    {
+      "label": "Task 6: Refactor \u2014 estrai `buildTierRules` (nessun cambio di comportamento)",
+      "file_type": "document",
+      "source_file": "docs/superpowers/plans/2026-06-06-optimizer-phase4.md",
+      "source_location": "L452",
+      "id": "plans_2026_06_06_optimizer_phase4_task_6_refactor_estrai_buildtierrules_nessun_cambio_di_comportamento",
+      "community": 8,
+      "norm_label": "task 6: refactor \u2014 estrai `buildtierrules` (nessun cambio di comportamento)"
+    },
+    {
+      "label": "Task 7: Collettore di settimane feasible",
+      "file_type": "document",
+      "source_file": "docs/superpowers/plans/2026-06-06-optimizer-phase4.md",
+      "source_location": "L500",
+      "id": "plans_2026_06_06_optimizer_phase4_task_7_collettore_di_settimane_feasible",
+      "community": 8,
+      "norm_label": "task 7: collettore di settimane feasible"
+    },
+    {
+      "label": "Task 8: `solveWeekOptimized` + `diagnoseInfeasibility`",
+      "file_type": "document",
+      "source_file": "docs/superpowers/plans/2026-06-06-optimizer-phase4.md",
+      "source_location": "L597",
+      "id": "plans_2026_06_06_optimizer_phase4_task_8_solveweekoptimized_diagnoseinfeasibility",
+      "community": 8,
+      "norm_label": "task 8: `solveweekoptimized` + `diagnoseinfeasibility`"
+    },
+    {
+      "label": "Task 9: Instrada `generateWeek`/`regenerate*` sull'ottimizzatore",
+      "file_type": "document",
+      "source_file": "docs/superpowers/plans/2026-06-06-optimizer-phase4.md",
+      "source_location": "L698",
+      "id": "plans_2026_06_06_optimizer_phase4_task_9_instrada_generateweek_regenerate_sull_ottimizzatore",
+      "community": 8,
+      "norm_label": "task 9: instrada `generateweek`/`regenerate*` sull'ottimizzatore"
+    },
+    {
+      "label": "Task 10: app.js \u2014 ledger da storage + UI preferenze",
+      "file_type": "document",
+      "source_file": "docs/superpowers/plans/2026-06-06-optimizer-phase4.md",
+      "source_location": "L771",
+      "id": "plans_2026_06_06_optimizer_phase4_task_10_app_js_ledger_da_storage_ui_preferenze",
+      "community": 8,
+      "norm_label": "task 10: app.js \u2014 ledger da storage + ui preferenze"
+    },
+    {
+      "label": "Task 11: Performance, CSS, smoke browser, graphify, PR",
+      "file_type": "document",
+      "source_file": "docs/superpowers/plans/2026-06-06-optimizer-phase4.md",
+      "source_location": "L882",
+      "id": "plans_2026_06_06_optimizer_phase4_task_11_performance_css_smoke_browser_graphify_pr",
+      "community": 8,
+      "norm_label": "task 11: performance, css, smoke browser, graphify, pr"
+    },
+    {
+      "label": "Self-Review (eseguita dall'autore del piano)",
+      "file_type": "document",
+      "source_file": "docs/superpowers/plans/2026-06-06-optimizer-phase4.md",
+      "source_location": "L948",
+      "id": "plans_2026_06_06_optimizer_phase4_self_review_eseguita_dall_autore_del_piano",
+      "community": 8,
+      "norm_label": "self-review (eseguita dall'autore del piano)"
     },
     {
       "label": "2026-06-06-solver-audit.md",
       "file_type": "document",
       "source_file": "docs/superpowers/plans/2026-06-06-solver-audit.md",
       "source_location": "L1",
+      "id": "plans_2026_06_06_solver_audit",
       "community": 4,
-      "norm_label": "2026-06-06-solver-audit.md",
-      "id": "plans_2026_06_06_solver_audit"
+      "norm_label": "2026-06-06-solver-audit.md"
+    },
+    {
+      "label": "Solver Audit & Fix \u2014 Implementation Plan",
+      "file_type": "document",
+      "source_file": "docs/superpowers/plans/2026-06-06-solver-audit.md",
+      "source_location": "L1",
+      "id": "plans_2026_06_06_solver_audit_solver_audit_fix_implementation_plan",
+      "community": 4,
+      "norm_label": "solver audit & fix \u2014 implementation plan"
     },
     {
       "label": "Convenzioni test",
       "file_type": "document",
       "source_file": "docs/superpowers/plans/2026-06-06-solver-audit.md",
       "source_location": "L15",
+      "id": "plans_2026_06_06_solver_audit_convenzioni_test",
       "community": 4,
-      "norm_label": "convenzioni test",
-      "id": "plans_2026_06_06_solver_audit_convenzioni_test"
+      "norm_label": "convenzioni test"
     },
     {
       "label": "Task 1: #1+#2 \u2014 `coverageDeficit` (copertura cumulativa + debito pranzo)",
       "file_type": "document",
       "source_file": "docs/superpowers/plans/2026-06-06-solver-audit.md",
       "source_location": "L35",
+      "id": "plans_2026_06_06_solver_audit_task_1_1_2_coveragedeficit_copertura_cumulativa_debito_pranzo",
       "community": 4,
-      "norm_label": "task 1: #1+#2 \u2014 `coveragedeficit` (copertura cumulativa + debito pranzo)",
-      "id": "plans_2026_06_06_solver_audit_task_1_1_2_coveragedeficit_copertura_cumulativa_debito_pranzo"
+      "norm_label": "task 1: #1+#2 \u2014 `coveragedeficit` (copertura cumulativa + debito pranzo)"
     },
     {
       "label": "Task 2: #3 \u2014 `validateWeek` segnala giorni lavorati > max",
       "file_type": "document",
       "source_file": "docs/superpowers/plans/2026-06-06-solver-audit.md",
       "source_location": "L100",
+      "id": "plans_2026_06_06_solver_audit_task_2_3_validateweek_segnala_giorni_lavorati_max",
       "community": 4,
-      "norm_label": "task 2: #3 \u2014 `validateweek` segnala giorni lavorati > max",
-      "id": "plans_2026_06_06_solver_audit_task_2_3_validateweek_segnala_giorni_lavorati_max"
+      "norm_label": "task 2: #3 \u2014 `validateweek` segnala giorni lavorati > max"
     },
     {
       "label": "Task 3: #4 \u2014 Niente mutazione globale di ASSISTANTS",
       "file_type": "document",
       "source_file": "docs/superpowers/plans/2026-06-06-solver-audit.md",
       "source_location": "L133",
+      "id": "plans_2026_06_06_solver_audit_task_3_4_niente_mutazione_globale_di_assistants",
       "community": 4,
-      "norm_label": "task 3: #4 \u2014 niente mutazione globale di assistants",
-      "id": "plans_2026_06_06_solver_audit_task_3_4_niente_mutazione_globale_di_assistants"
+      "norm_label": "task 3: #4 \u2014 niente mutazione globale di assistants"
     },
     {
       "label": "Task 4: #6 \u2014 `rem` calcolato una volta in `solveWeek`",
       "file_type": "document",
       "source_file": "docs/superpowers/plans/2026-06-06-solver-audit.md",
       "source_location": "L166",
+      "id": "plans_2026_06_06_solver_audit_task_4_6_rem_calcolato_una_volta_in_solveweek",
       "community": 4,
-      "norm_label": "task 4: #6 \u2014 `rem` calcolato una volta in `solveweek`",
-      "id": "plans_2026_06_06_solver_audit_task_4_6_rem_calcolato_una_volta_in_solveweek"
+      "norm_label": "task 4: #6 \u2014 `rem` calcolato una volta in `solveweek`"
     },
     {
       "label": "Task 5: #5 \u2014 `getDayCombos` pre-dedup per-assistente",
       "file_type": "document",
       "source_file": "docs/superpowers/plans/2026-06-06-solver-audit.md",
       "source_location": "L177",
+      "id": "plans_2026_06_06_solver_audit_task_5_5_getdaycombos_pre_dedup_per_assistente",
       "community": 4,
-      "norm_label": "task 5: #5 \u2014 `getdaycombos` pre-dedup per-assistente",
-      "id": "plans_2026_06_06_solver_audit_task_5_5_getdaycombos_pre_dedup_per_assistente"
+      "norm_label": "task 5: #5 \u2014 `getdaycombos` pre-dedup per-assistente"
     },
     {
       "label": "Task 6: #7 \u2014 \"Alternativa\" con variet\u00e0 oraria",
       "file_type": "document",
       "source_file": "docs/superpowers/plans/2026-06-06-solver-audit.md",
       "source_location": "L214",
+      "id": "plans_2026_06_06_solver_audit_task_6_7_alternativa_con_variet\u00e0_oraria",
       "community": 4,
-      "norm_label": "task 6: #7 \u2014 \"alternativa\" con varieta oraria",
-      "id": "plans_2026_06_06_solver_audit_task_6_7_alternativa_con_variet\u00e0_oraria"
+      "norm_label": "task 6: #7 \u2014 \"alternativa\" con varieta oraria"
     },
     {
       "label": "Task 7: #9 \u2014 Pruning storage",
       "file_type": "document",
       "source_file": "docs/superpowers/plans/2026-06-06-solver-audit.md",
       "source_location": "L243",
+      "id": "plans_2026_06_06_solver_audit_task_7_9_pruning_storage",
       "community": 4,
-      "norm_label": "task 7: #9 \u2014 pruning storage",
-      "id": "plans_2026_06_06_solver_audit_task_7_9_pruning_storage"
+      "norm_label": "task 7: #9 \u2014 pruning storage"
     },
     {
       "label": "Task 8: #10 \u2014 Status \"Calcolo turni\u2026\" prima del solve",
       "file_type": "document",
       "source_file": "docs/superpowers/plans/2026-06-06-solver-audit.md",
       "source_location": "L266",
+      "id": "plans_2026_06_06_solver_audit_task_8_10_status_calcolo_turni_prima_del_solve",
       "community": 4,
-      "norm_label": "task 8: #10 \u2014 status \"calcolo turni...\" prima del solve",
-      "id": "plans_2026_06_06_solver_audit_task_8_10_status_calcolo_turni_prima_del_solve"
+      "norm_label": "task 8: #10 \u2014 status \"calcolo turni...\" prima del solve"
     },
     {
       "label": "Task 9: #11 \u2014 jsPDF SRI + crossorigin",
       "file_type": "document",
       "source_file": "docs/superpowers/plans/2026-06-06-solver-audit.md",
       "source_location": "L276",
+      "id": "plans_2026_06_06_solver_audit_task_9_11_jspdf_sri_crossorigin",
       "community": 4,
-      "norm_label": "task 9: #11 \u2014 jspdf sri + crossorigin",
-      "id": "plans_2026_06_06_solver_audit_task_9_11_jspdf_sri_crossorigin"
+      "norm_label": "task 9: #11 \u2014 jspdf sri + crossorigin"
     },
     {
       "label": "Task 10: Verifica finale + graphify update",
       "file_type": "document",
       "source_file": "docs/superpowers/plans/2026-06-06-solver-audit.md",
       "source_location": "L288",
+      "id": "plans_2026_06_06_solver_audit_task_10_verifica_finale_graphify_update",
       "community": 4,
-      "norm_label": "task 10: verifica finale + graphify update",
-      "id": "plans_2026_06_06_solver_audit_task_10_verifica_finale_graphify_update"
+      "norm_label": "task 10: verifica finale + graphify update"
     },
     {
       "label": "Self-Review",
       "file_type": "document",
       "source_file": "docs/superpowers/plans/2026-06-06-solver-audit.md",
       "source_location": "L297",
+      "id": "plans_2026_06_06_solver_audit_self_review",
       "community": 4,
-      "norm_label": "self-review",
-      "id": "plans_2026_06_06_solver_audit_self_review"
+      "norm_label": "self-review"
+    },
+    {
+      "label": "2026-06-06-optimizer-phase4-design.md",
+      "file_type": "document",
+      "source_file": "docs/superpowers/specs/2026-06-06-optimizer-phase4-design.md",
+      "source_location": "L1",
+      "id": "specs_2026_06_06_optimizer_phase4_design",
+      "community": 5,
+      "norm_label": "2026-06-06-optimizer-phase4-design.md"
+    },
+    {
+      "label": "Fase 4 \u2014 Ottimizzatore turni multi-obiettivo (design)",
+      "file_type": "document",
+      "source_file": "docs/superpowers/specs/2026-06-06-optimizer-phase4-design.md",
+      "source_location": "L1",
+      "id": "specs_2026_06_06_optimizer_phase4_design_fase_4_ottimizzatore_turni_multi_obiettivo_design",
+      "community": 5,
+      "norm_label": "fase 4 \u2014 ottimizzatore turni multi-obiettivo (design)"
+    },
+    {
+      "label": "Obiettivo",
+      "file_type": "document",
+      "source_file": "docs/superpowers/specs/2026-06-06-optimizer-phase4-design.md",
+      "source_location": "L5",
+      "id": "specs_2026_06_06_optimizer_phase4_design_obiettivo",
+      "community": 5,
+      "norm_label": "obiettivo"
+    },
+    {
+      "label": "Architettura & flusso",
+      "file_type": "document",
+      "source_file": "docs/superpowers/specs/2026-06-06-optimizer-phase4-design.md",
+      "source_location": "L29",
+      "id": "specs_2026_06_06_optimizer_phase4_design_architettura_flusso",
+      "community": 5,
+      "norm_label": "architettura & flusso"
+    },
+    {
+      "label": "Componenti",
+      "file_type": "document",
+      "source_file": "docs/superpowers/specs/2026-06-06-optimizer-phase4-design.md",
+      "source_location": "L51",
+      "id": "specs_2026_06_06_optimizer_phase4_design_componenti",
+      "community": 5,
+      "norm_label": "componenti"
+    },
+    {
+      "label": "1. Ledger equit\u00e0 \u2014 `buildEquityLedger(pastWeeks, N=8)`",
+      "file_type": "document",
+      "source_file": "docs/superpowers/specs/2026-06-06-optimizer-phase4-design.md",
+      "source_location": "L53",
+      "id": "specs_2026_06_06_optimizer_phase4_design_1_ledger_equit\u00e0_buildequityledger_pastweeks_n_8",
+      "community": 5,
+      "norm_label": "1. ledger equita \u2014 `buildequityledger(pastweeks, n=8)`"
+    },
+    {
+      "label": "2. Costo equit\u00e0 \u2014 `equityCost(week, ledger)`",
+      "file_type": "document",
+      "source_file": "docs/superpowers/specs/2026-06-06-optimizer-phase4-design.md",
+      "source_location": "L69",
+      "id": "specs_2026_06_06_optimizer_phase4_design_2_costo_equit\u00e0_equitycost_week_ledger",
+      "community": 5,
+      "norm_label": "2. costo equita \u2014 `equitycost(week, ledger)`"
+    },
+    {
+      "label": "3. Modello preferenze",
+      "file_type": "document",
+      "source_file": "docs/superpowers/specs/2026-06-06-optimizer-phase4-design.md",
+      "source_location": "L80",
+      "id": "specs_2026_06_06_optimizer_phase4_design_3_modello_preferenze",
+      "community": 5,
+      "norm_label": "3. modello preferenze"
+    },
+    {
+      "label": "4. Costo preferenze \u2014 `preferenceCost(week)`",
+      "file_type": "document",
+      "source_file": "docs/superpowers/specs/2026-06-06-optimizer-phase4-design.md",
+      "source_location": "L95",
+      "id": "specs_2026_06_06_optimizer_phase4_design_4_costo_preferenze_preferencecost_week",
+      "community": 5,
+      "norm_label": "4. costo preferenze \u2014 `preferencecost(week)`"
+    },
+    {
+      "label": "5. Costo ordine \u2014 `tidyCost(week)`",
+      "file_type": "document",
+      "source_file": "docs/superpowers/specs/2026-06-06-optimizer-phase4-design.md",
+      "source_location": "L108",
+      "id": "specs_2026_06_06_optimizer_phase4_design_5_costo_ordine_tidycost_week",
+      "community": 5,
+      "norm_label": "5. costo ordine \u2014 `tidycost(week)`"
+    },
+    {
+      "label": "6. Funzione costo totale \u2014 `costOfWeek(week, ledger)`",
+      "file_type": "document",
+      "source_file": "docs/superpowers/specs/2026-06-06-optimizer-phase4-design.md",
+      "source_location": "L115",
+      "id": "specs_2026_06_06_optimizer_phase4_design_6_funzione_costo_totale_costofweek_week_ledger",
+      "community": 5,
+      "norm_label": "6. funzione costo totale \u2014 `costofweek(week, ledger)`"
+    },
+    {
+      "label": "7. Motore cost-ranked \u2014 `solveWeekCore` modalit\u00e0 collect",
+      "file_type": "document",
+      "source_file": "docs/superpowers/specs/2026-06-06-optimizer-phase4-design.md",
+      "source_location": "L126",
+      "id": "specs_2026_06_06_optimizer_phase4_design_7_motore_cost_ranked_solveweekcore_modalit\u00e0_collect",
+      "community": 5,
+      "norm_label": "7. motore cost-ranked \u2014 `solveweekcore` modalita collect"
+    },
+    {
+      "label": "8. \"Alternativa\" \u2014 `regenerateAlternativeWithFeedback`",
+      "file_type": "document",
+      "source_file": "docs/superpowers/specs/2026-06-06-optimizer-phase4-design.md",
+      "source_location": "L138",
+      "id": "specs_2026_06_06_optimizer_phase4_design_8_alternativa_regeneratealternativewithfeedback",
+      "community": 5,
+      "norm_label": "8. \"alternativa\" \u2014 `regeneratealternativewithfeedback`"
+    },
+    {
+      "label": "9. Spiegabilit\u00e0 infeasibilit\u00e0",
+      "file_type": "document",
+      "source_file": "docs/superpowers/specs/2026-06-06-optimizer-phase4-design.md",
+      "source_location": "L144",
+      "id": "specs_2026_06_06_optimizer_phase4_design_9_spiegabilit\u00e0_infeasibilit\u00e0",
+      "community": 5,
+      "norm_label": "9. spiegabilita infeasibilita"
+    },
+    {
+      "label": "Data flow storage",
+      "file_type": "document",
+      "source_file": "docs/superpowers/specs/2026-06-06-optimizer-phase4-design.md",
+      "source_location": "L157",
+      "id": "specs_2026_06_06_optimizer_phase4_design_data_flow_storage",
+      "community": 5,
+      "norm_label": "data flow storage"
+    },
+    {
+      "label": "UI (in `src/app.js`)",
+      "file_type": "document",
+      "source_file": "docs/superpowers/specs/2026-06-06-optimizer-phase4-design.md",
+      "source_location": "L164",
+      "id": "specs_2026_06_06_optimizer_phase4_design_ui_in_src_app_js",
+      "community": 5,
+      "norm_label": "ui (in `src/app.js`)"
+    },
+    {
+      "label": "Testing",
+      "file_type": "document",
+      "source_file": "docs/superpowers/specs/2026-06-06-optimizer-phase4-design.md",
+      "source_location": "L172",
+      "id": "specs_2026_06_06_optimizer_phase4_design_testing",
+      "community": 5,
+      "norm_label": "testing"
+    },
+    {
+      "label": "Performance",
+      "file_type": "document",
+      "source_file": "docs/superpowers/specs/2026-06-06-optimizer-phase4-design.md",
+      "source_location": "L186",
+      "id": "specs_2026_06_06_optimizer_phase4_design_performance",
+      "community": 5,
+      "norm_label": "performance"
+    },
+    {
+      "label": "Fuori scope",
+      "file_type": "document",
+      "source_file": "docs/superpowers/specs/2026-06-06-optimizer-phase4-design.md",
+      "source_location": "L194",
+      "id": "specs_2026_06_06_optimizer_phase4_design_fuori_scope",
+      "community": 5,
+      "norm_label": "fuori scope"
+    },
+    {
+      "label": "Piano di consegna (per writing-plans)",
+      "file_type": "document",
+      "source_file": "docs/superpowers/specs/2026-06-06-optimizer-phase4-design.md",
+      "source_location": "L201",
+      "id": "specs_2026_06_06_optimizer_phase4_design_piano_di_consegna_per_writing_plans",
+      "community": 5,
+      "norm_label": "piano di consegna (per writing-plans)"
     },
     {
       "label": "2026-06-06-solver-audit-design.md",
       "file_type": "document",
       "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
       "source_location": "L1",
+      "id": "specs_2026_06_06_solver_audit_design",
       "community": 2,
-      "norm_label": "2026-06-06-solver-audit-design.md",
-      "id": "specs_2026_06_06_solver_audit_design"
+      "norm_label": "2026-06-06-solver-audit-design.md"
+    },
+    {
+      "label": "Audit & miglioramento solver turni \u2014 Design",
+      "file_type": "document",
+      "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
+      "source_location": "L1",
+      "id": "specs_2026_06_06_solver_audit_design_audit_miglioramento_solver_turni_design",
+      "community": 2,
+      "norm_label": "audit & miglioramento solver turni \u2014 design"
     },
     {
       "label": "Contesto",
       "file_type": "document",
       "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
       "source_location": "L7",
+      "id": "specs_2026_06_06_solver_audit_design_contesto",
       "community": 2,
-      "norm_label": "contesto",
-      "id": "specs_2026_06_06_solver_audit_design_contesto"
+      "norm_label": "contesto"
     },
     {
       "label": "Principio architetturale",
       "file_type": "document",
       "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
       "source_location": "L18",
+      "id": "specs_2026_06_06_solver_audit_design_principio_architetturale",
       "community": 2,
-      "norm_label": "principio architetturale",
-      "id": "specs_2026_06_06_solver_audit_design_principio_architetturale"
+      "norm_label": "principio architetturale"
     },
     {
       "label": "Fix di correttezza",
       "file_type": "document",
       "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
       "source_location": "L25",
+      "id": "specs_2026_06_06_solver_audit_design_fix_di_correttezza",
       "community": 2,
-      "norm_label": "fix di correttezza",
-      "id": "specs_2026_06_06_solver_audit_design_fix_di_correttezza"
+      "norm_label": "fix di correttezza"
     },
     {
       "label": "#1 + #2 \u2014 Copertura unificata: `coverageDeficit`",
       "file_type": "document",
       "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
       "source_location": "L27",
+      "id": "specs_2026_06_06_solver_audit_design_1_2_copertura_unificata_coveragedeficit",
       "community": 2,
-      "norm_label": "#1 + #2 \u2014 copertura unificata: `coveragedeficit`",
-      "id": "specs_2026_06_06_solver_audit_design_1_2_copertura_unificata_coveragedeficit"
+      "norm_label": "#1 + #2 \u2014 copertura unificata: `coveragedeficit`"
     },
     {
       "label": "#3 \u2014 `validateWeek` controlla i giorni lavorati",
       "file_type": "document",
       "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
       "source_location": "L47",
+      "id": "specs_2026_06_06_solver_audit_design_3_validateweek_controlla_i_giorni_lavorati",
       "community": 2,
-      "norm_label": "#3 \u2014 `validateweek` controlla i giorni lavorati",
-      "id": "specs_2026_06_06_solver_audit_design_3_validateweek_controlla_i_giorni_lavorati"
+      "norm_label": "#3 \u2014 `validateweek` controlla i giorni lavorati"
     },
     {
       "label": "#4 \u2014 Niente mutazione globale di `ASSISTANTS`",
       "file_type": "document",
       "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
       "source_location": "L54",
+      "id": "specs_2026_06_06_solver_audit_design_4_niente_mutazione_globale_di_assistants",
       "community": 2,
-      "norm_label": "#4 \u2014 niente mutazione globale di `assistants`",
-      "id": "specs_2026_06_06_solver_audit_design_4_niente_mutazione_globale_di_assistants"
+      "norm_label": "#4 \u2014 niente mutazione globale di `assistants`"
     },
     {
       "label": "Fix di velocit\u00e0",
       "file_type": "document",
       "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
       "source_location": "L62",
+      "id": "specs_2026_06_06_solver_audit_design_fix_di_velocit\u00e0",
       "community": 2,
-      "norm_label": "fix di velocita",
-      "id": "specs_2026_06_06_solver_audit_design_fix_di_velocit\u00e0"
+      "norm_label": "fix di velocita"
     },
     {
       "label": "#5 \u2014 `getDayCombos` da O(N\u00b3) a ~O(K\u00b3)",
       "file_type": "document",
       "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
       "source_location": "L64",
+      "id": "specs_2026_06_06_solver_audit_design_5_getdaycombos_da_o_n3_a_o_k3",
       "community": 2,
-      "norm_label": "#5 \u2014 `getdaycombos` da o(n3) a ~o(k3)",
-      "id": "specs_2026_06_06_solver_audit_design_5_getdaycombos_da_o_n3_a_o_k3"
+      "norm_label": "#5 \u2014 `getdaycombos` da o(n3) a ~o(k3)"
     },
     {
       "label": "#6 \u2014 `rem` calcolato una volta",
       "file_type": "document",
       "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
       "source_location": "L72",
+      "id": "specs_2026_06_06_solver_audit_design_6_rem_calcolato_una_volta",
       "community": 2,
-      "norm_label": "#6 \u2014 `rem` calcolato una volta",
-      "id": "specs_2026_06_06_solver_audit_design_6_rem_calcolato_una_volta"
+      "norm_label": "#6 \u2014 `rem` calcolato una volta"
     },
     {
       "label": "Combinazioni",
       "file_type": "document",
       "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
       "source_location": "L78",
+      "id": "specs_2026_06_06_solver_audit_design_combinazioni",
       "community": 2,
-      "norm_label": "combinazioni",
-      "id": "specs_2026_06_06_solver_audit_design_combinazioni"
+      "norm_label": "combinazioni"
     },
     {
       "label": "#7 \u2014 \"Alternativa\" con variet\u00e0 oraria reale",
       "file_type": "document",
       "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
       "source_location": "L80",
+      "id": "specs_2026_06_06_solver_audit_design_7_alternativa_con_variet\u00e0_oraria_reale",
       "community": 2,
-      "norm_label": "#7 \u2014 \"alternativa\" con varieta oraria reale",
-      "id": "specs_2026_06_06_solver_audit_design_7_alternativa_con_variet\u00e0_oraria_reale"
+      "norm_label": "#7 \u2014 \"alternativa\" con varieta oraria reale"
     },
     {
       "label": "#8 \u2014 Griglia 30 minuti",
       "file_type": "document",
       "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
       "source_location": "L88",
+      "id": "specs_2026_06_06_solver_audit_design_8_griglia_30_minuti",
       "community": 2,
-      "norm_label": "#8 \u2014 griglia 30 minuti",
-      "id": "specs_2026_06_06_solver_audit_design_8_griglia_30_minuti"
+      "norm_label": "#8 \u2014 griglia 30 minuti"
     },
     {
       "label": "Migliorie",
       "file_type": "document",
       "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
       "source_location": "L92",
+      "id": "specs_2026_06_06_solver_audit_design_migliorie",
       "community": 2,
-      "norm_label": "migliorie",
-      "id": "specs_2026_06_06_solver_audit_design_migliorie"
+      "norm_label": "migliorie"
     },
     {
       "label": "#9 \u2014 Pruning storage",
       "file_type": "document",
       "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
       "source_location": "L94",
+      "id": "specs_2026_06_06_solver_audit_design_9_pruning_storage",
       "community": 2,
-      "norm_label": "#9 \u2014 pruning storage",
-      "id": "specs_2026_06_06_solver_audit_design_9_pruning_storage"
+      "norm_label": "#9 \u2014 pruning storage"
     },
     {
       "label": "#10 \u2014 Niente freeze UI durante il solve",
       "file_type": "document",
       "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
       "source_location": "L99",
+      "id": "specs_2026_06_06_solver_audit_design_10_niente_freeze_ui_durante_il_solve",
       "community": 2,
-      "norm_label": "#10 \u2014 niente freeze ui durante il solve",
-      "id": "specs_2026_06_06_solver_audit_design_10_niente_freeze_ui_durante_il_solve"
+      "norm_label": "#10 \u2014 niente freeze ui durante il solve"
     },
     {
       "label": "#11 \u2014 jsPDF robusto",
       "file_type": "document",
       "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
       "source_location": "L105",
+      "id": "specs_2026_06_06_solver_audit_design_11_jspdf_robusto",
       "community": 2,
-      "norm_label": "#11 \u2014 jspdf robusto",
-      "id": "specs_2026_06_06_solver_audit_design_11_jspdf_robusto"
+      "norm_label": "#11 \u2014 jspdf robusto"
     },
     {
       "label": "Test",
       "file_type": "document",
       "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
       "source_location": "L111",
+      "id": "specs_2026_06_06_solver_audit_design_test",
       "community": 2,
-      "norm_label": "test",
-      "id": "specs_2026_06_06_solver_audit_design_test"
+      "norm_label": "test"
     },
     {
       "label": "Fuori scope",
       "file_type": "document",
       "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
       "source_location": "L124",
+      "id": "specs_2026_06_06_solver_audit_design_fuori_scope",
       "community": 2,
-      "norm_label": "fuori scope",
-      "id": "specs_2026_06_06_solver_audit_design_fuori_scope"
+      "norm_label": "fuori scope"
     },
     {
       "label": "ASSISTANTS",
       "file_type": "code",
       "source_file": "src/scheduler.js",
       "source_location": "L41",
-      "community": 0,
-      "norm_label": "assistants",
-      "id": "src_scheduler_assistants"
+      "id": "src_scheduler_assistants",
+      "community": 1,
+      "norm_label": "assistants"
     },
     {
       "label": "src",
@@ -1743,14 +2265,6 @@
       "id": "solver_audit_plan"
     },
     {
-      "label": "Audit & miglioramento solver turni \u2014 Design",
-      "file_type": "document",
-      "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
-      "community": 2,
-      "norm_label": "audit & miglioramento solver turni \u2014 design",
-      "id": "solver_audit_design"
-    },
-    {
       "label": "tests/solver-logic.test.mjs",
       "file_type": "code",
       "source_file": "tests/solver-logic.test.mjs",
@@ -1760,6 +2274,16 @@
     }
   ],
   "links": [
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".claude/settings.json",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "home_user_turni_assistenti_claude_settings_json",
+      "target": "claude_settings_hooks",
+      "confidence_score": 1.0
+    },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
@@ -1969,6 +2493,16 @@
       "confidence_score": 1.0,
       "source": "src_app",
       "target": "src_app_builddesktopgrid"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L17",
+      "weight": 1.0,
+      "source": "src_app",
+      "target": "src_app_buildledgerfromstorage",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -2517,6 +3051,17 @@
       "source_file": "src/app.js",
       "source_location": "L2",
       "weight": 1.0,
+      "source": "src_app",
+      "target": "src_scheduler_buildequityledger",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L2",
+      "weight": 1.0,
       "confidence_score": 1.0,
       "source": "src_app",
       "target": "src_scheduler_buildrem"
@@ -3015,6 +3560,28 @@
       "confidence_score": 1.0,
       "source": "src_app_savestaff",
       "target": "src_scheduler_getstaffconfig"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L17",
+      "weight": 1.0,
+      "source": "src_app_buildledgerfromstorage",
+      "target": "src_scheduler_buildequityledger",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app.js",
+      "source_location": "L356",
+      "weight": 1.0,
+      "source": "src_app_changeweek",
+      "target": "src_app_buildledgerfromstorage",
+      "confidence_score": 1.0
     },
     {
       "relation": "calls",
@@ -3880,11 +4447,31 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/scheduler.js",
+      "source_location": "L433",
+      "weight": 1.0,
+      "source": "src_scheduler",
+      "target": "src_scheduler_buildequityledger",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
       "source_location": "L231",
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "src_scheduler",
       "target": "src_scheduler_buildrem"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L205",
+      "weight": 1.0,
+      "source": "src_scheduler",
+      "target": "src_scheduler_buildtierrules",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -3900,6 +4487,16 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/scheduler.js",
+      "source_location": "L480",
+      "weight": 1.0,
+      "source": "src_scheduler",
+      "target": "src_scheduler_canonical_shifts",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
       "source_location": "L321",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -3910,11 +4507,31 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/scheduler.js",
+      "source_location": "L215",
+      "weight": 1.0,
+      "source": "src_scheduler",
+      "target": "src_scheduler_collectfeasibleweeks",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
       "source_location": "L192",
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "src_scheduler",
       "target": "src_scheduler_computeafternoontiers"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L494",
+      "weight": 1.0,
+      "source": "src_scheduler",
+      "target": "src_scheduler_costofweek",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -3990,6 +4607,16 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/scheduler.js",
+      "source_location": "L264",
+      "weight": 1.0,
+      "source": "src_scheduler",
+      "target": "src_scheduler_diagnoseinfeasibility",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
       "source_location": "L329",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -4015,6 +4642,16 @@
       "confidence_score": 1.0,
       "source": "src_scheduler",
       "target": "src_scheduler_effectiveworkdays"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L444",
+      "weight": 1.0,
+      "source": "src_scheduler",
+      "target": "src_scheduler_equitycost",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -4240,6 +4877,26 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/scheduler.js",
+      "source_location": "L454",
+      "weight": 1.0,
+      "source": "src_scheduler",
+      "target": "src_scheduler_pref_w",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L456",
+      "weight": 1.0,
+      "source": "src_scheduler",
+      "target": "src_scheduler_preferencecost",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
       "source_location": "L46",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -4330,11 +4987,31 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/scheduler.js",
+      "source_location": "L255",
+      "weight": 1.0,
+      "source": "src_scheduler",
+      "target": "src_scheduler_solveweekoptimized",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
       "source_location": "L39",
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "src_scheduler",
       "target": "src_scheduler_staff_config"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L483",
+      "weight": 1.0,
+      "source": "src_scheduler",
+      "target": "src_scheduler_tidycost",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -4355,6 +5032,16 @@
       "confidence_score": 1.0,
       "source": "src_scheduler",
       "target": "src_scheduler_validateweek"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L430",
+      "weight": 1.0,
+      "source": "src_scheduler",
+      "target": "src_scheduler_variance",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -4390,6 +5077,16 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "src/scheduler.js",
+      "source_location": "L471",
+      "weight": 1.0,
+      "source": "src_scheduler",
+      "target": "src_scheduler_windowpenalty",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
       "source_location": "L106",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -4411,12 +5108,45 @@
       "relation": "imports_from",
       "context": "import",
       "confidence": "EXTRACTED",
+      "source_file": "tests/equity.test.mjs",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "tests_equity_test",
+      "target": "src_scheduler",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
       "source_file": "tests/generic-team.test.mjs",
       "source_location": "L3",
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "tests_generic_team_test",
       "target": "src_scheduler"
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/optimizer.test.mjs",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "tests_optimizer_test",
+      "target": "src_scheduler",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "tests/preferences.test.mjs",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "tests_preferences_test",
+      "target": "src_scheduler",
+      "confidence_score": 1.0
     },
     {
       "relation": "imports_from",
@@ -4538,6 +5268,28 @@
       "confidence_score": 1.0,
       "source": "src_scheduler_ismanuelaclose1519",
       "target": "src_scheduler_getshift"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L461",
+      "weight": 1.0,
+      "source": "src_scheduler_preferencecost",
+      "target": "src_scheduler_getshift",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L486",
+      "weight": 1.0,
+      "source": "src_scheduler_tidycost",
+      "target": "src_scheduler_getshift",
+      "confidence_score": 1.0
     },
     {
       "relation": "calls",
@@ -4676,11 +5428,44 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/scheduler.js",
+      "source_location": "L436",
+      "weight": 1.0,
+      "source": "src_scheduler_buildequityledger",
+      "target": "src_scheduler_getassistantstats",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L445",
+      "weight": 1.0,
+      "source": "src_scheduler_equitycost",
+      "target": "src_scheduler_getassistantstats",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
       "source_location": "L149",
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "src_scheduler_validateweek",
       "target": "src_scheduler_getassistantstats"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L274",
+      "weight": 1.0,
+      "source": "src_scheduler_diagnoseinfeasibility",
+      "target": "src_scheduler_getrequiredcoverage",
+      "confidence_score": 1.0
     },
     {
       "relation": "calls",
@@ -4747,6 +5532,17 @@
       "confidence_score": 1.0,
       "source": "src_scheduler_effectiveworkdays",
       "target": "src_scheduler_holidayweekdaycount"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L268",
+      "weight": 1.0,
+      "source": "src_scheduler_diagnoseinfeasibility",
+      "target": "src_scheduler_effectiveweeklyhours",
+      "confidence_score": 1.0
     },
     {
       "relation": "calls",
@@ -4907,6 +5703,17 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/scheduler.js",
+      "source_location": "L170",
+      "weight": 1.0,
+      "source": "src_scheduler_generateweek",
+      "target": "src_scheduler_solveweekoptimized",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
       "source_location": "L325",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -4918,11 +5725,33 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "src/scheduler.js",
+      "source_location": "L216",
+      "weight": 1.0,
+      "source": "src_scheduler_collectfeasibleweeks",
+      "target": "src_scheduler_afternoondemand",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
       "source_location": "L204",
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "src_scheduler_solveweek",
       "target": "src_scheduler_afternoondemand"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L218",
+      "weight": 1.0,
+      "source": "src_scheduler_collectfeasibleweeks",
+      "target": "src_scheduler_heuristiccombos",
+      "confidence_score": 1.0
     },
     {
       "relation": "calls",
@@ -4945,6 +5774,94 @@
       "confidence_score": 1.0,
       "source": "src_scheduler_regeneratealternativewithfeedback",
       "target": "src_scheduler_weekassignmentsig"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L226",
+      "weight": 1.0,
+      "source": "src_scheduler_collectfeasibleweeks",
+      "target": "src_scheduler_buildtierrules",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L222",
+      "weight": 1.0,
+      "source": "src_scheduler_collectfeasibleweeks",
+      "target": "src_scheduler_buildrem",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L257",
+      "weight": 1.0,
+      "source": "src_scheduler_solveweekoptimized",
+      "target": "src_scheduler_collectfeasibleweeks",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L424",
+      "weight": 1.0,
+      "source": "src_scheduler_regeneratealternativewithfeedback",
+      "target": "src_scheduler_solveweekoptimized",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L401",
+      "weight": 1.0,
+      "source": "src_scheduler_regenerateweekwithfeedback",
+      "target": "src_scheduler_solveweekoptimized",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L256",
+      "weight": 1.0,
+      "source": "src_scheduler_solveweekoptimized",
+      "target": "src_scheduler_buildequityledger",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L258",
+      "weight": 1.0,
+      "source": "src_scheduler_solveweekoptimized",
+      "target": "src_scheduler_diagnoseinfeasibility",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L266",
+      "weight": 1.0,
+      "source": "src_scheduler_diagnoseinfeasibility",
+      "target": "src_scheduler_buildrem",
+      "confidence_score": 1.0
     },
     {
       "relation": "calls",
@@ -5033,6 +5950,61 @@
       "confidence_score": 1.0,
       "source": "src_scheduler_regeneratealternativewithfeedback",
       "target": "src_scheduler_diversifytimes"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L449",
+      "weight": 1.0,
+      "source": "src_scheduler_equitycost",
+      "target": "src_scheduler_variance",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L495",
+      "weight": 1.0,
+      "source": "src_scheduler_costofweek",
+      "target": "src_scheduler_equitycost",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L495",
+      "weight": 1.0,
+      "source": "src_scheduler_costofweek",
+      "target": "src_scheduler_preferencecost",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L465",
+      "weight": 1.0,
+      "source": "src_scheduler_preferencecost",
+      "target": "src_scheduler_windowpenalty",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/scheduler.js",
+      "source_location": "L495",
+      "weight": 1.0,
+      "source": "src_scheduler_costofweek",
+      "target": "src_scheduler_tidycost",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -5147,12 +6119,202 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "CLAUDE.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "home_user_turni_assistenti_claude_md",
+      "target": "turni_assistenti_claude_graphify",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/plans/2026-06-06-optimizer-phase4.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "plans_2026_06_06_optimizer_phase4",
+      "target": "plans_2026_06_06_optimizer_phase4_ottimizzatore_turni_fase_4_implementation_plan",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/plans/2026-06-06-optimizer-phase4.md",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "plans_2026_06_06_optimizer_phase4_ottimizzatore_turni_fase_4_implementation_plan",
+      "target": "plans_2026_06_06_optimizer_phase4_file_structure",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/plans/2026-06-06-optimizer-phase4.md",
+      "source_location": "L28",
+      "weight": 1.0,
+      "source": "plans_2026_06_06_optimizer_phase4_ottimizzatore_turni_fase_4_implementation_plan",
+      "target": "plans_2026_06_06_optimizer_phase4_note_di_stile_per_l_esecutore",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/plans/2026-06-06-optimizer-phase4.md",
+      "source_location": "L948",
+      "weight": 1.0,
+      "source": "plans_2026_06_06_optimizer_phase4_ottimizzatore_turni_fase_4_implementation_plan",
+      "target": "plans_2026_06_06_optimizer_phase4_self_review_eseguita_dall_autore_del_piano",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/plans/2026-06-06-optimizer-phase4.md",
+      "source_location": "L771",
+      "weight": 1.0,
+      "source": "plans_2026_06_06_optimizer_phase4_ottimizzatore_turni_fase_4_implementation_plan",
+      "target": "plans_2026_06_06_optimizer_phase4_task_10_app_js_ledger_da_storage_ui_preferenze",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/plans/2026-06-06-optimizer-phase4.md",
+      "source_location": "L882",
+      "weight": 1.0,
+      "source": "plans_2026_06_06_optimizer_phase4_ottimizzatore_turni_fase_4_implementation_plan",
+      "target": "plans_2026_06_06_optimizer_phase4_task_11_performance_css_smoke_browser_graphify_pr",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/plans/2026-06-06-optimizer-phase4.md",
+      "source_location": "L37",
+      "weight": 1.0,
+      "source": "plans_2026_06_06_optimizer_phase4_ottimizzatore_turni_fase_4_implementation_plan",
+      "target": "plans_2026_06_06_optimizer_phase4_task_1_ledger_equit\u00e0_helper_varianza",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/plans/2026-06-06-optimizer-phase4.md",
+      "source_location": "L132",
+      "weight": 1.0,
+      "source": "plans_2026_06_06_optimizer_phase4_ottimizzatore_turni_fase_4_implementation_plan",
+      "target": "plans_2026_06_06_optimizer_phase4_task_2_costo_equit\u00e0",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/plans/2026-06-06-optimizer-phase4.md",
+      "source_location": "L210",
+      "weight": 1.0,
+      "source": "plans_2026_06_06_optimizer_phase4_ottimizzatore_turni_fase_4_implementation_plan",
+      "target": "plans_2026_06_06_optimizer_phase4_task_3_modello_preferenze_costo_preferenze",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/plans/2026-06-06-optimizer-phase4.md",
+      "source_location": "L330",
+      "weight": 1.0,
+      "source": "plans_2026_06_06_optimizer_phase4_ottimizzatore_turni_fase_4_implementation_plan",
+      "target": "plans_2026_06_06_optimizer_phase4_task_4_costo_ordine_tidy",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/plans/2026-06-06-optimizer-phase4.md",
+      "source_location": "L398",
+      "weight": 1.0,
+      "source": "plans_2026_06_06_optimizer_phase4_ottimizzatore_turni_fase_4_implementation_plan",
+      "target": "plans_2026_06_06_optimizer_phase4_task_5_funzione_costo_totale",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/plans/2026-06-06-optimizer-phase4.md",
+      "source_location": "L452",
+      "weight": 1.0,
+      "source": "plans_2026_06_06_optimizer_phase4_ottimizzatore_turni_fase_4_implementation_plan",
+      "target": "plans_2026_06_06_optimizer_phase4_task_6_refactor_estrai_buildtierrules_nessun_cambio_di_comportamento",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/plans/2026-06-06-optimizer-phase4.md",
+      "source_location": "L500",
+      "weight": 1.0,
+      "source": "plans_2026_06_06_optimizer_phase4_ottimizzatore_turni_fase_4_implementation_plan",
+      "target": "plans_2026_06_06_optimizer_phase4_task_7_collettore_di_settimane_feasible",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/plans/2026-06-06-optimizer-phase4.md",
+      "source_location": "L597",
+      "weight": 1.0,
+      "source": "plans_2026_06_06_optimizer_phase4_ottimizzatore_turni_fase_4_implementation_plan",
+      "target": "plans_2026_06_06_optimizer_phase4_task_8_solveweekoptimized_diagnoseinfeasibility",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/plans/2026-06-06-optimizer-phase4.md",
+      "source_location": "L698",
+      "weight": 1.0,
+      "source": "plans_2026_06_06_optimizer_phase4_ottimizzatore_turni_fase_4_implementation_plan",
+      "target": "plans_2026_06_06_optimizer_phase4_task_9_instrada_generateweek_regenerate_sull_ottimizzatore",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/plans/2026-06-06-solver-audit.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "plans_2026_06_06_solver_audit",
+      "target": "plans_2026_06_06_solver_audit_solver_audit_fix_implementation_plan",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "docs/superpowers/plans/2026-06-06-solver-audit.md",
       "source_location": "L1",
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "plans_2026_06_06_solver_audit",
       "target": "solver_audit_plan"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/plans/2026-06-06-solver-audit.md",
+      "source_location": "L15",
+      "weight": 1.0,
+      "source": "plans_2026_06_06_solver_audit_solver_audit_fix_implementation_plan",
+      "target": "plans_2026_06_06_solver_audit_convenzioni_test",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/plans/2026-06-06-solver-audit.md",
+      "source_location": "L297",
+      "weight": 1.0,
+      "source": "plans_2026_06_06_solver_audit_solver_audit_fix_implementation_plan",
+      "target": "plans_2026_06_06_solver_audit_self_review",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -5277,12 +6439,220 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/specs/2026-06-06-optimizer-phase4-design.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "source": "specs_2026_06_06_optimizer_phase4_design",
+      "target": "specs_2026_06_06_optimizer_phase4_design_fase_4_ottimizzatore_turni_multi_obiettivo_design",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/specs/2026-06-06-optimizer-phase4-design.md",
+      "source_location": "L29",
+      "weight": 1.0,
+      "source": "specs_2026_06_06_optimizer_phase4_design_fase_4_ottimizzatore_turni_multi_obiettivo_design",
+      "target": "specs_2026_06_06_optimizer_phase4_design_architettura_flusso",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/specs/2026-06-06-optimizer-phase4-design.md",
+      "source_location": "L51",
+      "weight": 1.0,
+      "source": "specs_2026_06_06_optimizer_phase4_design_fase_4_ottimizzatore_turni_multi_obiettivo_design",
+      "target": "specs_2026_06_06_optimizer_phase4_design_componenti",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/specs/2026-06-06-optimizer-phase4-design.md",
+      "source_location": "L157",
+      "weight": 1.0,
+      "source": "specs_2026_06_06_optimizer_phase4_design_fase_4_ottimizzatore_turni_multi_obiettivo_design",
+      "target": "specs_2026_06_06_optimizer_phase4_design_data_flow_storage",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/specs/2026-06-06-optimizer-phase4-design.md",
+      "source_location": "L194",
+      "weight": 1.0,
+      "source": "specs_2026_06_06_optimizer_phase4_design_fase_4_ottimizzatore_turni_multi_obiettivo_design",
+      "target": "specs_2026_06_06_optimizer_phase4_design_fuori_scope",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/specs/2026-06-06-optimizer-phase4-design.md",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "specs_2026_06_06_optimizer_phase4_design_fase_4_ottimizzatore_turni_multi_obiettivo_design",
+      "target": "specs_2026_06_06_optimizer_phase4_design_obiettivo",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/specs/2026-06-06-optimizer-phase4-design.md",
+      "source_location": "L186",
+      "weight": 1.0,
+      "source": "specs_2026_06_06_optimizer_phase4_design_fase_4_ottimizzatore_turni_multi_obiettivo_design",
+      "target": "specs_2026_06_06_optimizer_phase4_design_performance",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/specs/2026-06-06-optimizer-phase4-design.md",
+      "source_location": "L201",
+      "weight": 1.0,
+      "source": "specs_2026_06_06_optimizer_phase4_design_fase_4_ottimizzatore_turni_multi_obiettivo_design",
+      "target": "specs_2026_06_06_optimizer_phase4_design_piano_di_consegna_per_writing_plans",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/specs/2026-06-06-optimizer-phase4-design.md",
+      "source_location": "L172",
+      "weight": 1.0,
+      "source": "specs_2026_06_06_optimizer_phase4_design_fase_4_ottimizzatore_turni_multi_obiettivo_design",
+      "target": "specs_2026_06_06_optimizer_phase4_design_testing",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/specs/2026-06-06-optimizer-phase4-design.md",
+      "source_location": "L164",
+      "weight": 1.0,
+      "source": "specs_2026_06_06_optimizer_phase4_design_fase_4_ottimizzatore_turni_multi_obiettivo_design",
+      "target": "specs_2026_06_06_optimizer_phase4_design_ui_in_src_app_js",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/specs/2026-06-06-optimizer-phase4-design.md",
+      "source_location": "L53",
+      "weight": 1.0,
+      "source": "specs_2026_06_06_optimizer_phase4_design_componenti",
+      "target": "specs_2026_06_06_optimizer_phase4_design_1_ledger_equit\u00e0_buildequityledger_pastweeks_n_8",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/specs/2026-06-06-optimizer-phase4-design.md",
+      "source_location": "L69",
+      "weight": 1.0,
+      "source": "specs_2026_06_06_optimizer_phase4_design_componenti",
+      "target": "specs_2026_06_06_optimizer_phase4_design_2_costo_equit\u00e0_equitycost_week_ledger",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/specs/2026-06-06-optimizer-phase4-design.md",
+      "source_location": "L80",
+      "weight": 1.0,
+      "source": "specs_2026_06_06_optimizer_phase4_design_componenti",
+      "target": "specs_2026_06_06_optimizer_phase4_design_3_modello_preferenze",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/specs/2026-06-06-optimizer-phase4-design.md",
+      "source_location": "L95",
+      "weight": 1.0,
+      "source": "specs_2026_06_06_optimizer_phase4_design_componenti",
+      "target": "specs_2026_06_06_optimizer_phase4_design_4_costo_preferenze_preferencecost_week",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/specs/2026-06-06-optimizer-phase4-design.md",
+      "source_location": "L108",
+      "weight": 1.0,
+      "source": "specs_2026_06_06_optimizer_phase4_design_componenti",
+      "target": "specs_2026_06_06_optimizer_phase4_design_5_costo_ordine_tidycost_week",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/specs/2026-06-06-optimizer-phase4-design.md",
+      "source_location": "L115",
+      "weight": 1.0,
+      "source": "specs_2026_06_06_optimizer_phase4_design_componenti",
+      "target": "specs_2026_06_06_optimizer_phase4_design_6_funzione_costo_totale_costofweek_week_ledger",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/specs/2026-06-06-optimizer-phase4-design.md",
+      "source_location": "L126",
+      "weight": 1.0,
+      "source": "specs_2026_06_06_optimizer_phase4_design_componenti",
+      "target": "specs_2026_06_06_optimizer_phase4_design_7_motore_cost_ranked_solveweekcore_modalit\u00e0_collect",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/specs/2026-06-06-optimizer-phase4-design.md",
+      "source_location": "L138",
+      "weight": 1.0,
+      "source": "specs_2026_06_06_optimizer_phase4_design_componenti",
+      "target": "specs_2026_06_06_optimizer_phase4_design_8_alternativa_regeneratealternativewithfeedback",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/specs/2026-06-06-optimizer-phase4-design.md",
+      "source_location": "L144",
+      "weight": 1.0,
+      "source": "specs_2026_06_06_optimizer_phase4_design_componenti",
+      "target": "specs_2026_06_06_optimizer_phase4_design_9_spiegabilit\u00e0_infeasibilit\u00e0",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
       "source_location": "L1",
       "weight": 1.0,
       "confidence_score": 1.0,
       "source": "specs_2026_06_06_solver_audit_design",
-      "target": "solver_audit_design"
+      "target": "specs_2026_06_06_solver_audit_design_audit_miglioramento_solver_turni_design"
+    },
+    {
+      "relation": "conceptually_related_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
+      "source": "specs_2026_06_06_solver_audit_design_audit_miglioramento_solver_turni_design",
+      "target": "index_coveragedeficit"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
+      "source_location": "L78",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "specs_2026_06_06_solver_audit_design_audit_miglioramento_solver_turni_design",
+      "target": "specs_2026_06_06_solver_audit_design_combinazioni"
     },
     {
       "relation": "contains",
@@ -5291,18 +6661,8 @@
       "source_location": "L7",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "solver_audit_design",
+      "source": "specs_2026_06_06_solver_audit_design_audit_miglioramento_solver_turni_design",
       "target": "specs_2026_06_06_solver_audit_design_contesto"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
-      "source_location": "L18",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "solver_audit_design",
-      "target": "specs_2026_06_06_solver_audit_design_principio_architetturale"
     },
     {
       "relation": "contains",
@@ -5311,8 +6671,66 @@
       "source_location": "L25",
       "weight": 1.0,
       "confidence_score": 1.0,
-      "source": "solver_audit_design",
+      "source": "specs_2026_06_06_solver_audit_design_audit_miglioramento_solver_turni_design",
       "target": "specs_2026_06_06_solver_audit_design_fix_di_correttezza"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
+      "source_location": "L62",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "specs_2026_06_06_solver_audit_design_audit_miglioramento_solver_turni_design",
+      "target": "specs_2026_06_06_solver_audit_design_fix_di_velocit\u00e0"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
+      "source_location": "L124",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "specs_2026_06_06_solver_audit_design_audit_miglioramento_solver_turni_design",
+      "target": "specs_2026_06_06_solver_audit_design_fuori_scope"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
+      "source_location": "L92",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "specs_2026_06_06_solver_audit_design_audit_miglioramento_solver_turni_design",
+      "target": "specs_2026_06_06_solver_audit_design_migliorie"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
+      "source_location": "L18",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "specs_2026_06_06_solver_audit_design_audit_miglioramento_solver_turni_design",
+      "target": "specs_2026_06_06_solver_audit_design_principio_architetturale"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
+      "source_location": "L111",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "specs_2026_06_06_solver_audit_design_audit_miglioramento_solver_turni_design",
+      "target": "specs_2026_06_06_solver_audit_design_test"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/superpowers/plans/2026-06-06-solver-audit.md",
+      "source": "solver_audit_plan",
+      "target": "specs_2026_06_06_solver_audit_design_audit_miglioramento_solver_turni_design"
     },
     {
       "relation": "contains",
@@ -5348,16 +6766,6 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
-      "source_location": "L62",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "solver_audit_design",
-      "target": "specs_2026_06_06_solver_audit_design_fix_di_velocit\u00e0"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
       "source_location": "L64",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -5378,16 +6786,6 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
-      "source_location": "L78",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "solver_audit_design",
-      "target": "specs_2026_06_06_solver_audit_design_combinazioni"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
       "source_location": "L80",
       "weight": 1.0,
       "confidence_score": 1.0,
@@ -5403,16 +6801,6 @@
       "confidence_score": 1.0,
       "source": "specs_2026_06_06_solver_audit_design_combinazioni",
       "target": "specs_2026_06_06_solver_audit_design_8_griglia_30_minuti"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
-      "source_location": "L92",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "solver_audit_design",
-      "target": "specs_2026_06_06_solver_audit_design_migliorie"
     },
     {
       "relation": "contains",
@@ -5443,26 +6831,6 @@
       "confidence_score": 1.0,
       "source": "specs_2026_06_06_solver_audit_design_migliorie",
       "target": "specs_2026_06_06_solver_audit_design_9_pruning_storage"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
-      "source_location": "L111",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "solver_audit_design",
-      "target": "specs_2026_06_06_solver_audit_design_test"
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
-      "source_location": "L124",
-      "weight": 1.0,
-      "confidence_score": 1.0,
-      "source": "solver_audit_design",
-      "target": "specs_2026_06_06_solver_audit_design_fuori_scope"
     },
     {
       "relation": "contains",
@@ -5533,14 +6901,6 @@
       "target": "index_coveragedeficit"
     },
     {
-      "relation": "conceptually_related_to",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
-      "source": "solver_audit_design",
-      "target": "index_coveragedeficit"
-    },
-    {
       "relation": "calls",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
@@ -5555,16 +6915,8 @@
       "source_file": ".github/workflows/deploy.yml",
       "source": "deploy_yml",
       "target": "solver_logic_test"
-    },
-    {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "docs/superpowers/plans/2026-06-06-solver-audit.md",
-      "source": "solver_audit_plan",
-      "target": "solver_audit_design"
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "5ce315251aeeb1eac9cf8b9ceb49f5e4686a86b8"
+  "built_at_commit": "c5f072273c1c9a3e728362f2b13f8800380b2951"
 }

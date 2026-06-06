@@ -42,6 +42,17 @@ test('shift hours derive from entry/exit with a 30min break only on long shifts 
   assert.equal(getShift('OFF').hours, 0);
 });
 
+test('UI: il modale team contiene i controlli preferenze', () => {
+  assert.match(app, /preferredDayOff/, 'select giorno libero preferito');
+  assert.match(app, /avoidClose/, 'checkbox evita chiusura');
+  assert.match(app, /avoidOpen/, 'checkbox evita apertura');
+  assert.match(app, /preferredWindow/, 'select finestra preferita');
+});
+
+test('app: costruisce il ledger equità dalle settimane salvate', () => {
+  assert.match(app, /buildEquityLedger/, 'usa buildEquityLedger');
+});
+
 test('solveWeek produces a valid standard week with exact contractual hours', () => {
   const M = loadLogic();
   const r = M.solveWeek(M.createBaseWeek('2026-06-08'));

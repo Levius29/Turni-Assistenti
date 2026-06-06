@@ -31,9 +31,9 @@
 //   closePref {preferred,max} : ricerca preferisce `preferred` chiusure, poi `max`.
 //   overtime {weeklyHours,maxAfternoons,requiresShift} : politica straordinario opzionale.
 export function defaultStaffConfig(){return {
-    Lucrezia: { weeklyHours: 38, minAfternoons: 2, maxAfternoons: 3, canWorkLong: true,  maxWorkDays: 5, afternoonThresholdMin: 1020, escalationPriority: 2, closePref: { preferred: 2, max: 3 } },
-    Manuela:  { weeklyHours: 25, minAfternoons: 1, maxAfternoons: 1, canWorkLong: false, workDays: 5,    afternoonThresholdMin: 900,  escalationPriority: 3, overtime: { weeklyHours: 29, maxAfternoons: 2, requiresShift: { s: 900, e: 1140 } } },
-    Madalina: { weeklyHours: 24, minAfternoons: 2, maxAfternoons: 3, canWorkLong: false, workDays: 5,    afternoonThresholdMin: 960,  escalationPriority: 1 },
+    Lucrezia: { weeklyHours: 38, minAfternoons: 2, maxAfternoons: 3, canWorkLong: true,  maxWorkDays: 5, afternoonThresholdMin: 1020, escalationPriority: 2, closePref: { preferred: 2, max: 3 }, preferences: {} },
+    Manuela:  { weeklyHours: 25, minAfternoons: 1, maxAfternoons: 1, canWorkLong: false, workDays: 5,    afternoonThresholdMin: 900,  escalationPriority: 3, overtime: { weeklyHours: 29, maxAfternoons: 2, requiresShift: { s: 900, e: 1140 } }, preferences: {} },
+    Madalina: { weeklyHours: 24, minAfternoons: 2, maxAfternoons: 3, canWorkLong: false, workDays: 5,    afternoonThresholdMin: 960,  escalationPriority: 1, preferences: {} },
   };}
 // Stato del team mutabile a runtime: i `let` esportati sono live-binding, reconfigure() ricalcola tutto il derivato.
 export let STAFF_CONFIG = defaultStaffConfig();
@@ -167,7 +167,7 @@ export function getAllowedShifts(assistant,day,skipLock=false){
     for(const p of BASE_PAIRS){if(!canLong&&(p.e-p.s)>=LONG_SPAN)continue;out.push(p);}
     return out;
   }
-export function generateWeek(options={}){const week=createBaseWeek(options.startDate??getCurrentMonday());applyPreviousWeekState(week,options.previousWeek);const r=solveWeek(week);const result=r.week??week;if(r.overtime)result.overtimeUsed=true;return result;}
+export function generateWeek(options={}){const week=createBaseWeek(options.startDate??getCurrentMonday());applyPreviousWeekState(week,options.previousWeek);const r=solveWeekOptimized(week,options.ledger);const result=r.week??week;if(r.overtime)result.overtimeUsed=true;return result;}
   // Domanda di presenze pomeridiane (turni isAfternoon) richieste nella settimana, e tetto massimo dato il limite pomeriggi di Manuela.
   // Ogni presenza isAfternoon finisce >=18:00, oltre ogni soglia: consuma sempre 1 quota pomeriggio. Quindi domanda<=capacita' e' condizione necessaria.
 export function afternoonDemand(week){return week.days.reduce((n,d)=>n+getRequiredCoverage(d).afternoon,0);}
@@ -200,6 +200,83 @@ export function computeAfternoonTiers(){
     return tiers;
   }
 export let AFTERNOON_TIERS=computeAfternoonTiers();
+// Regole effettive per un tier di distribuzione pomeriggi (tetti pomeriggi + ore/giorni effettivi
+// considerando festività/assenze). Estratto da solveWeek per riuso nel collettore ottimizzato.
+export function buildTierRules(seedWeek,tier){
+  return Object.fromEntries(ASSISTANT_NAMES.map(n=>{const c=STAFF_CONFIG[n];const inOt=tier.ot&&c.overtime&&tier.caps[n]>c.maxAfternoons;const baseWh=inOt?c.overtime.weeklyHours:ASSISTANTS[n].weeklyHours;const r={...ASSISTANTS[n],maxAfternoons:tier.caps[n],weeklyHours:effectiveWeeklyHours(n,seedWeek,baseWh)};if('workDays'in ASSISTANTS[n])r.workDays=effectiveWorkDays(n,seedWeek,ASSISTANTS[n].workDays);if('maxWorkDays'in ASSISTANTS[n])r.maxWorkDays=effectiveWorkDays(n,seedWeek,ASSISTANTS[n].maxWorkDays);return[n,r];}));
+}
+// Raccoglie settimane feasible (tutte valide) dal PRIMO tier di distribuzione pomeriggi ammesso,
+// fino a `cap` soluzioni o esaurimento `budget`. Riusa getDayCombos/buildRem/validateWeek.
+// Mantiene i vincoli hard (incluso il tetto chiusure closePref.max della persona con preferenza).
+// Raccoglie settimane feasible (tutte valide) dal PRIMO tier di distribuzione pomeriggi ammesso,
+// fino a `cap` soluzioni o esaurimento `budget`. Riusa getDayCombos/buildRem/validateWeek.
+// Memoizza gli stati (pos,stats) SENZA alcuna completazione valida (dead): la validità dipende solo
+// dagli aggregati, non dal prefisso, quindi è sound anche raccogliendo molte soluzioni distinte.
+export function collectFeasibleWeeks(seedWeek,{cap=70,budget=SOLVE_BUDGET_FULL,avoidSigs}={}){
+  const demand=afternoonDemand(seedWeek);
+  const baseCombos=seedWeek.days.map((day,idx)=>getDayCombos(seedWeek,day,idx));
+  const combosByDay=heuristicCombos(baseCombos);
+  const D=seedWeek.days.length;
+  const order=[...Array(D).keys()].sort((a,b)=>baseCombos[a].length-baseCombos[b].length);
+  const orderedCombos=order.map(i=>combosByDay[i]);
+  const rem=buildRem(seedWeek.days,order);
+  const closeMax=CLOSE_PREF_PERSON?(STAFF_CONFIG[CLOSE_PREF_PERSON].closePref?.max??Infinity):Infinity;
+  for(const tier of AFTERNOON_TIERS){
+    if(demand>Object.values(tier.caps).reduce((a,b)=>a+b,0))continue;
+    const tierRules=buildTierRules(seedWeek,tier);
+    const pool=[],seen=new Set(),dead=new Set();let nodes=0;const placed=new Array(D);
+    const keyOf=(pos,st)=>{let s=pos+'|';for(const a of ASSISTANT_NAMES){const x=st[a];s+=Math.round(x.hours*2)+','+x.afternoons+','+x.workDays+','+(x.closes||0)+';';}return s;};
+    const feasibleAhead=(nextPos,st)=>{for(const a of ASSISTANT_NAMES){const rules=tierRules[a],s=st[a],r=rem[nextPos][a];if(s.hours>rules.weeklyHours)return false;if(s.afternoons>rules.maxAfternoons)return false;if(rules.workDays&&s.workDays>rules.workDays)return false;if(rules.maxWorkDays&&s.workDays>rules.maxWorkDays)return false;if(s.hours+r.maxHours<rules.weeklyHours)return false;if(s.hours+r.minHours>rules.weeklyHours)return false;if(s.afternoons+r.maxAfternoons<rules.minAfternoons)return false;if(rules.workDays&&(s.workDays+r.maxWorkDays<rules.workDays||s.workDays+r.minWorkDays>rules.workDays))return false;if(rules.maxWorkDays&&s.workDays+r.minWorkDays>rules.maxWorkDays)return false;}return true;};
+    const visit=(pos,stats)=>{
+      if(nodes>budget||pool.length>=cap)return false;nodes++;
+      if(pos===D){const w=buildWeekFromDayAssignments(seedWeek,placed);if(validateWeek(w,tierRules).length!==0)return false;const sig=weekAssignmentSig(w);if((!avoidSigs||!avoidSigs.has(sig))&&!seen.has(sig)){seen.add(sig);pool.push(w);}return true;}
+      const key=keyOf(pos,stats);if(dead.has(key))return false;
+      let anyValid=false;
+      for(const combo of orderedCombos[pos]){
+        const d=combo.d,next=cloneStats(stats);
+        for(const a of ASSISTANT_NAMES){const da=d[a];next[a].hours+=da.h;next[a].afternoons+=da.af;next[a].workDays+=da.wd;}
+        if(CLOSE_PREF_PERSON){next[CLOSE_PREF_PERSON].closes+=d[CLOSE_PREF_PERSON].close;if(next[CLOSE_PREF_PERSON].closes>closeMax)continue;}
+        if(OVERTIME_PERSON){const _thr=STAFF_CONFIG[OVERTIME_PERSON].maxAfternoons+1,_req=STAFF_CONFIG[OVERTIME_PERSON].overtime.requiresShift;if(_req&&next[OVERTIME_PERSON].afternoons>=_thr){let has=d[OVERTIME_PERSON].oReq;if(!has)for(let q=0;q<pos;q++){const pc=placed[order[q]];if(pc&&pc.d[OVERTIME_PERSON].oReq){has=true;break;}}if(!has)continue;}}
+        if(!feasibleAhead(pos+1,next))continue;
+        placed[order[pos]]=combo;const got=visit(pos+1,next);placed[order[pos]]=undefined;
+        if(got)anyValid=true;
+        if(nodes>budget||pool.length>=cap)return anyValid;
+      }
+      if(!anyValid)dead.add(key);
+      return anyValid;
+    };
+    visit(0,Object.fromEntries(ASSISTANT_NAMES.map(n=>[n,{hours:0,afternoons:0,workDays:0,closes:0}])));
+    if(pool.length)return{pool,overtime:tier.ot,tier};
+  }
+  return{pool:[],overtime:false,tier:null};
+}
+// Ottimizzatore: raccoglie le settimane feasible, le ordina per costo (poi per firma, per
+// determinismo) e ritorna la migliore + le alternative. Se nessuna è feasible, diagnostica il motivo.
+export function solveWeekOptimized(seedWeek,ledger,{avoidSigs}={}){
+  const led=ledger||buildEquityLedger([],8);
+  const{pool,overtime}=collectFeasibleWeeks(seedWeek,{avoidSigs});
+  if(!pool.length)return{week:null,solved:false,overtime:false,reason:diagnoseInfeasibility(seedWeek)};
+  pool.sort((a,b)=>{const ca=costOfWeek(a,led),cb=costOfWeek(b,led);if(ca!==cb)return ca-cb;const sa=weekAssignmentSig(a),sb=weekAssignmentSig(b);return sa<sb?-1:sa>sb?1:0;});
+  const best=pool[0];if(overtime)best.overtimeUsed=true;
+  return{week:best,solved:true,overtime,alternatives:pool.slice(1)};
+}
+// Spiegazione best-effort dell'infeasibilità: trova il primo vincolo hard non soddisfacibile.
+export function diagnoseInfeasibility(seedWeek){
+  const D=seedWeek.days.length,order=[...Array(D).keys()];
+  const rem=buildRem(seedWeek.days,order),r0=rem[0];
+  for(const n of ASSISTANT_NAMES){
+    const target=effectiveWeeklyHours(n,seedWeek,ASSISTANTS[n].weeklyHours);
+    if(r0[n].minHours>target)return`${n}: ore minime possibili ${r0[n].minHours} > target ${target} (sblocca un turno o riduci i giorni)`;
+    if(r0[n].maxHours<target)return`${n}: ore massime possibili ${r0[n].maxHours} < target ${target}`;
+    if(r0[n].maxAfternoons<ASSISTANTS[n].minAfternoons)return`${n}: pomeriggi disponibili insufficienti (${r0[n].maxAfternoons}/${ASSISTANTS[n].minAfternoons})`;
+  }
+  for(const day of seedWeek.days){
+    const req=getRequiredCoverage(day);if(!req.morning&&!req.close)continue;
+    if(req.morning&&!ASSISTANT_NAMES.some(n=>getAllowedShifts(n,day).some(a=>getShift(a).coversMorning)))return`${day.label}: nessuna disponibile per l'apertura 08:30`;
+    if(req.close&&!ASSISTANT_NAMES.some(n=>getAllowedShifts(n,day).some(a=>getShift(a).coversClose)))return`${day.label}: nessuna disponibile per la chiusura 19:00`;
+  }
+  return'Vincoli combinati non soddisfacibili: prova a sbloccare qualche turno o ridurre le eccezioni.';
+}
 export function solveWeek(seedWeek,avoidSigs){
     const demand=afternoonDemand(seedWeek);
     const baseCombos=seedWeek.days.map((day,idx)=>getDayCombos(seedWeek,day,idx));
@@ -211,7 +288,7 @@ export function solveWeek(seedWeek,avoidSigs){
     const attempt=(combos,budget)=>{
       for(const tier of AFTERNOON_TIERS){
         if(demand>tier.caps.Lucrezia+tier.caps.Manuela+tier.caps.Madalina)continue;
-        const tierRules=Object.fromEntries(ASSISTANT_NAMES.map(n=>{const c=STAFF_CONFIG[n];const inOt=tier.ot&&c.overtime&&tier.caps[n]>c.maxAfternoons;const baseWh=inOt?c.overtime.weeklyHours:ASSISTANTS[n].weeklyHours;const r={...ASSISTANTS[n],maxAfternoons:tier.caps[n],weeklyHours:effectiveWeeklyHours(n,seedWeek,baseWh)};if('workDays'in ASSISTANTS[n])r.workDays=effectiveWorkDays(n,seedWeek,ASSISTANTS[n].workDays);if('maxWorkDays'in ASSISTANTS[n])r.maxWorkDays=effectiveWorkDays(n,seedWeek,ASSISTANTS[n].maxWorkDays);return[n,r];}));
+        const tierRules=buildTierRules(seedWeek,tier);
         let found=null;
         for(const maxCloses of [2,3]){const r=solveWeekCore(seedWeek,maxCloses,combos,budget,avoidSigs,tierRules,pre);if(r.solved){found=r;break;}}
         if(found){if(tier.ot)found.week.overtimeUsed=true;return{...found,overtime:tier.ot};}
@@ -321,8 +398,8 @@ export function getDayCombos(seedWeek,day,_idx){
 export function cloneStats(stats){return Object.fromEntries(ASSISTANT_NAMES.map(a=>[a,{...stats[a]}]));}
 export function buildWeekFromDayAssignments(seedWeek,assignments){const w=structuredClone(seedWeek);for(let i=0;i<w.days.length;i++)for(const a of ASSISTANT_NAMES)w.days[i].assignments[a]=assignments[i][a];return w;}
 export function applyPreviousWeekState(week,prev){if(!prev)return;for(const day of week.days){const p=prev.days.find(d=>d.key===day.key);if(!p)continue;day.exceptions={...day.exceptions,...p.exceptions};day.locks={...day.locks,...p.locks};for(const a of ASSISTANT_NAMES)if(day.locks[a])day.assignments[a]=p.assignments[a];}}
-export function regenerateWeekWithFeedback(start,prev){const seed=createBaseWeek(start);applyPreviousWeekState(seed,prev);const r=solveWeek(seed);const week=r.week??seed;const locked=getLockedShiftCount(week);if(!r.solved)return{week,message:locked?`Nessuna combinazione valida con i ${locked} turni bloccati: probabilmente non e' possibile, prova a sbloccarne qualcuno.`:'Nessuna combinazione valida trovata.'};const otMsg=r.overtime?` ⚠️ Straordinario Manuela (+4h pom. extra, 29h totali).`:'';return{week,message:(locked?`Rigenerata. ${locked} turni bloccati mantenuti.`:'Settimana rigenerata.')+otMsg};}
-export function regenerateCleanWeekWithFeedback(start){const week=generateWeek({startDate:start});const otMsg=week.overtimeUsed?` ⚠️ Straordinario Manuela (+4h pom. extra, 29h totali).`:'';return{week,message:'Settimana pulita rigenerata.'+otMsg};}
+export function regenerateWeekWithFeedback(start,prev,ledger){const seed=createBaseWeek(start);applyPreviousWeekState(seed,prev);const r=solveWeekOptimized(seed,ledger);const week=r.week??seed;const locked=getLockedShiftCount(week);if(!r.solved)return{week,message:(locked?`Nessuna combinazione valida con i ${locked} turni bloccati: `:'Nessuna combinazione valida. ')+(r.reason||'')};const otMsg=r.overtime?` ⚠️ Straordinario Manuela (+4h pom. extra, 29h totali).`:'';return{week,message:(locked?`Rigenerata. ${locked} turni bloccati mantenuti.`:'Settimana rigenerata.')+otMsg};}
+export function regenerateCleanWeekWithFeedback(start,ledger){const week=generateWeek({startDate:start,ledger});const otMsg=week.overtimeUsed?` ⚠️ Straordinario Manuela (+4h pom. extra, 29h totali).`:'';return{week,message:'Settimana pulita rigenerata.'+otMsg};}
   // Varieta' oraria: per ogni assistente/giorno non bloccato prova a spostare gli orari
   // su un turno equivalente (stessa firma-ruolo: ore, apertura, chiusura, pomeriggio, quota,
   // 15-19 di Manuela), mantenendo la settimana valida. Non cambia le statistiche, solo i layout.
@@ -344,6 +421,76 @@ export function diversifyTimes(week){
     }
     return w;
   }
-export function regenerateAlternativeWithFeedback(start,current,avoidSigs){const seed=createBaseWeek(start);applyPreviousWeekState(seed,current);const r=solveWeek(seed,avoidSigs);if(!r.solved)return{week:null,solved:false};let week=r.week;const dv=diversifyTimes(week);if(validateWeek(dv).length===0&&(!avoidSigs||!avoidSigs.has(weekAssignmentSig(dv))))week=dv;const otMsg=r.overtime?` ⚠️ Straordinario Manuela (+4h pom. extra, 29h totali).`:'';return{week,solved:true,message:'Soluzione alternativa trovata.'+otMsg};}
+export function regenerateAlternativeWithFeedback(start,current,avoidSigs,ledger){const seed=createBaseWeek(start);applyPreviousWeekState(seed,current);const r=solveWeekOptimized(seed,ledger,{avoidSigs});if(!r.solved)return{week:null,solved:false};const otMsg=r.overtime?` ⚠️ Straordinario Manuela (+4h pom. extra, 29h totali).`:'';return{week:r.week,solved:true,message:'Soluzione alternativa trovata.'+otMsg};}
 export function updateShiftWithFeedback(week,dayKey,assistant,shiftId){const day=week.days.find(d=>d.key===dayKey);if(day)day.assignments[assistant]=shiftId;return{week,message:`${assistant} · ${day?.label} aggiornato.`};}
 export function getLockedShiftCount(week){return week.days.reduce((c,d)=>c+Object.values(d.locks).filter(Boolean).length,0);}
+
+// ── OTTIMIZZATORE (Fase 4): funzioni pure di costo ──
+// Varianza di popolazione (media degli scarti quadratici). Misura di squilibrio.
+export function variance(arr){if(arr.length===0)return 0;const m=arr.reduce((a,b)=>a+b,0)/arr.length;return arr.reduce((a,b)=>a+(b-m)*(b-m),0)/arr.length;}
+// Ledger equità: somma opens/closes/saturdays/workDays per persona sulle ultime N settimane
+// (più recenti per startDate). Persone non più in organico vengono ignorate (solo ASSISTANT_NAMES correnti).
+export function buildEquityLedger(pastWeeks,N=8){
+  const sorted=[...pastWeeks].filter(Boolean).sort((a,b)=>a.startDate<b.startDate?1:-1).slice(0,N);
+  const led=Object.fromEntries(ASSISTANT_NAMES.map(n=>[n,{opens:0,closes:0,saturdays:0,workDays:0}]));
+  for(const wk of sorted){const st=getAssistantStats(wk);for(const n of ASSISTANT_NAMES){const s=st[n];led[n].opens+=s.opens;led[n].closes+=s.closes;led[n].saturdays+=s.saturdays;led[n].workDays+=s.workDays;}}
+  return led;
+}
+// Pesi globali della funzione costo (tarabili).
+export let W_EQ=10, W_PREF=3, W_TIDY=0.1;
+// Costo equità: per ogni onere {opens,closes,saturdays} calcola il tasso per persona
+// rate_p = (storico_p + candidato_p) / max(1, workDays_storico_p + workDays_candidato_p)
+// e somma la varianza dei tassi tra le persone. Tassi allineati = equo = costo basso.
+export function equityCost(week,ledger){
+  const cand=getAssistantStats(week);
+  let cost=0;
+  for(const duty of ['opens','closes','saturdays']){
+    const rates=ASSISTANT_NAMES.map(n=>{const l=ledger[n]||{opens:0,closes:0,saturdays:0,workDays:0};const wd=l.workDays+cand[n].workDays;return (l[duty]+cand[n][duty])/Math.max(1,wd);});
+    cost+=variance(rates);
+  }
+  return cost;
+}
+// Sotto-pesi del costo preferenze (tarabili).
+export let PREF_W={dayOff:2, close:1, open:1, window:1};
+// Costo preferenze: somma, per persona e per giorno lavorato, le violazioni soft dei desiderata.
+export function preferenceCost(week){
+  let cost=0;
+  for(const n of ASSISTANT_NAMES){
+    const pr=STAFF_CONFIG[n]?.preferences;if(!pr)continue;
+    for(const day of week.days){
+      const sh=getShift(day.assignments[n]);if(sh.hours===0)continue;
+      if(pr.preferredDayOff&&day.key===pr.preferredDayOff)cost+=PREF_W.dayOff;
+      if(pr.avoidClose&&sh.coversClose)cost+=PREF_W.close;
+      if(pr.avoidOpen&&sh.coversMorning)cost+=PREF_W.open;
+      if(pr.preferredWindow)cost+=PREF_W.window*windowPenalty(pr.preferredWindow,sh);
+    }
+  }
+  return cost;
+}
+// Penalità finestra oraria preferita (in "ore" di scostamento, >=0).
+export function windowPenalty(pref,sh){
+  if(typeof pref==='object'&&pref){return (Math.abs(sh.startMin-pref.start)+Math.abs(sh.endMin-pref.end))/60;}
+  if(pref==='early')return Math.max(0,sh.startMin-STUDIO_OPEN)/60;
+  if(pref==='late')return Math.max(0,STUDIO_CLOSE-sh.endMin)/60;
+  if(pref==='morning')return Math.max(0,sh.endMin-13*60)/60;
+  if(pref==='afternoon')return sh.coversAfternoon?0:Math.max(0,13*60-sh.startMin)/60+1;
+  return 0;
+}
+// Insieme di orari canonici {s,e} (dai template legacy) per il tie-break deterministico.
+export const CANONICAL_SHIFTS=Object.values(LEGACY_TEMPLATES);
+// Costo ordine: somma, per ogni turno lavorato, la distanza (in ore) dal template canonico più vicino.
+// Termine minimo (W_TIDY piccolo): a parità di equità+preferenze preferisce orari "tondi" e rende la scelta stabile.
+export function tidyCost(week){
+  let cost=0;
+  for(const day of week.days)for(const n of ASSISTANT_NAMES){
+    const sh=getShift(day.assignments[n]);if(sh.hours===0)continue;
+    let best=Infinity;
+    for(const t of CANONICAL_SHIFTS){const d=(Math.abs(sh.startMin-t.s)+Math.abs(sh.endMin-t.e))/60;if(d<best)best=d;}
+    cost+=best===Infinity?0:best;
+  }
+  return cost;
+}
+// Costo totale di una settimana (somma pesata). Più basso = migliore.
+export function costOfWeek(week,ledger){
+  return W_EQ*equityCost(week,ledger)+W_PREF*preferenceCost(week)+W_TIDY*tidyCost(week);
+}

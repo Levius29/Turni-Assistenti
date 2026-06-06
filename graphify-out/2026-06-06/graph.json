@@ -1666,97 +1666,97 @@
       "label": "index.html",
       "file_type": "code",
       "source_file": "index.html",
-      "id": "index_html",
       "community": 4,
-      "norm_label": "index.html"
+      "norm_label": "index.html",
+      "id": "index_html"
     },
     {
       "label": "ASSISTANTS",
       "file_type": "code",
       "source_file": "index.html",
-      "id": "index_assistants",
       "community": 15,
-      "norm_label": "assistants"
+      "norm_label": "assistants",
+      "id": "index_assistants"
     },
     {
       "label": "solveWeek",
       "file_type": "code",
       "source_file": "index.html",
-      "id": "index_solveweek",
       "community": 2,
-      "norm_label": "solveweek"
+      "norm_label": "solveweek",
+      "id": "index_solveweek"
     },
     {
       "label": "coverageDeficit",
       "file_type": "code",
       "source_file": "index.html",
-      "id": "index_coveragedeficit",
       "community": 2,
-      "norm_label": "coveragedeficit"
+      "norm_label": "coveragedeficit",
+      "id": "index_coveragedeficit"
     },
     {
       "label": "getDayCombos",
       "file_type": "code",
       "source_file": "index.html",
-      "id": "index_getdaycombos",
       "community": 2,
-      "norm_label": "getdaycombos"
+      "norm_label": "getdaycombos",
+      "id": "index_getdaycombos"
     },
     {
       "label": "validateWeek",
       "file_type": "code",
       "source_file": "index.html",
-      "id": "index_validateweek",
       "community": 2,
-      "norm_label": "validateweek"
+      "norm_label": "validateweek",
+      "id": "index_validateweek"
     },
     {
       "label": "jsPDF",
       "file_type": "code",
       "source_file": "index.html",
-      "id": "index_jspdf",
       "community": 4,
-      "norm_label": "jspdf"
+      "norm_label": "jspdf",
+      "id": "index_jspdf"
     },
     {
       "label": "CI Workflow",
       "file_type": "code",
       "source_file": ".github/workflows/ci.yml",
-      "id": "ci_yml",
       "community": 4,
-      "norm_label": "ci workflow"
+      "norm_label": "ci workflow",
+      "id": "ci_yml"
     },
     {
       "label": "Deploy Workflow",
       "file_type": "code",
       "source_file": ".github/workflows/deploy.yml",
-      "id": "deploy_yml",
       "community": 4,
-      "norm_label": "deploy workflow"
+      "norm_label": "deploy workflow",
+      "id": "deploy_yml"
     },
     {
       "label": "Solver Audit & Fix Implementation Plan",
       "file_type": "document",
       "source_file": "docs/superpowers/plans/2026-06-06-solver-audit.md",
-      "id": "solver_audit_plan",
       "community": 4,
-      "norm_label": "solver audit & fix implementation plan"
+      "norm_label": "solver audit & fix implementation plan",
+      "id": "solver_audit_plan"
     },
     {
       "label": "Audit & miglioramento solver turni \u2014 Design",
       "file_type": "document",
       "source_file": "docs/superpowers/specs/2026-06-06-solver-audit-design.md",
-      "id": "solver_audit_design",
       "community": 2,
-      "norm_label": "audit & miglioramento solver turni \u2014 design"
+      "norm_label": "audit & miglioramento solver turni \u2014 design",
+      "id": "solver_audit_design"
     },
     {
       "label": "tests/solver-logic.test.mjs",
       "file_type": "code",
       "source_file": "tests/solver-logic.test.mjs",
-      "id": "solver_logic_test",
       "community": 4,
-      "norm_label": "tests/solver-logic.test.mjs"
+      "norm_label": "tests/solver-logic.test.mjs",
+      "id": "solver_logic_test"
     }
   ],
   "links": [
