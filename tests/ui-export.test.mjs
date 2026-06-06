@@ -3,13 +3,11 @@ import { readFileSync } from 'node:fs';
 import test from 'node:test';
 
 const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
+const app = readFileSync(new URL('../src/app.js', import.meta.url), 'utf8');
 
-// Estrae la logica pura (senza DOM) dallo <script> dell'app per testare derivazione turni e solver.
-function loadLogic() {
-  const script = [...html.matchAll(/<script>([\s\S]*?)<\/script>/g)].map(m => m[1]).find(s => s.includes('const ASSISTANT_NAMES'));
-  const logic = script.slice(0, script.indexOf('// ── STORAGE ──'));
-  return new Function(logic + 'return {ASSISTANTS,ASSISTANT_NAMES,getShift,createBaseWeek,solveWeek,validateWeek,getAssistantStats};')();
-}
+// Logica importata dal modulo ES; gli assert di stringa restano su index.html (CSS) / src/app.js (UI/PDF).
+import * as M from '../src/scheduler.js';
+function loadLogic() { return M; }
 
 test('mobile bottom bar reserves the iPhone safe area', () => {
   assert.match(html, /height:\s*calc\(60px \+ env\(safe-area-inset-bottom\)\)/);
@@ -22,12 +20,12 @@ test('intermediate shifts use a stronger purple accent', () => {
 });
 
 test('PDF export uses day rows, assistant columns, variations and graphic badges', () => {
-  assert.match(html, /const head=\[\['Giorno',\.\.\.ASSISTANT_NAMES\]\];/);
-  assert.match(html, /const body=week\.days\.map\(day=>/);
-  assert.match(html, /function getDayVariationLabel\(day\)/);
-  assert.match(html, /function drawPdfBadge\(doc,x,y,code\)/);
-  assert.match(html, /getShiftBadgeCodes\(shift\)/);
-  assert.doesNotMatch(html, /mini legenda|Legenda/i);
+  assert.match(app, /const head=\[\['Giorno',\.\.\.ASSISTANT_NAMES\]\];/);
+  assert.match(app, /const body=week\.days\.map\(day=>/);
+  assert.match(app, /function getDayVariationLabel\(day\)/);
+  assert.match(app, /function drawPdfBadge\(doc,x,y,code\)/);
+  assert.match(app, /getShiftBadgeCodes\(shift\)/);
+  assert.doesNotMatch(app, /mini legenda|Legenda/i);
 });
 
 test('shift hours derive from entry/exit with a 30min break only on long shifts (span >= 7h30)', () => {

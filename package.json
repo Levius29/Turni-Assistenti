@@ -1,0 +1,10 @@
+{
+  "name": "turni-assistenti",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Scheduler turni assistenti studio dentistico",
+  "scripts": {
+    "test": "node --test tests/*.mjs"
+  }
+}

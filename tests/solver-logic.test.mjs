@@ -1,15 +1,9 @@
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
 import test from 'node:test';
+import * as M from '../src/scheduler.js';
 
-const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
-
-// Estrae la logica pura (senza DOM) dallo <script> dell'app.
-function loadLogic() {
-  const script = [...html.matchAll(/<script>([\s\S]*?)<\/script>/g)].map(m => m[1]).find(s => s.includes('const ASSISTANT_NAMES'));
-  const logic = script.slice(0, script.indexOf('// ── STORAGE ──'));
-  return new Function(logic + 'return {ASSISTANTS,ASSISTANT_NAMES,getShift,createBaseWeek,createEmptyWeek,assign,solveWeek,validateWeek,getAssistantStats,getDayCombos,coverageDeficit,getRequiredCoverage,getCoverage};')();
-}
+// Logica importata direttamente dal modulo ES (niente più estrazione via regex).
+function loadLogic() { return M; }
 
 // ── Task 1: coverageDeficit ──
 test('coverageDeficit somma i buchi (cumulativo, non max)', () => {
