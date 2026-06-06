@@ -1,16 +1,16 @@
 # Graph Report - Turni-Assistenti-online  (2026-06-06)
 
 ## Corpus Check
-- 12 files · ~9,931 words
+- 12 files · ~10,524 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 175 nodes · 327 edges · 20 communities (11 shown, 9 thin omitted)
+- 183 nodes · 344 edges · 15 communities (9 shown, 6 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 1 edges (avg confidence: 0.85)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `8ceef201`
+- Built from commit: `991d3e27`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -30,11 +30,6 @@
 - [[_COMMUNITY_Community 12|Community 12]]
 - [[_COMMUNITY_Community 13|Community 13]]
 - [[_COMMUNITY_Community 14|Community 14]]
-- [[_COMMUNITY_Community 15|Community 15]]
-- [[_COMMUNITY_Community 16|Community 16]]
-- [[_COMMUNITY_Community 17|Community 17]]
-- [[_COMMUNITY_Community 18|Community 18]]
-- [[_COMMUNITY_Community 19|Community 19]]
 
 ## God Nodes (most connected - your core abstractions)
 1. `getShift()` - 14 edges
@@ -43,21 +38,21 @@
 4. `Convenzioni test` - 11 edges
 5. `buildDesktopGrid()` - 10 edges
 6. `buildShiftContent()` - 10 edges
-7. `regenerateAlternativeWithFeedback()` - 9 edges
-8. `Audit & miglioramento solver turni — Design` - 9 edges
-9. `buildMobileGrid()` - 8 edges
-10. `generateWeek()` - 8 edges
+7. `generateWeek()` - 9 edges
+8. `regenerateAlternativeWithFeedback()` - 9 edges
+9. `Audit & miglioramento solver turni — Design` - 9 edges
+10. `buildMobileGrid()` - 8 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `CLAUDE.md - Project Documentation` --conceptually_related_to--> `settings.json - Claude Code Hooks Config`  [INFERRED]
   CLAUDE.md → .claude/settings.json
-- `doGenerate()` --calls--> `regenerateWeekWithFeedback()`  [EXTRACTED]
+- `openTeamEditor()` --calls--> `generateWeek()`  [EXTRACTED]
+  src/app.js → src/scheduler.js
+- `openTeamEditor()` --calls--> `reconfigure()`  [EXTRACTED]
   src/app.js → src/scheduler.js
 - `buildDesktopGrid()` --calls--> `formatDateShort()`  [EXTRACTED]
   src/app.js → src/scheduler.js
 - `buildMobileGrid()` --calls--> `formatDateShort()`  [EXTRACTED]
-  src/app.js → src/scheduler.js
-- `buildShiftContent()` --calls--> `getAllowedShifts()`  [EXTRACTED]
   src/app.js → src/scheduler.js
 
 ## Import Cycles
@@ -68,7 +63,7 @@
 - **Coverage Constraint Subsystem** — index_get_coverage, index_get_required_coverage, index_max_uncovered_gap, concept_studio_continuity [EXTRACTED 1.00]
 - **UI Rendering Pipeline** — index_render, index_render_grid, index_render_summary, index_render_warnings, index_render_day_editor [EXTRACTED 1.00]
 
-## Communities (20 total, 9 thin omitted)
+## Communities (15 total, 6 thin omitted)
 
 ### Community 0 - "Community 0"
 Cohesion: 0.14
@@ -79,20 +74,24 @@ Cohesion: 0.10
 Nodes (19): #10 — Niente freeze UI durante il solve, #11 — jsPDF robusto, #1 + #2 — Copertura unificata: `coverageDeficit`, #3 — `validateWeek` controlla i giorni lavorati, #4 — Niente mutazione globale di `ASSISTANTS`, #5 — `getDayCombos` da O(N³) a ~O(K³), #6 — `rem` calcolato una volta, #7 — "Alternativa" con varietà oraria reale (+11 more)
 
 ### Community 3 - "Community 3"
-Cohesion: 0.09
-Nodes (18): _altHistory, currentStart, dayEditorDiv, scheduleGrid, statusMsg, summaryDiv, warningsDiv, weekLabel (+10 more)
+Cohesion: 0.08
+Nodes (35): _altHistory, applyTheme(), buildShiftBadge(), changeWeek(), currentStart, dayEditorDiv, ensureWeekShape(), exportPDF() (+27 more)
 
 ### Community 5 - "Community 5"
-Cohesion: 0.12
-Nodes (31): requestAlternative(), AFTERNOON_END_THRESHOLD, afternoonDemand(), applyPreviousWeekState(), assign(), BASE_PAIRS, buildRem(), cloneStats() (+23 more)
+Cohesion: 0.07
+Nodes (28): AFTERNOON_END_THRESHOLD, AFTERNOON_TIERS, ASSISTANT_NAMES, ASSISTANTS, BASE_PAIRS, buildRem(), buildWeekFromDayAssignments(), cloneStats() (+20 more)
+
+### Community 8 - "Export Tests"
+Cohesion: 0.36
+Nodes (8): buildDesktopGrid(), buildMobileGrid(), buildThemeToggle(), createCell(), createLockToggle(), getContractLabel(), isDayClosed(), renderGrid()
 
 ### Community 10 - "Community 10"
-Cohesion: 0.16
-Nodes (20): applyShiftClass(), buildDesktopGrid(), buildMobileGrid(), buildShiftBadge(), buildShiftContent(), buildThemeToggle(), createCell(), createLockToggle() (+12 more)
+Cohesion: 0.20
+Nodes (16): applyShiftClass(), buildShiftContent(), getPrintShiftLabel(), renderWarnings(), deriveShift(), diversifyTimes(), fmt(), getAllowedShifts() (+8 more)
 
 ### Community 11 - "Community 11"
-Cohesion: 0.50
-Nodes (4): deferHeavy(), doGenerate(), doReset(), regenerateCleanWeekWithFeedback()
+Cohesion: 0.17
+Nodes (17): deferHeavy(), doGenerate(), doReset(), requestAlternative(), afternoonDemand(), applyPreviousWeekState(), assign(), createBaseWeek() (+9 more)
 
 ### Community 13 - "Community 13"
 Cohesion: 0.22
@@ -102,35 +101,23 @@ Nodes (8): compilerOptions, checkJs, lib, module, moduleResolution, noEmit, targ
 Cohesion: 0.25
 Nodes (7): description, name, private, scripts, test, type, version
 
-### Community 15 - "Community 15"
-Cohesion: 0.25
-Nodes (11): ensureWeekShape(), exportPDF(), getCurrentWeek(), render(), renderDayEditor(), renderWarnings(), showStatus(), formatDateShort() (+3 more)
-
-### Community 16 - "Community 16"
-Cohesion: 0.67
-Nodes (4): changeWeek(), resetAltHistory(), saveWeeks(), addDays()
-
-### Community 17 - "Community 17"
-Cohesion: 0.50
-Nodes (4): renderSummary(), countsAsAfternoon(), getAssistantStats(), getLockedShiftCount()
-
 ## Knowledge Gaps
-- **60 isolated node(s):** `PreToolUse`, `module`, `target`, `moduleResolution`, `lib` (+55 more)
+- **61 isolated node(s):** `PreToolUse`, `module`, `target`, `moduleResolution`, `lib` (+56 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **9 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **6 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `getShift()` connect `Community 10` to `Community 17`, `Community 3`, `Community 5`, `Community 15`?**
+- **Why does `getShift()` connect `Community 10` to `Community 3`, `Community 5`?**
   _High betweenness centrality (0.005) - this node is a cross-community bridge._
 - **What connects `PreToolUse`, `module`, `target` to the rest of the system?**
-  _60 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _61 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Community 0` be split into smaller, more focused modules?**
   _Cohesion score 0.14285714285714285 - nodes in this community are weakly interconnected._
 - **Should `Community 2` be split into smaller, more focused modules?**
   _Cohesion score 0.1 - nodes in this community are weakly interconnected._
 - **Should `Community 3` be split into smaller, more focused modules?**
-  _Cohesion score 0.08695652173913043 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.08292682926829269 - nodes in this community are weakly interconnected._
 - **Should `Community 5` be split into smaller, more focused modules?**
-  _Cohesion score 0.11586452762923351 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.06722689075630252 - nodes in this community are weakly interconnected._
