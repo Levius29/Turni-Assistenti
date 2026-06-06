@@ -44,3 +44,37 @@ test('collectFeasibleWeeks: avoidSigs esclude le firme indicate', () => {
   const { pool } = M.collectFeasibleWeeks(seed, { cap: 50, avoidSigs: new Set([sig]) });
   assert.ok(!pool.some(w => M.weekAssignmentSig(w) === sig), 'la firma esclusa non è nel pool');
 });
+
+// solveWeekOptimized: ritorna la settimana a costo minimo + le alternative a costo crescente.
+test('solveWeekOptimized: best ha costo <= di ogni alternativa, ed è valido', () => {
+  M.reconfigure(M.defaultStaffConfig());
+  const seed = M.createBaseWeek('2026-06-08');
+  const led = M.buildEquityLedger([], 8);
+  const r = M.solveWeekOptimized(seed, led);
+  assert.equal(r.solved, true);
+  assert.equal(M.validateWeek(r.week).length, 0, 'best è valido');
+  const cBest = M.costOfWeek(r.week, led);
+  for (const alt of r.alternatives) assert.ok(M.costOfWeek(alt, led) >= cBest - 1e-9, 'best <= alternativa');
+});
+
+// Determinismo: stesso seed+ledger -> stessa settimana.
+test('solveWeekOptimized: deterministico', () => {
+  M.reconfigure(M.defaultStaffConfig());
+  const led = M.buildEquityLedger([], 8);
+  const a = M.solveWeekOptimized(M.createBaseWeek('2026-06-08'), led).week;
+  const b = M.solveWeekOptimized(M.createBaseWeek('2026-06-08'), led).week;
+  assert.equal(M.weekAssignmentSig(a), M.weekAssignmentSig(b));
+});
+
+// diagnoseInfeasibility: produce un messaggio quando la settimana è insoddisfacibile.
+test('diagnoseInfeasibility: spiega una settimana impossibile', () => {
+  M.reconfigure(M.defaultStaffConfig());
+  const seed = M.createBaseWeek('2026-06-08');
+  // Blocca tutti a OFF il lunedì: copertura apertura/chiusura impossibile.
+  const mon = seed.days.find(d => d.key === 'mon');
+  for (const n of M.ASSISTANT_NAMES) { mon.assignments[n] = 'OFF'; mon.locks[n] = true; }
+  const r = M.solveWeekOptimized(seed, M.buildEquityLedger([], 8));
+  assert.equal(r.solved, false);
+  assert.equal(typeof r.reason, 'string');
+  assert.ok(r.reason.length > 0);
+});

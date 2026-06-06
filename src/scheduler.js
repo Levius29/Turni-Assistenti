@@ -212,7 +212,7 @@ export function buildTierRules(seedWeek,tier){
 // fino a `cap` soluzioni o esaurimento `budget`. Riusa getDayCombos/buildRem/validateWeek.
 // Memoizza gli stati (pos,stats) SENZA alcuna completazione valida (dead): la validità dipende solo
 // dagli aggregati, non dal prefisso, quindi è sound anche raccogliendo molte soluzioni distinte.
-export function collectFeasibleWeeks(seedWeek,{cap=400,budget=SOLVE_BUDGET_FULL,avoidSigs}={}){
+export function collectFeasibleWeeks(seedWeek,{cap=150,budget=SOLVE_BUDGET_FULL,avoidSigs}={}){
   const demand=afternoonDemand(seedWeek);
   const baseCombos=seedWeek.days.map((day,idx)=>getDayCombos(seedWeek,day,idx));
   const combosByDay=heuristicCombos(baseCombos);
@@ -249,6 +249,33 @@ export function collectFeasibleWeeks(seedWeek,{cap=400,budget=SOLVE_BUDGET_FULL,
     if(pool.length)return{pool,overtime:tier.ot,tier};
   }
   return{pool:[],overtime:false,tier:null};
+}
+// Ottimizzatore: raccoglie le settimane feasible, le ordina per costo (poi per firma, per
+// determinismo) e ritorna la migliore + le alternative. Se nessuna è feasible, diagnostica il motivo.
+export function solveWeekOptimized(seedWeek,ledger,{avoidSigs}={}){
+  const led=ledger||buildEquityLedger([],8);
+  const{pool,overtime}=collectFeasibleWeeks(seedWeek,{avoidSigs});
+  if(!pool.length)return{week:null,solved:false,overtime:false,reason:diagnoseInfeasibility(seedWeek)};
+  pool.sort((a,b)=>{const ca=costOfWeek(a,led),cb=costOfWeek(b,led);if(ca!==cb)return ca-cb;const sa=weekAssignmentSig(a),sb=weekAssignmentSig(b);return sa<sb?-1:sa>sb?1:0;});
+  const best=pool[0];if(overtime)best.overtimeUsed=true;
+  return{week:best,solved:true,overtime,alternatives:pool.slice(1)};
+}
+// Spiegazione best-effort dell'infeasibilità: trova il primo vincolo hard non soddisfacibile.
+export function diagnoseInfeasibility(seedWeek){
+  const D=seedWeek.days.length,order=[...Array(D).keys()];
+  const rem=buildRem(seedWeek.days,order),r0=rem[0];
+  for(const n of ASSISTANT_NAMES){
+    const target=effectiveWeeklyHours(n,seedWeek,ASSISTANTS[n].weeklyHours);
+    if(r0[n].minHours>target)return`${n}: ore minime possibili ${r0[n].minHours} > target ${target} (sblocca un turno o riduci i giorni)`;
+    if(r0[n].maxHours<target)return`${n}: ore massime possibili ${r0[n].maxHours} < target ${target}`;
+    if(r0[n].maxAfternoons<ASSISTANTS[n].minAfternoons)return`${n}: pomeriggi disponibili insufficienti (${r0[n].maxAfternoons}/${ASSISTANTS[n].minAfternoons})`;
+  }
+  for(const day of seedWeek.days){
+    const req=getRequiredCoverage(day);if(!req.morning&&!req.close)continue;
+    if(req.morning&&!ASSISTANT_NAMES.some(n=>getAllowedShifts(n,day).some(a=>getShift(a).coversMorning)))return`${day.label}: nessuna disponibile per l'apertura 08:30`;
+    if(req.close&&!ASSISTANT_NAMES.some(n=>getAllowedShifts(n,day).some(a=>getShift(a).coversClose)))return`${day.label}: nessuna disponibile per la chiusura 19:00`;
+  }
+  return'Vincoli combinati non soddisfacibili: prova a sbloccare qualche turno o ridurre le eccezioni.';
 }
 export function solveWeek(seedWeek,avoidSigs){
     const demand=afternoonDemand(seedWeek);
