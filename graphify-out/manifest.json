@@ -5,9 +5,9 @@
     "semantic_hash": "bfee062c3962c14264fd704e975a6b38"
   },
   "tests/ui-export.test.mjs": {
-    "mtime": 1780737615.1821132,
-    "ast_hash": "3312d6b225eee2046437c4f99c554152",
-    "semantic_hash": "3312d6b225eee2046437c4f99c554152"
+    "mtime": 1780753902.4922242,
+    "ast_hash": "408d885e7f9ec38b2b580cd0437b87dc",
+    "semantic_hash": ""
   },
   ".github/workflows/deploy.yml": {
     "mtime": 1780737615.1791,
@@ -20,8 +20,8 @@
     "semantic_hash": "82efb97a359f5c7290bf2513d14686be"
   },
   "index.html": {
-    "mtime": 1780743163.7548234,
-    "ast_hash": "75674ad2f126c0dda4e27bfb8f15cc62",
+    "mtime": 1780754158.176962,
+    "ast_hash": "5ba1a3e96e37e2098f0ad84b42975483",
     "semantic_hash": ""
   },
   "tests/solver-logic.test.mjs": {
@@ -50,14 +50,14 @@
     "semantic_hash": "5aa00a96d9b5a449fa3599b680aabe97"
   },
   "src/app.js": {
-    "mtime": 1780744932.185365,
-    "ast_hash": "efcc5ee234f7b558ef4fe25c829717ec",
-    "semantic_hash": "efcc5ee234f7b558ef4fe25c829717ec"
+    "mtime": 1780754006.3791764,
+    "ast_hash": "36c3839b17b1baa0fcc88645dd9f2ece",
+    "semantic_hash": ""
   },
   "src/scheduler.js": {
-    "mtime": 1780744032.7574089,
-    "ast_hash": "743cce96a32dc43436f884271f431daf",
-    "semantic_hash": "743cce96a32dc43436f884271f431daf"
+    "mtime": 1780753787.736891,
+    "ast_hash": "711fe7379667b34e0ca1a8d6e83c37a7",
+    "semantic_hash": ""
   },
   "tests/regression.test.mjs": {
     "mtime": 1780742560.6209211,
@@ -78,5 +78,30 @@
     "mtime": 1780744032.7576241,
     "ast_hash": "49d40584a8462cebcbb1e3d613b929f9",
     "semantic_hash": "49d40584a8462cebcbb1e3d613b929f9"
+  },
+  "tests/equity.test.mjs": {
+    "mtime": 1780752417.2645195,
+    "ast_hash": "f9001228869ed5446cf65ecf25c859c7",
+    "semantic_hash": ""
+  },
+  "tests/optimizer.test.mjs": {
+    "mtime": 1780753740.7867413,
+    "ast_hash": "f357c76ac29898a4f40d5322ee62c608",
+    "semantic_hash": ""
+  },
+  "tests/preferences.test.mjs": {
+    "mtime": 1780752570.358623,
+    "ast_hash": "303ebb28464ce007c4e5156b5f85ee4b",
+    "semantic_hash": ""
+  },
+  "docs/superpowers/plans/2026-06-06-optimizer-phase4.md": {
+    "mtime": 1780752062.5540514,
+    "ast_hash": "164fbe5c848f9f3d913adbb8881b112b",
+    "semantic_hash": ""
+  },
+  "docs/superpowers/specs/2026-06-06-optimizer-phase4-design.md": {
+    "mtime": 1780751474.5676243,
+    "ast_hash": "81be2fb4f5b40c7cf9a34e8d3402b5be",
+    "semantic_hash": ""
   }
 }
