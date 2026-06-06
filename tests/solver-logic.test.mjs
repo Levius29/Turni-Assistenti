@@ -30,8 +30,8 @@ test('validateWeek segnala >5 giorni lavorati', () => {
   const M = loadLogic();
   const w = M.createBaseWeek('2026-06-08');
   w.days.find(d => d.key === 'sat').exceptions.satOpen = true;
-  M.assign(w, 'wed', { Manuela: { s: 510, e: 810 } });  // Manuela non più OFF il mercoledì
-  M.assign(w, 'sat', { Manuela: { s: 540, e: 840 } });   // + sabato → 6 giorni
+  for (const k of ['mon', 'tue', 'wed', 'thu', 'fri']) M.assign(w, k, { Manuela: { s: 510, e: 810 } });
+  M.assign(w, 'sat', { Manuela: { s: 540, e: 840 } });   // mon-fri + sabato → 6 giorni
   const msgs = M.validateWeek(w).map(x => x.message);
   assert.ok(msgs.some(m => /Manuela.*giorni/i.test(m)), 'atteso avviso giorni lavorati');
 });
@@ -50,7 +50,13 @@ test('getDayCombos: un combo per firma', () => {
   const w = M.createBaseWeek('2026-06-08');
   for (const day of w.days) {
     const combos = M.getDayCombos(w, day, 0);
-    const sig = c => `${c.d.Lucrezia.h},${c.d.Lucrezia.af},${c.d.Lclose}|${c.d.Manuela.h},${c.d.Manuela.af},${c.d.Manuela.o}|${c.d.Madalina.h},${c.d.Madalina.af}`;
+    const sig = c => M.ASSISTANT_NAMES.map(n => {
+      const dn = c.d[n];
+      let p = `${dn.h},${dn.af}`;
+      if ('close' in dn) p += ',' + dn.close;
+      if ('oReq' in dn) p += ',' + dn.oReq;
+      return p;
+    }).join('|');
     const sigs = new Set(combos.map(sig));
     assert.equal(sigs.size, combos.length, `firme duplicate in ${day.key}`);
   }
