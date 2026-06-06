@@ -359,3 +359,17 @@ export function buildEquityLedger(pastWeeks,N=8){
   for(const wk of sorted){const st=getAssistantStats(wk);for(const n of ASSISTANT_NAMES){const s=st[n];led[n].opens+=s.opens;led[n].closes+=s.closes;led[n].saturdays+=s.saturdays;led[n].workDays+=s.workDays;}}
   return led;
 }
+// Pesi globali della funzione costo (tarabili).
+export let W_EQ=10, W_PREF=3, W_TIDY=0.1;
+// Costo equità: per ogni onere {opens,closes,saturdays} calcola il tasso per persona
+// rate_p = (storico_p + candidato_p) / max(1, workDays_storico_p + workDays_candidato_p)
+// e somma la varianza dei tassi tra le persone. Tassi allineati = equo = costo basso.
+export function equityCost(week,ledger){
+  const cand=getAssistantStats(week);
+  let cost=0;
+  for(const duty of ['opens','closes','saturdays']){
+    const rates=ASSISTANT_NAMES.map(n=>{const l=ledger[n]||{opens:0,closes:0,saturdays:0,workDays:0};const wd=l.workDays+cand[n].workDays;return (l[duty]+cand[n][duty])/Math.max(1,wd);});
+    cost+=variance(rates);
+  }
+  return cost;
+}

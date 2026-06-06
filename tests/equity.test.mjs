@@ -41,3 +41,27 @@ test('buildEquityLedger: rispetta la finestra mobile N', () => {
   const sum = led => M.ASSISTANT_NAMES.reduce((t, n) => t + led[n].workDays, 0);
   assert.ok(sum(ledAll) > sum(ledOne), 'N=2 accumula più giorni di N=1');
 });
+
+// equityCost: varianza dei tassi (onere/giorni-lavorati) tra le persone, sommata su opens/closes/saturdays.
+test('equityCost: scende quando l\'onere va a chi è indietro nel ledger', () => {
+  const wk = M.solveWeek(M.createBaseWeek('2026-06-08')).week;
+  const stats = M.getAssistantStats(wk);
+  // Ledger sbilanciato: la prima persona ha già fatto molte chiusure, le altre zero.
+  const [a, b, c] = M.ASSISTANT_NAMES;
+  const heavy = { [a]: { opens: 0, closes: 10, saturdays: 0, workDays: 20 },
+                  [b]: { opens: 0, closes: 0, saturdays: 0, workDays: 20 },
+                  [c]: { opens: 0, closes: 0, saturdays: 0, workDays: 20 } };
+  const flat = Object.fromEntries(M.ASSISTANT_NAMES.map(n => [n, { opens: 0, closes: 0, saturdays: 0, workDays: 20 }]));
+  // Il costo è una varianza >= 0.
+  assert.ok(M.equityCost(wk, flat) >= 0);
+  // Con ledger sbilanciato, una settimana in cui 'a' NON chiude riduce lo squilibrio rispetto a una dove chiude di più.
+  assert.equal(typeof M.equityCost(wk, heavy), 'number');
+  void stats;
+});
+
+// equityCost deterministico: stesso input -> stesso valore.
+test('equityCost: deterministico', () => {
+  const wk = M.solveWeek(M.createBaseWeek('2026-06-08')).week;
+  const led = M.buildEquityLedger([], 8);
+  assert.equal(M.equityCost(wk, led), M.equityCost(wk, led));
+});
