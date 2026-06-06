@@ -31,9 +31,9 @@
 //   closePref {preferred,max} : ricerca preferisce `preferred` chiusure, poi `max`.
 //   overtime {weeklyHours,maxAfternoons,requiresShift} : politica straordinario opzionale.
 export function defaultStaffConfig(){return {
-    Lucrezia: { weeklyHours: 38, minAfternoons: 2, maxAfternoons: 3, canWorkLong: true,  maxWorkDays: 5, afternoonThresholdMin: 1020, escalationPriority: 2, closePref: { preferred: 2, max: 3 } },
-    Manuela:  { weeklyHours: 25, minAfternoons: 1, maxAfternoons: 1, canWorkLong: false, workDays: 5,    afternoonThresholdMin: 900,  escalationPriority: 3, overtime: { weeklyHours: 29, maxAfternoons: 2, requiresShift: { s: 900, e: 1140 } } },
-    Madalina: { weeklyHours: 24, minAfternoons: 2, maxAfternoons: 3, canWorkLong: false, workDays: 5,    afternoonThresholdMin: 960,  escalationPriority: 1 },
+    Lucrezia: { weeklyHours: 38, minAfternoons: 2, maxAfternoons: 3, canWorkLong: true,  maxWorkDays: 5, afternoonThresholdMin: 1020, escalationPriority: 2, closePref: { preferred: 2, max: 3 }, preferences: {} },
+    Manuela:  { weeklyHours: 25, minAfternoons: 1, maxAfternoons: 1, canWorkLong: false, workDays: 5,    afternoonThresholdMin: 900,  escalationPriority: 3, overtime: { weeklyHours: 29, maxAfternoons: 2, requiresShift: { s: 900, e: 1140 } }, preferences: {} },
+    Madalina: { weeklyHours: 24, minAfternoons: 2, maxAfternoons: 3, canWorkLong: false, workDays: 5,    afternoonThresholdMin: 960,  escalationPriority: 1, preferences: {} },
   };}
 // Stato del team mutabile a runtime: i `let` esportati sono live-binding, reconfigure() ricalcola tutto il derivato.
 export let STAFF_CONFIG = defaultStaffConfig();
@@ -372,4 +372,30 @@ export function equityCost(week,ledger){
     cost+=variance(rates);
   }
   return cost;
+}
+// Sotto-pesi del costo preferenze (tarabili).
+export let PREF_W={dayOff:2, close:1, open:1, window:1};
+// Costo preferenze: somma, per persona e per giorno lavorato, le violazioni soft dei desiderata.
+export function preferenceCost(week){
+  let cost=0;
+  for(const n of ASSISTANT_NAMES){
+    const pr=STAFF_CONFIG[n]?.preferences;if(!pr)continue;
+    for(const day of week.days){
+      const sh=getShift(day.assignments[n]);if(sh.hours===0)continue;
+      if(pr.preferredDayOff&&day.key===pr.preferredDayOff)cost+=PREF_W.dayOff;
+      if(pr.avoidClose&&sh.coversClose)cost+=PREF_W.close;
+      if(pr.avoidOpen&&sh.coversMorning)cost+=PREF_W.open;
+      if(pr.preferredWindow)cost+=PREF_W.window*windowPenalty(pr.preferredWindow,sh);
+    }
+  }
+  return cost;
+}
+// Penalità finestra oraria preferita (in "ore" di scostamento, >=0).
+export function windowPenalty(pref,sh){
+  if(typeof pref==='object'&&pref){return (Math.abs(sh.startMin-pref.start)+Math.abs(sh.endMin-pref.end))/60;}
+  if(pref==='early')return Math.max(0,sh.startMin-STUDIO_OPEN)/60;
+  if(pref==='late')return Math.max(0,STUDIO_CLOSE-sh.endMin)/60;
+  if(pref==='morning')return Math.max(0,sh.endMin-13*60)/60;
+  if(pref==='afternoon')return sh.coversAfternoon?0:Math.max(0,13*60-sh.startMin)/60+1;
+  return 0;
 }
