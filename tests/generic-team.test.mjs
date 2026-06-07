@@ -49,5 +49,5 @@ test('reconfigure: tornando al default ripristina le 3 persone', () => {
   M.reconfigure(structuredClone(STAFF4));
   M.reconfigure(M.defaultStaffConfig());
   assert.deepEqual(M.ASSISTANT_NAMES, ['Lucrezia', 'Manuela', 'Madalina']);
-  assert.equal(M.OVERTIME_PERSON, 'Manuela');
+  assert.equal(M.OVERTIME_PERSON, null); // straordinario off di default (configurabile dal Team)
 });

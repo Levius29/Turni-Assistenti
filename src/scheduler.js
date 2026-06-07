@@ -32,7 +32,7 @@
 //   overtime {weeklyHours,maxAfternoons,requiresShift} : politica straordinario opzionale.
 export function defaultStaffConfig(){return {
     Lucrezia: { weeklyHours: 38, minAfternoons: 2, maxAfternoons: 3, canWorkLong: true,  maxWorkDays: 5, afternoonThresholdMin: 1020, escalationPriority: 2, closePref: { preferred: 2, max: 3 }, preferences: {} },
-    Manuela:  { weeklyHours: 25, minAfternoons: 1, maxAfternoons: 1, canWorkLong: false, workDays: 5,    afternoonThresholdMin: 900,  escalationPriority: 3, overtime: { weeklyHours: 29, maxAfternoons: 2, requiresShift: { s: 900, e: 1140 } }, preferences: {} },
+    Manuela:  { weeklyHours: 25, minAfternoons: 1, maxAfternoons: 1, canWorkLong: false, workDays: 5,    afternoonThresholdMin: 900,  escalationPriority: 3, preferences: {} },
     Madalina: { weeklyHours: 24, minAfternoons: 2, maxAfternoons: 3, canWorkLong: false, workDays: 5,    afternoonThresholdMin: 960,  escalationPriority: 1, preferences: {} },
   };}
 // Stato del team mutabile a runtime: i `let` esportati sono live-binding, reconfigure() ricalcola tutto il derivato.
@@ -106,6 +106,8 @@ export function countsAsAfternoon(assistant,shift){if(shift.hours===0||shift.end
 export function worksOvertimeShift(name,a){const o=STAFF_CONFIG[name]?.overtime?.requiresShift;if(!o)return false;const s=getShift(a);return s.startMin===o.s&&s.endMin===o.e;}
   // Retrocompat: alias per la persona straordinaria configurata.
 export function isManuelaClose1519(a){return OVERTIME_PERSON?worksOvertimeShift(OVERTIME_PERSON,a):false;}
+// Una persona è "in straordinario" in una settimana se ha lo straordinario abilitato e supera il suo target base (ore o pomeriggi).
+export function inOvertime(name,week){const c=STAFF_CONFIG[name];if(!c?.overtime)return false;const s=getAssistantStats(week)[name];return s.hours>c.weeklyHours||s.afternoons>c.maxAfternoons;}
 export function getAssistantStats(week){const s=Object.fromEntries(ASSISTANT_NAMES.map(n=>[n,{hours:0,afternoons:0,longShifts:0,saturdays:0,opens:0,closes:0,workDays:0}]));for(const d of week.days)for(const n of ASSISTANT_NAMES){const sh=getShift(d.assignments[n]);s[n].hours+=sh.hours;if(sh.hours>0)s[n].workDays++;if(countsAsAfternoon(n,sh))s[n].afternoons++;if(sh.isLong)s[n].longShifts++;if(d.key==='sat'&&sh.hours>0)s[n].saturdays++;if(sh.coversMorning)s[n].opens++;if(sh.coversClose)s[n].closes++;}return s;}
 export function getRequiredCoverage(day){if(day.key==='sun'||(day.key==='sat'&&!day.exceptions.satOpen)||day.exceptions.holiday)return{morning:0,afternoon:0,close:0,morningPair:0,afternoonPair:0};const isWeekday=WEEKDAY_KEYS.includes(day.key);const extraPom=isWeekday&&day.exceptions.extraAfternoon;const extraMatt=isWeekday&&day.exceptions.extraMorning;const afternoon=(isWeekday?1:0)+(extraPom?1:0);return{morning:1,afternoon:day.key==='sat'?0:afternoon,close:isWeekday?1:0,morningPair:extraMatt?2:0,afternoonPair:extraPom?2:0};}
 export function shiftsOf(day){return ASSISTANT_NAMES.map(n=>getShift(day.assignments[n]));}
@@ -398,8 +400,8 @@ export function getDayCombos(seedWeek,day,_idx){
 export function cloneStats(stats){return Object.fromEntries(ASSISTANT_NAMES.map(a=>[a,{...stats[a]}]));}
 export function buildWeekFromDayAssignments(seedWeek,assignments){const w=structuredClone(seedWeek);for(let i=0;i<w.days.length;i++)for(const a of ASSISTANT_NAMES)w.days[i].assignments[a]=assignments[i][a];return w;}
 export function applyPreviousWeekState(week,prev){if(!prev)return;for(const day of week.days){const p=prev.days.find(d=>d.key===day.key);if(!p)continue;day.exceptions={...day.exceptions,...p.exceptions};day.absences={...day.absences,...(p.absences||{})};day.locks={...day.locks,...p.locks};for(const a of ASSISTANT_NAMES)if(day.locks[a])day.assignments[a]=p.assignments[a];}}
-export function regenerateWeekWithFeedback(start,prev,ledger){const seed=createBaseWeek(start);applyPreviousWeekState(seed,prev);const r=solveWeekOptimized(seed,ledger);const week=r.week??seed;const locked=getLockedShiftCount(week);if(!r.solved)return{week,message:(locked?`Nessuna combinazione valida con i ${locked} turni bloccati: `:'Nessuna combinazione valida. ')+(r.reason||'')};const otMsg=r.overtime?` ⚠️ Straordinario Manuela (+4h pom. extra, 29h totali).`:'';return{week,message:(locked?`Rigenerata. ${locked} turni bloccati mantenuti.`:'Settimana rigenerata.')+otMsg};}
-export function regenerateCleanWeekWithFeedback(start,ledger){const week=generateWeek({startDate:start,ledger});const otMsg=week.overtimeUsed?` ⚠️ Straordinario Manuela (+4h pom. extra, 29h totali).`:'';return{week,message:'Settimana pulita rigenerata.'+otMsg};}
+export function regenerateWeekWithFeedback(start,prev,ledger){const seed=createBaseWeek(start);applyPreviousWeekState(seed,prev);const r=solveWeekOptimized(seed,ledger);const week=r.week??seed;const locked=getLockedShiftCount(week);if(!r.solved)return{week,message:(locked?`Nessuna combinazione valida con i ${locked} turni bloccati: `:'Nessuna combinazione valida. ')+(r.reason||'')};const otMsg=r.overtime?` ⚠️ Straordinario attivato.`:'';return{week,message:(locked?`Rigenerata. ${locked} turni bloccati mantenuti.`:'Settimana rigenerata.')+otMsg};}
+export function regenerateCleanWeekWithFeedback(start,ledger){const week=generateWeek({startDate:start,ledger});const otMsg=week.overtimeUsed?` ⚠️ Straordinario attivato.`:'';return{week,message:'Settimana pulita rigenerata.'+otMsg};}
   // Varieta' oraria: per ogni assistente/giorno non bloccato prova a spostare gli orari
   // su un turno equivalente (stessa firma-ruolo: ore, apertura, chiusura, pomeriggio, quota,
   // 15-19 di Manuela), mantenendo la settimana valida. Non cambia le statistiche, solo i layout.
@@ -421,7 +423,7 @@ export function diversifyTimes(week){
     }
     return w;
   }
-export function regenerateAlternativeWithFeedback(start,current,avoidSigs,ledger){const seed=createBaseWeek(start);applyPreviousWeekState(seed,current);const r=solveWeekOptimized(seed,ledger,{avoidSigs});if(!r.solved)return{week:null,solved:false};const otMsg=r.overtime?` ⚠️ Straordinario Manuela (+4h pom. extra, 29h totali).`:'';return{week:r.week,solved:true,message:'Soluzione alternativa trovata.'+otMsg};}
+export function regenerateAlternativeWithFeedback(start,current,avoidSigs,ledger){const seed=createBaseWeek(start);applyPreviousWeekState(seed,current);const r=solveWeekOptimized(seed,ledger,{avoidSigs});if(!r.solved)return{week:null,solved:false};const otMsg=r.overtime?` ⚠️ Straordinario attivato.`:'';return{week:r.week,solved:true,message:'Soluzione alternativa trovata.'+otMsg};}
 export function updateShiftWithFeedback(week,dayKey,assistant,shiftId){const day=week.days.find(d=>d.key===dayKey);if(day)day.assignments[assistant]=shiftId;return{week,message:`${assistant} · ${day?.label} aggiornato.`};}
 export function getLockedShiftCount(week){return week.days.reduce((c,d)=>c+Object.values(d.locks).filter(Boolean).length,0);}
 
