@@ -30,13 +30,6 @@ const SNAPSHOTS = {
     sig: '510-990,540-840,840-1140|510-990,540-840,840-1140|510-990,840-1140,540-840|660-1140,510-810,540-840|630-1140,OFF,510-750|OFF,510-810,OFF',
     hours: { Lucrezia: 38, Manuela: 25, Madalina: 24 },
   },
-  overtimeManuela: {
-    // 3× pomeriggio extra → domanda alta → tier straordinario Manuela (29h).
-    mut: s => { for (const k of ['mon', 'tue', 'wed']) s.days.find(d => d.key === k).exceptions.extraAfternoon = true; },
-    sig: '510-870,660-1080,720-1140|570-1080,510-810,840-1140|630-1140,510-900,840-1080|510-1020,900-1140,540-780|630-1140,510-900,540-780|OFF,OFF,OFF',
-    hours: { Lucrezia: 38, Manuela: 29, Madalina: 24 },
-    overtimeUsed: true,
-  },
 };
 
 for (const [name, snap] of Object.entries(SNAPSHOTS)) {
@@ -54,6 +47,35 @@ for (const [name, snap] of Object.entries(SNAPSHOTS)) {
     if (snap.overtimeUsed) assert.equal(r.week.overtimeUsed, true, `${name}: deve usare lo straordinario`);
   });
 }
+
+// Straordinario ora OFF di default → configurabile per persona. Abilitato, copre la domanda alta.
+test('straordinario abilitato: copre 3 pomeriggi extra (Manuela 29h)', () => {
+  const cfg = M.defaultStaffConfig();
+  cfg.Manuela.overtime = { weeklyHours: 29, maxAfternoons: 2 };
+  M.reconfigure(cfg);
+  try {
+    const seed = M.createBaseWeek('2026-06-08');
+    for (const k of ['mon', 'tue', 'wed']) seed.days.find(d => d.key === k).exceptions.extraAfternoon = true;
+    const r = M.solveWeek(seed);
+    assert.equal(r.solved, true, 'con straordinario deve essere risolvibile');
+    assert.equal(r.week.overtimeUsed, true, 'deve usare lo straordinario');
+    const stats = M.getAssistantStats(r.week);
+    assert.equal(stats.Manuela.hours, 29, 'Manuela 29h in straordinario');
+    assert.equal(M.inOvertime('Manuela', r.week), true, 'inOvertime deve essere true');
+    assert.equal(M.validateWeek(r.week).length, 0, 'la settimana deve restare valida');
+  } finally {
+    M.reconfigure(M.defaultStaffConfig());
+  }
+});
+
+// Default: straordinario off → 3 pomeriggi extra superano la capacità (domanda 8 > 7) → infeasibile.
+test('straordinario off di default: domanda troppo alta è infeasibile', () => {
+  const seed = M.createBaseWeek('2026-06-08');
+  for (const k of ['mon', 'tue', 'wed']) seed.days.find(d => d.key === k).exceptions.extraAfternoon = true;
+  const r = M.solveWeek(seed);
+  assert.equal(r.solved, false, 'senza straordinario non deve essere risolvibile');
+  assert.equal(M.inOvertime('Manuela', r.week ?? seed), false, 'nessuno in straordinario di default');
+});
 
 test('regression: turno bloccato preservato dopo rigenerazione', () => {
   const cur = M.solveWeek(M.createBaseWeek('2026-06-08')).week;
