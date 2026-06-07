@@ -234,12 +234,13 @@
     .shift-fields { display: flex; flex-direction: column; gap: 4px; }
     .shift-exit:disabled { opacity: .45; cursor: not-allowed; background: var(--surface-soft); }
     .shift-select {
-      width: 95px;
-      padding: 6px 7px;
+      width: 100%;
+      min-width: 0;
+      padding: 6px 3px;
       border: 1px solid var(--border);
       border-radius: 8px;
       background: white;
-      font-size: 11px;
+      font-size: 10px;
       font-weight: 500;
       transition: var(--transition);
       cursor: pointer;
@@ -256,7 +257,7 @@
 
     /* ── Giorno chiuso (sabato non aperto) ── */
     .grid-cell.day-closed, .mobile-shift-cell.day-closed, .mobile-day-label.day-closed { opacity: .5; }
-    .closed-tag { display: inline-block; margin-top: 2px; font-size: 9px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: #b14b3c; }
+    .closed-tag { display: block; margin-top: 2px; font-size: 9px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: #b14b3c; }
 
     /* ── Shift badge (in fila orizzontale, in alto a destra: A, C, L) ── */
     .shift-badge {
@@ -264,12 +265,12 @@
       flex-direction: row;
       flex-wrap: nowrap;
       align-items: center;
-      gap: 3px;
+      gap: 2px;
     }
     .badge-code {
       color: white;
       border-radius: 4px;
-      padding: 1px 5px;
+      padding: 1px 3px;
       font-weight: 700;
       font-size: 9px;
       letter-spacing: 0.3px;
@@ -285,7 +286,7 @@
     /* ── Cella su due righe a posizioni fisse: colonna sx = dropdown, colonna dx = badge (riga 1) + blocco (riga 2) ── */
     .shift-grid {
       display: grid;
-      grid-template-columns: 95px auto;
+      grid-template-columns: minmax(0, 1fr) auto;
       grid-template-rows: 36px 36px;
       column-gap: 5px;
       row-gap: 3px;
