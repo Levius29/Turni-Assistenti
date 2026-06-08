@@ -123,12 +123,14 @@ import {
             <label class="t-field t-check"><input type="checkbox" ${pf.avoidClose?'checked':''} data-i="${i}" data-k="avoidClose">Evita chiusura</label>
             <label class="t-field t-check"><input type="checkbox" ${pf.avoidOpen?'checked':''} data-i="${i}" data-k="avoidOpen">Evita apertura</label>
           </div>`;
-        const ot=c.overtime,otOn=!!ot;
+        const ot=c.overtime,otOn=!!ot,req=ot?.requiresShift;
         el.innerHTML+=`
           <div class="t-grid t-ot" title="Straordinario: ore/pomeriggi extra ammessi quando servono per coprire la settimana">
             <label class="t-field t-check"><input type="checkbox" ${otOn?'checked':''} data-i="${i}" data-k="otEnabled">Straordinario</label>
             <label class="t-field">Ore max<input class="field" type="number" min="0" step="0.5" value="${otOn?ot.weeklyHours:''}" ${otOn?'':'disabled'} data-i="${i}" data-k="otHours"></label>
             <label class="t-field">Pom. max<input class="field" type="number" min="0" value="${otOn?ot.maxAfternoons:''}" ${otOn?'':'disabled'} data-i="${i}" data-k="otAfternoons"></label>
+            <label class="t-field" title="Se impostato, i pomeriggi extra (oltre il max base) devono usare ESATTAMENTE questo turno (es. 15:00-19:00)">Pom. extra da<input class="field" type="time" step="1800" value="${req?fmt(req.s):''}" ${otOn?'':'disabled'} data-i="${i}" data-k="otReqStart"></label>
+            <label class="t-field">a<input class="field" type="time" step="1800" value="${req?fmt(req.e):''}" ${otOn?'':'disabled'} data-i="${i}" data-k="otReqEnd"></label>
           </div>`;
         rowsBox.appendChild(el);});
     }
@@ -138,9 +140,10 @@ import {
       else if(k==='afternoonThresholdMin'){const[h,mm]=t.value.split(':').map(Number);if(!Number.isNaN(h))rows[i].c.afternoonThresholdMin=h*60+(mm||0);}
       else if(k==='preferredDayOff'||k==='preferredWindow'){rows[i].c.preferences={...(rows[i].c.preferences||{}),[k]:t.value||undefined};}
       else if(k==='avoidClose'||k==='avoidOpen'){rows[i].c.preferences={...(rows[i].c.preferences||{}),[k]:t.checked};}
-      else if(k==='otEnabled'){const cc=rows[i].c,row=t.closest('.team-row'),oh=row.querySelector('input[data-k="otHours"]'),oa=row.querySelector('input[data-k="otAfternoons"]');if(t.checked){cc.overtime={weeklyHours:cc.overtime?.weeklyHours??(cc.weeklyHours+4),maxAfternoons:cc.overtime?.maxAfternoons??(cc.maxAfternoons+1)};oh.value=cc.overtime.weeklyHours;oh.disabled=false;oa.value=cc.overtime.maxAfternoons;oa.disabled=false;}else{delete cc.overtime;oh.value='';oh.disabled=true;oa.value='';oa.disabled=true;}}
+      else if(k==='otEnabled'){const cc=rows[i].c,row=t.closest('.team-row'),oh=row.querySelector('input[data-k="otHours"]'),oa=row.querySelector('input[data-k="otAfternoons"]'),or=row.querySelector('input[data-k="otReqStart"]'),oe=row.querySelector('input[data-k="otReqEnd"]');if(t.checked){cc.overtime={weeklyHours:cc.overtime?.weeklyHours??(cc.weeklyHours+4),maxAfternoons:cc.overtime?.maxAfternoons??(cc.maxAfternoons+1),...(cc.overtime?.requiresShift?{requiresShift:cc.overtime.requiresShift}:{})};oh.value=cc.overtime.weeklyHours;oh.disabled=false;oa.value=cc.overtime.maxAfternoons;oa.disabled=false;or.disabled=false;oe.disabled=false;}else{delete cc.overtime;oh.value='';oh.disabled=true;oa.value='';oa.disabled=true;or.value='';or.disabled=true;oe.value='';oe.disabled=true;}}
       else if(k==='otHours'){if(rows[i].c.overtime)rows[i].c.overtime.weeklyHours=parseFloat(t.value);}
       else if(k==='otAfternoons'){if(rows[i].c.overtime)rows[i].c.overtime.maxAfternoons=parseInt(t.value,10);}
+      else if(k==='otReqStart'||k==='otReqEnd'){const cc=rows[i].c;if(cc.overtime){const row=t.closest('.team-row'),toMin=v=>{const[h,mm]=String(v).split(':').map(Number);return Number.isNaN(h)?null:h*60+(mm||0);},s=toMin(row.querySelector('input[data-k="otReqStart"]').value),e=toMin(row.querySelector('input[data-k="otReqEnd"]').value);if(s!=null&&e!=null&&e>s)cc.overtime.requiresShift={s,e};else delete cc.overtime.requiresShift;}}
       else rows[i].c[k]=k==='weeklyHours'?parseFloat(t.value):parseInt(t.value,10);}
     rowsBox.addEventListener('input',e=>onFieldChange(e.target));
     rowsBox.addEventListener('change',e=>onFieldChange(e.target));
@@ -327,8 +330,10 @@ import {
 
   function buildMobileGrid(week){
     const grid=document.createElement('div');grid.className='mobile-grid';
+    // Colonne dinamiche: 1 etichetta giorno + N assistenti (evita layout rotto aggiungendo persone).
+    grid.style.gridTemplateColumns=`58px repeat(${ASSISTANT_NAMES.length}, minmax(0, 1fr))`;
     const corner=Object.assign(document.createElement('div'),{className:'mobile-header-cell'});corner.append(buildThemeToggle());grid.append(corner);
-    for(const a of ASSISTANT_NAMES)grid.append(Object.assign(document.createElement('div'),{className:'mobile-header-cell',textContent:a}));
+    ASSISTANT_NAMES.forEach((a,i)=>grid.append(Object.assign(document.createElement('div'),{className:'mobile-header-cell'+(i===ASSISTANT_NAMES.length-1?' mg-end':''),textContent:a})));
     for(const day of week.days){
       const isSelected=day.key===selectedDayKey;
       const closed=isDayClosed(day);
@@ -337,14 +342,14 @@ import {
       dayLabel.innerHTML=`<span class="day-abbr">${day.label.slice(0,3)}</span><span class="day-date">${formatDateShort(day.date)}</span>${closed?'<span class="closed-tag">'+(day.exceptions?.holiday?'Festività':'Chiuso')+'</span>':''}`;
       dayLabel.addEventListener('click',()=>{selectedDayKey=day.key;render();});
       grid.append(dayLabel);
-      for(const assistant of ASSISTANT_NAMES){
-        const cell=document.createElement('div');cell.className=`mobile-shift-cell${isSelected?' selected-day':''}${closed?' day-closed':''}`;
+      ASSISTANT_NAMES.forEach((assistant,ci)=>{
+        const cell=document.createElement('div');cell.className=`mobile-shift-cell${isSelected?' selected-day':''}${closed?' day-closed':''}${ci===ASSISTANT_NAMES.length-1?' mg-end':''}`;
         const{entry,exit,badge}=buildShiftContent(day,assistant,false,week);
         const lock=createLockToggle(day,assistant,'');
         const print=Object.assign(document.createElement('span'),{className:'print-shift',textContent:getPrintShiftLabel(day.assignments[assistant])});
         const sgrid=document.createElement('div');sgrid.className='shift-grid';sgrid.append(entry,badge,exit,lock);
         cell.append(sgrid,print);grid.append(cell);
-      }
+      });
     }
     return grid;
   }

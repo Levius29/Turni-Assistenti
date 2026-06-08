@@ -395,8 +395,9 @@
     .icon-svg { width: 16px; height: 16px; display: inline-block; vertical-align: middle; stroke-width: 1.6; stroke: currentColor; fill: none; flex-shrink: 0; }
 
     /* ── Mobile grid ── */
-    .mobile-grid { display: grid; grid-template-columns: 58px repeat(3, 1fr); width: 100%; max-width: 720px; margin: 0 auto; }
-    .mobile-grid > div:nth-child(4n) { border-right: none; }
+    /* Le colonne reali sono impostate inline in JS (58px + N assistenti); questo è solo un fallback. */
+    .mobile-grid { display: grid; grid-template-columns: 58px repeat(3, minmax(0, 1fr)); width: 100%; max-width: 720px; margin: 0 auto; }
+    .mobile-grid > .mg-end { border-right: none; }
 
     .mobile-header-cell { background: #f5efe7; padding: 8px 4px; font-weight: 700; font-size: 15px; text-align: center; border-right: 1px solid var(--border); border-bottom: 2px solid var(--border); color: var(--text); }
     .mobile-day-label { font-size: 10px; padding: 6px 2px; text-align: center; background: #fcf9f5; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; transition: background 0.15s; }
