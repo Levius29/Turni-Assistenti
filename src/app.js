@@ -1,7 +1,8 @@
 // UI / DOM / PDF. Estratto da index.html.
 import {
   AFTERNOON_END_THRESHOLD, AFTERNOON_TIERS, ASSISTANTS, ASSISTANT_NAMES, BASE_PAIRS, LEGACY_TEMPLATES, LONG_SPAN, LUNCH_GAP_MAX, SHIFT_MAX_SPAN, SHIFT_MIN_SPAN, SHIFT_OFF, SLOT, SOLVE_BUDGET_FAST, SOLVE_BUDGET_FULL, STUDIO_CLOSE, STUDIO_OPEN, WEEKDAY_KEYS, WEEK_DAYS, _shiftCache, addDays, afternoonDemand, applyPreviousWeekState, assign, buildEquityLedger, buildRem, buildWeekFromDayAssignments, cloneStats, countsAsAfternoon, coverageDeficit, coverageOf, createBaseWeek, createEmptyWeek, deriveShift, diversifyTimes, fmt, formatDateShort, formatItalianDate, formatWeekRange, formatWeekRangeShort, generateWeek, getAllowedShifts, getAssistantStats, getCoverage, getCurrentMonday, getDayCombos, getLockedShiftCount, getRequiredCoverage, getShift, heuristicCombos, inOvertime, isManuelaClose1519, isOff, maxUncoveredGap, regenerateAlternativeWithFeedback, regenerateCleanWeekWithFeedback, regenerateWeekWithFeedback, shiftsOf, solveWeek, solveWeekCore, updateShiftWithFeedback, validateWeek, weekAssignmentSig,
-  defaultStaffConfig, getStaffConfig, reconfigure
+  defaultStaffConfig, getStaffConfig, reconfigure,
+  weekToCSV, summarizePeriod, summaryToCSV, monthBounds
 } from './scheduler.js';
 
   // ── STORAGE ──
@@ -170,6 +171,107 @@ import {
     requestAnimationFrame(()=>overlay.classList.add('visible'));
   }
   injectTeamButtons();
+
+  // ── DATI & STRUMENTI (Fase 5): CSV, riepilogo mensile, backup/ripristino ──
+  const TOOLS_ICON='<svg class="icon-svg" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16M8 4v4M16 10v4M11 16v4"/></svg>';
+  function injectToolsButton(){
+    const wc=document.querySelector('.week-controls');
+    if(wc&&!document.querySelector('#toolsBtn')){const b=document.createElement('button');b.type='button';b.id='toolsBtn';b.title='Dati & strumenti';b.innerHTML=TOOLS_ICON+' Dati';b.addEventListener('click',openToolsMenu);wc.appendChild(b);}
+    const bb=document.querySelector('.bottom-bar');
+    if(bb&&!document.querySelector('#toolsBtnMob')){const b=document.createElement('button');b.type='button';b.id='toolsBtnMob';b.className='bb-nav';b.title='Dati & strumenti';b.setAttribute('aria-label','Dati');b.innerHTML=TOOLS_ICON;b.addEventListener('click',openToolsMenu);bb.appendChild(b);}
+  }
+  function downloadFile(filename,content,mime){
+    const blob=new Blob([content],{type:mime});const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');a.href=url;a.download=filename;document.body.appendChild(a);a.click();a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),1000);
+  }
+  function exportCSV(){
+    const week=getCurrentWeek();
+    downloadFile(`turni-${week.startDate}.csv`,'﻿'+weekToCSV(week),'text/csv;charset=utf-8;');
+    showStatus('CSV esportato!');
+  }
+  function exportBackup(){
+    const data={app:'turni-assistenti',version:1,exportedAt:new Date().toISOString(),
+      weeks:loadWeeks(),staff:JSON.parse(localStorage.getItem(staffKey)||'null'),theme:localStorage.getItem(themeKey)||null};
+    downloadFile(`backup-turni-${new Date().toISOString().slice(0,10)}.json`,JSON.stringify(data,null,2),'application/json');
+    showStatus('Backup esportato!');
+  }
+  function importBackup(file){
+    const reader=new FileReader();
+    reader.onload=()=>{
+      try{
+        const data=JSON.parse(reader.result);
+        if(!data||typeof data!=='object'||!('weeks'in data))throw new Error('manca il campo "weeks"');
+        if(!confirm('Ripristinare il backup? I dati attuali (team e settimane) verranno sostituiti.'))return;
+        localStorage.setItem(storageKey,JSON.stringify(data.weeks||{}));
+        if(data.staff)localStorage.setItem(staffKey,JSON.stringify(data.staff));
+        if(data.theme)localStorage.setItem(themeKey,data.theme);
+        showStatus('Backup ripristinato. Ricarico…');
+        setTimeout(()=>location.reload(),600);
+      }catch(e){showStatus('Backup non valido: '+e.message);}
+    };
+    reader.readAsText(file);
+  }
+  const MONTH_NAMES=['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno','Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'];
+  function openMonthlySummary(){
+    const cur=new Date(currentStart+'T00:00:00Z');
+    let year=cur.getUTCFullYear(),month=cur.getUTCMonth()+1;
+    const overlay=document.createElement('div');overlay.className='modal-overlay';
+    const card=document.createElement('div');card.className='modal-card';
+    card.innerHTML=`<div class="modal-head"><h2>Riepilogo mensile</h2><button class="modal-x" type="button" aria-label="Chiudi">✕</button></div>
+      <div class="month-nav"><button class="mn-prev" type="button" aria-label="Mese precedente">‹</button><span class="mn-label"></span><button class="mn-next" type="button" aria-label="Mese successivo">›</button></div>
+      <div class="month-body"></div>
+      <div class="modal-foot"><button type="button" class="btn-add mn-csv">Esporta CSV</button><div class="modal-actions"><button type="button" class="btn-cancel mn-close">Chiudi</button></div></div>`;
+    overlay.appendChild(card);document.body.appendChild(overlay);
+    let lastTotals={};
+    function renderMonth(){
+      const{start,end}=monthBounds(year,month);
+      lastTotals=summarizePeriod(Object.values(weeks),start,end);
+      card.querySelector('.mn-label').textContent=`${MONTH_NAMES[month-1]} ${year}`;
+      const names=Object.keys(lastTotals),hasData=names.some(n=>lastTotals[n].workDays>0);
+      card.querySelector('.month-body').innerHTML=hasData
+        ?`<table class="month-table"><thead><tr><th>Assistente</th><th>Ore</th><th>Giorni</th><th>Pom.</th><th>Sab</th><th>Apert.</th><th>Chius.</th></tr></thead><tbody>${names.map(n=>{const t=lastTotals[n];return`<tr><td class="mt-name">${n}</td><td>${t.hours}</td><td>${t.workDays}</td><td>${t.afternoons}</td><td>${t.saturdays}</td><td>${t.opens}</td><td>${t.closes}</td></tr>`;}).join('')}</tbody></table>`
+        :`<p class="month-empty">Nessun turno salvato per questo mese.</p>`;
+    }
+    const close=()=>{overlay.classList.remove('visible');setTimeout(()=>overlay.remove(),200);};
+    card.querySelector('.modal-x').addEventListener('click',close);
+    card.querySelector('.mn-close').addEventListener('click',close);
+    overlay.addEventListener('click',e=>{if(e.target===overlay)close();});
+    card.querySelector('.mn-prev').addEventListener('click',()=>{if(--month<1){month=12;year--;}renderMonth();});
+    card.querySelector('.mn-next').addEventListener('click',()=>{if(++month>12){month=1;year++;}renderMonth();});
+    card.querySelector('.mn-csv').addEventListener('click',()=>{downloadFile(`riepilogo-${year}-${String(month).padStart(2,'0')}.csv`,'﻿'+summaryToCSV(lastTotals),'text/csv;charset=utf-8;');showStatus('CSV riepilogo esportato!');});
+    renderMonth();
+    requestAnimationFrame(()=>overlay.classList.add('visible'));
+  }
+  function openToolsMenu(){
+    const overlay=document.createElement('div');overlay.className='modal-overlay';
+    const card=document.createElement('div');card.className='modal-card tools-card';
+    card.innerHTML=`<div class="modal-head"><h2>Dati &amp; strumenti</h2><button class="modal-x" type="button" aria-label="Chiudi">✕</button></div>
+      <div class="tools-list">
+        <button type="button" class="tool-item" data-act="csv"><strong>Esporta CSV</strong><span>Turni della settimana corrente per foglio di calcolo</span></button>
+        <button type="button" class="tool-item" data-act="month"><strong>Riepilogo mensile</strong><span>Ore e turni per assistente in un mese</span></button>
+        <button type="button" class="tool-item" data-act="backup"><strong>Backup dati</strong><span>Scarica un file JSON con team e settimane</span></button>
+        <button type="button" class="tool-item" data-act="restore"><strong>Ripristina da backup</strong><span>Carica un file JSON salvato in precedenza</span></button>
+      </div>`;
+    overlay.appendChild(card);document.body.appendChild(overlay);
+    const close=()=>{overlay.classList.remove('visible');setTimeout(()=>overlay.remove(),200);};
+    card.querySelector('.modal-x').addEventListener('click',close);
+    overlay.addEventListener('click',e=>{if(e.target===overlay)close();});
+    card.querySelector('.tools-list').addEventListener('click',e=>{
+      const item=e.target.closest('.tool-item');if(!item)return;
+      const act=item.dataset.act;
+      if(act==='csv'){exportCSV();close();}
+      else if(act==='month'){close();openMonthlySummary();}
+      else if(act==='backup'){exportBackup();close();}
+      else if(act==='restore'){
+        const inp=document.createElement('input');inp.type='file';inp.accept='.json,application/json';
+        inp.addEventListener('change',()=>{if(inp.files[0])importBackup(inp.files[0]);});
+        inp.click();close();
+      }
+    });
+    requestAnimationFrame(()=>overlay.classList.add('visible'));
+  }
+  injectToolsButton();
 
   render();
 
