@@ -496,3 +496,56 @@ export function tidyCost(week){
 export function costOfWeek(week,ledger){
   return W_EQ*equityCost(week,ledger)+W_PREF*preferenceCost(week)+W_TIDY*tidyCost(week);
 }
+
+// ── EXPORT DATI (CSV) & RIEPILOGO PERIODO (Fase 5) ──
+// Escape minimale CSV: racchiude tra virgolette se il campo contiene separatore, virgolette o a-capo.
+export function csvEscape(v,sep=';'){const s=String(v??'');return new RegExp(`["\\n\\r]|\\${sep}`).test(s)?`"${s.replace(/"/g,'""')}"`:s;}
+// Turni di una settimana in CSV: righe = giorni, colonne = assistenti; ultima riga = totale ore.
+export function weekToCSV(week,{sep=';'}={}){
+  const stats=getAssistantStats(week);
+  const esc=v=>csvEscape(v,sep);
+  const lines=[['Giorno','Data',...ASSISTANT_NAMES].map(esc).join(sep)];
+  for(const day of week.days){
+    const cells=ASSISTANT_NAMES.map(n=>{const sh=getShift(day.assignments[n]);return sh.id==='OFF'?'Riposo':`${fmt(sh.startMin)}-${fmt(sh.endMin)}`;});
+    lines.push([day.label,formatItalianDate(day.date),...cells].map(esc).join(sep));
+  }
+  lines.push(['Totale ore','',...ASSISTANT_NAMES.map(n=>String(stats[n].hours))].map(esc).join(sep));
+  return lines.join('\r\n');
+}
+// Estremi ISO (YYYY-MM-DD) di un mese 1-12.
+export function monthBounds(year,month){
+  const pad=n=>String(n).padStart(2,'0');
+  const last=new Date(Date.UTC(year,month,0)).getUTCDate();
+  return{start:`${year}-${pad(month)}-01`,end:`${year}-${pad(month)}-${pad(last)}`};
+}
+// Aggrega le statistiche per assistente sui giorni che cadono in [startDate,endDate] (confronto su stringa ISO).
+// Granularità giornaliera: corretto anche per settimane a cavallo di due mesi.
+export function summarizePeriod(weekList,startDate,endDate){
+  const totals=Object.fromEntries(ASSISTANT_NAMES.map(n=>[n,{hours:0,afternoons:0,longShifts:0,saturdays:0,opens:0,closes:0,workDays:0}]));
+  for(const wk of weekList){
+    if(!wk?.days)continue;
+    for(const d of wk.days){
+      if(!d.date||d.date<startDate||d.date>endDate)continue;
+      for(const n of ASSISTANT_NAMES){
+        const t=totals[n];if(!t)continue;
+        const sh=getShift(d.assignments?.[n]);
+        t.hours+=sh.hours;
+        if(sh.hours>0)t.workDays++;
+        if(countsAsAfternoon(n,sh))t.afternoons++;
+        if(sh.isLong)t.longShifts++;
+        if(d.key==='sat'&&sh.hours>0)t.saturdays++;
+        if(sh.coversMorning)t.opens++;
+        if(sh.coversClose)t.closes++;
+      }
+    }
+  }
+  return totals;
+}
+// Riepilogo aggregato in CSV: una riga per assistente.
+export function summaryToCSV(totals,{sep=';'}={}){
+  const esc=v=>csvEscape(v,sep);
+  const lines=[['Assistente','Ore','Giorni','Pomeriggi','Sabati','Aperture','Chiusure','Turni lunghi'].map(esc).join(sep)];
+  for(const n of Object.keys(totals)){const t=totals[n]||{};
+    lines.push([n,t.hours||0,t.workDays||0,t.afternoons||0,t.saturdays||0,t.opens||0,t.closes||0,t.longShifts||0].map(esc).join(sep));}
+  return lines.join('\r\n');
+}
