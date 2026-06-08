@@ -7,6 +7,7 @@ import {
   // ── STORAGE ──
   const storageKey='turni-assistenti.weeks.v1';
   const staffKey='turni-assistenti.staff.v1';
+  const MOBILE_BREAKPOINT=1399; // sotto questa larghezza la griglia va in verticale (layout impilato)
   // Carica il team salvato (se presente) PRIMA di generare qualsiasi settimana.
   (function loadStaffConfig(){try{const s=JSON.parse(localStorage.getItem(staffKey));if(s&&Object.keys(s).length)reconfigure(s);}catch{}})();
   function saveStaff(){localStorage.setItem(staffKey,JSON.stringify(getStaffConfig()));}
@@ -185,12 +186,15 @@ import {
   }
 
   function renderGrid(week){
-    const isMobile=window.innerWidth<780;
+    const isMobile=window.innerWidth<MOBILE_BREAKPOINT;
     scheduleGrid.classList.toggle('mobile-mode',isMobile);
     scheduleGrid.innerHTML='';
     if(isMobile){scheduleGrid.appendChild(buildMobileGrid(week));}
     else{buildDesktopGrid(week);}
   }
+  // Ridisegna la griglia quando si attraversa il breakpoint (desktop ⇄ verticale) durante un resize.
+  let _wasMobile=window.innerWidth<MOBILE_BREAKPOINT;
+  window.addEventListener('resize',()=>{const m=window.innerWidth<MOBILE_BREAKPOINT;if(m!==_wasMobile){_wasMobile=m;render();}});
 
   function isDayClosed(day){return!!day.exceptions?.holiday||(day.key==='sat'&&!day.exceptions?.satOpen);}
   function buildDesktopGrid(week){
@@ -198,7 +202,7 @@ import {
     for(const day of week.days){
       const closed=isDayClosed(day);
       const btn=document.createElement('button');btn.type='button';btn.className='day-button';
-      btn.innerHTML=`<strong>${day.label}</strong><span class="date">${formatDateShort(day.date)}</span>${closed?'<span class="closed-tag">Chiuso</span>':''}`;
+      btn.innerHTML=`<strong>${day.label}</strong><span class="date">${formatDateShort(day.date)}</span>${closed?'<span class="closed-tag">'+(day.exceptions?.holiday?'Festività':'Chiuso')+'</span>':''}`;
       btn.addEventListener('click',()=>{selectedDayKey=day.key;render();});
       const cell=createCell('',`grid-cell head-cell${day.key===selectedDayKey?' selected-day':''}${closed?' day-closed':''}`);
       cell.append(btn);scheduleGrid.append(cell);
@@ -228,7 +232,7 @@ import {
       const closed=isDayClosed(day);
       const dayLabel=document.createElement('div');
       dayLabel.className=`mobile-day-label${isSelected?' selected-day':''}${closed?' day-closed':''}`;
-      dayLabel.innerHTML=`<span class="day-abbr">${day.label.slice(0,3)}</span><span class="day-date">${formatDateShort(day.date)}</span>${closed?'<span class="closed-tag">Chiuso</span>':''}`;
+      dayLabel.innerHTML=`<span class="day-abbr">${day.label.slice(0,3)}</span><span class="day-date">${formatDateShort(day.date)}</span>${closed?'<span class="closed-tag">'+(day.exceptions?.holiday?'Festività':'Chiuso')+'</span>':''}`;
       dayLabel.addEventListener('click',()=>{selectedDayKey=day.key;render();});
       grid.append(dayLabel);
       for(const assistant of ASSISTANT_NAMES){
@@ -337,7 +341,7 @@ import {
     const isHol=!!day.exceptions.holiday;
     const toggle=isSat
       ?`<label class="checkbox-inline"><input id="satOpen" type="checkbox"><span>Aperto</span></label>`
-      :`<label class="checkbox-inline" title="Doppia assistente il pomeriggio"><input id="extraAfternoon" type="checkbox"><span>2× Pom.</span></label> <label class="checkbox-inline" title="Doppia assistente di mattina (almeno fino alle 13:30)"><input id="extraMorning" type="checkbox"><span>2× Matt.</span></label> <label class="checkbox-inline" title="Studio chiuso (festività): nessuno lavora, ore ridotte"><input id="holiday" type="checkbox"><span>Festività</span></label>`;
+      :`<label class="checkbox-inline" title="Doppia assistente di mattina (almeno fino alle 13:30)"><input id="extraMorning" type="checkbox"><span>2× Matt.</span></label> <label class="checkbox-inline" title="Doppia assistente il pomeriggio"><input id="extraAfternoon" type="checkbox"><span>2× Pom.</span></label> <label class="checkbox-inline" title="Studio chiuso (festività): nessuno lavora, ore ridotte"><input id="holiday" type="checkbox"><span>Festività</span></label>`;
     // Assenze: solo nei giorni feriali non festivi.
     const absHtml=(!isSat&&!isHol)?`<div class="day-fields-row" style="flex-wrap:wrap;gap:6px;margin-top:8px">${ASSISTANT_NAMES.map(n=>`<label class="t-field" style="flex:1;min-width:88px">${n}<select class="field field-sm abs-sel" data-n="${n}"><option value="">Presente</option><option value="vacation">Ferie</option><option value="sick">Malattia</option></select></label>`).join('')}</div>`:'';
     dayEditorDiv.innerHTML=`<div class="day-label-row">${day.label} <span class="day-date">${formatDateShort(day.date)}</span>${toggle}</div><div class="day-fields-row"><select id="eventType" class="field field-sm"><option value="">Nessun evento</option><option value="chirurgia">Chirurgia</option><option value="ortodonzia">Ortodonzia</option><option value="dottore">Dottore in più</option><option value="altro">Altro</option></select></div>${absHtml}`;

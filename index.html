@@ -236,11 +236,11 @@
     .shift-select {
       width: 100%;
       min-width: 0;
-      padding: 6px 3px;
+      padding: 6px 8px;
       border: 1px solid var(--border);
       border-radius: 8px;
       background: white;
-      font-size: 10px;
+      font-size: 12px;
       font-weight: 500;
       transition: var(--transition);
       cursor: pointer;
@@ -385,7 +385,7 @@
     .icon-svg { width: 16px; height: 16px; display: inline-block; vertical-align: middle; stroke-width: 1.6; stroke: currentColor; fill: none; flex-shrink: 0; }
 
     /* ── Mobile grid ── */
-    .mobile-grid { display: grid; grid-template-columns: 44px repeat(3, 1fr); width: 100%; }
+    .mobile-grid { display: grid; grid-template-columns: 48px repeat(3, 1fr); width: 100%; max-width: 720px; margin: 0 auto; }
     .mobile-grid > div:nth-child(4n) { border-right: none; }
 
     .mobile-header-cell { background: #f5efe7; padding: 8px 4px; font-weight: 700; font-size: 15px; text-align: center; border-right: 1px solid var(--border); border-bottom: 2px solid var(--border); color: var(--text); }
@@ -396,10 +396,10 @@
 
     .mobile-shift-cell { padding: 4px 3px; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); display: flex; flex-direction: column; gap: 2px; }
     .mobile-shift-cell.selected-day { background: var(--select-bg) !important; }
-    .mobile-shift-cell .shift-select { width: 66px; font-size: 9px; padding: 3px 2px; min-height: 30px; border-radius: 6px; }
-    .mobile-shift-cell .shift-grid { grid-template-columns: 66px auto; grid-template-rows: 30px 30px; column-gap: 3px; }
+    .mobile-shift-cell .shift-select { width: 100%; min-width: 0; font-size: clamp(9px, 2.4vw, 13px); padding: 4px 6px; min-height: 32px; border-radius: 6px; }
+    .mobile-shift-cell .shift-grid { grid-template-columns: minmax(0, 1fr) auto; grid-template-rows: 32px 32px; column-gap: 4px; }
     .mobile-shift-cell .badge-h { font-size: 9px; }
-    .mobile-shift-cell .badge-code { font-size: 8px; padding: 1px 3px; }
+    .mobile-shift-cell .badge-code { font-size: clamp(8px, 1.5vw, 10px); padding: 1px 4px; }
     .mobile-shift-cell .cell-foot { margin-top: 2px; }
     .mobile-shift-cell .toggle-switch { font-size: 9px; gap: 3px; }
     .mobile-shift-cell .toggle-track { width: 22px; height: 13px; border-radius: 7px; }
@@ -410,7 +410,7 @@
     .bottom-bar { display: none; }
 
     /* ── Responsive ── */
-    @media (max-width: 780px) {
+    @media (max-width: 1398px) {
       body { padding-bottom: calc(68px + env(safe-area-inset-bottom)); }
       .app { padding: 12px 10px; }
       .workspace { grid-template-columns: 1fr; gap: 12px; }
