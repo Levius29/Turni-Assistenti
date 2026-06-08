@@ -7,7 +7,7 @@ import {
   // ── STORAGE ──
   const storageKey='turni-assistenti.weeks.v1';
   const staffKey='turni-assistenti.staff.v1';
-  const MOBILE_BREAKPOINT=1399; // sotto questa larghezza la griglia va in verticale (layout impilato)
+  const MOBILE_BREAKPOINT=1180; // sotto questa larghezza la griglia va in verticale (layout impilato)
   // Carica il team salvato (se presente) PRIMA di generare qualsiasi settimana.
   (function loadStaffConfig(){try{const s=JSON.parse(localStorage.getItem(staffKey));if(s&&Object.keys(s).length)reconfigure(s);}catch{}})();
   function saveStaff(){localStorage.setItem(staffKey,JSON.stringify(getStaffConfig()));}

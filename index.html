@@ -90,13 +90,16 @@
       display: flex;
       justify-content: flex-end;
       margin-bottom: 14px;
+      min-width: 0;
     }
 
     .week-controls {
       display: flex;
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
       align-items: center;
       gap: 6px;
+      max-width: 100%;
+      min-width: 0;
       background: var(--surface);
       padding: 4px 10px;
       border-radius: 60px;
@@ -119,6 +122,10 @@
       align-items: center;
       gap: 6px;
       font-size: 13px;
+      min-width: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     .week-controls button:hover { background: var(--primary-soft); color: var(--primary); }
 
@@ -137,6 +144,7 @@
     .week-controls .btn-pdf:hover { background: var(--accent-warm); color: white; border-color: transparent; }
 
     .week-label {
+      flex: 0 1 200px;
       font-weight: 500;
       background: var(--surface-soft);
       min-width: 200px;
@@ -144,6 +152,8 @@
       border: 1px solid var(--border);
       font-variant-numeric: tabular-nums;
     }
+
+    #teamBtn, #printWeek, #exportPDF { flex: 0 1 auto; }
 
     /* ── Status ── */
     @keyframes slideDown {
@@ -411,7 +421,25 @@
     .bottom-bar { display: none; }
 
     /* ── Responsive ── */
-    @media (max-width: 1398px) {
+    @media (max-width: 1280px) and (min-width: 1180px) {
+      .app { padding: 12px; }
+      .topbar { justify-content: center; }
+      .week-controls { gap: 4px; padding: 4px 8px; }
+      .week-controls button,
+      .week-controls .week-label { padding: 7px 10px; font-size: 12px; }
+      .week-label { min-width: 170px; flex-basis: 170px; }
+      .workspace { grid-template-columns: minmax(0, 1fr) 300px; gap: 12px; }
+      .schedule-grid {
+        min-width: 800px;
+        grid-template-columns: 128px repeat(6, minmax(108px, 1fr));
+      }
+      .grid-cell,
+      .assistant-name-cell { padding: 9px 8px; }
+      .shift-select { font-size: 11px; padding-inline: 6px; }
+      .panel { padding: 12px; }
+    }
+
+    @media (max-width: 1179px) {
       body { padding-bottom: calc(68px + env(safe-area-inset-bottom)); }
       .app { padding: 12px 10px; }
       .workspace { grid-template-columns: 1fr; gap: 12px; }
@@ -460,11 +488,11 @@
     }
 
     /* ── Day editor compact ── */
-    .day-label-row { display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: 13px; margin-bottom: 8px; }
+    .day-label-row { display: flex; align-items: center; flex-wrap: wrap; gap: 6px 8px; font-weight: 600; font-size: 13px; margin-bottom: 8px; }
     .day-label-row .day-date { color: var(--text-muted); font-weight: 400; }
     .day-fields-row { display: flex; align-items: center; gap: 8px; }
     .field-sm { flex: 1; font-size: 12px; padding: 6px 8px; min-height: 32px; }
-    .checkbox-inline { display: flex; align-items: center; gap: 6px; font-size: 12px; white-space: nowrap; cursor: pointer; }
+    .checkbox-inline { display: inline-flex; align-items: center; flex: 0 1 auto; gap: 5px; min-width: 0; font-size: 12px; white-space: nowrap; cursor: pointer; }
     #warnings { max-height: 120px; overflow-y: auto; }
 
     /* ── Print ── */
