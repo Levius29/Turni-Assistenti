@@ -1,16 +1,16 @@
-# Graph Report - Turni-Assistenti-online  (2026-06-08)
+# Graph Report - Turni-Assistenti-online  (2026-06-06)
 
 ## Corpus Check
-- 18 files · ~19,240 words
+- 18 files · ~18,837 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 253 nodes · 450 edges · 21 communities (11 shown, 10 thin omitted)
+- 252 nodes · 445 edges · 20 communities (10 shown, 10 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 2 edges (avg confidence: 0.88)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `abd926bf`
+- Built from commit: `c5f07227`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -35,19 +35,18 @@
 - [[_COMMUNITY_Community 17|Community 17]]
 - [[_COMMUNITY_Community 18|Community 18]]
 - [[_COMMUNITY_Community 19|Community 19]]
-- [[_COMMUNITY_Community 20|Community 20]]
 
 ## God Nodes (most connected - your core abstractions)
 1. `getShift()` - 16 edges
 2. `Ottimizzatore turni Fase 4 — Implementation Plan` - 15 edges
-3. `buildShiftContent()` - 13 edges
-4. `validateWeek()` - 13 edges
-5. `Convenzioni test` - 12 edges
-6. `render()` - 11 edges
+3. `validateWeek()` - 13 edges
+4. `Convenzioni test` - 12 edges
+5. `render()` - 11 edges
+6. `buildShiftContent()` - 11 edges
 7. `Audit & miglioramento solver turni — Design` - 11 edges
 8. `buildDesktopGrid()` - 10 edges
-9. `getAssistantStats()` - 10 edges
-10. `generateWeek()` - 10 edges
+9. `generateWeek()` - 10 edges
+10. `regenerateAlternativeWithFeedback()` - 10 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `CLAUDE.md - Project Documentation` --conceptually_related_to--> `settings.json - Claude Code Hooks Config`  [INFERRED]
@@ -58,29 +57,29 @@
   .github/workflows/deploy.yml → tests/solver-logic.test.mjs
 - `Audit & miglioramento solver turni — Design` --conceptually_related_to--> `coverageDeficit`  [EXTRACTED]
   docs/superpowers/specs/2026-06-06-solver-audit-design.md → index.html
-- `openTeamEditor()` --calls--> `fmt()`  [EXTRACTED]
+- `openTeamEditor()` --calls--> `generateWeek()`  [EXTRACTED]
   src/app.js → src/scheduler.js
 
 ## Import Cycles
 - None detected.
 
-## Communities (21 total, 10 thin omitted)
+## Communities (20 total, 10 thin omitted)
 
 ### Community 0 - "Community 0"
-Cohesion: 0.08
-Nodes (40): _altHistory, buildLedgerFromStorage(), changeWeek(), currentStart, dayEditorDiv, deferHeavy(), doGenerate(), doReset() (+32 more)
+Cohesion: 0.07
+Nodes (49): _altHistory, applyTheme(), buildDesktopGrid(), buildLedgerFromStorage(), buildMobileGrid(), buildShiftBadge(), buildShiftContent(), buildThemeToggle() (+41 more)
 
 ### Community 1 - "PDF Export & Deploy"
 Cohesion: 0.07
-Nodes (39): renderWarnings(), AFTERNOON_END_THRESHOLD, AFTERNOON_TIERS, ASSISTANT_NAMES, ASSISTANTS, BASE_PAIRS, buildTierRules(), buildWeekFromDayAssignments() (+31 more)
+Nodes (40): renderWarnings(), AFTERNOON_END_THRESHOLD, AFTERNOON_TIERS, afternoonDemand(), ASSISTANT_NAMES, ASSISTANTS, BASE_PAIRS, buildRem() (+32 more)
 
 ### Community 2 - "Community 2"
 Cohesion: 0.08
 Nodes (23): coverageDeficit, getDayCombos, solveWeek, validateWeek, #10 — Niente freeze UI durante il solve, #11 — jsPDF robusto, #1 + #2 — Copertura unificata: `coverageDeficit`, #3 — `validateWeek` controlla i giorni lavorati (+15 more)
 
 ### Community 3 - "Community 3"
-Cohesion: 0.15
-Nodes (23): applyShiftClass(), buildDesktopGrid(), buildMobileGrid(), buildShiftBadge(), buildShiftContent(), buildThemeToggle(), createCell(), createLockToggle() (+15 more)
+Cohesion: 0.18
+Nodes (14): applyShiftClass(), renderSummary(), costOfWeek(), countsAsAfternoon(), equityCost(), getAssistantStats(), getLockedShiftCount(), getShift() (+6 more)
 
 ### Community 4 - "Claude Code Hooks"
 Cohesion: 0.11
@@ -103,12 +102,8 @@ Cohesion: 0.12
 Nodes (15): File Structure, Note di stile per l'esecutore, Ottimizzatore turni Fase 4 — Implementation Plan, Self-Review (eseguita dall'autore del piano), Task 10: app.js — ledger da storage + UI preferenze, Task 11: Performance, CSS, smoke browser, graphify, PR, Task 1: Ledger equità + helper varianza, Task 2: Costo equità (+7 more)
 
 ### Community 17 - "Community 17"
-Cohesion: 0.25
-Nodes (11): applyTheme(), ensureWeekShape(), exportPDF(), getCurrentWeek(), render(), renderDayEditor(), toggleTheme(), formatDateShort() (+3 more)
-
-### Community 20 - "Community 20"
-Cohesion: 0.40
-Nodes (5): openTeamEditor(), saveStaff(), computeAfternoonTiers(), getStaffConfig(), reconfigure()
+Cohesion: 0.20
+Nodes (14): deferHeavy(), doGenerate(), doReset(), requestAlternative(), applyPreviousWeekState(), assign(), createBaseWeek(), createEmptyWeek() (+6 more)
 
 ## Knowledge Gaps
 - **98 isolated node(s):** `PreToolUse`, `module`, `target`, `moduleResolution`, `lib` (+93 more)
@@ -125,10 +120,10 @@ _Questions this graph is uniquely positioned to answer:_
 - **What connects `PreToolUse`, `module`, `target` to the rest of the system?**
   _98 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Community 0` be split into smaller, more focused modules?**
-  _Cohesion score 0.08309178743961353 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.07138047138047138 - nodes in this community are weakly interconnected._
 - **Should `PDF Export & Deploy` be split into smaller, more focused modules?**
-  _Cohesion score 0.06976744186046512 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.07474747474747474 - nodes in this community are weakly interconnected._
 - **Should `Community 2` be split into smaller, more focused modules?**
   _Cohesion score 0.08333333333333333 - nodes in this community are weakly interconnected._
-- **Should `Community 3` be split into smaller, more focused modules?**
-  _Cohesion score 0.14624505928853754 - nodes in this community are weakly interconnected._
+- **Should `Claude Code Hooks` be split into smaller, more focused modules?**
+  _Cohesion score 0.11052631578947368 - nodes in this community are weakly interconnected._
