@@ -1,6 +1,9 @@
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import test, { after } from 'node:test';
 import * as M from '../src/scheduler.js';
+
+const schedulerSrc = readFileSync(new URL('../src/scheduler.js', import.meta.url), 'utf8');
 
 // Riconfigura il team a runtime (API reale usata dalla config UI) e verifica che tutta
 // la logica derivata sia generica su N persone. Ripristina il default a fine file.
@@ -43,6 +46,12 @@ test('reconfigure: getDayCombos enumera combinazioni per 4 persone', () => {
   for (const c of combos.slice(0, 5)) {
     for (const n of M.ASSISTANT_NAMES) assert.ok(n in c && n in c.d, `combo deve coprire ${n}`);
   }
+});
+
+test('solveWeek: nessun nome proprio cablato nei tetti dei tier', () => {
+  // Regressione: il pre-check dei tier sommava tier.caps.Lucrezia+Manuela+Madalina,
+  // che con un team rinominato dava NaN e disattivava lo skip dei tier impossibili.
+  assert.doesNotMatch(schedulerSrc, /tier\.caps\.(Lucrezia|Manuela|Madalina)/);
 });
 
 test('reconfigure: tornando al default ripristina le 3 persone', () => {

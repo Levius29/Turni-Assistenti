@@ -267,7 +267,7 @@
 
     /* ── Giorno chiuso (sabato non aperto) ── */
     .grid-cell.day-closed, .mobile-shift-cell.day-closed, .mobile-day-label.day-closed { opacity: .5; }
-    .closed-tag { display: block; margin-top: 2px; font-size: 9px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: #b14b3c; }
+    .closed-tag { display: block; margin-top: 2px; font-size: 9px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--alert); }
 
     /* ── Shift badge (in fila orizzontale, in alto a destra: A, C, L) ── */
     .shift-badge {
@@ -390,7 +390,10 @@
     .pill.warn { background: var(--alert-bg); color: var(--alert); }
     .sum-locked { font-size: 11px; color: var(--text-muted); margin-top: 6px; padding-top: 6px; border-top: 1px solid var(--border); }
     .sum-ot { display: inline-block; background: var(--accent-warm-bg, #f6e9df); color: var(--accent-warm, #b96a32); padding: 1px 6px; border-radius: 40px; font-weight: 700; font-size: 9px; text-transform: uppercase; letter-spacing: .3px; margin-left: 6px; vertical-align: middle; }
-    .sum-ot-hours { font-weight: 800; color: #b14b3c; }
+    .sum-ot-hours { font-weight: 800; color: var(--alert); }
+    .sum-bar { display: block; height: 4px; background: var(--border); border-radius: 2px; margin-top: 4px; overflow: hidden; }
+    .sum-bar-fill { display: block; height: 100%; background: var(--primary); border-radius: 2px; transition: width 0.3s ease; }
+    .sum-bar-fill.over { background: var(--alert); }
 
     .icon-svg { width: 16px; height: 16px; display: inline-block; vertical-align: middle; stroke-width: 1.6; stroke: currentColor; fill: none; flex-shrink: 0; }
 
@@ -460,6 +463,7 @@
         padding: 0 6px env(safe-area-inset-bottom);
         z-index: 100;
         box-shadow: 0 -4px 20px rgba(0,0,0,0.08);
+        overflow-x: auto; /* su schermi molto stretti i pulsanti scorrono invece di rompere il layout */
       }
 
       .bottom-bar button {
@@ -500,7 +504,15 @@
     @media print {
       :root { --bg: white; --surface: white; --border: #aaa; }
       body { background: white; padding-bottom: 0; }
-      .topbar, .side-panel, .status-message, .toggle-switch, .assistant-avatar, .bottom-bar, .shift-badge { display: none !important; }
+      /* Stampa sempre in chiaro, anche con night mode attiva (testo scuro su carta bianca). */
+      body.dark {
+        color-scheme: light;
+        --bg: white; --surface: white; --surface-soft: white; --border: #aaa;
+        --text: #2c3a35; --text-light: #6b7b74; --text-muted: #9aa8a0;
+      }
+      body.dark .head-cell, body.dark .assistant-name-cell { background: #fcf9f5; }
+      body.dark .mobile-header-cell, body.dark .mobile-day-label { background: #fcf9f5; }
+      .topbar, .side-panel, .status-message, .toggle-switch, .assistant-avatar, .bottom-bar, .shift-badge, .theme-toggle, .shift-grid, .modal-overlay { display: none !important; }
       .board { box-shadow: none; border: 1px solid #ccc; }
       .schedule-grid { min-width: 0; }
       .shift-select { display: none; }

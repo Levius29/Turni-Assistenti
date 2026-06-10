@@ -289,7 +289,7 @@ export function solveWeek(seedWeek,avoidSigs){
     const pre={order,rem:buildRem(seedWeek.days,order)};
     const attempt=(combos,budget)=>{
       for(const tier of AFTERNOON_TIERS){
-        if(demand>tier.caps.Lucrezia+tier.caps.Manuela+tier.caps.Madalina)continue;
+        if(demand>Object.values(tier.caps).reduce((a,b)=>a+b,0))continue;
         const tierRules=buildTierRules(seedWeek,tier);
         let found=null;
         for(const maxCloses of [2,3]){const r=solveWeekCore(seedWeek,maxCloses,combos,budget,avoidSigs,tierRules,pre);if(r.solved){found=r;break;}}

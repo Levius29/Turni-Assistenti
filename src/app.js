@@ -2,8 +2,12 @@
 import {
   AFTERNOON_END_THRESHOLD, AFTERNOON_TIERS, ASSISTANTS, ASSISTANT_NAMES, BASE_PAIRS, LEGACY_TEMPLATES, LONG_SPAN, LUNCH_GAP_MAX, SHIFT_MAX_SPAN, SHIFT_MIN_SPAN, SHIFT_OFF, SLOT, SOLVE_BUDGET_FAST, SOLVE_BUDGET_FULL, STUDIO_CLOSE, STUDIO_OPEN, WEEKDAY_KEYS, WEEK_DAYS, _shiftCache, addDays, afternoonDemand, applyPreviousWeekState, assign, buildEquityLedger, buildRem, buildWeekFromDayAssignments, cloneStats, countsAsAfternoon, coverageDeficit, coverageOf, createBaseWeek, createEmptyWeek, deriveShift, diversifyTimes, fmt, formatDateShort, formatItalianDate, formatWeekRange, formatWeekRangeShort, generateWeek, getAllowedShifts, getAssistantStats, getCoverage, getCurrentMonday, getDayCombos, getLockedShiftCount, getRequiredCoverage, getShift, heuristicCombos, inOvertime, isManuelaClose1519, isOff, maxUncoveredGap, regenerateAlternativeWithFeedback, regenerateCleanWeekWithFeedback, regenerateWeekWithFeedback, shiftsOf, solveWeek, solveWeekCore, updateShiftWithFeedback, validateWeek, weekAssignmentSig,
   defaultStaffConfig, getStaffConfig, reconfigure,
-  weekToCSV, summarizePeriod, summaryToCSV, monthBounds
+  weekToCSV, summarizePeriod, summaryToCSV, monthBounds,
+  effectiveWeeklyHours
 } from './scheduler.js';
+
+  // Escape HTML per i valori inseriti dall'utente (nomi assistenti) interpolati in innerHTML.
+  const escHtml=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
   // ── STORAGE ──
   const storageKey='turni-assistenti.weeks.v1';
@@ -15,8 +19,8 @@ import {
   let weeks=loadWeeks();
   let currentStart=getCurrentMonday();
   let selectedDayKey='mon';
-  // Ledger equità dalle ultime 8 settimane salvate, esclusa quella in editing (currentStart).
-  function buildLedgerFromStorage(){return buildEquityLedger(Object.entries(weeks).filter(([s])=>s!==currentStart).map(([,w])=>w),8);}
+  // Ledger equità dalle ultime 8 settimane PASSATE salvate (le future non sono storico).
+  function buildLedgerFromStorage(){return buildEquityLedger(Object.entries(weeks).filter(([s])=>s<currentStart).map(([,w])=>w),8);}
   if(!weeks[currentStart])weeks[currentStart]=generateWeek({startDate:currentStart,ledger:buildLedgerFromStorage()});
   saveWeeks();
 
@@ -76,8 +80,14 @@ import {
   const MOON_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>';
   function buildThemeToggle(){const btn=document.createElement('button');btn.type='button';btn.className='theme-toggle';btn.title=darkMode?'Modalità chiara':'Modalità scura (night mode)';btn.innerHTML=darkMode?SUN_SVG:MOON_SVG;btn.addEventListener('click',toggleTheme);return btn;}
 
-  let resizeTimer;
-  window.addEventListener('resize',()=>{clearTimeout(resizeTimer);resizeTimer=setTimeout(()=>renderGrid(getCurrentWeek()),150);});
+  // Resize: re-render immediato quando si attraversa il breakpoint (desktop ⇄ verticale),
+  // altrimenti ridisegno debounced della sola griglia.
+  let resizeTimer,_wasMobile=window.innerWidth<MOBILE_BREAKPOINT;
+  window.addEventListener('resize',()=>{
+    const m=window.innerWidth<MOBILE_BREAKPOINT;
+    if(m!==_wasMobile){_wasMobile=m;render();return;}
+    clearTimeout(resizeTimer);resizeTimer=setTimeout(()=>renderGrid(getCurrentWeek()),150);
+  });
 
   // ── TEAM EDITOR ──
   const TEAM_ICON='<svg class="icon-svg" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a4 4 0 0 0-3-3.87M9 20H4v-2a4 4 0 0 1 3-3.87m6-1.13a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg>';
@@ -162,8 +172,14 @@ import {
       if(new Set(names).size!==names.length)return showErr('Nomi duplicati.');
       const newCfg={};
       for(const r of rows){const c=r.c;
-        if(!(c.weeklyHours>0))return showErr(`${r.name}: ore settimanali non valide.`);
+        if(!Number.isFinite(c.weeklyHours)||!(c.weeklyHours>0))return showErr(`${r.name}: ore settimanali non valide.`);
+        if(!Number.isInteger(c.minAfternoons)||c.minAfternoons<0)return showErr(`${r.name}: pomeriggi min non validi.`);
+        if(!Number.isInteger(c.maxAfternoons)||c.maxAfternoons<0)return showErr(`${r.name}: pomeriggi max non validi.`);
         if(c.minAfternoons>c.maxAfternoons)return showErr(`${r.name}: pomeriggi min > max.`);
+        if(c.overtime){
+          if(!Number.isFinite(c.overtime.weeklyHours)||c.overtime.weeklyHours<c.weeklyHours)return showErr(`${r.name}: ore straordinario non valide (devono essere ≥ ore base).`);
+          if(!Number.isInteger(c.overtime.maxAfternoons)||c.overtime.maxAfternoons<c.maxAfternoons)return showErr(`${r.name}: pomeriggi straordinario non validi (devono essere ≥ pomeriggi max base).`);
+        }
         newCfg[r.name.trim()]={...c,weeklyHours:c.weeklyHours,minAfternoons:c.minAfternoons,maxAfternoons:c.maxAfternoons,canWorkLong:!!c.canWorkLong};
       }
       reconfigure(newCfg);saveStaff();
@@ -233,7 +249,7 @@ import {
       card.querySelector('.mn-label').textContent=`${MONTH_NAMES[month-1]} ${year}`;
       const names=Object.keys(lastTotals),hasData=names.some(n=>lastTotals[n].workDays>0);
       card.querySelector('.month-body').innerHTML=hasData
-        ?`<table class="month-table"><thead><tr><th>Assistente</th><th>Ore</th><th>Giorni</th><th>Pom.</th><th>Sab</th><th>Apert.</th><th>Chius.</th></tr></thead><tbody>${names.map(n=>{const t=lastTotals[n];return`<tr><td class="mt-name">${n}</td><td>${t.hours}</td><td>${t.workDays}</td><td>${t.afternoons}</td><td>${t.saturdays}</td><td>${t.opens}</td><td>${t.closes}</td></tr>`;}).join('')}</tbody></table>`
+        ?`<table class="month-table"><thead><tr><th>Assistente</th><th>Ore</th><th>Giorni</th><th>Pom.</th><th>Sab</th><th>Apert.</th><th>Chius.</th><th>Lunghi</th></tr></thead><tbody>${names.map(n=>{const t=lastTotals[n];return`<tr><td class="mt-name">${escHtml(n)}</td><td>${t.hours}</td><td>${t.workDays}</td><td>${t.afternoons}</td><td>${t.saturdays}</td><td>${t.opens}</td><td>${t.closes}</td><td>${t.longShifts}</td></tr>`;}).join('')}</tbody></table>`
         :`<p class="month-empty">Nessun turno salvato per questo mese.</p>`;
     }
     const close=()=>{overlay.classList.remove('visible');setTimeout(()=>overlay.remove(),200);};
@@ -297,9 +313,6 @@ import {
     if(isMobile){scheduleGrid.appendChild(buildMobileGrid(week));}
     else{buildDesktopGrid(week);}
   }
-  // Ridisegna la griglia quando si attraversa il breakpoint (desktop ⇄ verticale) durante un resize.
-  let _wasMobile=window.innerWidth<MOBILE_BREAKPOINT;
-  window.addEventListener('resize',()=>{const m=window.innerWidth<MOBILE_BREAKPOINT;if(m!==_wasMobile){_wasMobile=m;render();}});
 
   function isDayClosed(day){return!!day.exceptions?.holiday||(day.key==='sat'&&!day.exceptions?.satOpen);}
   function buildDesktopGrid(week){
@@ -314,7 +327,7 @@ import {
     }
     for(const assistant of ASSISTANT_NAMES){
       const nameCell=document.createElement('div');nameCell.className='grid-cell assistant-name-cell';
-      nameCell.innerHTML=`<div class="assistant-card"><div class="assistant-avatar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg></div><div><span class="assistant-name">${assistant}</span><div class="assistant-meta">${getContractLabel(assistant)}</div></div></div>`;
+      nameCell.innerHTML=`<div class="assistant-card"><div class="assistant-avatar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg></div><div><span class="assistant-name">${escHtml(assistant)}</span><div class="assistant-meta">${getContractLabel(assistant)}</div></div></div>`;
       scheduleGrid.append(nameCell);
       for(const day of week.days){
         const{entry,exit,badge}=buildShiftContent(day,assistant,true,week);
@@ -371,7 +384,7 @@ import {
       exit.disabled=false;
     }
     const cur=getShift(day.assignments[assistant]);
-    if(cur.id==='OFF'){entry.value='OFF';exit.disabled=true;if(starts.length)fillExit(starts[0]);exit.disabled=true;exit.value='';}
+    if(cur.id==='OFF'){entry.value='OFF';exit.append(mkOpt('','—'));exit.value='';exit.disabled=true;}
     else{entry.value=String(cur.startMin);fillExit(cur.startMin,cur.endMin);}
     const commit=()=>{
       const val=entry.value==='OFF'?'OFF':{s:+entry.value,e:+exit.value};
@@ -430,13 +443,15 @@ import {
     const locked=getLockedShiftCount(week);
     const rows=ASSISTANT_NAMES.map(a=>{
       const c=ASSISTANTS[a];
-      const baseTgt=c.weeklyHours;
-      const overtime=!!c.overtime&&(stats[a].hours>baseTgt||stats[a].afternoons>c.maxAfternoons);
-      const tgt=overtime?c.overtime.weeklyHours:baseTgt;
+      const overtime=!!c.overtime&&(stats[a].hours>c.weeklyHours||stats[a].afternoons>c.maxAfternoons);
+      // Target effettivo: stesse regole di validateWeek (festività riducono il monte ore pro-quota).
+      const tgt=effectiveWeeklyHours(a,week,overtime?c.overtime.weeklyHours:c.weeklyHours);
       const ok=stats[a].hours===tgt;
+      const pct=tgt>0?Math.min(100,stats[a].hours/tgt*100):0;
+      const over=stats[a].hours>tgt;
       const otBadge=overtime?` <span class="badge-code badge-s">S</span>`:'';
       const hoursDisp=overtime?`<strong class="sum-ot-hours">${stats[a].hours}</strong>`:`${stats[a].hours}`;
-      return`<div class="sum-row"><span class="sum-name">${a}</span><span class="sum-stats">${hoursDisp}/${tgt}h · ${stats[a].afternoons} Pom. · ${stats[a].saturdays} Sab · ${stats[a].closes} C · ${stats[a].opens} A${otBadge}</span><span class="pill ${ok?'':'warn'}">${ok?'✓':'!'}</span></div>`;
+      return`<div class="sum-row"><span class="sum-name">${escHtml(a)}</span><span class="sum-stats"><span>${hoursDisp}/${tgt}h · ${stats[a].afternoons} Pom. · ${stats[a].saturdays} Sab · ${stats[a].closes} C · ${stats[a].opens} A${otBadge}</span><span class="sum-bar"><span class="sum-bar-fill${over?' over':''}" style="width:${pct}%"></span></span></span><span class="pill ${ok?'':'warn'}">${ok?'✓':'!'}</span></div>`;
     }).join('');
     const lockInfo=locked>0?`<div class="sum-locked">${locked} blocco${locked>1?'chi':''} attivo${locked>1?'i':''}</div>`:'';
     summaryDiv.innerHTML=rows+lockInfo;
@@ -450,7 +465,7 @@ import {
       ?`<label class="checkbox-inline"><input id="satOpen" type="checkbox"><span>Aperto</span></label>`
       :`<label class="checkbox-inline" title="Doppia assistente di mattina (almeno fino alle 13:30)"><input id="extraMorning" type="checkbox"><span>2× Matt.</span></label> <label class="checkbox-inline" title="Doppia assistente il pomeriggio"><input id="extraAfternoon" type="checkbox"><span>2× Pom.</span></label> <label class="checkbox-inline" title="Studio chiuso (festività): nessuno lavora, ore ridotte"><input id="holiday" type="checkbox"><span>Festività</span></label>`;
     // Assenze: solo nei giorni feriali non festivi.
-    const absHtml=(!isSat&&!isHol)?`<div class="day-fields-row" style="flex-wrap:wrap;gap:6px;margin-top:8px">${ASSISTANT_NAMES.map(n=>`<label class="t-field" style="flex:1;min-width:88px">${n}<select class="field field-sm abs-sel" data-n="${n}"><option value="">Presente</option><option value="vacation">Ferie</option><option value="sick">Malattia</option></select></label>`).join('')}</div>`:'';
+    const absHtml=(!isSat&&!isHol)?`<div class="day-fields-row" style="flex-wrap:wrap;gap:6px;margin-top:8px">${ASSISTANT_NAMES.map(n=>`<label class="t-field" style="flex:1;min-width:88px">${escHtml(n)}<select class="field field-sm abs-sel" data-n="${escHtml(n)}"><option value="">Presente</option><option value="vacation">Ferie</option><option value="sick">Malattia</option></select></label>`).join('')}</div>`:'';
     dayEditorDiv.innerHTML=`<div class="day-label-row">${day.label} <span class="day-date">${formatDateShort(day.date)}</span>${toggle}</div><div class="day-fields-row"><select id="eventType" class="field field-sm"><option value="">Nessun evento</option><option value="chirurgia">Chirurgia</option><option value="ortodonzia">Ortodonzia</option><option value="dottore">Dottore in più</option><option value="altro">Altro</option></select></div>${absHtml}`;
     const sel=dayEditorDiv.querySelector('#eventType');
     sel.value=day.exceptions.eventType;
@@ -478,12 +493,21 @@ import {
   }
 
   function getCurrentWeek(){if(!weeks[currentStart])weeks[currentStart]=createEmptyWeek(currentStart);ensureWeekShape(weeks[currentStart]);return weeks[currentStart];}
-  function changeWeek(days){resetAltHistory();currentStart=addDays(currentStart,days);selectedDayKey='mon';if(!weeks[currentStart])weeks[currentStart]=generateWeek({startDate:currentStart,ledger:buildLedgerFromStorage()});saveWeeks();render();}
-  // Pruning: conserva solo le settimane nella finestra ±8 attorno alla corrente
-  // e quelle con almeno un turno bloccato (edit manuali da preservare).
+  function changeWeek(days){
+    resetAltHistory();currentStart=addDays(currentStart,days);selectedDayKey='mon';
+    if(!weeks[currentStart]){
+      // Genera al tick successivo: lo status "Calcolo turni…" appare prima del solve sincrono.
+      const start=currentStart;
+      deferHeavy('Calcolo turni…',()=>{weeks[start]=generateWeek({startDate:start,ledger:buildLedgerFromStorage()});saveWeeks();if(currentStart===start)render();});
+      return;
+    }
+    saveWeeks();render();
+  }
+  // Pruning: conserva le 26 settimane passate (per il riepilogo mensile fino a ~6 mesi) e 8 future
+  // attorno alla corrente, più quelle con almeno un turno bloccato (edit manuali da preservare).
   function saveWeeks(){
     const keep=new Set();
-    for(let i=-8;i<=8;i++)keep.add(addDays(currentStart,i*7));
+    for(let i=-26;i<=8;i++)keep.add(addDays(currentStart,i*7));
     for(const k of Object.keys(weeks)){
       const wk=weeks[k];
       const hasLock=wk?.days?.some(d=>Object.values(d.locks||{}).some(Boolean));
@@ -493,7 +517,7 @@ import {
   }
   function loadWeeks(){try{return JSON.parse(localStorage.getItem(storageKey))??{};}catch{return{};}}
   function createCell(html,className){const el=document.createElement('div');el.className=className;el.innerHTML=html;return el;}
-  function getContractLabel(a){const c=ASSISTANTS[a];if(!c)return'';const ch=c.minAfternoons===c.maxAfternoons?`max ${c.maxAfternoons}`:`${c.minAfternoons}-${c.maxAfternoons}`;return`${c.weeklyHours}h · ${ch} ch.`;}
+  function getContractLabel(a){const c=ASSISTANTS[a];if(!c)return'';const pom=c.minAfternoons===c.maxAfternoons?`max ${c.maxAfternoons}`:`${c.minAfternoons}-${c.maxAfternoons}`;return`${c.weeklyHours}h · ${pom} pom.`;}
 
   let statusTimer;
   function showStatus(msg){
