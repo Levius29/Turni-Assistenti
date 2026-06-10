@@ -1,6 +1,6 @@
 // UI / DOM / PDF. Estratto da index.html.
 import {
-  ASSISTANTS, ASSISTANT_NAMES, LEGACY_TEMPLATES, addDays, buildEquityLedger, countsAsAfternoon, createEmptyWeek, diversifyTimes, fmt, formatDateShort, formatWeekRange, generateWeek, getAllowedShifts, getAssistantStats, getCurrentMonday, getLockedShiftCount, getShift, inOvertime, isOff, regenerateAlternativeWithFeedback, regenerateCleanWeekWithFeedback, regenerateWeekWithFeedback, updateShiftWithFeedback, validateWeek, weekAssignmentSig,
+  ASSISTANTS, ASSISTANT_NAMES, LEGACY_TEMPLATES, SHIFT_MIN_SPAN, SLOT, STUDIO_CLOSE, STUDIO_OPEN, addDays, buildEquityLedger, countsAsAfternoon, createEmptyWeek, dayCloseMin, dayOpenMin, diversifyTimes, fmt, formatDateShort, formatWeekRange, generateWeek, getAllowedShifts, getAssistantStats, getCurrentMonday, getLockedShiftCount, getShift, inOvertime, isOff, regenerateAlternativeWithFeedback, regenerateCleanWeekWithFeedback, regenerateWeekWithFeedback, updateShiftWithFeedback, validateWeek, weekAssignmentSig,
   getStaffConfig, reconfigure,
   weekToCSV, summarizePeriod, summaryToCSV, monthBounds,
   effectiveWeeklyHours
@@ -519,8 +519,9 @@ import {
     const today=todayISO();
     for(const day of week.days){
       const closed=isDayClosed(day);
+      const customHours=!closed&&(day.exceptions?.openMin!=null||day.exceptions?.closeMin!=null);
       const btn=document.createElement('button');btn.type='button';btn.className='day-button';
-      btn.innerHTML=`<strong>${day.label}${day.exceptions?.note?` <span class="note-dot" title="${escHtml(day.exceptions.note)}">●</span>`:''}</strong><span class="date">${formatDateShort(day.date)}${day.date===today?'<span class="today-chip">oggi</span>':''}</span>${closed?'<span class="closed-tag">'+(day.exceptions?.holiday?'Festività':'Chiuso')+'</span>':''}`;
+      btn.innerHTML=`<strong>${day.label}${day.exceptions?.note?` <span class="note-dot" title="${escHtml(day.exceptions.note)}">●</span>`:''}</strong><span class="date">${formatDateShort(day.date)}${day.date===today?'<span class="today-chip">oggi</span>':''}</span>${closed?'<span class="closed-tag">'+(day.exceptions?.holiday?'Festività':'Chiuso')+'</span>':''}${customHours?`<span class="hours-tag">${fmt(dayOpenMin(day))}–${fmt(dayCloseMin(day))}</span>`:''}`;
       btn.addEventListener('click',()=>{selectedDayKey=day.key;render();});
       const cell=createCell('',`grid-cell head-cell${day.key===selectedDayKey?' selected-day':''}${closed?' day-closed':''}${day.date===today?' today-col':''}`);
       cell.append(btn);scheduleGrid.append(cell);
@@ -555,7 +556,8 @@ import {
       const closed=isDayClosed(day);
       const dayLabel=document.createElement('div');
       dayLabel.className=`mobile-day-label${isSelected?' selected-day':''}${closed?' day-closed':''}${day.date===today?' today-col':''}`;
-      dayLabel.innerHTML=`<span class="day-abbr">${day.label.slice(0,3)}${day.exceptions?.note?` <span class="note-dot" title="${escHtml(day.exceptions.note)}">●</span>`:''}</span><span class="day-date">${formatDateShort(day.date)}</span>${day.date===today?'<span class="today-chip">oggi</span>':''}${closed?'<span class="closed-tag">'+(day.exceptions?.holiday?'Festività':'Chiuso')+'</span>':''}`;
+      const customHours=!closed&&(day.exceptions?.openMin!=null||day.exceptions?.closeMin!=null);
+      dayLabel.innerHTML=`<span class="day-abbr">${day.label.slice(0,3)}${day.exceptions?.note?` <span class="note-dot" title="${escHtml(day.exceptions.note)}">●</span>`:''}</span><span class="day-date">${formatDateShort(day.date)}</span>${day.date===today?'<span class="today-chip">oggi</span>':''}${closed?'<span class="closed-tag">'+(day.exceptions?.holiday?'Festività':'Chiuso')+'</span>':''}${customHours?`<span class="hours-tag">${fmt(dayOpenMin(day))}–${fmt(dayCloseMin(day))}</span>`:''}`;
       dayLabel.addEventListener('click',()=>{selectedDayKey=day.key;render();});
       grid.append(dayLabel);
       ASSISTANT_NAMES.forEach((assistant,ci)=>{
@@ -603,31 +605,32 @@ import {
       commit();
     });
     exit.addEventListener('change',commit);
-    applyShiftClass(entry,day.assignments[assistant]);
+    applyShiftClass(entry,day.assignments[assistant],day);
     // Badge S sulle celle che contribuiscono allo straordinario: pomeriggi in quota o turni lunghi.
     const curSh=getShift(day.assignments[assistant]);
     const otS=otSet.has(assistant)&&(countsAsAfternoon(assistant,curSh)||curSh.isLong);
-    const badge=buildShiftBadge(day.assignments[assistant],otS);
+    const badge=buildShiftBadge(day.assignments[assistant],otS,day);
     const absent=!isDayClosed(day)&&day.absences?.[assistant];
     if(absent){badge.innerHTML=`<span class="badge-code" style="background:#9b6dd6">${absent==='sick'?'Malattia':'Ferie'}</span>`;entry.disabled=true;}
     return{entry,exit,badge};
   }
 
-  function buildShiftBadge(a,showS=false){
+  function buildShiftBadge(a,showS=false,day){
     const el=document.createElement('div');el.className='shift-badge';
-    updateShiftBadge(el,a,showS);return el;
+    updateShiftBadge(el,a,showS,day);return el;
   }
-  function updateShiftBadge(el,a,showS=false){
+  // Badge A/C relativi all'orario del giorno (apertura/chiusura eventualmente personalizzate).
+  function updateShiftBadge(el,a,showS=false,day){
     const s=getShift(a);
     if(s.id==='OFF'){el.innerHTML='';return;}
     const badges=[];
-    if(s.coversMorning)badges.push('<span class="badge-code badge-a">A</span>');
-    if(s.coversClose)badges.push('<span class="badge-code badge-c">C</span>');
+    if(s.startMin===dayOpenMin(day))badges.push('<span class="badge-code badge-a">A</span>');
+    if(s.endMin===dayCloseMin(day))badges.push('<span class="badge-code badge-c">C</span>');
     if(s.isLong)badges.push('<span class="badge-code badge-l">L</span>');
     if(showS)badges.push('<span class="badge-code badge-s">S</span>');
     el.innerHTML=badges.join('');
   }
-  function getShiftBadgeCodes(shift){return[shift.isLong?'L':'',shift.coversMorning?'A':'',shift.coversClose?'C':''].filter(Boolean);}
+  function getShiftBadgeCodes(shift,day){return[shift.isLong?'L':'',shift.startMin===dayOpenMin(day)?'A':'',shift.endMin===dayCloseMin(day)?'C':''].filter(Boolean);}
 
   function createLockToggle(day,assistant,labelText){
     const label=document.createElement('label');label.className='toggle-switch';
@@ -640,10 +643,10 @@ import {
     return label;
   }
 
-  function applyShiftClass(select,a){
+  function applyShiftClass(select,a,day){
     select.classList.remove('shift-morning','shift-afternoon','shift-long','shift-midday','shift-off');
     const s=getShift(a);
-    select.classList.add(s.id==='OFF'?'shift-off':s.coversClose?'shift-afternoon':s.coversMorning?'shift-morning':'shift-midday');
+    select.classList.add(s.id==='OFF'?'shift-off':s.endMin===dayCloseMin(day)?'shift-afternoon':s.startMin===dayOpenMin(day)?'shift-morning':'shift-midday');
   }
 
   function renderSummary(week,stats,otSet){
@@ -677,13 +680,33 @@ import {
       :`<label class="checkbox-inline" title="Doppia assistente di mattina (almeno fino alle 13:30)"><input id="extraMorning" type="checkbox"><span>2× Matt.</span></label> <label class="checkbox-inline" title="Doppia assistente il pomeriggio"><input id="extraAfternoon" type="checkbox"><span>2× Pom.</span></label> <label class="checkbox-inline" title="Studio chiuso (festività): nessuno lavora, ore ridotte"><input id="holiday" type="checkbox"><span>Festività</span></label>`;
     // Assenze: solo nei giorni feriali non festivi.
     const absHtml=(!isSat&&!isHol)?`<div class="day-fields-row" style="flex-wrap:wrap;gap:6px;margin-top:8px" title="Ferie/malattia: la persona riposa quel giorno e le sue ore settimanali si riducono pro-quota">${ASSISTANT_NAMES.map(n=>`<label class="t-field" style="flex:1;min-width:88px">${escHtml(n)}<select class="field field-sm abs-sel" data-n="${escHtml(n)}"><option value="">Presente</option><option value="vacation">Ferie</option><option value="sick">Malattia</option></select></label>`).join('')}</div>`:'';
-    dayEditorDiv.innerHTML=`<div class="day-label-row">${day.label} <span class="day-date">${formatDateShort(day.date)}</span>${toggle}</div><div class="day-fields-row"><select id="eventType" class="field field-sm"><option value="">Nessun evento</option><option value="chirurgia">Chirurgia</option><option value="ortodonzia">Ortodonzia</option><option value="dottore">Dottore in più</option><option value="altro">Altro</option></select></div><div class="day-fields-row" style="margin-top:6px"><input id="dayNote" class="field field-sm" type="text" maxlength="120" placeholder="Nota del giorno (finisce sul PDF)"></div>${absHtml}`;
+    // Orario del giorno: modificabile se lo studio è aperto (feriale non festivo, o sabato aperto).
+    const hoursHtml=(!isHol&&(!isSat||day.exceptions.satOpen))?`<div class="day-fields-row" style="margin-top:6px"><label class="t-field" style="flex:1" title="A che ora apre lo studio QUESTO giorno (standard 08:30)">Apre<input id="dayOpenT" class="field field-sm" type="time" step="1800" value="${fmt(dayOpenMin(day))}"></label><label class="t-field" style="flex:1" title="A che ora chiude lo studio QUESTO giorno (standard 19:00)">Chiude<input id="dayCloseT" class="field field-sm" type="time" step="1800" value="${fmt(dayCloseMin(day))}"></label></div>`:'';
+    dayEditorDiv.innerHTML=`<div class="day-label-row">${day.label} <span class="day-date">${formatDateShort(day.date)}</span>${toggle}</div><div class="day-fields-row"><select id="eventType" class="field field-sm"><option value="">Nessun evento</option><option value="chirurgia">Chirurgia</option><option value="ortodonzia">Ortodonzia</option><option value="dottore">Dottore in più</option><option value="altro">Altro</option></select></div>${hoursHtml}<div class="day-fields-row" style="margin-top:6px"><input id="dayNote" class="field field-sm" type="text" maxlength="120" placeholder="Nota del giorno (finisce sul PDF)"></div>${absHtml}`;
     const sel=dayEditorDiv.querySelector('#eventType');
     sel.value=day.exceptions.eventType;
     sel.addEventListener('change',()=>{day.exceptions.eventType=sel.value;saveWeeks();render();});
     const note=dayEditorDiv.querySelector('#dayNote');
     note.value=day.exceptions.note||'';
     note.addEventListener('change',()=>{day.exceptions.note=note.value.trim();saveWeeks();render();});
+    // Orario personalizzato del giorno: minimo 4h, dentro la finestra massima 08:30-19:00 (griglia turni).
+    const oI=dayEditorDiv.querySelector('#dayOpenT'),cI=dayEditorDiv.querySelector('#dayCloseT');
+    if(oI&&cI){
+      const toMin=v=>{const[h,m]=String(v).split(':').map(Number);return Number.isNaN(h)?null:h*60+(m||0);};
+      const commitHours=()=>{
+        let o=toMin(oI.value),c=toMin(cI.value);
+        if(o==null||c==null){render();return;}
+        o=Math.max(STUDIO_OPEN,Math.round(o/SLOT)*SLOT);c=Math.min(STUDIO_CLOSE,Math.round(c/SLOT)*SLOT);
+        if(c-o<SHIFT_MIN_SPAN){showStatus('⚠ La giornata deve durare almeno 4 ore.');render();return;}
+        day.exceptions.openMin=o===STUDIO_OPEN?null:o;
+        day.exceptions.closeMin=c===STUDIO_CLOSE?null:c;
+        // I turni non bloccati fuori dal nuovo orario tornano a riposo (poi "Genera" sistema il resto).
+        for(const n of ASSISTANT_NAMES){const sh=getShift(day.assignments[n]);if(sh.hours>0&&(sh.startMin<o||sh.endMin>c)&&!day.locks[n])day.assignments[n]='OFF';}
+        saveWeeks();render();
+        showStatus(o===STUDIO_OPEN&&c===STUDIO_CLOSE?'Orario standard ripristinato.':`Orario del giorno: ${fmt(o)}–${fmt(c)}. Premi Genera per riorganizzare i turni.`);
+      };
+      oI.addEventListener('change',commitHours);cI.addEventListener('change',commitHours);
+    }
     if(isSat){
       const open=dayEditorDiv.querySelector('#satOpen');open.checked=day.exceptions.satOpen;
       open.addEventListener('change',()=>{day.exceptions.satOpen=open.checked;if(!open.checked)for(const n of ASSISTANT_NAMES){day.assignments[n]='OFF';day.locks[n]=false;}saveWeeks();render();});
@@ -767,7 +790,7 @@ import {
   // Etichetta settimana per la bottom bar: "15–20/06" (o "29/06–04/07" a cavallo di mese).
   function formatWeekRangeCompact(week){const[,am,ad]=week.days[0].date.split('-');const[,bm,bd]=week.days[week.days.length-1].date.split('-');return am===bm?`${ad}–${bd}/${bm}`:`${ad}/${am}–${bd}/${bm}`;}
   // Normalizza la forma della settimana e migra eventuali vecchi id-template (v1) verso {s,e}.
-  function ensureWeekShape(week){for(const day of week.days){const hadSatOpen='satOpen'in(day.exceptions??{});day.exceptions={eventType:'',note:'',extraAfternoon:false,extraMorning:false,satOpen:false,holiday:false,...day.exceptions};day.absences=day.absences||{};day.assignments={...Object.fromEntries(ASSISTANT_NAMES.map(n=>[n,'OFF'])),...day.assignments};day.locks={...Object.fromEntries(ASSISTANT_NAMES.map(n=>[n,false])),...day.locks};for(const n of ASSISTANT_NAMES){const a=day.assignments[n];if(typeof a==='string'&&a!=='OFF')day.assignments[n]=LEGACY_TEMPLATES[a]??'OFF';}if(day.exceptions.holiday)for(const n of ASSISTANT_NAMES){day.assignments[n]='OFF';day.locks[n]=false;}else for(const n of ASSISTANT_NAMES)if(day.absences[n]){day.assignments[n]='OFF';day.locks[n]=false;}if(day.key==='sat'&&!hadSatOpen&&ASSISTANT_NAMES.some(n=>getShift(day.assignments[n]).hours>0))day.exceptions.satOpen=true;}const satDay=week.days.find(d=>d.key==='sat');if(satDay&&!satDay.exceptions.satOpen){for(const n of ASSISTANT_NAMES)if(!satDay.locks[n])satDay.assignments[n]='OFF';}}
+  function ensureWeekShape(week){for(const day of week.days){const hadSatOpen='satOpen'in(day.exceptions??{});day.exceptions={eventType:'',note:'',extraAfternoon:false,extraMorning:false,satOpen:false,holiday:false,openMin:null,closeMin:null,...day.exceptions};day.absences=day.absences||{};day.assignments={...Object.fromEntries(ASSISTANT_NAMES.map(n=>[n,'OFF'])),...day.assignments};day.locks={...Object.fromEntries(ASSISTANT_NAMES.map(n=>[n,false])),...day.locks};for(const n of ASSISTANT_NAMES){const a=day.assignments[n];if(typeof a==='string'&&a!=='OFF')day.assignments[n]=LEGACY_TEMPLATES[a]??'OFF';}if(day.exceptions.holiday)for(const n of ASSISTANT_NAMES){day.assignments[n]='OFF';day.locks[n]=false;}else for(const n of ASSISTANT_NAMES)if(day.absences[n]){day.assignments[n]='OFF';day.locks[n]=false;}if(day.key==='sat'&&!hadSatOpen&&ASSISTANT_NAMES.some(n=>getShift(day.assignments[n]).hours>0))day.exceptions.satOpen=true;}const satDay=week.days.find(d=>d.key==='sat');if(satDay&&!satDay.exceptions.satOpen){for(const n of ASSISTANT_NAMES)if(!satDay.locks[n])satDay.assignments[n]='OFF';}}
 
   // ── PDF EXPORT ──
   function getDayVariationLabel(day){
@@ -775,7 +798,8 @@ import {
     const satLabel=day.key==='sat'?(day.exceptions.satOpen?'Aperto':'Chiuso'):'';
     const holLabel=day.exceptions.holiday?'Festività (chiuso)':'';
     const absLabel=Object.entries(day.absences||{}).filter(([,v])=>v).map(([n,v])=>`${n}: ${v==='sick'?'Malattia':'Ferie'}`).join(', ');
-    return[satLabel,holLabel,eventLabels[day.exceptions.eventType]??day.exceptions.eventType,day.exceptions.extraAfternoon&&day.key!=='sat'?'2× Pom.':'',day.exceptions.extraMorning&&day.key!=='sat'?'2× Matt.':'',absLabel,day.exceptions.note||''].filter(Boolean).join(' · ');
+    const hoursLabel=(day.exceptions.openMin!=null||day.exceptions.closeMin!=null)?`Orario ${fmt(dayOpenMin(day))}–${fmt(dayCloseMin(day))}`:'';
+    return[satLabel,holLabel,hoursLabel,eventLabels[day.exceptions.eventType]??day.exceptions.eventType,day.exceptions.extraAfternoon&&day.key!=='sat'?'2× Pom.':'',day.exceptions.extraMorning&&day.key!=='sat'?'2× Matt.':'',absLabel,day.exceptions.note||''].filter(Boolean).join(' · ');
   }
   function drawPdfBadge(doc,x,y,code){
     doc.setDrawColor(30,30,30);doc.setFillColor(255,255,255);doc.roundedRect(x,y,5,4,0.8,0.8,'FD');
@@ -817,7 +841,7 @@ import {
       didDrawCell:data=>{
         if(data.section!=='body'||data.column.index===0)return;
         const day=week.days[data.row.index],name=ASSISTANT_NAMES[data.column.index-1];
-        const shift=getShift(day.assignments[name]);const codes=getShiftBadgeCodes(shift);
+        const shift=getShift(day.assignments[name]);const codes=getShiftBadgeCodes(shift,day);
         let x=data.cell.x+4;const y=data.cell.y+data.cell.height-6;
         for(const code of codes){drawPdfBadge(doc,x,y,code);x+=6;}
       }});

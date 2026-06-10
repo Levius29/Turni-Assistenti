@@ -24,7 +24,7 @@ test('PDF export uses day rows, assistant columns, variations and graphic badges
   assert.match(app, /const body=week\.days\.map\(day=>/);
   assert.match(app, /function getDayVariationLabel\(day\)/);
   assert.match(app, /function drawPdfBadge\(doc,x,y,code\)/);
-  assert.match(app, /getShiftBadgeCodes\(shift\)/);
+  assert.match(app, /getShiftBadgeCodes\(shift,day\)/);
   assert.doesNotMatch(app, /mini legenda|Legenda/i);
 });
 
