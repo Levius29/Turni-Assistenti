@@ -451,7 +451,8 @@ import {
     const exit=document.createElement('select');exit.className='shift-select shift-exit';
     entry.setAttribute('aria-label',`Entrata ${assistant} ${day.label}`);
     exit.setAttribute('aria-label',`Uscita ${assistant} ${day.label}`);
-    const allowed=getAllowedShifts(assistant,day,true).filter(a=>!isOff(a));
+    // extended=true: le tendine manuali offrono anche le giornate oltre 8h30 fino a tutta la giornata.
+    const allowed=getAllowedShifts(assistant,day,true,true).filter(a=>!isOff(a));
     const starts=[...new Set(allowed.map(a=>a.s))].sort((a,b)=>a-b);
     const mkOpt=(val,txt)=>{const o=document.createElement('option');o.value=val;o.textContent=txt;return o;};
     entry.append(mkOpt('OFF','Riposo'));

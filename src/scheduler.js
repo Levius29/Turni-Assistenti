@@ -60,8 +60,11 @@ export const WEEKDAY_KEYS = ['mon','tue','wed','thu','fri'];
   // Un assegnamento è 'OFF' (riposo) oppure {s:minutiEntrata, e:minutiUscita}.
   // Le proprietà del turno (ore, copertura, lungo/pausa) sono derivate al volo da entrata/uscita.
 export const SLOT=30, STUDIO_OPEN=8*60+30, STUDIO_CLOSE=19*60;
-// Span massimo = intera giornata di apertura (08:30-19:00 = 10h30 → 10h pagate con la pausa).
-export const SHIFT_MIN_SPAN=4*60, SHIFT_MAX_SPAN=10*60+30, LONG_SPAN=7*60+30, LUNCH_GAP_MAX=30;
+// SHIFT_MAX_SPAN: massimo assoluto = intera giornata (08:30-19:00 = 10h30 → 10h pagate con la pausa),
+// disponibile nelle tendine manuali. AUTO_MAX_SPAN: massimo che il GENERATORE assegna da solo (8h30):
+// le giornate oltre si impostano a mano (ed eventualmente si bloccano), il solver le rispetta e
+// pianifica il resto attorno — esplorarle in automatico quintuplicherebbe lo spazio di ricerca.
+export const SHIFT_MIN_SPAN=4*60, SHIFT_MAX_SPAN=10*60+30, AUTO_MAX_SPAN=8*60+30, LONG_SPAN=7*60+30, LUNCH_GAP_MAX=30;
 export function fmt(min){return `${String(Math.floor(min/60)).padStart(2,'0')}:${String(min%60).padStart(2,'0')}`;}
 export function isOff(a){return !a||a==='OFF';}
 export const SHIFT_OFF={id:'OFF',label:'Riposo',hours:0,isLong:false,startMin:null,endMin:null,coversMorning:false,coversAfternoon:false,coversClose:false,isAfternoon:false,isNearClose:false};
@@ -155,7 +158,8 @@ export function formatWeekRange(week){return`${formatItalianDate(week.days[0].da
 export function formatWeekRangeShort(week){return`${formatDateShort(week.days[0].date)}–${formatDateShort(week.days[week.days.length-1].date)}`;}
 
   // Turni ammessi per assistente/giorno: 'OFF' + coppie {s,e}. Chi non può fare lunghi (span>=7h30) li esclude.
-export function getAllowedShifts(assistant,day,skipLock=false){
+  // extended=true (tendine manuali): include anche gli span oltre AUTO_MAX_SPAN fino all'intera giornata.
+export function getAllowedShifts(assistant,day,skipLock=false,extended=false){
     // Festività (chiuso per tutti) o assenza personale (ferie/malattia): solo riposo.
     if(day.exceptions?.holiday||day.absences?.[assistant])return['OFF'];
     if(!skipLock&&day.locks?.[assistant])return[day.assignments[assistant]];
@@ -168,7 +172,7 @@ export function getAllowedShifts(assistant,day,skipLock=false){
     }
     const canLong=ASSISTANTS[assistant].canWorkLong;
     const out=['OFF'];
-    for(const p of BASE_PAIRS){if(!canLong&&(p.e-p.s)>=LONG_SPAN)continue;out.push(p);}
+    for(const p of BASE_PAIRS){if(!canLong&&(p.e-p.s)>=LONG_SPAN)continue;if(!extended&&(p.e-p.s)>AUTO_MAX_SPAN)continue;out.push(p);}
     return out;
   }
 export function generateWeek(options={}){const week=createBaseWeek(options.startDate??getCurrentMonday());applyPreviousWeekState(week,options.previousWeek);const r=solveWeekOptimized(week,options.ledger);const result=r.week??week;if(r.overtime)result.overtimeUsed=true;return result;}
@@ -230,7 +234,10 @@ export function collectFeasibleWeeks(seedWeek,{cap=70,budget=SOLVE_BUDGET_FULL,a
     if(demand>Object.values(tier.caps).reduce((a,b)=>a+b,0))continue;
     const tierRules=buildTierRules(seedWeek,tier);
     const pool=[],seen=new Set(),dead=new Set();let nodes=0;const placed=new Array(D);
-    const keyOf=(pos,st)=>{let s=pos+'|';for(const a of ASSISTANT_NAMES){const x=st[a];s+=Math.round(x.hours*2)+','+x.afternoons+','+x.workDays+','+(x.closes||0)+','+(x.longShifts||0)+';';}return s;};
+    // longShifts nella chiave SOLO per chi ha un tetto lunghe: per gli altri non influenza la
+    // validità e includerlo frammenta la memoizzazione dead-state (ricerca molto più lenta).
+    const needLong=Object.fromEntries(ASSISTANT_NAMES.map(a=>[a,tierRules[a].maxLongShifts!=null]));
+    const keyOf=(pos,st)=>{let s=pos+'|';for(const a of ASSISTANT_NAMES){const x=st[a];s+=Math.round(x.hours*2)+','+x.afternoons+','+x.workDays+','+(x.closes||0)+(needLong[a]?','+(x.longShifts||0):'')+';';}return s;};
     const feasibleAhead=(nextPos,st)=>{for(const a of ASSISTANT_NAMES){const rules=tierRules[a],s=st[a],r=rem[nextPos][a];if(s.hours>rules.weeklyHours)return false;if(s.afternoons>rules.maxAfternoons)return false;if(rules.maxLongShifts!=null){if(s.longShifts>rules.maxLongShifts)return false;const gp=r.longGainPrefix,L=Math.min(rules.maxLongShifts-s.longShifts,gp.length-1);if(s.hours+r.maxHoursShort+gp[L]<rules.weeklyHours)return false;}if(rules.workDays&&s.workDays>rules.workDays)return false;if(rules.maxWorkDays&&s.workDays>rules.maxWorkDays)return false;if(s.hours+r.maxHours<rules.weeklyHours)return false;if(s.hours+r.minHours>rules.weeklyHours)return false;if(s.afternoons+r.maxAfternoons<rules.minAfternoons)return false;if(rules.workDays&&(s.workDays+r.maxWorkDays<rules.workDays||s.workDays+r.minWorkDays>rules.workDays))return false;if(rules.maxWorkDays&&s.workDays+r.minWorkDays>rules.maxWorkDays)return false;}return true;};
     const visit=(pos,stats)=>{
       if(nodes>budget||pool.length>=cap)return false;nodes++;
@@ -330,7 +337,9 @@ export function solveWeekCore(seedWeek,maxClosesPref=Infinity,combosByDay,budget
     const rem=pre?.rem||buildRem(days,order);
     function feasibleAhead(nextPos,st){for(const a of ASSISTANT_NAMES){const rules=tierRules[a],s=st[a],r=rem[nextPos][a];if(s.hours>rules.weeklyHours)return false;if(s.afternoons>rules.maxAfternoons)return false;if(rules.maxLongShifts!=null){if(s.longShifts>rules.maxLongShifts)return false;const gp=r.longGainPrefix,L=Math.min(rules.maxLongShifts-s.longShifts,gp.length-1);if(s.hours+r.maxHoursShort+gp[L]<rules.weeklyHours)return false;}if(rules.workDays&&s.workDays>rules.workDays)return false;if(rules.maxWorkDays&&s.workDays>rules.maxWorkDays)return false;if(s.hours+r.maxHours<rules.weeklyHours)return false;if(s.hours+r.minHours>rules.weeklyHours)return false;if(s.afternoons+r.maxAfternoons<rules.minAfternoons)return false;if(rules.workDays&&(s.workDays+r.maxWorkDays<rules.workDays||s.workDays+r.minWorkDays>rules.workDays))return false;if(rules.maxWorkDays&&s.workDays+r.minWorkDays>rules.maxWorkDays)return false;}return true;}
     const dead=new Set();
-    const keyOf=(pos,st)=>{let s=pos+'|';for(const a of ASSISTANT_NAMES){const x=st[a];s+=Math.round(x.hours*2)+','+x.afternoons+','+x.workDays+','+(x.closes||0)+','+(x.longShifts||0)+';';}return s;};
+    // longShifts nella chiave solo per chi ha un tetto lunghe (vedi collectFeasibleWeeks).
+    const needLong=Object.fromEntries(ASSISTANT_NAMES.map(a=>[a,tierRules[a].maxLongShifts!=null]));
+    const keyOf=(pos,st)=>{let s=pos+'|';for(const a of ASSISTANT_NAMES){const x=st[a];s+=Math.round(x.hours*2)+','+x.afternoons+','+x.workDays+','+(x.closes||0)+(needLong[a]?','+(x.longShifts||0):'')+';';}return s;};
     const placed=new Array(D);
     function visit(pos,stats){
       if(best||nodes>budget)return;nodes++;
