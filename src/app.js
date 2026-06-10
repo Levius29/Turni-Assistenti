@@ -8,6 +8,11 @@ import {
 
   // Escape HTML per i valori inseriti dall'utente (nomi assistenti) interpolati in innerHTML.
   const escHtml=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  // Colore identificativo per assistente (palette tenue in linea col tema), deterministico sull'ordine.
+  const STAFF_PALETTE=['#2f6b5c','#a85f33','#4f63a8','#7d4fa8','#2f6b8a','#a84f6f','#5f8a2f'];
+  const staffColor=name=>{const i=ASSISTANT_NAMES.indexOf(name);return STAFF_PALETTE[(i>=0?i:0)%STAFF_PALETTE.length];};
+  // Data di oggi in ISO locale (niente UTC: a mezzanotte cambierebbe giorno sbagliato).
+  const todayISO=()=>{const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;};
 
   // ── STORAGE ──
   const storageKey='turni-assistenti.weeks.v1';
@@ -62,6 +67,8 @@ import {
   const doVary=()=>deferHeavy('Vario gli orari…',()=>{snapshotUndo();weeks[currentStart]=diversifyTimes(getCurrentWeek(),Math.random);saveWeeks();showStatus('Orari variati (stessi turni e ore).',UNDO_ACTION);render();});
   document.querySelector('#prevWeek').addEventListener('click',()=>changeWeek(-7));
   document.querySelector('#nextWeek').addEventListener('click',()=>changeWeek(7));
+  weekLabel.title='Torna alla settimana corrente';weekLabel.addEventListener('click',goToToday);
+  weekLabelMob.title='Torna alla settimana corrente';weekLabelMob.addEventListener('click',goToToday);
   document.querySelector('#generateWeek').addEventListener('click',doGenerate);
   document.querySelector('#altWeek').addEventListener('click',requestAlternative);
   document.querySelector('#varyTimes').addEventListener('click',doVary);
@@ -395,17 +402,19 @@ import {
   function isDayClosed(day){return!!day.exceptions?.holiday||(day.key==='sat'&&!day.exceptions?.satOpen);}
   function buildDesktopGrid(week,otSet){
     const corner=createCell('','grid-cell head-cell');corner.append(buildThemeToggle());scheduleGrid.append(corner);
+    const today=todayISO();
     for(const day of week.days){
       const closed=isDayClosed(day);
       const btn=document.createElement('button');btn.type='button';btn.className='day-button';
-      btn.innerHTML=`<strong>${day.label}${day.exceptions?.note?` <span class="note-dot" title="${escHtml(day.exceptions.note)}">●</span>`:''}</strong><span class="date">${formatDateShort(day.date)}</span>${closed?'<span class="closed-tag">'+(day.exceptions?.holiday?'Festività':'Chiuso')+'</span>':''}`;
+      btn.innerHTML=`<strong>${day.label}${day.exceptions?.note?` <span class="note-dot" title="${escHtml(day.exceptions.note)}">●</span>`:''}</strong><span class="date">${formatDateShort(day.date)}${day.date===today?'<span class="today-chip">oggi</span>':''}</span>${closed?'<span class="closed-tag">'+(day.exceptions?.holiday?'Festività':'Chiuso')+'</span>':''}`;
       btn.addEventListener('click',()=>{selectedDayKey=day.key;render();});
-      const cell=createCell('',`grid-cell head-cell${day.key===selectedDayKey?' selected-day':''}${closed?' day-closed':''}`);
+      const cell=createCell('',`grid-cell head-cell${day.key===selectedDayKey?' selected-day':''}${closed?' day-closed':''}${day.date===today?' today-col':''}`);
       cell.append(btn);scheduleGrid.append(cell);
     }
     for(const assistant of ASSISTANT_NAMES){
       const nameCell=document.createElement('div');nameCell.className='grid-cell assistant-name-cell';
-      nameCell.innerHTML=`<div class="assistant-card"><div class="assistant-avatar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg></div><div><span class="assistant-name">${escHtml(assistant)}</span><div class="assistant-meta">${getContractLabel(assistant)}</div></div></div>`;
+      const color=staffColor(assistant);
+      nameCell.innerHTML=`<div class="assistant-card"><div class="assistant-avatar" style="background:color-mix(in srgb, ${color} 16%, transparent);color:${color}">${escHtml((assistant.trim()[0]||'?').toUpperCase())}</div><div><span class="assistant-name">${escHtml(assistant)}</span><div class="assistant-meta">${getContractLabel(assistant)}</div></div></div>`;
       scheduleGrid.append(nameCell);
       for(const day of week.days){
         const{entry,exit,badge}=buildShiftContent(day,assistant,week,otSet);
@@ -413,7 +422,8 @@ import {
         const print=Object.assign(document.createElement('span'),{className:'print-shift',textContent:getPrintShiftLabel(day.assignments[assistant])});
         // Due righe: riga 1 = entrata + badge (alto a destra); riga 2 = uscita + blocco (a destra).
         const grid=document.createElement('div');grid.className='shift-grid';grid.append(entry,badge,exit,lock);
-        const cell=createCell('',`grid-cell${day.key===selectedDayKey?' selected-day':''}${isDayClosed(day)?' day-closed':''}`);
+        const absent=!isDayClosed(day)&&day.absences?.[assistant];
+        const cell=createCell('',`grid-cell${day.key===selectedDayKey?' selected-day':''}${isDayClosed(day)?' day-closed':''}${day.locks[assistant]?' locked-cell':''}${absent?' absent-cell':''}`);
         cell.append(grid,print);scheduleGrid.append(cell);
       }
     }
@@ -424,17 +434,19 @@ import {
     // Colonne dinamiche: 1 etichetta giorno + N assistenti (evita layout rotto aggiungendo persone).
     grid.style.gridTemplateColumns=`64px repeat(${ASSISTANT_NAMES.length}, minmax(0, 1fr))`;
     const corner=Object.assign(document.createElement('div'),{className:'mobile-header-cell'});corner.append(buildThemeToggle());grid.append(corner);
-    ASSISTANT_NAMES.forEach((a,i)=>grid.append(Object.assign(document.createElement('div'),{className:'mobile-header-cell'+(i===ASSISTANT_NAMES.length-1?' mg-end':''),textContent:a})));
+    ASSISTANT_NAMES.forEach((a,i)=>{const h=Object.assign(document.createElement('div'),{className:'mobile-header-cell'+(i===ASSISTANT_NAMES.length-1?' mg-end':''),textContent:a});h.style.boxShadow=`inset 0 -2px 0 ${staffColor(a)}`;grid.append(h);});
+    const today=todayISO();
     for(const day of week.days){
       const isSelected=day.key===selectedDayKey;
       const closed=isDayClosed(day);
       const dayLabel=document.createElement('div');
-      dayLabel.className=`mobile-day-label${isSelected?' selected-day':''}${closed?' day-closed':''}`;
-      dayLabel.innerHTML=`<span class="day-abbr">${day.label.slice(0,3)}${day.exceptions?.note?` <span class="note-dot" title="${escHtml(day.exceptions.note)}">●</span>`:''}</span><span class="day-date">${formatDateShort(day.date)}</span>${closed?'<span class="closed-tag">'+(day.exceptions?.holiday?'Festività':'Chiuso')+'</span>':''}`;
+      dayLabel.className=`mobile-day-label${isSelected?' selected-day':''}${closed?' day-closed':''}${day.date===today?' today-col':''}`;
+      dayLabel.innerHTML=`<span class="day-abbr">${day.label.slice(0,3)}${day.exceptions?.note?` <span class="note-dot" title="${escHtml(day.exceptions.note)}">●</span>`:''}</span><span class="day-date">${formatDateShort(day.date)}</span>${day.date===today?'<span class="today-chip">oggi</span>':''}${closed?'<span class="closed-tag">'+(day.exceptions?.holiday?'Festività':'Chiuso')+'</span>':''}`;
       dayLabel.addEventListener('click',()=>{selectedDayKey=day.key;render();});
       grid.append(dayLabel);
       ASSISTANT_NAMES.forEach((assistant,ci)=>{
-        const cell=document.createElement('div');cell.className=`mobile-shift-cell${isSelected?' selected-day':''}${closed?' day-closed':''}${ci===ASSISTANT_NAMES.length-1?' mg-end':''}`;
+        const absent=!closed&&day.absences?.[assistant];
+        const cell=document.createElement('div');cell.className=`mobile-shift-cell${isSelected?' selected-day':''}${closed?' day-closed':''}${ci===ASSISTANT_NAMES.length-1?' mg-end':''}${day.locks[assistant]?' locked-cell':''}${absent?' absent-cell':''}`;
         const{entry,exit,badge}=buildShiftContent(day,assistant,week,otSet);
         const lock=createLockToggle(day,assistant,'');
         const print=Object.assign(document.createElement('span'),{className:'print-shift',textContent:getPrintShiftLabel(day.assignments[assistant])});
@@ -534,7 +546,9 @@ import {
       const over=stats[a].hours>tgt;
       const otBadge=overtime?` <span class="badge-code badge-s">S</span>`:'';
       const hoursDisp=overtime?`<strong class="sum-ot-hours">${stats[a].hours}</strong>`:`${stats[a].hours}`;
-      return`<div class="sum-row"><span class="sum-name">${escHtml(a)}</span><span class="sum-stats"><span>${hoursDisp}/${tgt}h · ${stats[a].afternoons} Pom. · ${stats[a].saturdays} Sab · ${stats[a].closes} C · ${stats[a].opens} A${otBadge}</span><span class="sum-bar"><span class="sum-bar-fill${over?' over':''}" style="width:${pct}%"></span></span></span><span class="pill ${ok?'':'warn'}">${ok?'✓':'!'}</span></div>`;
+      const color=staffColor(a);
+      const fillStyle=over?`width:${pct}%`:`width:${pct}%;background:${color}`;
+      return`<div class="sum-row"><span class="sum-name"><span class="sum-dot" style="background:${color}"></span>${escHtml(a)}</span><span class="sum-stats"><span>${hoursDisp}/${tgt}h · ${stats[a].afternoons} Pom. · ${stats[a].saturdays} Sab · ${stats[a].closes} C · ${stats[a].opens} A${otBadge}</span><span class="sum-bar"><span class="sum-bar-fill${over?' over':''}" style="${fillStyle}"></span></span></span><span class="pill ${ok?'':'warn'}">${ok?'✓':'!'}</span></div>`;
     }).join('');
     const lockInfo=locked>0?`<div class="sum-locked">${locked} blocco${locked>1?'chi':''} attivo${locked>1?'i':''}</div>`:'';
     summaryDiv.innerHTML=rows+lockInfo;
@@ -573,21 +587,31 @@ import {
 
   function renderWarnings(week){
     const list=validateWeek(week);
+    const count=document.querySelector('#warnCount');
+    if(count){count.hidden=list.length===0;count.textContent=list.length;}
     warningsDiv.innerHTML=list.length
       ?list.map(w=>`<div class="warning"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 8v4M12 16h.01M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0z"/></svg> ${w.message}</div>`).join('')
       :`<div class="empty"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> Settimana valida</div>`;
   }
 
   function getCurrentWeek(){if(!weeks[currentStart])weeks[currentStart]=createEmptyWeek(currentStart);ensureWeekShape(weeks[currentStart]);return weeks[currentStart];}
-  function changeWeek(days){
-    resetAltHistory();currentStart=addDays(currentStart,days);selectedDayKey='mon';
+  function setWeek(start){
+    resetAltHistory();currentStart=start;selectedDayKey='mon';
     if(!weeks[currentStart]){
       // Genera al tick successivo: lo status "Calcolo turni…" appare prima del solve sincrono.
-      const start=currentStart;
-      deferHeavy('Calcolo turni…',()=>{weeks[start]=generateWeek({startDate:start,ledger:buildLedgerFromStorage()});saveWeeks();if(currentStart===start)render();});
+      const s=currentStart;
+      deferHeavy('Calcolo turni…',()=>{weeks[s]=generateWeek({startDate:s,ledger:buildLedgerFromStorage()});saveWeeks();if(currentStart===s)render();});
       return;
     }
     saveWeeks();render();
+  }
+  function changeWeek(days){setWeek(addDays(currentStart,days));}
+  // Tap sull'etichetta della settimana (desktop e mobile): torna alla settimana corrente.
+  function goToToday(){
+    const m=getCurrentMonday();
+    if(m===currentStart){showStatus('Sei già sulla settimana corrente.');return;}
+    showStatus('Settimana corrente.');
+    setWeek(m);
   }
   // Pruning: conserva le 26 settimane passate (per il riepilogo mensile fino a ~6 mesi) e 8 future
   // attorno alla corrente, più quelle con almeno un turno bloccato (edit manuali da preservare).
@@ -609,6 +633,8 @@ import {
   // action opzionale {label,fn}: aggiunge un pulsante (es. "Annulla") e allunga la durata del messaggio.
   function showStatus(msg,action){
     statusMsg.textContent=msg;
+    // Tono di avviso quando il messaggio segnala un problema (euristica sui testi esistenti).
+    statusMsg.classList.toggle('warn',/⚠|Nessuna combinazione|Nessuna soluzione|non valid/i.test(msg));
     if(action){
       const b=document.createElement('button');
       b.type='button';b.className='status-action';b.textContent=action.label;

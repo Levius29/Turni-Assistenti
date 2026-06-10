@@ -86,6 +86,7 @@
     }
 
     button, select, input, textarea { font: inherit; }
+    button:focus-visible, select:focus-visible, input:focus-visible { outline: 2px solid var(--select); outline-offset: 1px; }
 
     .app { max-width: 1500px; margin: 0 auto; padding: 16px 20px 32px; }
 
@@ -155,7 +156,10 @@
       text-align: center;
       border: 1px solid var(--border);
       font-variant-numeric: tabular-nums;
+      cursor: pointer;
     }
+    .week-label:hover { border-color: var(--primary); color: var(--primary); }
+    .week-label-mini { cursor: pointer; }
 
     #teamBtn, #printWeek, #exportPDF { flex: 0 1 auto; }
 
@@ -187,7 +191,9 @@
       z-index: 2000;
     }
     .status-message.visible { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .status-message.warn { background: var(--alert-bg); color: var(--alert); border-left-color: var(--alert); }
     .status-action { pointer-events: auto; margin-left: 10px; background: var(--ok); color: #fff; border: none; border-radius: 8px; padding: 3px 12px; font: inherit; font-size: 12px; font-weight: 600; cursor: pointer; }
+    .status-message.warn .status-action { background: var(--alert); }
     .status-action:active { transform: scale(0.95); }
 
     /* ── Workspace ── */
@@ -207,6 +213,9 @@
       box-shadow: var(--shadow-sm);
     }
     .board-scroll { overflow-x: auto; }
+    .board-scroll::-webkit-scrollbar { height: 8px; }
+    .board-scroll::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+    .board-scroll::-webkit-scrollbar-track { background: transparent; }
 
     .schedule-grid {
       min-width: 840px;
@@ -226,11 +235,22 @@
     .head-cell { background: #fcf9f5; font-weight: 500; }
 
     .day-button { width: 100%; background: transparent; border: none; text-align: left; padding: 4px 0; cursor: pointer; }
-    .day-button strong { font-size: 13px; font-weight: 600; display: block; }
+    .day-button:hover strong { color: var(--primary); }
+    .day-button strong { font-size: 13px; font-weight: 600; display: block; transition: color 0.15s; }
     .day-button .date { font-size: 11px; color: var(--text-light); font-variant-numeric: tabular-nums; }
 
     .selected-day { background: var(--select-bg) !important; }
     .head-cell.selected-day { box-shadow: inset 0 3px 0 var(--select); }
+
+    /* ── Oggi: chip accanto alla data + data evidenziata ── */
+    .today-chip { display: inline-block; background: var(--primary); color: #fff; font-size: 8px; font-weight: 700; padding: 1px 5px; border-radius: 20px; text-transform: uppercase; letter-spacing: .05em; margin-left: 5px; vertical-align: middle; }
+    .head-cell.today-col .date { color: var(--primary); font-weight: 600; }
+    .mobile-day-label .today-chip { margin-left: 0; font-size: 7px; padding: 1px 4px; }
+    .mobile-day-label.today-col .day-date { color: var(--primary); }
+
+    /* ── Celle con stato: turno bloccato (ambra) e assenza (viola) ── */
+    .grid-cell.locked-cell, .mobile-shift-cell.locked-cell { background: var(--accent-warm-bg); box-shadow: inset 0 0 0 1px rgba(214,139,92,0.35); }
+    .grid-cell.absent-cell, .mobile-shift-cell.absent-cell { background: color-mix(in srgb, #9b6dd6 10%, transparent); }
 
     .assistant-name-cell {
       background: #f5efe7;
@@ -242,7 +262,7 @@
       border-bottom: 1px solid var(--border);
     }
     .assistant-card { display: flex; align-items: center; gap: 8px; }
-    .assistant-avatar { width: 30px; height: 30px; background: var(--primary-soft); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--primary); flex-shrink: 0; }
+    .assistant-avatar { width: 30px; height: 30px; background: var(--primary-soft); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--primary); flex-shrink: 0; font-size: 13px; font-weight: 700; }
     .assistant-name { font-weight: 650; font-size: 13px; color: var(--text); }
     .assistant-meta { font-size: 10px; color: var(--text-muted); }
 
@@ -269,7 +289,7 @@
     .shift-select.shift-afternoon{ border-left: 3px solid #d68b5c; }
     .shift-select.shift-long     { border-left: 3px solid #5b8fd6; }
     .shift-select.shift-midday   { border-left: 3px solid #7b55b3; }
-    .shift-select.shift-off      { border-left: 3px solid #c8c0b8; }
+    .shift-select.shift-off      { border-left: 3px solid #c8c0b8; border-style: dashed; border-left-style: solid; color: var(--text-muted); }
 
     /* ── Giorno chiuso (sabato non aperto) ── */
     .grid-cell.day-closed, .mobile-shift-cell.day-closed, .mobile-day-label.day-closed { opacity: .5; }
@@ -388,12 +408,14 @@
 
     .warning { background: var(--alert-bg); padding: 8px 12px; border-radius: 8px; margin-bottom: 8px; font-size: 12px; color: var(--alert); border-left: 3px solid var(--alert); display: flex; align-items: center; gap: 8px; }
     .warning:last-child { margin-bottom: 0; }
-    .empty { color: var(--text-muted); font-size: 12px; padding: 4px 0; display: flex; align-items: center; gap: 6px; }
+    .empty { color: var(--ok); background: var(--ok-bg); border-radius: 8px; padding: 8px 12px; font-size: 12px; display: flex; align-items: center; gap: 6px; font-weight: 500; }
+    .warn-count { background: var(--alert); color: #fff; font-size: 10px; font-weight: 700; min-width: 18px; height: 18px; border-radius: 9px; display: inline-flex; align-items: center; justify-content: center; padding: 0 5px; margin-left: auto; }
 
     /* Compact summary */
     .sum-row { display: flex; align-items: center; gap: 8px; padding: 6px 0; border-top: 1px solid var(--border); }
     .sum-row:first-child { border-top: none; padding-top: 0; }
-    .sum-name { font-weight: 600; font-size: 12px; min-width: 64px; }
+    .sum-name { font-weight: 600; font-size: 12px; min-width: 64px; display: flex; align-items: center; gap: 5px; }
+    .sum-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
     .sum-stats { flex: 1; font-size: 11px; color: var(--text-light); }
     .pill { background: var(--ok-bg); color: var(--ok); padding: 3px 9px; border-radius: 40px; font-weight: 600; font-size: 11px; white-space: nowrap; }
     .pill.warn { background: var(--alert-bg); color: var(--alert); }
@@ -631,6 +653,7 @@
         <div class="panel-header">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 8v4M12 16h.01M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0z"/></svg>
           <h2>Avvisi</h2>
+          <span id="warnCount" class="warn-count" hidden>0</span>
         </div>
         <div id="warnings"></div>
       </section>
