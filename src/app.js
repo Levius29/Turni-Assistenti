@@ -1,7 +1,7 @@
 // UI / DOM / PDF. Estratto da index.html.
 import {
-  AFTERNOON_END_THRESHOLD, AFTERNOON_TIERS, ASSISTANTS, ASSISTANT_NAMES, BASE_PAIRS, LEGACY_TEMPLATES, LONG_SPAN, LUNCH_GAP_MAX, SHIFT_MAX_SPAN, SHIFT_MIN_SPAN, SHIFT_OFF, SLOT, SOLVE_BUDGET_FAST, SOLVE_BUDGET_FULL, STUDIO_CLOSE, STUDIO_OPEN, WEEKDAY_KEYS, WEEK_DAYS, _shiftCache, addDays, afternoonDemand, applyPreviousWeekState, assign, buildEquityLedger, buildRem, buildWeekFromDayAssignments, cloneStats, countsAsAfternoon, coverageDeficit, coverageOf, createBaseWeek, createEmptyWeek, deriveShift, diversifyTimes, fmt, formatDateShort, formatItalianDate, formatWeekRange, formatWeekRangeShort, generateWeek, getAllowedShifts, getAssistantStats, getCoverage, getCurrentMonday, getDayCombos, getLockedShiftCount, getRequiredCoverage, getShift, heuristicCombos, inOvertime, isManuelaClose1519, isOff, maxUncoveredGap, regenerateAlternativeWithFeedback, regenerateCleanWeekWithFeedback, regenerateWeekWithFeedback, shiftsOf, solveWeek, solveWeekCore, updateShiftWithFeedback, validateWeek, weekAssignmentSig,
-  defaultStaffConfig, getStaffConfig, reconfigure,
+  ASSISTANTS, ASSISTANT_NAMES, LEGACY_TEMPLATES, addDays, buildEquityLedger, countsAsAfternoon, createEmptyWeek, diversifyTimes, fmt, formatDateShort, formatWeekRange, generateWeek, getAllowedShifts, getAssistantStats, getCurrentMonday, getLockedShiftCount, getShift, inOvertime, isOff, regenerateAlternativeWithFeedback, regenerateCleanWeekWithFeedback, regenerateWeekWithFeedback, updateShiftWithFeedback, validateWeek, weekAssignmentSig,
+  getStaffConfig, reconfigure,
   weekToCSV, summarizePeriod, summaryToCSV, monthBounds,
   effectiveWeeklyHours
 } from './scheduler.js';
@@ -33,15 +33,38 @@ import {
   const dayEditorDiv=document.querySelector('#dayEditor');
   const statusMsg=document.querySelector('#statusMessage');
 
+  // ── BLOCCO DOPPIO-TAP-ZOOM (iOS) ──
+  // touch-action:manipulation in CSS non basta ovunque su Safari: il secondo tap ravvicinato
+  // su elementi non interattivi viene annullato qui. Il pinch-zoom resta disponibile.
+  let _lastTouchEnd=0;
+  document.addEventListener('touchend',e=>{
+    const now=Date.now();
+    if(now-_lastTouchEnd<350&&!e.target.closest('select,input,textarea,button,label,a'))e.preventDefault();
+    _lastTouchEnd=now;
+  },{passive:false});
+
+  // ── UNDO (un livello) per le operazioni che riscrivono la settimana ──
+  let _undo=null;
+  function snapshotUndo(){if(weeks[currentStart])_undo={start:currentStart,week:structuredClone(weeks[currentStart])};}
+  function undoLast(){
+    if(!_undo)return;
+    weeks[_undo.start]=_undo.week;currentStart=_undo.start;_undo=null;
+    resetAltHistory();saveWeeks();render();showStatus('Versione precedente ripristinata.');
+  }
+  const UNDO_ACTION={label:'Annulla',fn:undoLast};
+
   // ── EVENT LISTENERS ──
   // Mostra subito lo status e rimanda il solve sincrono al tick successivo, così l'UI ridisegna prima del blocco.
   function deferHeavy(label,job){showStatus(label);setTimeout(job,0);}
-  const doGenerate=()=>deferHeavy('Calcolo turni…',()=>{resetAltHistory();const r=regenerateWeekWithFeedback(currentStart,getCurrentWeek(),buildLedgerFromStorage());weeks[currentStart]=r.week;saveWeeks();showStatus(r.message);render();});
-  const doReset=()=>deferHeavy('Calcolo turni…',()=>{resetAltHistory();const r=regenerateCleanWeekWithFeedback(currentStart,buildLedgerFromStorage());weeks[currentStart]=r.week;saveWeeks();showStatus(r.message);render();});
+  const doGenerate=()=>deferHeavy('Calcolo turni…',()=>{resetAltHistory();snapshotUndo();const r=regenerateWeekWithFeedback(currentStart,getCurrentWeek(),buildLedgerFromStorage());weeks[currentStart]=r.week;saveWeeks();showStatus(r.message,UNDO_ACTION);render();});
+  const doReset=()=>deferHeavy('Calcolo turni…',()=>{resetAltHistory();snapshotUndo();const r=regenerateCleanWeekWithFeedback(currentStart,buildLedgerFromStorage());weeks[currentStart]=r.week;saveWeeks();showStatus(r.message,UNDO_ACTION);render();});
+  // Varia gli orari mantenendo identici turni/statistiche (alternative mescolate: ogni pressione un layout diverso).
+  const doVary=()=>deferHeavy('Vario gli orari…',()=>{snapshotUndo();weeks[currentStart]=diversifyTimes(getCurrentWeek(),Math.random);saveWeeks();showStatus('Orari variati (stessi turni e ore).',UNDO_ACTION);render();});
   document.querySelector('#prevWeek').addEventListener('click',()=>changeWeek(-7));
   document.querySelector('#nextWeek').addEventListener('click',()=>changeWeek(7));
   document.querySelector('#generateWeek').addEventListener('click',doGenerate);
   document.querySelector('#altWeek').addEventListener('click',requestAlternative);
+  document.querySelector('#varyTimes').addEventListener('click',doVary);
   document.querySelector('#resetWeek').addEventListener('click',doReset);
   document.querySelector('#printWeek').addEventListener('click',()=>window.print());
   document.querySelector('#exportPDF').addEventListener('click',exportPDF);
@@ -61,20 +84,28 @@ import {
       _altHistory.push(weekAssignmentSig(cur));
       const avoid=new Set(_altHistory);
       const r=regenerateAlternativeWithFeedback(currentStart,cur,avoid,buildLedgerFromStorage());
-      if(r.solved){weeks[currentStart]=r.week;saveWeeks();showStatus(r.message);render();return;}
+      if(r.solved){snapshotUndo();weeks[currentStart]=r.week;saveWeeks();showStatus(r.message,UNDO_ACTION);render();return;}
       // Wrap: nessuna nuova → torna alla prima soluzione del ciclo
       _altHistory=[];
       const r2=regenerateAlternativeWithFeedback(currentStart,cur,null,buildLedgerFromStorage());
-      if(r2.solved){weeks[currentStart]=r2.week;saveWeeks();showStatus('Ciclo completato — tornata alla prima soluzione.');render();}
+      if(r2.solved){snapshotUndo();weeks[currentStart]=r2.week;saveWeeks();showStatus('Ciclo completato — tornata alla prima soluzione.',UNDO_ACTION);render();}
       else{showStatus('Nessuna soluzione alternativa disponibile.');}
     });
   }
 
   // ── NIGHT MODE ──
+  // Senza preferenza salvata segue il tema di sistema (e i suoi cambi); il toggle esplicito la fissa.
   const themeKey='turni-assistenti.theme';
-  let darkMode=localStorage.getItem(themeKey)==='dark';
+  const _systemDark=window.matchMedia?.('(prefers-color-scheme: dark)');
+  const _storedTheme=localStorage.getItem(themeKey);
+  let darkMode=_storedTheme?_storedTheme==='dark':!!_systemDark?.matches;
   applyTheme();
-  function applyTheme(){document.body?.classList.toggle('dark',darkMode);}
+  _systemDark?.addEventListener?.('change',e=>{if(!localStorage.getItem(themeKey)){darkMode=e.matches;applyTheme();render();}});
+  function applyTheme(){
+    document.body?.classList.toggle('dark',darkMode);
+    const m=document.querySelector('meta[name="theme-color"]');
+    if(m)m.content=darkMode?'#161b19':'#faf7f2';
+  }
   function toggleTheme(){darkMode=!darkMode;localStorage.setItem(themeKey,darkMode?'dark':'light');applyTheme();render();}
   const SUN_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>';
   const MOON_SVG='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>';
@@ -114,7 +145,8 @@ import {
             <label class="t-field">Pom. min<input class="field" type="number" min="0" value="${c.minAfternoons}" data-i="${i}" data-k="minAfternoons"></label>
             <label class="t-field">Pom. max<input class="field" type="number" min="0" value="${c.maxAfternoons}" data-i="${i}" data-k="maxAfternoons"></label>
             <label class="t-field" title="Un turno conta come pomeriggio per questa persona se finisce DOPO quest'ora">Pom. dopo<input class="field" type="time" step="1800" value="${fmt(c.afternoonThresholdMin??960)}" data-i="${i}" data-k="afternoonThresholdMin"></label>
-            <label class="t-field t-check"><input type="checkbox" ${c.canWorkLong?'checked':''} data-i="${i}" data-k="canWorkLong">Turni lunghi</label>
+            <label class="t-field t-check" title="Può fare turni lunghi: presenza ≥7h30 fino a tutta la giornata (08:30-19:00 = 10h pagate), pausa 30 min inclusa"><input type="checkbox" ${c.canWorkLong?'checked':''} data-i="${i}" data-k="canWorkLong">Turni lunghi</label>
+            <label class="t-field t-long-max"${c.canWorkLong?'':' hidden'} title="Quante lunghe al massimo a settimana (vuoto = nessun limite); oltre il limite serve lo straordinario">Lunghe max<input class="field" type="number" min="0" value="${c.maxLongShifts??''}" data-i="${i}" data-k="maxLongShifts"></label>
           </div>`;
         const pf=c.preferences||{};
         el.innerHTML+=`
@@ -132,6 +164,8 @@ import {
             </select></label>
             <label class="t-field t-check"><input type="checkbox" ${pf.avoidClose?'checked':''} data-i="${i}" data-k="avoidClose">Evita chiusura</label>
             <label class="t-field t-check"><input type="checkbox" ${pf.avoidOpen?'checked':''} data-i="${i}" data-k="avoidOpen">Evita apertura</label>
+            <label class="t-field" title="Numero di chiusure 19:00 preferito a settimana (il solver lo favorisce)">Chius. pref.<input class="field" type="number" min="0" value="${c.closePref?.preferred??''}" data-i="${i}" data-k="closePrefPreferred"></label>
+            <label class="t-field" title="Tetto massimo di chiusure 19:00 a settimana (vuoto = nessuna preferenza)">Chius. max<input class="field" type="number" min="0" value="${c.closePref?.max??''}" data-i="${i}" data-k="closePrefMax"></label>
           </div>`;
         const ot=c.overtime,otOn=!!ot,req=ot?.requiresShift,otHide=otOn?'':' hidden';
         el.innerHTML+=`
@@ -139,6 +173,7 @@ import {
             <label class="t-field t-check"><input type="checkbox" ${otOn?'checked':''} data-i="${i}" data-k="otEnabled">Straordinario</label>
             <label class="t-field t-ot-detail"${otHide}>Ore max<input class="field" type="number" min="0" step="0.5" value="${otOn?ot.weeklyHours:''}" ${otOn?'':'disabled'} data-i="${i}" data-k="otHours"></label>
             <label class="t-field t-ot-detail"${otHide}>Pom. max<input class="field" type="number" min="0" value="${otOn?ot.maxAfternoons:''}" ${otOn?'':'disabled'} data-i="${i}" data-k="otAfternoons"></label>
+            <label class="t-field t-ot-detail"${otHide} title="Lunghe ammesse in straordinario (vuoto = come il limite base)">Lunghe max<input class="field" type="number" min="0" value="${otOn&&ot.maxLongShifts!=null?ot.maxLongShifts:''}" ${otOn?'':'disabled'} data-i="${i}" data-k="otLongShifts"></label>
             <label class="t-field t-ot-detail"${otHide} title="Se impostato, i pomeriggi extra (oltre il max base) devono usare ESATTAMENTE questo turno (es. 15:00-19:00)">Pom. extra da<input class="field" type="time" step="1800" value="${req?fmt(req.s):''}" ${otOn?'':'disabled'} data-i="${i}" data-k="otReqStart"></label>
             <label class="t-field t-ot-detail"${otHide}>a<input class="field" type="time" step="1800" value="${req?fmt(req.e):''}" ${otOn?'':'disabled'} data-i="${i}" data-k="otReqEnd"></label>
           </div>`;
@@ -146,11 +181,14 @@ import {
     }
     function onFieldChange(t){const i=+t.dataset.i,k=t.dataset.k;if(Number.isNaN(i)||!k)return;
       if(k==='name')rows[i].name=t.value;
-      else if(k==='canWorkLong')rows[i].c.canWorkLong=t.checked;
+      else if(k==='canWorkLong'){rows[i].c.canWorkLong=t.checked;const lm=t.closest('.team-row').querySelector('.t-long-max');if(lm){lm.hidden=!t.checked;if(!t.checked){lm.querySelector('input').value='';delete rows[i].c.maxLongShifts;}}}
+      else if(k==='maxLongShifts'){const v=t.value===''?null:parseInt(t.value,10);if(v==null)delete rows[i].c.maxLongShifts;else rows[i].c.maxLongShifts=v;}
+      else if(k==='closePrefPreferred'||k==='closePrefMax'){const cc=rows[i].c,v=t.value===''?null:parseInt(t.value,10),key=k==='closePrefPreferred'?'preferred':'max',cp={...(cc.closePref||{})};if(v==null)delete cp[key];else cp[key]=v;if(cp.preferred==null&&cp.max==null)delete cc.closePref;else cc.closePref=cp;}
+      else if(k==='otLongShifts'){if(rows[i].c.overtime){const v=t.value===''?null:parseInt(t.value,10);if(v==null)delete rows[i].c.overtime.maxLongShifts;else rows[i].c.overtime.maxLongShifts=v;}}
       else if(k==='afternoonThresholdMin'){const[h,mm]=t.value.split(':').map(Number);if(!Number.isNaN(h))rows[i].c.afternoonThresholdMin=h*60+(mm||0);}
       else if(k==='preferredDayOff'||k==='preferredWindow'){rows[i].c.preferences={...(rows[i].c.preferences||{}),[k]:t.value||undefined};}
       else if(k==='avoidClose'||k==='avoidOpen'){rows[i].c.preferences={...(rows[i].c.preferences||{}),[k]:t.checked};}
-      else if(k==='otEnabled'){const cc=rows[i].c,row=t.closest('.team-row'),oh=row.querySelector('input[data-k="otHours"]'),oa=row.querySelector('input[data-k="otAfternoons"]'),or=row.querySelector('input[data-k="otReqStart"]'),oe=row.querySelector('input[data-k="otReqEnd"]');row.querySelectorAll('.t-ot-detail').forEach(l=>{l.hidden=!t.checked;});if(t.checked){cc.overtime={weeklyHours:cc.overtime?.weeklyHours??(cc.weeklyHours+4),maxAfternoons:cc.overtime?.maxAfternoons??(cc.maxAfternoons+1),...(cc.overtime?.requiresShift?{requiresShift:cc.overtime.requiresShift}:{})};oh.value=cc.overtime.weeklyHours;oh.disabled=false;oa.value=cc.overtime.maxAfternoons;oa.disabled=false;or.disabled=false;oe.disabled=false;}else{delete cc.overtime;oh.value='';oh.disabled=true;oa.value='';oa.disabled=true;or.value='';or.disabled=true;oe.value='';oe.disabled=true;}}
+      else if(k==='otEnabled'){const cc=rows[i].c,row=t.closest('.team-row'),oh=row.querySelector('input[data-k="otHours"]'),oa=row.querySelector('input[data-k="otAfternoons"]'),ol=row.querySelector('input[data-k="otLongShifts"]'),or=row.querySelector('input[data-k="otReqStart"]'),oe=row.querySelector('input[data-k="otReqEnd"]');row.querySelectorAll('.t-ot-detail').forEach(l=>{l.hidden=!t.checked;});if(t.checked){cc.overtime={weeklyHours:cc.overtime?.weeklyHours??(cc.weeklyHours+4),maxAfternoons:cc.overtime?.maxAfternoons??(cc.maxAfternoons+1),...(cc.overtime?.maxLongShifts!=null?{maxLongShifts:cc.overtime.maxLongShifts}:{}),...(cc.overtime?.requiresShift?{requiresShift:cc.overtime.requiresShift}:{})};oh.value=cc.overtime.weeklyHours;oh.disabled=false;oa.value=cc.overtime.maxAfternoons;oa.disabled=false;ol.value=cc.overtime.maxLongShifts??'';ol.disabled=false;or.disabled=false;oe.disabled=false;}else{delete cc.overtime;oh.value='';oh.disabled=true;oa.value='';oa.disabled=true;ol.value='';ol.disabled=true;or.value='';or.disabled=true;oe.value='';oe.disabled=true;}}
       else if(k==='otHours'){if(rows[i].c.overtime)rows[i].c.overtime.weeklyHours=parseFloat(t.value);}
       else if(k==='otAfternoons'){if(rows[i].c.overtime)rows[i].c.overtime.maxAfternoons=parseInt(t.value,10);}
       else if(k==='otReqStart'||k==='otReqEnd'){const cc=rows[i].c;if(cc.overtime){const row=t.closest('.team-row'),toMin=v=>{const[h,mm]=String(v).split(':').map(Number);return Number.isNaN(h)?null:h*60+(mm||0);},s=toMin(row.querySelector('input[data-k="otReqStart"]').value),e=toMin(row.querySelector('input[data-k="otReqEnd"]').value);if(s!=null&&e!=null&&e>s)cc.overtime.requiresShift={s,e};else delete cc.overtime.requiresShift;}}
@@ -176,11 +214,18 @@ import {
         if(!Number.isInteger(c.minAfternoons)||c.minAfternoons<0)return showErr(`${r.name}: pomeriggi min non validi.`);
         if(!Number.isInteger(c.maxAfternoons)||c.maxAfternoons<0)return showErr(`${r.name}: pomeriggi max non validi.`);
         if(c.minAfternoons>c.maxAfternoons)return showErr(`${r.name}: pomeriggi min > max.`);
+        if(c.maxLongShifts!=null&&(!Number.isInteger(c.maxLongShifts)||c.maxLongShifts<0))return showErr(`${r.name}: lunghe max non valide.`);
+        if(c.closePref&&(!Number.isInteger(c.closePref.preferred??c.closePref.max)||!Number.isInteger(c.closePref.max??c.closePref.preferred)||(c.closePref.preferred??0)<0||(c.closePref.max??c.closePref.preferred)<(c.closePref.preferred??0)))return showErr(`${r.name}: chiusure pref/max non valide (pref ≤ max).`);
         if(c.overtime){
           if(!Number.isFinite(c.overtime.weeklyHours)||c.overtime.weeklyHours<c.weeklyHours)return showErr(`${r.name}: ore straordinario non valide (devono essere ≥ ore base).`);
           if(!Number.isInteger(c.overtime.maxAfternoons)||c.overtime.maxAfternoons<c.maxAfternoons)return showErr(`${r.name}: pomeriggi straordinario non validi (devono essere ≥ pomeriggi max base).`);
+          if(c.overtime.maxLongShifts!=null&&(!Number.isInteger(c.overtime.maxLongShifts)||c.overtime.maxLongShifts<0||(c.maxLongShifts!=null&&c.overtime.maxLongShifts<c.maxLongShifts)))return showErr(`${r.name}: lunghe straordinario non valide (devono essere ≥ lunghe base).`);
         }
-        newCfg[r.name.trim()]={...c,weeklyHours:c.weeklyHours,minAfternoons:c.minAfternoons,maxAfternoons:c.maxAfternoons,canWorkLong:!!c.canWorkLong};
+        const cleaned={...c,weeklyHours:c.weeklyHours,minAfternoons:c.minAfternoons,maxAfternoons:c.maxAfternoons,canWorkLong:!!c.canWorkLong};
+        // closePref con un solo campo compilato: completa con l'altro; lunghe max solo se può fare le lunghe.
+        if(cleaned.closePref)cleaned.closePref={preferred:cleaned.closePref.preferred??cleaned.closePref.max,max:cleaned.closePref.max??cleaned.closePref.preferred};
+        if(!cleaned.canWorkLong)delete cleaned.maxLongShifts;
+        newCfg[r.name.trim()]=cleaned;
       }
       reconfigure(newCfg);saveStaff();
       weeks[currentStart]=generateWeek({startDate:currentStart,ledger:buildLedgerFromStorage()});saveWeeks();
@@ -267,6 +312,8 @@ import {
     const card=document.createElement('div');card.className='modal-card tools-card';
     card.innerHTML=`<div class="modal-head"><h2>Dati &amp; strumenti</h2><button class="modal-x" type="button" aria-label="Chiudi">✕</button></div>
       <div class="tools-list">
+        <button type="button" class="tool-item" data-act="vary"><strong>Varia orari</strong><span>Stessi turni e ore, orari d'ingresso/uscita diversi</span></button>
+        <button type="button" class="tool-item" data-act="equity"><strong>Equità storica</strong><span>Aperture, chiusure e sabati nelle ultime settimane</span></button>
         <button type="button" class="tool-item" data-act="csv"><strong>Esporta CSV</strong><span>Turni della settimana corrente per foglio di calcolo</span></button>
         <button type="button" class="tool-item" data-act="month"><strong>Riepilogo mensile</strong><span>Ore e turni per assistente in un mese</span></button>
         <button type="button" class="tool-item" data-act="backup"><strong>Backup dati</strong><span>Scarica un file JSON con team e settimane</span></button>
@@ -279,7 +326,9 @@ import {
     card.querySelector('.tools-list').addEventListener('click',e=>{
       const item=e.target.closest('.tool-item');if(!item)return;
       const act=item.dataset.act;
-      if(act==='csv'){exportCSV();close();}
+      if(act==='vary'){close();doVary();}
+      else if(act==='equity'){close();openEquitySummary();}
+      else if(act==='csv'){exportCSV();close();}
       else if(act==='month'){close();openMonthlySummary();}
       else if(act==='backup'){exportBackup();close();}
       else if(act==='restore'){
@@ -290,37 +339,66 @@ import {
     });
     requestAnimationFrame(()=>overlay.classList.add('visible'));
   }
+  // Equità storica: oneri (aperture/chiusure/sabati) per persona sulle ultime 8 settimane passate
+  // più quella corrente, col tasso sui giorni lavorati — gli stessi numeri usati dall'ottimizzatore.
+  function openEquitySummary(){
+    const led=buildLedgerFromStorage();
+    const cur=getAssistantStats(getCurrentWeek());
+    const overlay=document.createElement('div');overlay.className='modal-overlay';
+    const card=document.createElement('div');card.className='modal-card tools-card';
+    const cell=(v,days)=>`<td>${v} <span class="eq-rate">${days?Math.round(100*v/days):0}%</span></td>`;
+    const rows=ASSISTANT_NAMES.map(n=>{
+      const l=led[n]||{opens:0,closes:0,saturdays:0,workDays:0};
+      const days=l.workDays+cur[n].workDays;
+      return`<tr><td class="mt-name">${escHtml(n)}</td><td>${days}</td>${cell(l.opens+cur[n].opens,days)}${cell(l.closes+cur[n].closes,days)}${cell(l.saturdays+cur[n].saturdays,days)}</tr>`;
+    }).join('');
+    card.innerHTML=`<div class="modal-head"><h2>Equità storica</h2><button class="modal-x" type="button" aria-label="Chiudi">✕</button></div>
+      <div class="month-body"><p class="eq-note">Ultime 8 settimane salvate + settimana corrente. La percentuale è il tasso sui giorni lavorati: valori simili tra le persone = carico equo.</p>
+      <table class="month-table"><thead><tr><th>Assistente</th><th>Giorni</th><th>Aperture</th><th>Chiusure</th><th>Sabati</th></tr></thead><tbody>${rows}</tbody></table></div>
+      <div class="modal-foot"><span></span><div class="modal-actions"><button type="button" class="btn-cancel eq-close">Chiudi</button></div></div>`;
+    overlay.appendChild(card);document.body.appendChild(overlay);
+    const close=()=>{overlay.classList.remove('visible');setTimeout(()=>overlay.remove(),200);};
+    card.querySelector('.modal-x').addEventListener('click',close);
+    card.querySelector('.eq-close').addEventListener('click',close);
+    overlay.addEventListener('click',e=>{if(e.target===overlay)close();});
+    requestAnimationFrame(()=>overlay.classList.add('visible'));
+  }
   injectToolsButton();
 
   render();
 
   // ── RENDER ──
+  // Chi è in straordinario questa settimana (stats passate per non riscandire la settimana per ogni cella).
+  function overtimeSet(week,stats){return new Set(ASSISTANT_NAMES.filter(n=>inOvertime(n,week,stats)));}
   function render(){
     const w=getCurrentWeek();
     ensureWeekShape(w);
+    const stats=getAssistantStats(w);
+    const otSet=overtimeSet(w,stats);
     weekLabel.textContent=formatWeekRange(w);
     weekLabelMob.textContent=formatWeekRangeCompact(w);
-    renderGrid(w);
-    renderSummary(w);
+    renderGrid(w,otSet);
+    renderSummary(w,stats,otSet);
     renderDayEditor(w);
     renderWarnings(w);
   }
 
-  function renderGrid(week){
+  function renderGrid(week,otSet){
+    otSet=otSet??overtimeSet(week,getAssistantStats(week));
     const isMobile=window.innerWidth<MOBILE_BREAKPOINT;
     scheduleGrid.classList.toggle('mobile-mode',isMobile);
     scheduleGrid.innerHTML='';
-    if(isMobile){scheduleGrid.appendChild(buildMobileGrid(week));}
-    else{buildDesktopGrid(week);}
+    if(isMobile){scheduleGrid.appendChild(buildMobileGrid(week,otSet));}
+    else{buildDesktopGrid(week,otSet);}
   }
 
   function isDayClosed(day){return!!day.exceptions?.holiday||(day.key==='sat'&&!day.exceptions?.satOpen);}
-  function buildDesktopGrid(week){
+  function buildDesktopGrid(week,otSet){
     const corner=createCell('','grid-cell head-cell');corner.append(buildThemeToggle());scheduleGrid.append(corner);
     for(const day of week.days){
       const closed=isDayClosed(day);
       const btn=document.createElement('button');btn.type='button';btn.className='day-button';
-      btn.innerHTML=`<strong>${day.label}</strong><span class="date">${formatDateShort(day.date)}</span>${closed?'<span class="closed-tag">'+(day.exceptions?.holiday?'Festività':'Chiuso')+'</span>':''}`;
+      btn.innerHTML=`<strong>${day.label}${day.exceptions?.note?` <span class="note-dot" title="${escHtml(day.exceptions.note)}">●</span>`:''}</strong><span class="date">${formatDateShort(day.date)}</span>${closed?'<span class="closed-tag">'+(day.exceptions?.holiday?'Festività':'Chiuso')+'</span>':''}`;
       btn.addEventListener('click',()=>{selectedDayKey=day.key;render();});
       const cell=createCell('',`grid-cell head-cell${day.key===selectedDayKey?' selected-day':''}${closed?' day-closed':''}`);
       cell.append(btn);scheduleGrid.append(cell);
@@ -330,7 +408,7 @@ import {
       nameCell.innerHTML=`<div class="assistant-card"><div class="assistant-avatar"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg></div><div><span class="assistant-name">${escHtml(assistant)}</span><div class="assistant-meta">${getContractLabel(assistant)}</div></div></div>`;
       scheduleGrid.append(nameCell);
       for(const day of week.days){
-        const{entry,exit,badge}=buildShiftContent(day,assistant,true,week);
+        const{entry,exit,badge}=buildShiftContent(day,assistant,week,otSet);
         const lock=createLockToggle(day,assistant,'');
         const print=Object.assign(document.createElement('span'),{className:'print-shift',textContent:getPrintShiftLabel(day.assignments[assistant])});
         // Due righe: riga 1 = entrata + badge (alto a destra); riga 2 = uscita + blocco (a destra).
@@ -341,7 +419,7 @@ import {
     }
   }
 
-  function buildMobileGrid(week){
+  function buildMobileGrid(week,otSet){
     const grid=document.createElement('div');grid.className='mobile-grid';
     // Colonne dinamiche: 1 etichetta giorno + N assistenti (evita layout rotto aggiungendo persone).
     grid.style.gridTemplateColumns=`64px repeat(${ASSISTANT_NAMES.length}, minmax(0, 1fr))`;
@@ -352,12 +430,12 @@ import {
       const closed=isDayClosed(day);
       const dayLabel=document.createElement('div');
       dayLabel.className=`mobile-day-label${isSelected?' selected-day':''}${closed?' day-closed':''}`;
-      dayLabel.innerHTML=`<span class="day-abbr">${day.label.slice(0,3)}</span><span class="day-date">${formatDateShort(day.date)}</span>${closed?'<span class="closed-tag">'+(day.exceptions?.holiday?'Festività':'Chiuso')+'</span>':''}`;
+      dayLabel.innerHTML=`<span class="day-abbr">${day.label.slice(0,3)}${day.exceptions?.note?` <span class="note-dot" title="${escHtml(day.exceptions.note)}">●</span>`:''}</span><span class="day-date">${formatDateShort(day.date)}</span>${closed?'<span class="closed-tag">'+(day.exceptions?.holiday?'Festività':'Chiuso')+'</span>':''}`;
       dayLabel.addEventListener('click',()=>{selectedDayKey=day.key;render();});
       grid.append(dayLabel);
       ASSISTANT_NAMES.forEach((assistant,ci)=>{
         const cell=document.createElement('div');cell.className=`mobile-shift-cell${isSelected?' selected-day':''}${closed?' day-closed':''}${ci===ASSISTANT_NAMES.length-1?' mg-end':''}`;
-        const{entry,exit,badge}=buildShiftContent(day,assistant,false,week);
+        const{entry,exit,badge}=buildShiftContent(day,assistant,week,otSet);
         const lock=createLockToggle(day,assistant,'');
         const print=Object.assign(document.createElement('span'),{className:'print-shift',textContent:getPrintShiftLabel(day.assignments[assistant])});
         const sgrid=document.createElement('div');sgrid.className='shift-grid';sgrid.append(entry,badge,exit,lock);
@@ -368,9 +446,11 @@ import {
   }
 
   // Due tendine per cella: Entrata (con "Riposo") e Uscita (orari validi dato l'ingresso).
-  function buildShiftContent(day,assistant,showId,week){
+  function buildShiftContent(day,assistant,week,otSet){
     const entry=document.createElement('select');entry.className='shift-select shift-entry';
     const exit=document.createElement('select');exit.className='shift-select shift-exit';
+    entry.setAttribute('aria-label',`Entrata ${assistant} ${day.label}`);
+    exit.setAttribute('aria-label',`Uscita ${assistant} ${day.label}`);
     const allowed=getAllowedShifts(assistant,day,true).filter(a=>!isOff(a));
     const starts=[...new Set(allowed.map(a=>a.s))].sort((a,b)=>a-b);
     const mkOpt=(val,txt)=>{const o=document.createElement('option');o.value=val;o.textContent=txt;return o;};
@@ -388,7 +468,6 @@ import {
     else{entry.value=String(cur.startMin);fillExit(cur.startMin,cur.endMin);}
     const commit=()=>{
       const val=entry.value==='OFF'?'OFF':{s:+entry.value,e:+exit.value};
-      applyShiftClass(entry,val);updateShiftBadge(badge,val);
       const res=updateShiftWithFeedback(week,day.key,assistant,val);
       weeks[currentStart]=res.week;saveWeeks();showStatus(res.message);render();
     };
@@ -398,7 +477,7 @@ import {
     });
     exit.addEventListener('change',commit);
     applyShiftClass(entry,day.assignments[assistant]);
-    const otS=inOvertime(assistant,week)&&countsAsAfternoon(assistant,getShift(day.assignments[assistant]));
+    const otS=otSet.has(assistant)&&countsAsAfternoon(assistant,getShift(day.assignments[assistant]));
     const badge=buildShiftBadge(day.assignments[assistant],otS);
     const absent=!isDayClosed(day)&&day.absences?.[assistant];
     if(absent){badge.innerHTML=`<span class="badge-code" style="background:#9b6dd6">${absent==='sick'?'Malattia':'Ferie'}</span>`;entry.disabled=true;}
@@ -438,12 +517,13 @@ import {
     select.classList.add(s.id==='OFF'?'shift-off':s.coversClose?'shift-afternoon':s.coversMorning?'shift-morning':'shift-midday');
   }
 
-  function renderSummary(week){
-    const stats=getAssistantStats(week);
+  function renderSummary(week,stats,otSet){
+    stats=stats??getAssistantStats(week);
+    otSet=otSet??overtimeSet(week,stats);
     const locked=getLockedShiftCount(week);
     const rows=ASSISTANT_NAMES.map(a=>{
       const c=ASSISTANTS[a];
-      const overtime=!!c.overtime&&(stats[a].hours>c.weeklyHours||stats[a].afternoons>c.maxAfternoons);
+      const overtime=otSet.has(a);
       // Target effettivo: stesse regole di validateWeek (festività riducono il monte ore pro-quota).
       const tgt=effectiveWeeklyHours(a,week,overtime?c.overtime.weeklyHours:c.weeklyHours);
       const ok=stats[a].hours===tgt;
@@ -466,10 +546,13 @@ import {
       :`<label class="checkbox-inline" title="Doppia assistente di mattina (almeno fino alle 13:30)"><input id="extraMorning" type="checkbox"><span>2× Matt.</span></label> <label class="checkbox-inline" title="Doppia assistente il pomeriggio"><input id="extraAfternoon" type="checkbox"><span>2× Pom.</span></label> <label class="checkbox-inline" title="Studio chiuso (festività): nessuno lavora, ore ridotte"><input id="holiday" type="checkbox"><span>Festività</span></label>`;
     // Assenze: solo nei giorni feriali non festivi.
     const absHtml=(!isSat&&!isHol)?`<div class="day-fields-row" style="flex-wrap:wrap;gap:6px;margin-top:8px">${ASSISTANT_NAMES.map(n=>`<label class="t-field" style="flex:1;min-width:88px">${escHtml(n)}<select class="field field-sm abs-sel" data-n="${escHtml(n)}"><option value="">Presente</option><option value="vacation">Ferie</option><option value="sick">Malattia</option></select></label>`).join('')}</div>`:'';
-    dayEditorDiv.innerHTML=`<div class="day-label-row">${day.label} <span class="day-date">${formatDateShort(day.date)}</span>${toggle}</div><div class="day-fields-row"><select id="eventType" class="field field-sm"><option value="">Nessun evento</option><option value="chirurgia">Chirurgia</option><option value="ortodonzia">Ortodonzia</option><option value="dottore">Dottore in più</option><option value="altro">Altro</option></select></div>${absHtml}`;
+    dayEditorDiv.innerHTML=`<div class="day-label-row">${day.label} <span class="day-date">${formatDateShort(day.date)}</span>${toggle}</div><div class="day-fields-row"><select id="eventType" class="field field-sm"><option value="">Nessun evento</option><option value="chirurgia">Chirurgia</option><option value="ortodonzia">Ortodonzia</option><option value="dottore">Dottore in più</option><option value="altro">Altro</option></select></div><div class="day-fields-row" style="margin-top:6px"><input id="dayNote" class="field field-sm" type="text" maxlength="120" placeholder="Nota del giorno (finisce sul PDF)"></div>${absHtml}`;
     const sel=dayEditorDiv.querySelector('#eventType');
     sel.value=day.exceptions.eventType;
     sel.addEventListener('change',()=>{day.exceptions.eventType=sel.value;saveWeeks();render();});
+    const note=dayEditorDiv.querySelector('#dayNote');
+    note.value=day.exceptions.note||'';
+    note.addEventListener('change',()=>{day.exceptions.note=note.value.trim();saveWeeks();render();});
     if(isSat){
       const open=dayEditorDiv.querySelector('#satOpen');open.checked=day.exceptions.satOpen;
       open.addEventListener('change',()=>{day.exceptions.satOpen=open.checked;if(!open.checked)for(const n of ASSISTANT_NAMES){day.assignments[n]='OFF';day.locks[n]=false;}saveWeeks();render();});
@@ -520,10 +603,18 @@ import {
   function getContractLabel(a){const c=ASSISTANTS[a];if(!c)return'';const pom=c.minAfternoons===c.maxAfternoons?`max ${c.maxAfternoons}`:`${c.minAfternoons}-${c.maxAfternoons}`;return`${c.weeklyHours}h · ${pom} pom.`;}
 
   let statusTimer;
-  function showStatus(msg){
-    statusMsg.textContent=msg;statusMsg.hidden=false;
+  // action opzionale {label,fn}: aggiunge un pulsante (es. "Annulla") e allunga la durata del messaggio.
+  function showStatus(msg,action){
+    statusMsg.textContent=msg;
+    if(action){
+      const b=document.createElement('button');
+      b.type='button';b.className='status-action';b.textContent=action.label;
+      b.addEventListener('click',()=>{statusMsg.classList.remove('visible');statusMsg.hidden=true;action.fn();});
+      statusMsg.append(' ',b);
+    }
+    statusMsg.hidden=false;
     void statusMsg.offsetWidth;statusMsg.classList.add('visible');
-    clearTimeout(statusTimer);statusTimer=setTimeout(()=>{statusMsg.classList.remove('visible');setTimeout(()=>{statusMsg.hidden=true;},250);},2500);
+    clearTimeout(statusTimer);statusTimer=setTimeout(()=>{statusMsg.classList.remove('visible');setTimeout(()=>{statusMsg.hidden=true;},250);},action?6000:2500);
   }
   function getPrintShiftLabel(a){const s=getShift(a);return s.id==='OFF'?'Riposo':`${fmt(s.startMin)}-${fmt(s.endMin)}`;}
   // Etichetta settimana per la bottom bar: "15–20/06" (o "29/06–04/07" a cavallo di mese).
@@ -537,7 +628,7 @@ import {
     const satLabel=day.key==='sat'?(day.exceptions.satOpen?'Aperto':'Chiuso'):'';
     const holLabel=day.exceptions.holiday?'Festività (chiuso)':'';
     const absLabel=Object.entries(day.absences||{}).filter(([,v])=>v).map(([n,v])=>`${n}: ${v==='sick'?'Malattia':'Ferie'}`).join(', ');
-    return[satLabel,holLabel,eventLabels[day.exceptions.eventType]??day.exceptions.eventType,day.exceptions.extraAfternoon&&day.key!=='sat'?'2× Pom.':'',day.exceptions.extraMorning&&day.key!=='sat'?'2× Matt.':'',absLabel].filter(Boolean).join(' · ');
+    return[satLabel,holLabel,eventLabels[day.exceptions.eventType]??day.exceptions.eventType,day.exceptions.extraAfternoon&&day.key!=='sat'?'2× Pom.':'',day.exceptions.extraMorning&&day.key!=='sat'?'2× Matt.':'',absLabel,day.exceptions.note||''].filter(Boolean).join(' · ');
   }
   function drawPdfBadge(doc,x,y,code){
     doc.setDrawColor(30,30,30);doc.setFillColor(255,255,255);doc.roundedRect(x,y,5,4,0.8,0.8,'FD');

@@ -2,7 +2,8 @@
 <html lang="it">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#faf7f2">
   <title>Turni Assistenti · Studio</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -186,6 +187,8 @@
       z-index: 2000;
     }
     .status-message.visible { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .status-action { pointer-events: auto; margin-left: 10px; background: var(--ok); color: #fff; border: none; border-radius: 8px; padding: 3px 12px; font: inherit; font-size: 12px; font-weight: 600; cursor: pointer; }
+    .status-action:active { transform: scale(0.95); }
 
     /* ── Workspace ── */
     .workspace {
@@ -271,6 +274,9 @@
     /* ── Giorno chiuso (sabato non aperto) ── */
     .grid-cell.day-closed, .mobile-shift-cell.day-closed, .mobile-day-label.day-closed { opacity: .5; }
     .closed-tag { display: block; margin-top: 2px; font-size: 9px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--alert); }
+    /* Pallino "c'è una nota" accanto al nome del giorno */
+    .note-dot { color: var(--accent-warm); font-size: 9px; vertical-align: middle; }
+    .mobile-day-label .note-dot { font-size: 7px; }
 
     /* ── Shift badge (in fila orizzontale, in alto a destra: A, C, L) ── */
     .shift-badge {
@@ -577,6 +583,9 @@
     .month-table th { font-weight: 600; color: var(--text-light); font-size: 11px; text-transform: uppercase; letter-spacing: 0.3px; }
     .month-table .mt-name { text-align: left; font-weight: 600; }
     .month-empty { padding: 18px 0; text-align: center; color: var(--text-light); font-size: 13px; }
+    /* Equità storica */
+    .eq-note { font-size: 11px; color: var(--text-light); margin: 4px 0 10px; }
+    .eq-rate { color: var(--text-muted); font-size: 11px; }
   </style>
 </head>
 <body>
@@ -592,6 +601,7 @@
       </button>
       <button id="generateWeek" class="btn-primary" type="button">Genera</button>
       <button id="altWeek" type="button" title="Cerca una soluzione diversa da quella attuale">Alternativa</button>
+      <button id="varyTimes" type="button" title="Stessi turni e ore, orari d'ingresso/uscita diversi">Varia</button>
       <button id="resetWeek" type="button">Reset</button>
       <button id="printWeek" type="button">
         <svg class="icon-svg" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v8H6v-8z"/></svg>

@@ -18,6 +18,7 @@
  * @property {number} minAfternoons
  * @property {number} maxAfternoons
  * @property {boolean} canWorkLong
+ * @property {number} [maxLongShifts]  Turni lunghi max/settimana; oltre serve lo straordinario.
  * @property {number} [workDays]
  * @property {number} [maxWorkDays]
  */
@@ -59,7 +60,8 @@ export const WEEKDAY_KEYS = ['mon','tue','wed','thu','fri'];
   // Un assegnamento è 'OFF' (riposo) oppure {s:minutiEntrata, e:minutiUscita}.
   // Le proprietà del turno (ore, copertura, lungo/pausa) sono derivate al volo da entrata/uscita.
 export const SLOT=30, STUDIO_OPEN=8*60+30, STUDIO_CLOSE=19*60;
-export const SHIFT_MIN_SPAN=4*60, SHIFT_MAX_SPAN=8*60+30, LONG_SPAN=7*60+30, LUNCH_GAP_MAX=30;
+// Span massimo = intera giornata di apertura (08:30-19:00 = 10h30 → 10h pagate con la pausa).
+export const SHIFT_MIN_SPAN=4*60, SHIFT_MAX_SPAN=10*60+30, LONG_SPAN=7*60+30, LUNCH_GAP_MAX=30;
 export function fmt(min){return `${String(Math.floor(min/60)).padStart(2,'0')}:${String(min%60).padStart(2,'0')}`;}
 export function isOff(a){return !a||a==='OFF';}
 export const SHIFT_OFF={id:'OFF',label:'Riposo',hours:0,isLong:false,startMin:null,endMin:null,coversMorning:false,coversAfternoon:false,coversClose:false,isAfternoon:false,isNearClose:false};
@@ -106,8 +108,8 @@ export function countsAsAfternoon(assistant,shift){if(shift.hours===0||shift.end
 export function worksOvertimeShift(name,a){const o=STAFF_CONFIG[name]?.overtime?.requiresShift;if(!o)return false;const s=getShift(a);return s.startMin===o.s&&s.endMin===o.e;}
   // Retrocompat: alias per la persona straordinaria configurata.
 export function isManuelaClose1519(a){return OVERTIME_PERSON?worksOvertimeShift(OVERTIME_PERSON,a):false;}
-// Una persona è "in straordinario" in una settimana se ha lo straordinario abilitato e supera il suo target base (ore o pomeriggi).
-export function inOvertime(name,week){const c=STAFF_CONFIG[name];if(!c?.overtime)return false;const s=getAssistantStats(week)[name];return s.hours>c.weeklyHours||s.afternoons>c.maxAfternoons;}
+// Una persona è "in straordinario" in una settimana se ha lo straordinario abilitato e supera il suo target base (ore, pomeriggi o turni lunghi).
+export function inOvertime(name,week,stats){const c=STAFF_CONFIG[name];if(!c?.overtime)return false;const s=(stats??getAssistantStats(week))[name];return s.hours>c.weeklyHours||s.afternoons>c.maxAfternoons||(c.maxLongShifts!=null&&s.longShifts>c.maxLongShifts);}
 export function getAssistantStats(week){const s=Object.fromEntries(ASSISTANT_NAMES.map(n=>[n,{hours:0,afternoons:0,longShifts:0,saturdays:0,opens:0,closes:0,workDays:0}]));for(const d of week.days)for(const n of ASSISTANT_NAMES){const sh=getShift(d.assignments[n]);s[n].hours+=sh.hours;if(sh.hours>0)s[n].workDays++;if(countsAsAfternoon(n,sh))s[n].afternoons++;if(sh.isLong)s[n].longShifts++;if(d.key==='sat'&&sh.hours>0)s[n].saturdays++;if(sh.coversMorning)s[n].opens++;if(sh.coversClose)s[n].closes++;}return s;}
 export function getRequiredCoverage(day){if(day.key==='sun'||(day.key==='sat'&&!day.exceptions.satOpen)||day.exceptions.holiday)return{morning:0,afternoon:0,close:0,morningPair:0,afternoonPair:0};const isWeekday=WEEKDAY_KEYS.includes(day.key);const extraPom=isWeekday&&day.exceptions.extraAfternoon;const extraMatt=isWeekday&&day.exceptions.extraMorning;const afternoon=(isWeekday?1:0)+(extraPom?1:0);return{morning:1,afternoon:day.key==='sat'?0:afternoon,close:isWeekday?1:0,morningPair:extraMatt?2:0,afternoonPair:extraPom?2:0};}
 export function shiftsOf(day){return ASSISTANT_NAMES.map(n=>getShift(day.assignments[n]));}
@@ -148,7 +150,7 @@ export function coverageDeficit(shifts,dayKey){
     return realGap+lunchDebt;
   }
 export function maxUncoveredGap(day){return coverageDeficit(shiftsOf(day),day.key);}
-export function validateWeek(week,rulesOverride){const ASSIST=rulesOverride??ASSISTANTS;const w=[],stats=getAssistantStats(week);for(const name of ASSISTANT_NAMES){const baseRules=ASSIST[name];const _ot=STAFF_CONFIG[name]?.overtime;const rules=(_ot&&(stats[name].hours>baseRules.weeklyHours||stats[name].afternoons>baseRules.maxAfternoons))?{...baseRules,weeklyHours:_ot.weeklyHours,maxAfternoons:_ot.maxAfternoons}:baseRules;const s=stats[name];const target=rulesOverride?rules.weeklyHours:effectiveWeeklyHours(name,week,rules.weeklyHours);if(s.hours!==target)w.push({message:`${name}: ${s.hours}h su ${target}h`});if(s.afternoons<rules.minAfternoons)w.push({message:`${name}: pochi pomeriggi (${s.afternoons}/${rules.minAfternoons})`});if(s.afternoons>rules.maxAfternoons)w.push({message:`${name}: troppi pomeriggi (${s.afternoons}/${rules.maxAfternoons})`});const maxWD=rulesOverride?(rules.workDays??rules.maxWorkDays):effectiveWorkDays(name,week,rules.workDays??rules.maxWorkDays);if(maxWD!=null&&s.workDays>maxWD)w.push({message:`${name}: ${s.workDays} giorni lavorati (max ${maxWD})`});if(_ot){const _thr=STAFF_CONFIG[name].maxAfternoons+1;if(_ot.requiresShift&&s.afternoons>=_thr&&!week.days.some(d=>worksOvertimeShift(name,d.assignments[name])))w.push({message:`${name}: straordinario pomeridiano richiede turno ${fmt(_ot.requiresShift.s)}-${fmt(_ot.requiresShift.e)}`});if(s.afternoons>_ot.maxAfternoons)w.push({message:`${name}: mai più di ${_ot.maxAfternoons} pomeriggi`});}}for(const day of week.days){const req=getRequiredCoverage(day),cov=getCoverage(day);if(cov.morning<req.morning)w.push({message:`${day.label}: apertura 08:30 scoperta`});if(cov.morningPair<req.morningPair)w.push({message:`${day.label}: serve doppia mattina (9:30-13:30)`});if(day.key==='sat'&&cov.morning>1)w.push({message:`${day.label}: sabato solo un'assistente`});if(cov.afternoon<req.afternoon)w.push({message:`${day.label}: pomeriggio richiede ${req.afternoon}`});if(cov.close<req.close)w.push({message:`${day.label}: chiusura 19:00 scoperta`});if(cov.afternoonPair<req.afternoonPair)w.push({message:`${day.label}: serve doppio pomeriggio (14:00-18:00)`});if(!day.exceptions.holiday&&maxUncoveredGap(day)>LUNCH_GAP_MAX)w.push({message:`${day.label}: studio scoperto >30 min (pausa pranzo max 30')`});for(const n of ASSISTANT_NAMES){const sh=getShift(day.assignments[n]);if(sh.isLong&&!ASSIST[n].canWorkLong)w.push({message:`${n}: turno lungo non previsto (${day.label})`});if(sh.hours>8.5)w.push({message:`${n}: giornata pesante >8.5h (${day.label})`});}}return w;}
+export function validateWeek(week,rulesOverride){const ASSIST=rulesOverride??ASSISTANTS;const w=[],stats=getAssistantStats(week);for(const name of ASSISTANT_NAMES){const baseRules=ASSIST[name];const _ot=STAFF_CONFIG[name]?.overtime;const rules=(_ot&&(stats[name].hours>baseRules.weeklyHours||stats[name].afternoons>baseRules.maxAfternoons||(baseRules.maxLongShifts!=null&&stats[name].longShifts>baseRules.maxLongShifts)))?{...baseRules,weeklyHours:_ot.weeklyHours,maxAfternoons:_ot.maxAfternoons,...(_ot.maxLongShifts!=null?{maxLongShifts:_ot.maxLongShifts}:{})}:baseRules;const s=stats[name];const target=rulesOverride?rules.weeklyHours:effectiveWeeklyHours(name,week,rules.weeklyHours);if(s.hours!==target)w.push({message:`${name}: ${s.hours}h su ${target}h`});if(s.afternoons<rules.minAfternoons)w.push({message:`${name}: pochi pomeriggi (${s.afternoons}/${rules.minAfternoons})`});if(s.afternoons>rules.maxAfternoons)w.push({message:`${name}: troppi pomeriggi (${s.afternoons}/${rules.maxAfternoons})`});if(rules.maxLongShifts!=null&&s.longShifts>rules.maxLongShifts)w.push({message:`${name}: troppe lunghe (${s.longShifts}/${rules.maxLongShifts})`});const maxWD=rulesOverride?(rules.workDays??rules.maxWorkDays):effectiveWorkDays(name,week,rules.workDays??rules.maxWorkDays);if(maxWD!=null&&s.workDays>maxWD)w.push({message:`${name}: ${s.workDays} giorni lavorati (max ${maxWD})`});if(_ot){const _thr=STAFF_CONFIG[name].maxAfternoons+1;if(_ot.requiresShift&&s.afternoons>=_thr&&!week.days.some(d=>worksOvertimeShift(name,d.assignments[name])))w.push({message:`${name}: straordinario pomeridiano richiede turno ${fmt(_ot.requiresShift.s)}-${fmt(_ot.requiresShift.e)}`});if(s.afternoons>_ot.maxAfternoons)w.push({message:`${name}: mai più di ${_ot.maxAfternoons} pomeriggi`});}}for(const day of week.days){const req=getRequiredCoverage(day),cov=getCoverage(day);if(cov.morning<req.morning)w.push({message:`${day.label}: apertura 08:30 scoperta`});if(cov.morningPair<req.morningPair)w.push({message:`${day.label}: serve doppia mattina (9:30-13:30)`});if(day.key==='sat'&&cov.morning>1)w.push({message:`${day.label}: sabato solo un'assistente`});if(cov.afternoon<req.afternoon)w.push({message:`${day.label}: pomeriggio richiede ${req.afternoon}`});if(cov.close<req.close)w.push({message:`${day.label}: chiusura 19:00 scoperta`});if(cov.afternoonPair<req.afternoonPair)w.push({message:`${day.label}: serve doppio pomeriggio (14:00-18:00)`});if(!day.exceptions.holiday&&maxUncoveredGap(day)>LUNCH_GAP_MAX)w.push({message:`${day.label}: studio scoperto >30 min (pausa pranzo max 30')`});for(const n of ASSISTANT_NAMES){const sh=getShift(day.assignments[n]);if(sh.isLong&&!ASSIST[n].canWorkLong)w.push({message:`${n}: turno lungo non previsto (${day.label})`});if(sh.hours>10)w.push({message:`${n}: giornata oltre il massimo (>10h, ${day.label})`});}}return w;}
 export function formatWeekRange(week){return`${formatItalianDate(week.days[0].date)} - ${formatItalianDate(week.days[week.days.length-1].date)}`;}
 export function formatWeekRangeShort(week){return`${formatDateShort(week.days[0].date)}–${formatDateShort(week.days[week.days.length-1].date)}`;}
 
@@ -205,7 +207,7 @@ export let AFTERNOON_TIERS=computeAfternoonTiers();
 // Regole effettive per un tier di distribuzione pomeriggi (tetti pomeriggi + ore/giorni effettivi
 // considerando festività/assenze). Estratto da solveWeek per riuso nel collettore ottimizzato.
 export function buildTierRules(seedWeek,tier){
-  return Object.fromEntries(ASSISTANT_NAMES.map(n=>{const c=STAFF_CONFIG[n];const inOt=tier.ot&&c.overtime&&tier.caps[n]>c.maxAfternoons;const baseWh=inOt?c.overtime.weeklyHours:ASSISTANTS[n].weeklyHours;const r={...ASSISTANTS[n],maxAfternoons:tier.caps[n],weeklyHours:effectiveWeeklyHours(n,seedWeek,baseWh)};if('workDays'in ASSISTANTS[n])r.workDays=effectiveWorkDays(n,seedWeek,ASSISTANTS[n].workDays);if('maxWorkDays'in ASSISTANTS[n])r.maxWorkDays=effectiveWorkDays(n,seedWeek,ASSISTANTS[n].maxWorkDays);return[n,r];}));
+  return Object.fromEntries(ASSISTANT_NAMES.map(n=>{const c=STAFF_CONFIG[n];const inOt=tier.ot&&c.overtime&&tier.caps[n]>c.maxAfternoons;const baseWh=inOt?c.overtime.weeklyHours:ASSISTANTS[n].weeklyHours;const r={...ASSISTANTS[n],maxAfternoons:tier.caps[n],weeklyHours:effectiveWeeklyHours(n,seedWeek,baseWh)};if(inOt&&c.overtime.maxLongShifts!=null)r.maxLongShifts=c.overtime.maxLongShifts;if('workDays'in ASSISTANTS[n])r.workDays=effectiveWorkDays(n,seedWeek,ASSISTANTS[n].workDays);if('maxWorkDays'in ASSISTANTS[n])r.maxWorkDays=effectiveWorkDays(n,seedWeek,ASSISTANTS[n].maxWorkDays);return[n,r];}));
 }
 // Raccoglie settimane feasible (tutte valide) dal PRIMO tier di distribuzione pomeriggi ammesso,
 // fino a `cap` soluzioni o esaurimento `budget`. Riusa getDayCombos/buildRem/validateWeek.
@@ -227,8 +229,8 @@ export function collectFeasibleWeeks(seedWeek,{cap=70,budget=SOLVE_BUDGET_FULL,a
     if(demand>Object.values(tier.caps).reduce((a,b)=>a+b,0))continue;
     const tierRules=buildTierRules(seedWeek,tier);
     const pool=[],seen=new Set(),dead=new Set();let nodes=0;const placed=new Array(D);
-    const keyOf=(pos,st)=>{let s=pos+'|';for(const a of ASSISTANT_NAMES){const x=st[a];s+=Math.round(x.hours*2)+','+x.afternoons+','+x.workDays+','+(x.closes||0)+';';}return s;};
-    const feasibleAhead=(nextPos,st)=>{for(const a of ASSISTANT_NAMES){const rules=tierRules[a],s=st[a],r=rem[nextPos][a];if(s.hours>rules.weeklyHours)return false;if(s.afternoons>rules.maxAfternoons)return false;if(rules.workDays&&s.workDays>rules.workDays)return false;if(rules.maxWorkDays&&s.workDays>rules.maxWorkDays)return false;if(s.hours+r.maxHours<rules.weeklyHours)return false;if(s.hours+r.minHours>rules.weeklyHours)return false;if(s.afternoons+r.maxAfternoons<rules.minAfternoons)return false;if(rules.workDays&&(s.workDays+r.maxWorkDays<rules.workDays||s.workDays+r.minWorkDays>rules.workDays))return false;if(rules.maxWorkDays&&s.workDays+r.minWorkDays>rules.maxWorkDays)return false;}return true;};
+    const keyOf=(pos,st)=>{let s=pos+'|';for(const a of ASSISTANT_NAMES){const x=st[a];s+=Math.round(x.hours*2)+','+x.afternoons+','+x.workDays+','+(x.closes||0)+','+(x.longShifts||0)+';';}return s;};
+    const feasibleAhead=(nextPos,st)=>{for(const a of ASSISTANT_NAMES){const rules=tierRules[a],s=st[a],r=rem[nextPos][a];if(s.hours>rules.weeklyHours)return false;if(s.afternoons>rules.maxAfternoons)return false;if(rules.maxLongShifts!=null){if(s.longShifts>rules.maxLongShifts)return false;const gp=r.longGainPrefix,L=Math.min(rules.maxLongShifts-s.longShifts,gp.length-1);if(s.hours+r.maxHoursShort+gp[L]<rules.weeklyHours)return false;}if(rules.workDays&&s.workDays>rules.workDays)return false;if(rules.maxWorkDays&&s.workDays>rules.maxWorkDays)return false;if(s.hours+r.maxHours<rules.weeklyHours)return false;if(s.hours+r.minHours>rules.weeklyHours)return false;if(s.afternoons+r.maxAfternoons<rules.minAfternoons)return false;if(rules.workDays&&(s.workDays+r.maxWorkDays<rules.workDays||s.workDays+r.minWorkDays>rules.workDays))return false;if(rules.maxWorkDays&&s.workDays+r.minWorkDays>rules.maxWorkDays)return false;}return true;};
     const visit=(pos,stats)=>{
       if(nodes>budget||pool.length>=cap)return false;nodes++;
       if(pos===D){const w=buildWeekFromDayAssignments(seedWeek,placed);if(validateWeek(w,tierRules).length!==0)return false;const sig=weekAssignmentSig(w);if((!avoidSigs||!avoidSigs.has(sig))&&!seen.has(sig)){seen.add(sig);pool.push(w);}return true;}
@@ -236,7 +238,7 @@ export function collectFeasibleWeeks(seedWeek,{cap=70,budget=SOLVE_BUDGET_FULL,a
       let anyValid=false;
       for(const combo of orderedCombos[pos]){
         const d=combo.d,next=cloneStats(stats);
-        for(const a of ASSISTANT_NAMES){const da=d[a];next[a].hours+=da.h;next[a].afternoons+=da.af;next[a].workDays+=da.wd;}
+        for(const a of ASSISTANT_NAMES){const da=d[a];next[a].hours+=da.h;next[a].afternoons+=da.af;next[a].workDays+=da.wd;next[a].longShifts+=da.lg;}
         if(CLOSE_PREF_PERSON){next[CLOSE_PREF_PERSON].closes+=d[CLOSE_PREF_PERSON].close;if(next[CLOSE_PREF_PERSON].closes>closeMax)continue;}
         if(OVERTIME_PERSON){const _thr=STAFF_CONFIG[OVERTIME_PERSON].maxAfternoons+1,_req=STAFF_CONFIG[OVERTIME_PERSON].overtime.requiresShift;if(_req&&next[OVERTIME_PERSON].afternoons>=_thr){let has=d[OVERTIME_PERSON].oReq;if(!has)for(let q=0;q<pos;q++){const pc=placed[order[q]];if(pc&&pc.d[OVERTIME_PERSON].oReq){has=true;break;}}if(!has)continue;}}
         if(!feasibleAhead(pos+1,next))continue;
@@ -247,7 +249,7 @@ export function collectFeasibleWeeks(seedWeek,{cap=70,budget=SOLVE_BUDGET_FULL,a
       if(!anyValid)dead.add(key);
       return anyValid;
     };
-    visit(0,Object.fromEntries(ASSISTANT_NAMES.map(n=>[n,{hours:0,afternoons:0,workDays:0,closes:0}])));
+    visit(0,Object.fromEntries(ASSISTANT_NAMES.map(n=>[n,{hours:0,afternoons:0,workDays:0,closes:0,longShifts:0}])));
     if(pool.length)return{pool,overtime:tier.ot,tier};
   }
   return{pool:[],overtime:false,tier:null};
@@ -307,7 +309,11 @@ export function solveWeek(seedWeek,avoidSigs){
   // Solver sincrono: backtracking con potatura e memoizzazione degli stati senza uscita.
   // Stima dei residui (ore, pomeriggi, giorni) lungo l'ordine di visita, per la potatura.
   // Dipende solo dagli allowed shift (non dai cap del tier) → calcolabile una volta per settimana.
-export function buildRem(days,order){const D=days.length,rem=[];for(let p=0;p<=D;p++){const r={};for(const a of ASSISTANT_NAMES){let minH=0,maxH=0,maxAf=0,minWD=0,maxWD=0;for(let q=p;q<D;q++){const allowed=getAllowedShifts(a,days[order[q]]).map(getShift);minH+=Math.min(...allowed.map(s=>s.hours));maxH+=Math.max(...allowed.map(s=>s.hours));maxAf+=allowed.some(s=>countsAsAfternoon(a,s))?1:0;minWD+=allowed.every(s=>s.hours>0)?1:0;maxWD+=allowed.some(s=>s.hours>0)?1:0;}r[a]={minHours:minH,maxHours:maxH,maxAfternoons:maxAf,minWorkDays:minWD,maxWorkDays:maxWD};}rem[p]=r;}return rem;}
+export function buildRem(days,order){const D=days.length,rem=[];for(let p=0;p<=D;p++){const r={};for(const a of ASSISTANT_NAMES){let minH=0,maxH=0,maxHS=0,maxAf=0,minWD=0,maxWD=0;const gains=[];for(let q=p;q<D;q++){const allowed=getAllowedShifts(a,days[order[q]]).map(getShift);const mH=Math.max(...allowed.map(s=>s.hours));minH+=Math.min(...allowed.map(s=>s.hours));maxH+=mH;const shorts=allowed.filter(s=>!s.isLong);const mS=shorts.length?Math.max(...shorts.map(s=>s.hours)):0;maxHS+=mS;if(mH>mS)gains.push(mH-mS);maxAf+=allowed.some(s=>countsAsAfternoon(a,s))?1:0;minWD+=allowed.every(s=>s.hours>0)?1:0;maxWD+=allowed.some(s=>s.hours>0)?1:0;}
+// Bound per il tetto lunghe: ore max raggiungibili usando al più L lunghe residue =
+// maxHoursShort + somma dei migliori L guadagni (gain del giorno = maxOreLunga - maxOreCorta).
+gains.sort((x,y)=>y-x);const pref=[0];for(let i=0;i<gains.length;i++)pref.push(pref[i]+gains[i]);
+r[a]={minHours:minH,maxHours:maxH,maxHoursShort:maxHS,longGainPrefix:pref,maxAfternoons:maxAf,minWorkDays:minWD,maxWorkDays:maxWD};}rem[p]=r;}return rem;}
 export function solveWeekCore(seedWeek,maxClosesPref=Infinity,combosByDay,budget=SOLVE_BUDGET_FULL,avoidSigs,tierRules,pre){
     tierRules=tierRules||Object.fromEntries(ASSISTANT_NAMES.map(n=>[n,{...ASSISTANTS[n]}]));
     let best=null,nodes=0;
@@ -317,9 +323,9 @@ export function solveWeekCore(seedWeek,maxClosesPref=Infinity,combosByDay,budget
     const order=pre?.order||[...Array(D).keys()].sort((a,b)=>combosByDay[a].length-combosByDay[b].length);
     const orderedCombos=order.map(i=>combosByDay[i]);
     const rem=pre?.rem||buildRem(days,order);
-    function feasibleAhead(nextPos,st){for(const a of ASSISTANT_NAMES){const rules=tierRules[a],s=st[a],r=rem[nextPos][a];if(s.hours>rules.weeklyHours)return false;if(s.afternoons>rules.maxAfternoons)return false;if(rules.workDays&&s.workDays>rules.workDays)return false;if(rules.maxWorkDays&&s.workDays>rules.maxWorkDays)return false;if(s.hours+r.maxHours<rules.weeklyHours)return false;if(s.hours+r.minHours>rules.weeklyHours)return false;if(s.afternoons+r.maxAfternoons<rules.minAfternoons)return false;if(rules.workDays&&(s.workDays+r.maxWorkDays<rules.workDays||s.workDays+r.minWorkDays>rules.workDays))return false;if(rules.maxWorkDays&&s.workDays+r.minWorkDays>rules.maxWorkDays)return false;}return true;}
+    function feasibleAhead(nextPos,st){for(const a of ASSISTANT_NAMES){const rules=tierRules[a],s=st[a],r=rem[nextPos][a];if(s.hours>rules.weeklyHours)return false;if(s.afternoons>rules.maxAfternoons)return false;if(rules.maxLongShifts!=null){if(s.longShifts>rules.maxLongShifts)return false;const gp=r.longGainPrefix,L=Math.min(rules.maxLongShifts-s.longShifts,gp.length-1);if(s.hours+r.maxHoursShort+gp[L]<rules.weeklyHours)return false;}if(rules.workDays&&s.workDays>rules.workDays)return false;if(rules.maxWorkDays&&s.workDays>rules.maxWorkDays)return false;if(s.hours+r.maxHours<rules.weeklyHours)return false;if(s.hours+r.minHours>rules.weeklyHours)return false;if(s.afternoons+r.maxAfternoons<rules.minAfternoons)return false;if(rules.workDays&&(s.workDays+r.maxWorkDays<rules.workDays||s.workDays+r.minWorkDays>rules.workDays))return false;if(rules.maxWorkDays&&s.workDays+r.minWorkDays>rules.maxWorkDays)return false;}return true;}
     const dead=new Set();
-    const keyOf=(pos,st)=>{let s=pos+'|';for(const a of ASSISTANT_NAMES){const x=st[a];s+=Math.round(x.hours*2)+','+x.afternoons+','+x.workDays+','+(x.closes||0)+';';}return s;};
+    const keyOf=(pos,st)=>{let s=pos+'|';for(const a of ASSISTANT_NAMES){const x=st[a];s+=Math.round(x.hours*2)+','+x.afternoons+','+x.workDays+','+(x.closes||0)+','+(x.longShifts||0)+';';}return s;};
     const placed=new Array(D);
     function visit(pos,stats){
       if(best||nodes>budget)return;nodes++;
@@ -327,7 +333,7 @@ export function solveWeekCore(seedWeek,maxClosesPref=Infinity,combosByDay,budget
       const key=keyOf(pos,stats);if(dead.has(key))return;
       for(const combo of orderedCombos[pos]){
         const d=combo.d,next=cloneStats(stats);
-        for(const a of ASSISTANT_NAMES){const da=d[a];next[a].hours+=da.h;next[a].afternoons+=da.af;next[a].workDays+=da.wd;}
+        for(const a of ASSISTANT_NAMES){const da=d[a];next[a].hours+=da.h;next[a].afternoons+=da.af;next[a].workDays+=da.wd;next[a].longShifts+=da.lg;}
         if(CLOSE_PREF_PERSON){next[CLOSE_PREF_PERSON].closes+=d[CLOSE_PREF_PERSON].close;if(next[CLOSE_PREF_PERSON].closes>maxClosesPref)continue;}
         if(OVERTIME_PERSON){const _thr=STAFF_CONFIG[OVERTIME_PERSON].maxAfternoons+1,_req=STAFF_CONFIG[OVERTIME_PERSON].overtime.requiresShift;if(_req&&next[OVERTIME_PERSON].afternoons>=_thr){let has=d[OVERTIME_PERSON].oReq;if(!has)for(let q=0;q<pos;q++){const pc=placed[order[q]];if(pc&&pc.d[OVERTIME_PERSON].oReq){has=true;break;}}if(!has)continue;}}
         if(!feasibleAhead(pos+1,next))continue;
@@ -336,7 +342,7 @@ export function solveWeekCore(seedWeek,maxClosesPref=Infinity,combosByDay,budget
       }
       dead.add(key);
     }
-    visit(0,Object.fromEntries(ASSISTANT_NAMES.map(n=>[n,{hours:0,afternoons:0,workDays:0,closes:0}])));
+    visit(0,Object.fromEntries(ASSISTANT_NAMES.map(n=>[n,{hours:0,afternoons:0,workDays:0,closes:0,longShifts:0}])));
     return{week:best,solved:!!best};
   }
   // Combinazioni valide del giorno: copertura calcolata in modo diretto sui 3 oggetti turno (niente structuredClone per combo).
@@ -351,6 +357,8 @@ export function getDayCombos(seedWeek,day,_idx){
     const req=getRequiredCoverage(day),isSat=day.key==='sat'&&day.exceptions?.satOpen,isHoliday=!!day.exceptions?.holiday,isWeekday=WEEKDAY_KEYS.includes(day.key)&&!isHoliday;
     const closePos=CLOSE_PREF_PERSON?names.indexOf(CLOSE_PREF_PERSON):-1;
     const otPos=OVERTIME_PERSON?names.indexOf(OVERTIME_PERSON):-1;
+    // Chi ha un tetto di turni lunghi distingue lungo/corto a parità di ore nella firma (es. span 7h30→7h pagate vs span 7h).
+    const longLim=names.map(n=>{const c=STAFF_CONFIG[n];return c?.maxLongShifts!=null||c?.overtime?.maxLongShifts!=null;});
     const seen=new Map();
     const idx=new Array(N); // riusato per ogni foglia (niente allocazioni)
     const consider=()=>{
@@ -374,8 +382,9 @@ export function getDayCombos(seedWeek,day,_idx){
       }
       // Firma + delta per persona. closePos aggiunge il flag chiusura, otPos il flag turno-straordinario.
       let sig='';const d={};
-      for(let p=0;p<N;p++){const n=names[p],s=SH[p][idx[p]],af=countsAsAfternoon(n,s)?1:0,dn={h:s.hours,af,wd:s.hours>0?1:0};
+      for(let p=0;p<N;p++){const n=names[p],s=SH[p][idx[p]],af=countsAsAfternoon(n,s)?1:0,dn={h:s.hours,af,wd:s.hours>0?1:0,lg:s.isLong?1:0};
         let part=s.hours+','+af;
+        if(longLim[p])part+=','+dn.lg;
         if(p===closePos){dn.close=s.coversClose?1:0;part+=','+dn.close;}
         if(p===otPos){dn.oReq=worksOvertimeShift(n,allowed[p][idx[p]])?1:0;part+=','+dn.oReq;}
         d[n]=dn;sig+=(p?'|':'')+part;
@@ -404,8 +413,9 @@ export function regenerateWeekWithFeedback(start,prev,ledger){const seed=createB
 export function regenerateCleanWeekWithFeedback(start,ledger){const week=generateWeek({startDate:start,ledger});const otMsg=week.overtimeUsed?` ⚠️ Straordinario attivato.`:'';return{week,message:'Settimana pulita rigenerata.'+otMsg};}
   // Varieta' oraria: per ogni assistente/giorno non bloccato prova a spostare gli orari
   // su un turno equivalente (stessa firma-ruolo: ore, apertura, chiusura, pomeriggio, quota,
-  // 15-19 di Manuela), mantenendo la settimana valida. Non cambia le statistiche, solo i layout.
-export function diversifyTimes(week){
+  // lungo/corto, turno straordinario), mantenendo la settimana valida. Non cambia le statistiche, solo i layout.
+  // rng opzionale (es. Math.random): mescola le alternative, così chiamate ripetute danno layout diversi.
+export function diversifyTimes(week,rng){
     const w=structuredClone(week);
     for(const day of w.days){
       if(!WEEKDAY_KEYS.includes(day.key))continue;
@@ -416,8 +426,9 @@ export function diversifyTimes(week){
         const alts=getAllowedShifts(n,day,true).filter(a=>!isOff(a)).filter(a=>{
           if(a.s===cur.startMin&&a.e===cur.endMin)return false;
           const s=getShift(a);
-          return s.hours===cur.hours&&s.coversMorning===cur.coversMorning&&s.coversClose===cur.coversClose&&s.isAfternoon===cur.isAfternoon&&countsAsAfternoon(n,s)===countsAsAfternoon(n,cur)&&worksOvertimeShift(n,a)===worksOvertimeShift(n,curA);
+          return s.hours===cur.hours&&s.isLong===cur.isLong&&s.coversMorning===cur.coversMorning&&s.coversClose===cur.coversClose&&s.isAfternoon===cur.isAfternoon&&countsAsAfternoon(n,s)===countsAsAfternoon(n,cur)&&worksOvertimeShift(n,a)===worksOvertimeShift(n,curA);
         });
+        if(rng)for(let i=alts.length-1;i>0;i--){const j=Math.floor(rng()*(i+1));[alts[i],alts[j]]=[alts[j],alts[i]];}
         for(const alt of alts){day.assignments[n]=alt;if(validateWeek(w).length===0)break;day.assignments[n]=curA;}
       }
     }
@@ -500,6 +511,8 @@ export function costOfWeek(week,ledger){
 // ── EXPORT DATI (CSV) & RIEPILOGO PERIODO (Fase 5) ──
 // Escape minimale CSV: racchiude tra virgolette se il campo contiene separatore, virgolette o a-capo.
 export function csvEscape(v,sep=';'){const s=String(v??'');return new RegExp(`["\\n\\r]|\\${sep}`).test(s)?`"${s.replace(/"/g,'""')}"`:s;}
+// Numeri per Excel italiano: virgola come separatore decimale (es. 25.5 → "25,5").
+export function numIt(v){return String(v).replace('.',',');}
 // Turni di una settimana in CSV: righe = giorni, colonne = assistenti; ultima riga = totale ore.
 export function weekToCSV(week,{sep=';'}={}){
   const stats=getAssistantStats(week);
@@ -509,7 +522,7 @@ export function weekToCSV(week,{sep=';'}={}){
     const cells=ASSISTANT_NAMES.map(n=>{const sh=getShift(day.assignments[n]);return sh.id==='OFF'?'Riposo':`${fmt(sh.startMin)}-${fmt(sh.endMin)}`;});
     lines.push([day.label,formatItalianDate(day.date),...cells].map(esc).join(sep));
   }
-  lines.push(['Totale ore','',...ASSISTANT_NAMES.map(n=>String(stats[n].hours))].map(esc).join(sep));
+  lines.push(['Totale ore','',...ASSISTANT_NAMES.map(n=>numIt(stats[n].hours))].map(esc).join(sep));
   return lines.join('\r\n');
 }
 // Estremi ISO (YYYY-MM-DD) di un mese 1-12.
@@ -546,6 +559,6 @@ export function summaryToCSV(totals,{sep=';'}={}){
   const esc=v=>csvEscape(v,sep);
   const lines=[['Assistente','Ore','Giorni','Pomeriggi','Sabati','Aperture','Chiusure','Turni lunghi'].map(esc).join(sep)];
   for(const n of Object.keys(totals)){const t=totals[n]||{};
-    lines.push([n,t.hours||0,t.workDays||0,t.afternoons||0,t.saturdays||0,t.opens||0,t.closes||0,t.longShifts||0].map(esc).join(sep));}
+    lines.push([n,numIt(t.hours||0),t.workDays||0,t.afternoons||0,t.saturdays||0,t.opens||0,t.closes||0,t.longShifts||0].map(esc).join(sep));}
   return lines.join('\r\n');
 }
