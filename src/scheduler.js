@@ -116,12 +116,13 @@ export function inOvertime(name,week,stats){const c=STAFF_CONFIG[name];if(!c?.ov
 export function getAssistantStats(week){const s=Object.fromEntries(ASSISTANT_NAMES.map(n=>[n,{hours:0,afternoons:0,longShifts:0,saturdays:0,opens:0,closes:0,workDays:0}]));for(const d of week.days)for(const n of ASSISTANT_NAMES){const sh=getShift(d.assignments[n]);s[n].hours+=sh.hours;if(sh.hours>0)s[n].workDays++;if(countsAsAfternoon(n,sh))s[n].afternoons++;if(sh.isLong)s[n].longShifts++;if(d.key==='sat'&&sh.hours>0)s[n].saturdays++;if(sh.coversMorning)s[n].opens++;if(sh.coversClose)s[n].closes++;}return s;}
 export function getRequiredCoverage(day){if(day.key==='sun'||(day.key==='sat'&&!day.exceptions.satOpen)||day.exceptions.holiday)return{morning:0,afternoon:0,close:0,morningPair:0,afternoonPair:0};const isWeekday=WEEKDAY_KEYS.includes(day.key);const extraPom=isWeekday&&day.exceptions.extraAfternoon;const extraMatt=isWeekday&&day.exceptions.extraMorning;const afternoon=(isWeekday?1:0)+(extraPom?1:0);return{morning:1,afternoon:day.key==='sat'?0:afternoon,close:isWeekday?1:0,morningPair:extraMatt?2:0,afternoonPair:extraPom?2:0};}
 export function shiftsOf(day){return ASSISTANT_NAMES.map(n=>getShift(day.assignments[n]));}
-// Festività (studio chiuso) riducono il monte ore pro-quota; le assenze personali (ferie/malattia)
-// NON riducono il target (vanno recuperate nei giorni rimasti).
+// Festività (studio chiuso) E assenze personali (ferie/malattia) riducono il monte ore pro-quota:
+// un giorno di assenza vale ore/giorni-contrattuali. (Prima le assenze andavano "recuperate" nei
+// giorni rimasti: per un contratto pieno era matematicamente impossibile → settimana mai generabile.)
 export function holidayWeekdayCount(week){return week.days.filter(d=>WEEKDAY_KEYS.includes(d.key)&&d.exceptions?.holiday).length;}
-export function effectiveWeeklyHours(name,week,base){const wh=base??ASSISTANTS[name].weeklyHours;const hc=holidayWeekdayCount(week);if(!hc)return wh;const nd=ASSISTANTS[name].workDays??ASSISTANTS[name].maxWorkDays??5;return Math.round((wh-hc*(wh/nd))*2)/2;}
+export function effectiveWeeklyHours(name,week,base){const wh=base??ASSISTANTS[name].weeklyHours;const off=holidayWeekdayCount(week)+personalAbsenceDays(name,week);if(!off)return wh;const nd=ASSISTANTS[name].workDays??ASSISTANTS[name].maxWorkDays??5;return Math.max(0,Math.round((wh-off*(wh/nd))*2)/2);}
 export function personalAbsenceDays(name,week){return week.days.filter(d=>WEEKDAY_KEYS.includes(d.key)&&!d.exceptions?.holiday&&d.absences?.[name]).length;}
-// Festività e assenze personali riducono i GIORNI lavorativi richiesti (le ore restano: si recuperano).
+// Festività e assenze personali riducono anche i GIORNI lavorativi richiesti.
 export function effectiveWorkDays(name,week,base){if(base==null)return null;return Math.max(0,base-holidayWeekdayCount(week)-personalAbsenceDays(name,week));}
   // La copertura "afternoon" conta la presenza reale fino a tardi (turni che finiscono >=18:00 = isAfternoon), non chi esce alle 17:00.
   // Sabato: apertura flessibile con una sola assistente → "morning" = numero di assistenti che lavorano.
