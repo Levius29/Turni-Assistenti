@@ -200,7 +200,8 @@ export function computeAfternoonTiers(){
       .sort((a,b)=>STAFF_CONFIG[a].escalationPriority-STAFF_CONFIG[b].escalationPriority);
     const tiers=[{caps:{...base},ot:false}];
     let caps={...base};
-    for(const n of escalators){caps={...caps,[n]:ceil(n)};tiers.push({caps:{...caps},ot:!!STAFF_CONFIG[n].overtime});}
+    // ot:true solo se l'escalation supera il max base della persona (sotto quel limite non è straordinario).
+    for(const n of escalators){caps={...caps,[n]:ceil(n)};tiers.push({caps:{...caps},ot:!!STAFF_CONFIG[n].overtime&&ceil(n)>STAFF_CONFIG[n].maxAfternoons});}
     return tiers;
   }
 export let AFTERNOON_TIERS=computeAfternoonTiers();
@@ -256,12 +257,16 @@ export function collectFeasibleWeeks(seedWeek,{cap=70,budget=SOLVE_BUDGET_FULL,a
 }
 // Ottimizzatore: raccoglie le settimane feasible, le ordina per costo (poi per firma, per
 // determinismo) e ritorna la migliore + le alternative. Se nessuna è feasible, diagnostica il motivo.
+// `overtime` è derivato dalla soluzione SCELTA (qualcuno supera davvero i target base), non dal tier:
+// un tier ot può contenere soluzioni interamente nei limiti base e il messaggio non deve mentire.
 export function solveWeekOptimized(seedWeek,ledger,{avoidSigs}={}){
   const led=ledger||buildEquityLedger([],8);
-  const{pool,overtime}=collectFeasibleWeeks(seedWeek,{avoidSigs});
+  const{pool}=collectFeasibleWeeks(seedWeek,{avoidSigs});
   if(!pool.length)return{week:null,solved:false,overtime:false,reason:diagnoseInfeasibility(seedWeek)};
   pool.sort((a,b)=>{const ca=costOfWeek(a,led),cb=costOfWeek(b,led);if(ca!==cb)return ca-cb;const sa=weekAssignmentSig(a),sb=weekAssignmentSig(b);return sa<sb?-1:sa>sb?1:0;});
-  const best=pool[0];if(overtime)best.overtimeUsed=true;
+  const best=pool[0];
+  const overtime=ASSISTANT_NAMES.some(n=>inOvertime(n,best));
+  if(overtime)best.overtimeUsed=true;
   return{week:best,solved:true,overtime,alternatives:pool.slice(1)};
 }
 // Spiegazione best-effort dell'infeasibilità: trova il primo vincolo hard non soddisfacibile.
@@ -295,7 +300,7 @@ export function solveWeek(seedWeek,avoidSigs){
         const tierRules=buildTierRules(seedWeek,tier);
         let found=null;
         for(const maxCloses of [2,3]){const r=solveWeekCore(seedWeek,maxCloses,combos,budget,avoidSigs,tierRules,pre);if(r.solved){found=r;break;}}
-        if(found){if(tier.ot)found.week.overtimeUsed=true;return{...found,overtime:tier.ot};}
+        if(found){const ot=ASSISTANT_NAMES.some(n=>inOvertime(n,found.week));if(ot)found.week.overtimeUsed=true;return{...found,overtime:ot};}
       }
       return null;
     };

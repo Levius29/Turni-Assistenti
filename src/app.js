@@ -477,7 +477,9 @@ import {
     });
     exit.addEventListener('change',commit);
     applyShiftClass(entry,day.assignments[assistant]);
-    const otS=otSet.has(assistant)&&countsAsAfternoon(assistant,getShift(day.assignments[assistant]));
+    // Badge S sulle celle che contribuiscono allo straordinario: pomeriggi in quota o turni lunghi.
+    const curSh=getShift(day.assignments[assistant]);
+    const otS=otSet.has(assistant)&&(countsAsAfternoon(assistant,curSh)||curSh.isLong);
     const badge=buildShiftBadge(day.assignments[assistant],otS);
     const absent=!isDayClosed(day)&&day.absences?.[assistant];
     if(absent){badge.innerHTML=`<span class="badge-code" style="background:#9b6dd6">${absent==='sick'?'Malattia':'Ferie'}</span>`;entry.disabled=true;}
