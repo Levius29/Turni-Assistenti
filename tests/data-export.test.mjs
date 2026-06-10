@@ -18,6 +18,11 @@ test('weekToCSV: intestazione, una riga per giorno e riga totale ore', () => {
   assert.ok(lines.at(-1).split(';').includes(String(stats.Lucrezia.hours)));
 });
 
+test('numIt: virgola come separatore decimale per Excel italiano', () => {
+  assert.equal(M.numIt(25.5), '25,5');
+  assert.equal(M.numIt(38), '38');
+});
+
 test('csvEscape: racchiude tra virgolette i campi con separatore o virgolette', () => {
   assert.equal(M.csvEscape('semplice'), 'semplice');
   assert.equal(M.csvEscape('a;b'), '"a;b"');

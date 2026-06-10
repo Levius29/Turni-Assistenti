@@ -29,7 +29,7 @@ test('overtime requiresShift: il pomeriggio extra deve usare esattamente il turn
 });
 
 test('app: la griglia verticale usa colonne dinamiche sul numero di assistenti', () => {
-  assert.match(app, /gridTemplateColumns=`58px repeat\(\$\{ASSISTANT_NAMES\.length\}/);
+  assert.match(app, /gridTemplateColumns=`\d+px repeat\(\$\{ASSISTANT_NAMES\.length\}/);
   assert.doesNotMatch(html, /\.mobile-grid > div:nth-child\(4n\)/);
   assert.match(html, /\.mobile-grid > \.mg-end/);
 });
