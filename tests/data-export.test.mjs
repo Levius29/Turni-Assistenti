@@ -65,6 +65,15 @@ test('app: cabla CSV, riepilogo mensile e backup/ripristino', () => {
   assert.match(app, /weekToCSV|summarizePeriod|summaryToCSV/);
 });
 
+test('app: sincronizzazione cloud GitHub cablata', () => {
+  assert.match(app, /function syncNow\(/);
+  assert.match(app, /function openSyncSettings\(/);
+  assert.match(app, /api\.github\.com\/repos/);
+  assert.match(app, /data-act="sync"/);
+  assert.match(app, /visibilitychange/, 'pull quando l\'app torna in primo piano');
+  assert.match(app, /markChanged\(\)/, 'push solo su modifiche reali');
+});
+
 test('index.html: stili del menu strumenti e della tabella mensile', () => {
   assert.match(html, /\.tool-item\s*\{/);
   assert.match(html, /\.month-table\s*\{/);

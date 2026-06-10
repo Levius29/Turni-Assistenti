@@ -21,7 +21,7 @@ import {
   const MOBILE_BREAKPOINT=1180; // sotto questa larghezza la griglia va in verticale (layout impilato)
   // Carica il team salvato (se presente) PRIMA di generare qualsiasi settimana.
   (function loadStaffConfig(){try{const s=JSON.parse(localStorage.getItem(staffKey));if(s&&Object.keys(s).length)reconfigure(s);}catch{}})();
-  function saveStaff(){localStorage.setItem(staffKey,JSON.stringify(getStaffConfig()));}
+  function saveStaff(){const json=JSON.stringify(getStaffConfig());if(localStorage.getItem(staffKey)===json)return;localStorage.setItem(staffKey,json);markChanged();}
   let weeks=loadWeeks();
   let currentStart=getCurrentMonday();
   // Chiede al browser di marcare lo storage come persistente: protegge i dati dalla
@@ -282,12 +282,104 @@ import {
         localStorage.setItem(storageKey,JSON.stringify(data.weeks||{}));
         if(data.staff)localStorage.setItem(staffKey,JSON.stringify(data.staff));
         if(data.theme)localStorage.setItem(themeKey,data.theme);
+        localStorage.setItem(changeKey,String(Date.now())); // il ripristino conta come modifica → verrà sincronizzato
         showStatus('Backup ripristinato. Ricarico…');
         setTimeout(()=>location.reload(),600);
       }catch(e){showStatus('Backup non valido: '+e.message);}
     };
     reader.readAsText(file);
   }
+  // ── SINCRONIZZAZIONE CLOUD (GitHub) ──
+  // I dati (team + settimane) vivono come file JSON in un repo GitHub via Contents API:
+  // stessa memoria da qualsiasi dispositivo. Conflitti: vince l'updatedAt più recente.
+  // Pull all'avvio/ritorno in foreground/ritorno online; push debounced dopo ogni modifica.
+  const syncKey='turni-assistenti.sync.v1';
+  const changeKey='turni-assistenti.lastChangeAt';
+  function getSyncCfg(){try{return JSON.parse(localStorage.getItem(syncKey));}catch{return null;}}
+  function saveSyncCfg(c){localStorage.setItem(syncKey,JSON.stringify(c));}
+  function markChanged(){localStorage.setItem(changeKey,String(Date.now()));scheduleSyncPush();}
+  // Base64 di stringhe UTF-8 (a blocchi: niente stack overflow su payload grandi).
+  function b64encode(str){const bytes=new TextEncoder().encode(str);let bin='';for(let i=0;i<bytes.length;i+=0x8000)bin+=String.fromCharCode(...bytes.subarray(i,i+0x8000));return btoa(bin);}
+  function b64decode(b64){const bin=atob(String(b64).replace(/\s/g,''));const bytes=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)bytes[i]=bin.charCodeAt(i);return new TextDecoder().decode(bytes);}
+  function ghContentsUrl(c){return `https://api.github.com/repos/${c.owner}/${c.repo}/contents/${c.path}`;}
+  function ghHeaders(c){return{Authorization:`Bearer ${c.token}`,Accept:'application/vnd.github+json'};}
+  function buildSyncPayload(){return{app:'turni-assistenti',version:1,updatedAt:+localStorage.getItem(changeKey)||Date.now(),weeks:loadWeeks(),staff:JSON.parse(localStorage.getItem(staffKey)||'null'),theme:localStorage.getItem(themeKey)||null};}
+  function applySyncPayload(p){
+    localStorage.setItem(storageKey,JSON.stringify(p.weeks||{}));
+    if(p.staff){localStorage.setItem(staffKey,JSON.stringify(p.staff));reconfigure(p.staff);}
+    if(p.theme)localStorage.setItem(themeKey,p.theme);
+    localStorage.setItem(changeKey,String(p.updatedAt||Date.now()));
+    weeks=loadWeeks();
+    if(!weeks[currentStart]){weeks[currentStart]=generateWeek({startDate:currentStart,ledger:buildLedgerFromStorage()});saveWeeks();}
+    render();
+  }
+  let _syncTimer=null,_syncBusy=false;
+  function scheduleSyncPush(){const c=getSyncCfg();if(!c?.enabled)return;clearTimeout(_syncTimer);_syncTimer=setTimeout(()=>syncNow(true),3000);}
+  // quiet=true (push automatici): toast solo per eventi che l'utente deve sapere (pull dal cloud, errori).
+  async function syncNow(quiet){
+    const c=getSyncCfg();
+    if(!c?.enabled||!c.token||!c.owner||!c.repo){if(!quiet)showStatus('⚠ Sincronizzazione non configurata.');return;}
+    if(_syncBusy)return;_syncBusy=true;
+    try{
+      const localTs=+localStorage.getItem(changeKey)||0;
+      const res=await fetch(`${ghContentsUrl(c)}?ref=${encodeURIComponent(c.branch)}&t=${Date.now()}`,{cache:'no-store',headers:ghHeaders(c)});
+      let remote=null,sha=null;
+      if(res.status===200){const j=await res.json();sha=j.sha;try{remote=JSON.parse(b64decode(j.content||''));}catch{}}
+      else if(res.status===401||res.status===403){showStatus('⚠ Sync: token non valido o senza permessi sul repo.');return;}
+      else if(res.status!==404){showStatus(`⚠ Sync: errore GitHub (${res.status}).`);return;}
+      const remoteTs=remote?.updatedAt||0;
+      if(remote&&remoteTs>localTs){
+        applySyncPayload(remote);
+        saveSyncCfg({...c,lastSyncAt:Date.now()});
+        showStatus('☁ Dati aggiornati dal cloud.');
+        return;
+      }
+      if(!remote||localTs>remoteTs){
+        const put=await fetch(ghContentsUrl(c),{method:'PUT',headers:{...ghHeaders(c),'Content-Type':'application/json'},body:JSON.stringify({message:`sync turni ${new Date().toISOString()}`,content:b64encode(JSON.stringify(buildSyncPayload())),branch:c.branch,...(sha?{sha}:{})})});
+        if(!put.ok){
+          // Conflitto (un altro dispositivo ha appena scritto): riprova tra poco ripartendo dal GET.
+          if(put.status===409||put.status===422){_syncBusy=false;scheduleSyncPush();return;}
+          showStatus(`⚠ Sync: salvataggio fallito (${put.status}).`);return;
+        }
+        saveSyncCfg({...c,lastSyncAt:Date.now()});
+        if(!quiet)showStatus('☁ Dati salvati nel cloud.');
+        return;
+      }
+      saveSyncCfg({...c,lastSyncAt:Date.now()});
+      if(!quiet)showStatus('☁ Già sincronizzato.');
+    }catch(e){if(!quiet)showStatus('⚠ Sync: rete non disponibile.');}
+    finally{_syncBusy=false;}
+  }
+  function openSyncSettings(){
+    const c=getSyncCfg()||{token:'',owner:'Levius29',repo:'Turni-Assistenti',branch:'main',path:'data/turni-sync.json',enabled:false,lastSyncAt:0};
+    const overlay=document.createElement('div');overlay.className='modal-overlay';
+    const card=document.createElement('div');card.className='modal-card tools-card';
+    card.innerHTML=`<div class="modal-head"><h2>Sincronizzazione cloud</h2><button class="modal-x" type="button" aria-label="Chiudi">✕</button></div>
+      <div class="month-body">
+        <p class="eq-note">I dati (team + settimane) vengono salvati in un file JSON su un repo GitHub: la stessa memoria su ogni dispositivo, ovunque. Serve un <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">token fine-grained</a> con accesso al solo repo scelto e permesso <strong>Contents: Read and write</strong>.</p>
+        <p class="eq-note sync-warn">⚠ Se il repo è pubblico, i turni sono leggibili da chiunque: per i dati è preferibile un repo privato dedicato.</p>
+        <div class="t-grid">
+          <label class="t-field" style="grid-column:1/-1">Token<input class="field" type="password" id="syToken" value="${escHtml(c.token)}" placeholder="github_pat_…" autocomplete="off"></label>
+          <label class="t-field">Proprietario<input class="field" id="syOwner" value="${escHtml(c.owner)}"></label>
+          <label class="t-field">Repo<input class="field" id="syRepo" value="${escHtml(c.repo)}"></label>
+          <label class="t-field">Branch<input class="field" id="syBranch" value="${escHtml(c.branch)}"></label>
+          <label class="t-field">File<input class="field" id="syPath" value="${escHtml(c.path)}"></label>
+          <label class="t-field t-check" style="grid-column:1/-1"><input type="checkbox" id="syEnabled"${c.enabled?' checked':''}>Sincronizzazione attiva</label>
+        </div>
+        <p class="eq-note">${c.lastSyncAt?`Ultima sincronizzazione: ${new Date(c.lastSyncAt).toLocaleString('it-IT')}`:'Mai sincronizzato.'}</p>
+      </div>
+      <div class="modal-foot"><button type="button" class="btn-add sy-now">Sincronizza ora</button><div class="modal-actions"><button type="button" class="btn-cancel">Annulla</button><button type="button" class="btn-save">Salva</button></div></div>`;
+    overlay.appendChild(card);document.body.appendChild(overlay);
+    const close=()=>{overlay.classList.remove('visible');setTimeout(()=>overlay.remove(),200);};
+    const collect=()=>({...c,token:card.querySelector('#syToken').value.trim(),owner:card.querySelector('#syOwner').value.trim(),repo:card.querySelector('#syRepo').value.trim(),branch:card.querySelector('#syBranch').value.trim()||'main',path:card.querySelector('#syPath').value.trim()||'data/turni-sync.json',enabled:card.querySelector('#syEnabled').checked});
+    card.querySelector('.modal-x').addEventListener('click',close);
+    card.querySelector('.btn-cancel').addEventListener('click',close);
+    overlay.addEventListener('click',e=>{if(e.target===overlay)close();});
+    card.querySelector('.btn-save').addEventListener('click',()=>{const n=collect();if(n.enabled&&(!n.token||!n.owner||!n.repo)){showStatus('⚠ Sync: servono token, proprietario e repo.');return;}saveSyncCfg(n);close();if(n.enabled)syncNow(false);else showStatus('Sincronizzazione disattivata.');});
+    card.querySelector('.sy-now').addEventListener('click',()=>{const n=collect();if(!n.token||!n.owner||!n.repo){showStatus('⚠ Sync: servono token, proprietario e repo.');return;}n.enabled=true;saveSyncCfg(n);card.querySelector('#syEnabled').checked=true;syncNow(false);});
+    requestAnimationFrame(()=>overlay.classList.add('visible'));
+  }
+
   const MONTH_NAMES=['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno','Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'];
   function openMonthlySummary(){
     const cur=new Date(currentStart+'T00:00:00Z');
@@ -328,6 +420,7 @@ import {
         <button type="button" class="tool-item" data-act="equity"><strong>Equità storica</strong><span>Aperture, chiusure e sabati nelle ultime settimane</span></button>
         <button type="button" class="tool-item" data-act="csv"><strong>Esporta CSV</strong><span>Turni della settimana corrente per foglio di calcolo</span></button>
         <button type="button" class="tool-item" data-act="month"><strong>Riepilogo mensile</strong><span>Ore e turni per assistente in un mese</span></button>
+        <button type="button" class="tool-item" data-act="sync"><strong>Sincronizzazione cloud</strong><span>Stessa memoria su tutti i dispositivi (via GitHub)</span></button>
         <button type="button" class="tool-item" data-act="backup"><strong>Backup dati</strong><span>Scarica un file JSON con team e settimane</span></button>
         <button type="button" class="tool-item" data-act="restore"><strong>Ripristina da backup</strong><span>Carica un file JSON salvato in precedenza</span></button>
       </div>`;
@@ -339,6 +432,7 @@ import {
       const item=e.target.closest('.tool-item');if(!item)return;
       const act=item.dataset.act;
       if(act==='vary'){close();doVary();}
+      else if(act==='sync'){close();openSyncSettings();}
       else if(act==='equity'){close();openEquitySummary();}
       else if(act==='csv'){exportCSV();close();}
       else if(act==='month'){close();openMonthlySummary();}
@@ -378,6 +472,11 @@ import {
   injectToolsButton();
 
   render();
+
+  // Sync cloud: pull all'avvio, quando l'app torna in primo piano e quando torna la rete.
+  if(getSyncCfg()?.enabled)syncNow(true);
+  document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&getSyncCfg()?.enabled)syncNow(true);});
+  window.addEventListener('online',()=>{if(getSyncCfg()?.enabled)syncNow(true);});
 
   // Promemoria backup: i dati vivono nel browser di QUESTO dispositivo — un backup JSON
   // periodico è l'assicurazione contro cancellazioni di Safari/cambio telefono.
@@ -631,9 +730,12 @@ import {
   // Memoria perenne: NESSUN pruning automatico — una settimana pesa ~2-3 KB, in 5 MB di
   // localStorage ci stanno decenni di storico (riepiloghi mensili ed equità inclusi).
   // Solo se la quota si esaurisse davvero: sacrifica le settimane più vecchie senza blocchi.
+  // markChanged() solo se il contenuto è cambiato davvero (evita push di sync a vuoto).
   function saveWeeks(){
     for(let attempt=0;;attempt++){
-      try{localStorage.setItem(storageKey,JSON.stringify(weeks));return;}
+      const json=JSON.stringify(weeks);
+      if(localStorage.getItem(storageKey)===json)return;
+      try{localStorage.setItem(storageKey,json);markChanged();return;}
       catch(e){
         const victims=Object.keys(weeks).filter(k=>k<currentStart&&!weeks[k]?.days?.some(d=>Object.values(d.locks||{}).some(Boolean))).sort().slice(0,10);
         if(!victims.length||attempt>20){showStatus('⚠ Spazio pieno: impossibile salvare. Esporta un backup dei dati.');return;}
