@@ -16,17 +16,33 @@ test('festività: studio chiuso, tutti OFF, ore ridotte', () => {
   assert.equal(M.validateWeek(r.week).length, 0, 'nessun avviso');
 });
 
-// Assenza personale (ferie): persona OFF quel giorno, ore PIENE recuperate negli altri giorni.
-test('assenza personale: OFF quel giorno, ore recuperate, un giorno in meno', () => {
+// Assenza personale (ferie): persona OFF quel giorno, ore ridotte pro-quota come le festività.
+test('assenza personale: OFF quel giorno, ore ridotte pro-quota, un giorno in meno', () => {
   const seed = M.createBaseWeek('2026-06-08');
   seed.days.find(d => d.key === 'mon').absences = { Madalina: 'vacation' };
   const r = M.solveWeek(seed);
-  assert.equal(r.solved, true, 'deve essere risolvibile recuperando le ore in 4 giorni');
+  assert.equal(r.solved, true, 'deve essere risolvibile con le ore ridotte');
   const mon = r.week.days.find(d => d.key === 'mon');
   assert.equal(mon.assignments.Madalina, 'OFF', 'Madalina assente lunedì');
   const stats = M.getAssistantStats(r.week);
-  assert.equal(stats.Madalina.hours, 24, 'ore piene recuperate (no riduzione per assenza personale)');
+  const target = M.effectiveWeeklyHours('Madalina', r.week);
+  assert.ok(target < 24, 'il target deve essere ridotto pro-quota');
+  assert.equal(stats.Madalina.hours, target, 'ore = target ridotto');
   assert.equal(stats.Madalina.workDays, 4, 'un giorno lavorativo in meno');
+  assert.equal(M.validateWeek(r.week).length, 0, 'nessun avviso');
+});
+
+// Regressione: le ferie di una persona a contratto pieno (38h) rendevano la settimana
+// IMPOSSIBILE (38h non entrano in 4 giorni) → "si blocca tutto". Ora le ore si riducono.
+test('assenza personale di un contratto pieno: la settimana resta generabile', () => {
+  const seed = M.createBaseWeek('2026-06-08');
+  seed.days.find(d => d.key === 'mon').absences = { Lucrezia: 'sick' };
+  const r = M.solveWeek(seed);
+  assert.equal(r.solved, true, 'ferie/malattia di Lucrezia non devono bloccare la generazione');
+  assert.equal(r.week.days.find(d => d.key === 'mon').assignments.Lucrezia, 'OFF');
+  const stats = M.getAssistantStats(r.week);
+  assert.equal(stats.Lucrezia.hours, M.effectiveWeeklyHours('Lucrezia', r.week));
+  assert.ok(stats.Lucrezia.hours < 38, 'ore ridotte pro-quota');
   assert.equal(M.validateWeek(r.week).length, 0, 'nessun avviso');
 });
 
