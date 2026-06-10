@@ -133,14 +133,14 @@ import {
             <label class="t-field t-check"><input type="checkbox" ${pf.avoidClose?'checked':''} data-i="${i}" data-k="avoidClose">Evita chiusura</label>
             <label class="t-field t-check"><input type="checkbox" ${pf.avoidOpen?'checked':''} data-i="${i}" data-k="avoidOpen">Evita apertura</label>
           </div>`;
-        const ot=c.overtime,otOn=!!ot,req=ot?.requiresShift;
+        const ot=c.overtime,otOn=!!ot,req=ot?.requiresShift,otHide=otOn?'':' hidden';
         el.innerHTML+=`
           <div class="t-grid t-ot" title="Straordinario: ore/pomeriggi extra ammessi quando servono per coprire la settimana">
             <label class="t-field t-check"><input type="checkbox" ${otOn?'checked':''} data-i="${i}" data-k="otEnabled">Straordinario</label>
-            <label class="t-field">Ore max<input class="field" type="number" min="0" step="0.5" value="${otOn?ot.weeklyHours:''}" ${otOn?'':'disabled'} data-i="${i}" data-k="otHours"></label>
-            <label class="t-field">Pom. max<input class="field" type="number" min="0" value="${otOn?ot.maxAfternoons:''}" ${otOn?'':'disabled'} data-i="${i}" data-k="otAfternoons"></label>
-            <label class="t-field" title="Se impostato, i pomeriggi extra (oltre il max base) devono usare ESATTAMENTE questo turno (es. 15:00-19:00)">Pom. extra da<input class="field" type="time" step="1800" value="${req?fmt(req.s):''}" ${otOn?'':'disabled'} data-i="${i}" data-k="otReqStart"></label>
-            <label class="t-field">a<input class="field" type="time" step="1800" value="${req?fmt(req.e):''}" ${otOn?'':'disabled'} data-i="${i}" data-k="otReqEnd"></label>
+            <label class="t-field t-ot-detail"${otHide}>Ore max<input class="field" type="number" min="0" step="0.5" value="${otOn?ot.weeklyHours:''}" ${otOn?'':'disabled'} data-i="${i}" data-k="otHours"></label>
+            <label class="t-field t-ot-detail"${otHide}>Pom. max<input class="field" type="number" min="0" value="${otOn?ot.maxAfternoons:''}" ${otOn?'':'disabled'} data-i="${i}" data-k="otAfternoons"></label>
+            <label class="t-field t-ot-detail"${otHide} title="Se impostato, i pomeriggi extra (oltre il max base) devono usare ESATTAMENTE questo turno (es. 15:00-19:00)">Pom. extra da<input class="field" type="time" step="1800" value="${req?fmt(req.s):''}" ${otOn?'':'disabled'} data-i="${i}" data-k="otReqStart"></label>
+            <label class="t-field t-ot-detail"${otHide}>a<input class="field" type="time" step="1800" value="${req?fmt(req.e):''}" ${otOn?'':'disabled'} data-i="${i}" data-k="otReqEnd"></label>
           </div>`;
         rowsBox.appendChild(el);});
     }
@@ -150,7 +150,7 @@ import {
       else if(k==='afternoonThresholdMin'){const[h,mm]=t.value.split(':').map(Number);if(!Number.isNaN(h))rows[i].c.afternoonThresholdMin=h*60+(mm||0);}
       else if(k==='preferredDayOff'||k==='preferredWindow'){rows[i].c.preferences={...(rows[i].c.preferences||{}),[k]:t.value||undefined};}
       else if(k==='avoidClose'||k==='avoidOpen'){rows[i].c.preferences={...(rows[i].c.preferences||{}),[k]:t.checked};}
-      else if(k==='otEnabled'){const cc=rows[i].c,row=t.closest('.team-row'),oh=row.querySelector('input[data-k="otHours"]'),oa=row.querySelector('input[data-k="otAfternoons"]'),or=row.querySelector('input[data-k="otReqStart"]'),oe=row.querySelector('input[data-k="otReqEnd"]');if(t.checked){cc.overtime={weeklyHours:cc.overtime?.weeklyHours??(cc.weeklyHours+4),maxAfternoons:cc.overtime?.maxAfternoons??(cc.maxAfternoons+1),...(cc.overtime?.requiresShift?{requiresShift:cc.overtime.requiresShift}:{})};oh.value=cc.overtime.weeklyHours;oh.disabled=false;oa.value=cc.overtime.maxAfternoons;oa.disabled=false;or.disabled=false;oe.disabled=false;}else{delete cc.overtime;oh.value='';oh.disabled=true;oa.value='';oa.disabled=true;or.value='';or.disabled=true;oe.value='';oe.disabled=true;}}
+      else if(k==='otEnabled'){const cc=rows[i].c,row=t.closest('.team-row'),oh=row.querySelector('input[data-k="otHours"]'),oa=row.querySelector('input[data-k="otAfternoons"]'),or=row.querySelector('input[data-k="otReqStart"]'),oe=row.querySelector('input[data-k="otReqEnd"]');row.querySelectorAll('.t-ot-detail').forEach(l=>{l.hidden=!t.checked;});if(t.checked){cc.overtime={weeklyHours:cc.overtime?.weeklyHours??(cc.weeklyHours+4),maxAfternoons:cc.overtime?.maxAfternoons??(cc.maxAfternoons+1),...(cc.overtime?.requiresShift?{requiresShift:cc.overtime.requiresShift}:{})};oh.value=cc.overtime.weeklyHours;oh.disabled=false;oa.value=cc.overtime.maxAfternoons;oa.disabled=false;or.disabled=false;oe.disabled=false;}else{delete cc.overtime;oh.value='';oh.disabled=true;oa.value='';oa.disabled=true;or.value='';or.disabled=true;oe.value='';oe.disabled=true;}}
       else if(k==='otHours'){if(rows[i].c.overtime)rows[i].c.overtime.weeklyHours=parseFloat(t.value);}
       else if(k==='otAfternoons'){if(rows[i].c.overtime)rows[i].c.overtime.maxAfternoons=parseInt(t.value,10);}
       else if(k==='otReqStart'||k==='otReqEnd'){const cc=rows[i].c;if(cc.overtime){const row=t.closest('.team-row'),toMin=v=>{const[h,mm]=String(v).split(':').map(Number);return Number.isNaN(h)?null:h*60+(mm||0);},s=toMin(row.querySelector('input[data-k="otReqStart"]').value),e=toMin(row.querySelector('input[data-k="otReqEnd"]').value);if(s!=null&&e!=null&&e>s)cc.overtime.requiresShift={s,e};else delete cc.overtime.requiresShift;}}
@@ -299,7 +299,7 @@ import {
     const w=getCurrentWeek();
     ensureWeekShape(w);
     weekLabel.textContent=formatWeekRange(w);
-    weekLabelMob.textContent=formatWeekRangeShort(w);
+    weekLabelMob.textContent=formatWeekRangeCompact(w);
     renderGrid(w);
     renderSummary(w);
     renderDayEditor(w);
@@ -344,7 +344,7 @@ import {
   function buildMobileGrid(week){
     const grid=document.createElement('div');grid.className='mobile-grid';
     // Colonne dinamiche: 1 etichetta giorno + N assistenti (evita layout rotto aggiungendo persone).
-    grid.style.gridTemplateColumns=`58px repeat(${ASSISTANT_NAMES.length}, minmax(0, 1fr))`;
+    grid.style.gridTemplateColumns=`64px repeat(${ASSISTANT_NAMES.length}, minmax(0, 1fr))`;
     const corner=Object.assign(document.createElement('div'),{className:'mobile-header-cell'});corner.append(buildThemeToggle());grid.append(corner);
     ASSISTANT_NAMES.forEach((a,i)=>grid.append(Object.assign(document.createElement('div'),{className:'mobile-header-cell'+(i===ASSISTANT_NAMES.length-1?' mg-end':''),textContent:a})));
     for(const day of week.days){
@@ -526,6 +526,8 @@ import {
     clearTimeout(statusTimer);statusTimer=setTimeout(()=>{statusMsg.classList.remove('visible');setTimeout(()=>{statusMsg.hidden=true;},250);},2500);
   }
   function getPrintShiftLabel(a){const s=getShift(a);return s.id==='OFF'?'Riposo':`${fmt(s.startMin)}-${fmt(s.endMin)}`;}
+  // Etichetta settimana per la bottom bar: "15–20/06" (o "29/06–04/07" a cavallo di mese).
+  function formatWeekRangeCompact(week){const[,am,ad]=week.days[0].date.split('-');const[,bm,bd]=week.days[week.days.length-1].date.split('-');return am===bm?`${ad}–${bd}/${bm}`:`${ad}/${am}–${bd}/${bm}`;}
   // Normalizza la forma della settimana e migra eventuali vecchi id-template (v1) verso {s,e}.
   function ensureWeekShape(week){for(const day of week.days){const hadSatOpen='satOpen'in(day.exceptions??{});day.exceptions={eventType:'',note:'',extraAfternoon:false,extraMorning:false,satOpen:false,holiday:false,...day.exceptions};day.absences=day.absences||{};day.assignments={...Object.fromEntries(ASSISTANT_NAMES.map(n=>[n,'OFF'])),...day.assignments};day.locks={...Object.fromEntries(ASSISTANT_NAMES.map(n=>[n,false])),...day.locks};for(const n of ASSISTANT_NAMES){const a=day.assignments[n];if(typeof a==='string'&&a!=='OFF')day.assignments[n]=LEGACY_TEMPLATES[a]??'OFF';}if(day.exceptions.holiday)for(const n of ASSISTANT_NAMES){day.assignments[n]='OFF';day.locks[n]=false;}else for(const n of ASSISTANT_NAMES)if(day.absences[n]){day.assignments[n]='OFF';day.locks[n]=false;}if(day.key==='sat'&&!hadSatOpen&&ASSISTANT_NAMES.some(n=>getShift(day.assignments[n]).hours>0))day.exceptions.satOpen=true;}const satDay=week.days.find(d=>d.key==='sat');if(satDay&&!satDay.exceptions.satOpen){for(const n of ASSISTANT_NAMES)if(!satDay.locks[n])satDay.assignments[n]='OFF';}}
 

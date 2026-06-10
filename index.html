@@ -2,7 +2,7 @@
 <html lang="it">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
   <title>Turni Assistenti · Studio</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -79,6 +79,9 @@
       font-family: 'Inter', system-ui, -apple-system, sans-serif;
       line-height: 1.45;
       -webkit-font-smoothing: antialiased;
+      /* Niente zoom al doppio tap su mobile (il pinch resta disponibile). */
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
     }
 
     button, select, input, textarea { font: inherit; }
@@ -399,19 +402,20 @@
 
     /* ── Mobile grid ── */
     /* Le colonne reali sono impostate inline in JS (58px + N assistenti); questo è solo un fallback. */
-    .mobile-grid { display: grid; grid-template-columns: 58px repeat(3, minmax(0, 1fr)); width: 100%; max-width: 720px; margin: 0 auto; }
+    .mobile-grid { display: grid; grid-template-columns: 64px repeat(3, minmax(0, 1fr)); width: 100%; max-width: 720px; margin: 0 auto; }
     .mobile-grid > .mg-end { border-right: none; }
 
     .mobile-header-cell { background: #f5efe7; padding: 8px 4px; font-weight: 700; font-size: 15px; text-align: center; border-right: 1px solid var(--border); border-bottom: 2px solid var(--border); color: var(--text); }
     .mobile-day-label { font-size: 10px; padding: 6px 2px; text-align: center; background: #fcf9f5; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; transition: background 0.15s; }
-    .mobile-day-label .day-abbr { font-weight: 700; color: var(--text); font-size: 10px; }
-    .mobile-day-label .day-date { font-size: 9px; color: var(--text-light); font-variant-numeric: tabular-nums; }
+    .mobile-day-label .day-abbr { font-weight: 700; color: var(--text); font-size: 12px; }
+    .mobile-day-label .day-date { font-size: 11px; font-weight: 600; color: var(--text); opacity: .8; font-variant-numeric: tabular-nums; }
     .mobile-day-label .closed-tag { font-size: 7.5px; letter-spacing: 0; max-width: 100%; overflow: hidden; }
     .mobile-day-label.selected-day { background: var(--select-bg) !important; box-shadow: inset 3px 0 0 var(--select); }
 
     .mobile-shift-cell { padding: 4px 3px; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); display: flex; flex-direction: column; gap: 2px; }
     .mobile-shift-cell.selected-day { background: var(--select-bg) !important; }
-    .mobile-shift-cell .shift-select { width: 100%; min-width: 0; font-size: clamp(9px, 2.4vw, 13px); padding: 4px 6px; min-height: 32px; border-radius: 6px; }
+    /* appearance:none toglie le freccette native iOS che troncavano gli orari ("16:30 · 7.5…"). */
+    .mobile-shift-cell .shift-select { width: 100%; min-width: 0; font-size: clamp(10px, 2.8vw, 13px); padding: 4px 5px; min-height: 32px; border-radius: 6px; -webkit-appearance: none; appearance: none; }
     .mobile-shift-cell .shift-grid { grid-template-columns: minmax(0, 1fr) auto; grid-template-rows: 32px 32px; column-gap: 4px; }
     .mobile-shift-cell .badge-h { font-size: 9px; }
     .mobile-shift-cell .badge-code { font-size: clamp(8px, 1.5vw, 10px); padding: 1px 4px; }
@@ -486,10 +490,18 @@
       .bottom-bar .bb-nav { padding: 6px 7px; min-width: 33px; justify-content: center; flex-shrink: 0; }
       .bottom-bar .bb-primary { background: linear-gradient(135deg, #2f6b5c, #3d8870); color: white; border-color: transparent; box-shadow: 0 2px 6px rgba(47,107,92,0.3); }
       .bottom-bar .bb-pdf { background: var(--accent-warm-bg); color: var(--accent-warm); border-color: rgba(214,139,92,0.3); }
-      .week-label-mini { font-size: 11px; font-weight: 600; color: var(--text); padding: 0 2px; min-width: 0; flex: 1 1 auto; text-align: center; font-variant-numeric: tabular-nums; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      .week-label-mini { font-size: 12px; font-weight: 600; color: var(--text); padding: 0 2px; min-width: 0; flex: 0 1 auto; text-align: center; font-variant-numeric: tabular-nums; white-space: nowrap; }
 
       .panel { padding: 10px 12px; }
       .board-scroll { overflow-x: visible; }
+    }
+
+    /* Telefoni stretti: pulsanti più compatti, PDF solo icona, così l'etichetta settimana resta leggibile. */
+    @media (max-width: 480px) {
+      .bottom-bar { gap: 3px; }
+      .bottom-bar button { padding: 6px 6px; }
+      .bottom-bar .bb-nav { min-width: 30px; padding: 6px 5px; }
+      .bottom-bar .bb-text { display: none; }
     }
 
     /* ── Day editor compact ── */
@@ -536,8 +548,9 @@
     .team-row-top .t-name { flex: 1; font-weight: 600; }
     .t-del { background: var(--alert-bg); color: var(--alert); border: none; border-radius: 8px; min-width: 32px; height: 32px; cursor: pointer; font-size: 14px; }
     .t-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 8px; }
-    .t-prefs{margin-top:6px}
+    .t-prefs, .t-ot { margin-top: 8px; padding-top: 8px; border-top: 1px dashed var(--border); }
     .t-field { display: flex; flex-direction: column; gap: 3px; font-size: 11px; color: var(--text-light); min-width: 0; }
+    .t-field[hidden] { display: none; }
     .t-field input.field, .t-field select.field { font-size: 13px; padding: 6px 8px; min-height: 32px; width: 100%; min-width: 0; max-width: 100%; }
     .t-field input[type="time"].field { -webkit-appearance: none; appearance: none; }
     .t-check { flex-direction: row; align-items: center; gap: 6px; }
@@ -638,9 +651,9 @@
   <button id="resetWeekMob" class="bb-nav" type="button" aria-label="Reset settimana">
     <svg class="icon-svg" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M1 4v6h6M23 20v-6h-6M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"/></svg>
   </button>
-  <button id="exportPDFMob" class="bb-pdf" type="button">
+  <button id="exportPDFMob" class="bb-pdf" type="button" aria-label="Esporta PDF">
     <svg class="icon-svg" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zM14 2v6h6"/></svg>
-    PDF
+    <span class="bb-text">PDF</span>
   </button>
 </nav>
 
