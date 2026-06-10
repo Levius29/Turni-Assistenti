@@ -17,12 +17,16 @@ import {
   // ── STORAGE ──
   const storageKey='turni-assistenti.weeks.v1';
   const staffKey='turni-assistenti.staff.v1';
+  const backupKey='turni-assistenti.lastBackup';
   const MOBILE_BREAKPOINT=1180; // sotto questa larghezza la griglia va in verticale (layout impilato)
   // Carica il team salvato (se presente) PRIMA di generare qualsiasi settimana.
   (function loadStaffConfig(){try{const s=JSON.parse(localStorage.getItem(staffKey));if(s&&Object.keys(s).length)reconfigure(s);}catch{}})();
   function saveStaff(){localStorage.setItem(staffKey,JSON.stringify(getStaffConfig()));}
   let weeks=loadWeeks();
   let currentStart=getCurrentMonday();
+  // Chiede al browser di marcare lo storage come persistente: protegge i dati dalla
+  // cancellazione automatica per inattività/pressione di spazio (best effort, iOS incluso).
+  navigator.storage?.persist?.().catch(()=>{});
   let selectedDayKey='mon';
   // Ledger equità dalle ultime 8 settimane PASSATE salvate (le future non sono storico).
   function buildLedgerFromStorage(){return buildEquityLedger(Object.entries(weeks).filter(([s])=>s<currentStart).map(([,w])=>w),8);}
@@ -265,6 +269,7 @@ import {
     const data={app:'turni-assistenti',version:1,exportedAt:new Date().toISOString(),
       weeks:loadWeeks(),staff:JSON.parse(localStorage.getItem(staffKey)||'null'),theme:localStorage.getItem(themeKey)||null};
     downloadFile(`backup-turni-${new Date().toISOString().slice(0,10)}.json`,JSON.stringify(data,null,2),'application/json');
+    localStorage.setItem(backupKey,String(Date.now()));
     showStatus('Backup esportato!');
   }
   function importBackup(file){
@@ -373,6 +378,16 @@ import {
   injectToolsButton();
 
   render();
+
+  // Promemoria backup: i dati vivono nel browser di QUESTO dispositivo — un backup JSON
+  // periodico è l'assicurazione contro cancellazioni di Safari/cambio telefono.
+  (function backupReminder(){
+    const last=+localStorage.getItem(backupKey)||0;
+    const THIRTY_DAYS=30*24*3600*1000;
+    if(Object.keys(weeks).length>=4&&Date.now()-last>THIRTY_DAYS){
+      setTimeout(()=>showStatus(last?'Ultimo backup più di 30 giorni fa.':'Consiglio: esporta un backup dei tuoi dati.',{label:'Backup ora',fn:exportBackup}),1500);
+    }
+  })();
 
   // ── RENDER ──
   // Chi è in straordinario questa settimana (stats passate per non riscandire la settimana per ogni cella).
@@ -613,17 +628,18 @@ import {
     showStatus('Settimana corrente.');
     setWeek(m);
   }
-  // Pruning: conserva le 26 settimane passate (per il riepilogo mensile fino a ~6 mesi) e 8 future
-  // attorno alla corrente, più quelle con almeno un turno bloccato (edit manuali da preservare).
+  // Memoria perenne: NESSUN pruning automatico — una settimana pesa ~2-3 KB, in 5 MB di
+  // localStorage ci stanno decenni di storico (riepiloghi mensili ed equità inclusi).
+  // Solo se la quota si esaurisse davvero: sacrifica le settimane più vecchie senza blocchi.
   function saveWeeks(){
-    const keep=new Set();
-    for(let i=-26;i<=8;i++)keep.add(addDays(currentStart,i*7));
-    for(const k of Object.keys(weeks)){
-      const wk=weeks[k];
-      const hasLock=wk?.days?.some(d=>Object.values(d.locks||{}).some(Boolean));
-      if(!keep.has(k)&&!hasLock)delete weeks[k];
+    for(let attempt=0;;attempt++){
+      try{localStorage.setItem(storageKey,JSON.stringify(weeks));return;}
+      catch(e){
+        const victims=Object.keys(weeks).filter(k=>k<currentStart&&!weeks[k]?.days?.some(d=>Object.values(d.locks||{}).some(Boolean))).sort().slice(0,10);
+        if(!victims.length||attempt>20){showStatus('⚠ Spazio pieno: impossibile salvare. Esporta un backup dei dati.');return;}
+        for(const k of victims)delete weeks[k];
+      }
     }
-    localStorage.setItem(storageKey,JSON.stringify(weeks));
   }
   function loadWeeks(){try{return JSON.parse(localStorage.getItem(storageKey))??{};}catch{return{};}}
   function createCell(html,className){const el=document.createElement('div');el.className=className;el.innerHTML=html;return el;}
