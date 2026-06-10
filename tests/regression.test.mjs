@@ -68,6 +68,25 @@ test('straordinario abilitato: copre 3 pomeriggi extra (Manuela 29h)', () => {
   }
 });
 
+// Il messaggio "straordinario attivato" deve derivare dalla soluzione reale, non dal tier:
+// se l'escalation resta nei limiti base di tutti, niente flag (e niente badge S invisibile).
+test('nessun falso "straordinario attivato" se nessuno supera i limiti base', () => {
+  const cfg = M.defaultStaffConfig();
+  cfg.Madalina.overtime = { weeklyHours: 24, maxAfternoons: 3 }; // identici alla base: mai vero straordinario
+  M.reconfigure(cfg);
+  try {
+    const seed = M.createBaseWeek('2026-06-08');
+    seed.days.find(d => d.key === 'mon').exceptions.extraAfternoon = true; // domanda 6 > caps base 5
+    const r = M.solveWeekOptimized(seed);
+    assert.equal(r.solved, true, 'deve essere risolvibile con l\'escalation di Madalina');
+    assert.equal(r.overtime, false, 'nessuno supera i target base → niente straordinario');
+    assert.ok(!r.week.overtimeUsed, 'flag overtimeUsed assente');
+    assert.ok(M.ASSISTANT_NAMES.every(n => !M.inOvertime(n, r.week)));
+  } finally {
+    M.reconfigure(M.defaultStaffConfig());
+  }
+});
+
 // Default: straordinario off → 3 pomeriggi extra superano la capacità (domanda 8 > 7) → infeasibile.
 test('straordinario off di default: domanda troppo alta è infeasibile', () => {
   const seed = M.createBaseWeek('2026-06-08');

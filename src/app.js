@@ -451,7 +451,8 @@ import {
     const exit=document.createElement('select');exit.className='shift-select shift-exit';
     entry.setAttribute('aria-label',`Entrata ${assistant} ${day.label}`);
     exit.setAttribute('aria-label',`Uscita ${assistant} ${day.label}`);
-    const allowed=getAllowedShifts(assistant,day,true).filter(a=>!isOff(a));
+    // extended=true: le tendine manuali offrono anche le giornate oltre 8h30 fino a tutta la giornata.
+    const allowed=getAllowedShifts(assistant,day,true,true).filter(a=>!isOff(a));
     const starts=[...new Set(allowed.map(a=>a.s))].sort((a,b)=>a-b);
     const mkOpt=(val,txt)=>{const o=document.createElement('option');o.value=val;o.textContent=txt;return o;};
     entry.append(mkOpt('OFF','Riposo'));
@@ -477,7 +478,9 @@ import {
     });
     exit.addEventListener('change',commit);
     applyShiftClass(entry,day.assignments[assistant]);
-    const otS=otSet.has(assistant)&&countsAsAfternoon(assistant,getShift(day.assignments[assistant]));
+    // Badge S sulle celle che contribuiscono allo straordinario: pomeriggi in quota o turni lunghi.
+    const curSh=getShift(day.assignments[assistant]);
+    const otS=otSet.has(assistant)&&(countsAsAfternoon(assistant,curSh)||curSh.isLong);
     const badge=buildShiftBadge(day.assignments[assistant],otS);
     const absent=!isDayClosed(day)&&day.absences?.[assistant];
     if(absent){badge.innerHTML=`<span class="badge-code" style="background:#9b6dd6">${absent==='sick'?'Malattia':'Ferie'}</span>`;entry.disabled=true;}

@@ -29,16 +29,22 @@ test('maxLongShifts + straordinario: le lunghe extra sono coperte e la persona �
   assert.equal(M.inOvertime('Lucrezia', r.week), true);
 });
 
-test('turni fino a tutta la giornata: 08:30-19:00 = 10h pagate, solo per chi fa le lunghe', () => {
+test('turni fino a tutta la giornata: 08:30-19:00 = 10h pagate, solo manuali e per chi fa le lunghe', () => {
   M.reconfigure(M.defaultStaffConfig());
   assert.equal(M.getShift({ s: 510, e: 1140 }).hours, 10);
   assert.equal(M.getShift({ s: 510, e: 1140 }).isLong, true);
   const week = M.createEmptyWeek('2026-06-08');
   const monday = week.days.find(d => d.key === 'mon');
-  assert.ok(M.getAllowedShifts('Lucrezia', monday).some(a => a !== 'OFF' && a.s === 510 && a.e === 1140),
-    'la giornata intera è tra i turni ammessi di chi può fare le lunghe');
-  assert.ok(!M.getAllowedShifts('Manuela', monday).some(a => a !== 'OFF' && (a.e - a.s) >= M.LONG_SPAN),
-    'chi non fa le lunghe resta sotto le 7h30 di presenza');
+  assert.ok(M.getAllowedShifts('Lucrezia', monday, true, true).some(a => a !== 'OFF' && a.s === 510 && a.e === 1140),
+    'la giornata intera è tra i turni manuali di chi può fare le lunghe');
+  assert.ok(!M.getAllowedShifts('Lucrezia', monday).some(a => a !== 'OFF' && (a.e - a.s) > M.AUTO_MAX_SPAN),
+    'il generatore automatico resta entro 8h30 di presenza');
+  assert.ok(!M.getAllowedShifts('Manuela', monday, true, true).some(a => a !== 'OFF' && (a.e - a.s) >= M.LONG_SPAN),
+    'chi non fa le lunghe resta sotto le 7h30 di presenza anche in manuale');
+  // Un turno manuale bloccato oltre 8h30 viene rispettato dal solver come unica opzione del giorno.
+  monday.assignments.Lucrezia = { s: 510, e: 1140 };
+  monday.locks.Lucrezia = true;
+  assert.deepEqual(M.getAllowedShifts('Lucrezia', monday), [{ s: 510, e: 1140 }]);
 });
 
 test('maxLongShifts: il solver rispetta il tetto di lunghe', () => {
