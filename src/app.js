@@ -47,6 +47,19 @@ import {
     if(!other?.days)return null;
     return{days:other.days.map(d=>({key:d.key,exceptions:{holiday:!!d.exceptions?.holiday,satOpen:!!d.exceptions?.satOpen},absences:{},locks:{},assignments:{}}))};
   }
+  // Rinomina persone in tutte le settimane salvate del roster attivo: turni, blocchi e assenze
+  // seguono il nuovo nome (prima una rinomina nel Team rendeva orfani tutti i dati storici).
+  function renameInWeeks(map){
+    for(const wk of Object.values(weeks)){
+      for(const d of wk.days||[]){
+        for(const[o,n]of Object.entries(map)){
+          if(d.assignments&&o in d.assignments&&!(n in d.assignments)){d.assignments[n]=d.assignments[o];delete d.assignments[o];}
+          if(d.locks&&o in d.locks&&!(n in d.locks)){d.locks[n]=d.locks[o];delete d.locks[o];}
+          if(d.absences&&o in d.absences){d.absences[n]=d.absences[o];delete d.absences[o];}
+        }
+      }
+    }
+  }
   // Riflette festività/sabato del giorno modificato sulla settimana salvata dell'altra tabella.
   function mirrorStudioFacts(day){
     const oid=otherRosterId(),other=loadWeeksFor(oid),wk=other[currentStart];
@@ -213,7 +226,8 @@ import {
     card.innerHTML=`<div class="modal-head"><h2>Team &amp; contratti — ${roster().label}</h2><button class="modal-x" type="button" aria-label="Chiudi">✕</button></div><div class="team-rows"></div><div class="modal-err" hidden></div><div class="modal-foot"><button type="button" class="btn-add">+ Persona</button><div class="modal-actions"><button type="button" class="btn-cancel">Annulla</button><button type="button" class="btn-save">Salva</button></div></div>`;
     overlay.appendChild(card);document.body.appendChild(overlay);
     const rowsBox=card.querySelector('.team-rows'),errBox=card.querySelector('.modal-err');
-    let rows=Object.entries(structuredClone(getStaffConfig())).map(([name,c])=>({name,c}));
+    // orig = nome alla apertura del modale: serve a riconoscere le rinomine e migrare i dati salvati.
+    let rows=Object.entries(structuredClone(getStaffConfig())).map(([name,c])=>({name,orig:name,c}));
     const esc=s=>String(s).replace(/"/g,'&quot;');
     function renderRows(){
       rowsBox.innerHTML='';
@@ -275,7 +289,7 @@ import {
     rowsBox.addEventListener('input',e=>onFieldChange(e.target));
     rowsBox.addEventListener('change',e=>onFieldChange(e.target));
     rowsBox.addEventListener('click',e=>{const del=e.target.closest('.t-del');if(!del)return;rows.splice(+del.dataset.i,1);renderRows();});
-    card.querySelector('.btn-add').addEventListener('click',()=>{const pr=Math.max(0,...rows.map(r=>r.c.escalationPriority??0))+1;rows.push({name:'',c:{weeklyHours:25,minAfternoons:1,maxAfternoons:2,canWorkLong:false,maxWorkDays:5,afternoonThresholdMin:960,escalationPriority:pr,preferences:{}}});renderRows();});
+    card.querySelector('.btn-add').addEventListener('click',()=>{const pr=Math.max(0,...rows.map(r=>r.c.escalationPriority??0))+1;rows.push({name:'',orig:null,c:{weeklyHours:25,minAfternoons:1,maxAfternoons:2,canWorkLong:false,maxWorkDays:5,afternoonThresholdMin:960,escalationPriority:pr,preferences:{}}});renderRows();});
     const close=()=>{overlay.classList.remove('visible');setTimeout(()=>overlay.remove(),200);};
     const showErr=m=>{errBox.textContent=m;errBox.hidden=false;};
     card.querySelector('.modal-x').addEventListener('click',close);
@@ -306,9 +320,17 @@ import {
         if(!cleaned.canWorkLong)delete cleaned.maxLongShifts;
         newCfg[r.name.trim()]=cleaned;
       }
+      // Rinomine: migra turni/blocchi/assenze in TUTTE le settimane salvate (niente dati orfani).
+      const renames={};
+      for(const r of rows){const nn=r.name.trim();if(r.orig&&r.orig!==nn&&nn in newCfg)renames[r.orig]=nn;}
+      if(Object.keys(renames).length)renameInWeeks(renames);
       reconfigure(newCfg);saveStaff();
-      weeks[currentStart]=generateWeek({startDate:currentStart,ledger:buildLedgerFromStorage()});saveWeeks();
-      close();render();showStatus('Team aggiornato.');
+      // Rigenera la settimana corrente PRESERVANDO eccezioni, orari, assenze e turni bloccati,
+      // con possibilità di Annulla (prima il salvataggio azzerava l'intera impostazione settimanale).
+      snapshotUndo();
+      const r=regenerateWeekWithFeedback(currentStart,getCurrentWeek(),buildLedgerFromStorage());
+      weeks[currentStart]=r.week;saveWeeks();
+      close();render();showStatus(`Team aggiornato. ${r.message}`,UNDO_ACTION);
     });
     renderRows();
     requestAnimationFrame(()=>overlay.classList.add('visible'));

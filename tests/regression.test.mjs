@@ -96,6 +96,19 @@ test('straordinario off di default: domanda troppo alta è infeasibile', () => {
   assert.equal(M.inOvertime('Manuela', r.week ?? seed), false, 'nessuno in straordinario di default');
 });
 
+// Tre giorni "2×" senza straordinario superano la capacità pomeriggi: la diagnosi deve dirlo chiaramente.
+test('diagnosi chiara quando i giorni doppi superano la capacità pomeriggi', () => {
+  const seed = M.createBaseWeek('2026-06-08');
+  for (const k of ['mon', 'tue', 'wed']) {
+    const d = seed.days.find(x => x.key === k);
+    d.exceptions.extraAfternoon = true;
+    d.exceptions.extraMorning = true;
+  }
+  const r = M.solveWeekOptimized(seed);
+  assert.equal(r.solved, false, 'senza straordinario la domanda 8 > capacità 7');
+  assert.match(r.reason, /presenze pomeridiane/, 'messaggio esplicito su domanda vs capacità');
+});
+
 test('regression: turno bloccato preservato dopo rigenerazione', () => {
   const cur = M.solveWeek(M.createBaseWeek('2026-06-08')).week;
   const lockShift = cur.days[0].assignments.Lucrezia;

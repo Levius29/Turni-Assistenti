@@ -303,6 +303,10 @@ export function solveWeekOptimized(seedWeek,ledger,{avoidSigs}={}){
 }
 // Spiegazione best-effort dell'infeasibilità: trova il primo vincolo hard non soddisfacibile.
 export function diagnoseInfeasibility(seedWeek){
+  // Domanda pomeridiana oltre la capacità del team (caso tipico: troppi giorni "2×").
+  const demand=afternoonDemand(seedWeek);
+  const capSum=Object.values(AFTERNOON_TIERS[AFTERNOON_TIERS.length-1].caps).reduce((a,b)=>a+b,0);
+  if(demand>capSum)return`Servono ${demand} presenze pomeridiane ma il team ne copre al massimo ${capSum}: riduci i giorni doppi o alza "Pom. max"/straordinario nel Team`;
   const D=seedWeek.days.length,order=[...Array(D).keys()];
   const rem=buildRem(seedWeek.days,order),r0=rem[0];
   for(const n of ASSISTANT_NAMES){
