@@ -40,7 +40,7 @@ export function defaultStaffConfig(){return {
 // roster e storage separati. Modificabile dal pannello Team come per le assistenti.
 export function defaultSecretaryConfig(){return {
     Gaia:    { weeklyHours: 40, minAfternoons: 2, maxAfternoons: 4, canWorkLong: true,  maxWorkDays: 5, afternoonThresholdMin: 1020, escalationPriority: 1, preferences: {} },
-    Giorgia: { weeklyHours: 25, minAfternoons: 1, maxAfternoons: 3, canWorkLong: false, workDays: 5,    afternoonThresholdMin: 900,  escalationPriority: 2, preferences: {} },
+    Giorgia: { weeklyHours: 25, minAfternoons: 1, maxAfternoons: 3, canWorkLong: false, maxWorkDays: 5, afternoonThresholdMin: 900,  escalationPriority: 2, preferences: {} },
   };}
 // Stato del team mutabile a runtime: i `let` esportati sono live-binding, reconfigure() ricalcola tutto il derivato.
 export let STAFF_CONFIG = defaultStaffConfig();
@@ -193,7 +193,11 @@ export function getAllowedShifts(assistant,day,skipLock=false,extended=false){
     }
     const canLong=ASSISTANTS[assistant].canWorkLong;
     const out=['OFF'];
-    for(const p of BASE_PAIRS){if(p.s<o||p.e>c)continue;if(!canLong&&(p.e-p.s)>=LONG_SPAN)continue;if(!extended&&(p.e-p.s)>AUTO_MAX_SPAN)continue;out.push(p);}
+    // Roster a ≤2 persone: il generatore usa anche le giornate intere (oltre AUTO_MAX_SPAN).
+    // Con una persona sola in copertura serve l'intera apertura (sabato aperto, ferie, 2×…)
+    // e il branching resta piccolo; con 3+ persone il tetto 8h30 protegge le performance.
+    const autoFull=ASSISTANT_NAMES.length<=2;
+    for(const p of BASE_PAIRS){if(p.s<o||p.e>c)continue;if(!canLong&&(p.e-p.s)>=LONG_SPAN)continue;if(!extended&&!autoFull&&(p.e-p.s)>AUTO_MAX_SPAN)continue;out.push(p);}
     return out;
   }
 export function generateWeek(options={}){const week=createBaseWeek(options.startDate??getCurrentMonday());applyPreviousWeekState(week,options.previousWeek);const r=solveWeekOptimized(week,options.ledger);const result=r.week??week;if(r.overtime)result.overtimeUsed=true;return result;}

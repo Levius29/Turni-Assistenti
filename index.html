@@ -87,6 +87,8 @@
 
     button, select, input, textarea { font: inherit; }
     button:focus-visible, select:focus-visible, input:focus-visible { outline: 2px solid var(--select); outline-offset: 1px; }
+    /* Checkbox a tema (le native grigie stonano, soprattutto in dark mode). */
+    input[type="checkbox"] { accent-color: var(--primary); width: 15px; height: 15px; flex-shrink: 0; }
 
     .app { max-width: 1500px; margin: 0 auto; padding: 16px 20px 32px; }
 
@@ -212,11 +214,11 @@
       overflow: hidden;
       box-shadow: var(--shadow-sm);
     }
-    /* ── Tabs roster (Assistenti | Segretarie) ── */
-    .roster-tabs { display: flex; gap: 6px; padding: 10px 10px 0; }
-    .roster-tabs button { flex: 0 0 auto; border: 1px solid var(--border); background: var(--surface-soft); color: var(--text-light); border-radius: 40px; padding: 7px 18px; font-size: 12px; font-weight: 600; cursor: pointer; min-height: 34px; transition: var(--transition); }
-    .roster-tabs button:hover { color: var(--primary); border-color: var(--primary); }
-    .roster-tabs button.active { background: var(--primary); border-color: var(--primary); color: #fff; }
+    /* ── Tabs roster (Assistenti | Segretarie): segmented control compatto ── */
+    .roster-tabs { display: flex; gap: 2px; margin: 10px 10px 8px; padding: 3px; max-width: 320px; background: var(--surface-soft); border: 1px solid var(--border); border-radius: 12px; }
+    .roster-tabs button { flex: 1 1 0; border: none; background: transparent; color: var(--text-light); border-radius: 9px; padding: 6px 14px; font-size: 13px; font-weight: 600; cursor: pointer; min-height: 30px; transition: var(--transition); white-space: nowrap; }
+    .roster-tabs button:hover { color: var(--primary); }
+    .roster-tabs button.active { background: var(--primary); color: #fff; box-shadow: 0 1px 4px rgba(0,0,0,0.18); }
 
     .board-scroll { overflow-x: auto; }
     .board-scroll::-webkit-scrollbar { height: 8px; }
@@ -355,15 +357,15 @@
       justify-content: center;
       gap: 6px;
       background: transparent;
-      border: 1px solid var(--border);
+      border: none;
       border-radius: var(--radius-xs);
-      color: var(--text-light);
+      color: var(--text-muted);
       cursor: pointer;
       transition: var(--transition);
       font-size: 11px;
       font-weight: 500;
     }
-    .theme-toggle:hover { background: var(--primary-soft); color: var(--primary); border-color: var(--primary); }
+    .theme-toggle:hover { background: var(--primary-soft); color: var(--primary); }
     .theme-toggle svg { width: 16px; height: 16px; }
 
     /* ── Toggle switch ── */
@@ -531,8 +533,7 @@
 
       .panel { padding: 10px 12px; }
       .board-scroll { overflow-x: visible; }
-      .roster-tabs { padding: 8px 8px 0; }
-      .roster-tabs button { flex: 1 1 0; }
+      .roster-tabs { margin: 8px 8px 6px; max-width: none; }
     }
 
     /* Telefoni stretti: pulsanti più compatti, PDF solo icona, così l'etichetta settimana resta leggibile. */
