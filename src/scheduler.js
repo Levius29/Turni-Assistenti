@@ -36,6 +36,12 @@ export function defaultStaffConfig(){return {
     Manuela:  { weeklyHours: 25, minAfternoons: 1, maxAfternoons: 1, canWorkLong: false, workDays: 5,    afternoonThresholdMin: 900,  escalationPriority: 3, preferences: {} },
     Madalina: { weeklyHours: 24, minAfternoons: 2, maxAfternoons: 3, canWorkLong: false, workDays: 5,    afternoonThresholdMin: 960,  escalationPriority: 1, preferences: {} },
   };}
+// Team di default della SECONDA tabella (segretarie): stesso motore e stesse regole dello studio,
+// roster e storage separati. Modificabile dal pannello Team come per le assistenti.
+export function defaultSecretaryConfig(){return {
+    Gaia:    { weeklyHours: 40, minAfternoons: 2, maxAfternoons: 4, canWorkLong: true,  maxWorkDays: 5, afternoonThresholdMin: 1020, escalationPriority: 1, preferences: {} },
+    Giorgia: { weeklyHours: 25, minAfternoons: 1, maxAfternoons: 3, canWorkLong: false, workDays: 5,    afternoonThresholdMin: 900,  escalationPriority: 2, preferences: {} },
+  };}
 // Stato del team mutabile a runtime: i `let` esportati sono live-binding, reconfigure() ricalcola tutto il derivato.
 export let STAFF_CONFIG = defaultStaffConfig();
 export let ASSISTANT_NAMES = Object.keys(STAFF_CONFIG);
