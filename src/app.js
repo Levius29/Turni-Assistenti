@@ -667,7 +667,8 @@ import {
     const endsFor=start=>allowed.filter(a=>a.s===start).map(a=>a.e).sort((a,b)=>a-b);
     function fillExit(start,keepEnd){
       exit.innerHTML='';const ends=endsFor(start);
-      for(const e of ends)exit.append(mkOpt(String(e),`${fmt(e)} · ${getShift({s:start,e}).hours}h`));
+      // Formato compatto "16:30·7,5h": entra nelle colonne strette di iPhone senza troncarsi.
+      for(const e of ends)exit.append(mkOpt(String(e),`${fmt(e)}·${String(getShift({s:start,e}).hours).replace('.',',')}h`));
       exit.value=ends.includes(keepEnd)?String(keepEnd):String(ends[0]);
       exit.disabled=false;
     }
@@ -884,23 +885,21 @@ import {
     doc.setDrawColor(30,30,30);doc.setFillColor(255,255,255);doc.roundedRect(x,y,5,4,0.8,0.8,'FD');
     doc.setFont('helvetica','bold');doc.setFontSize(7);doc.setTextColor(30,30,30);doc.text(code,x+2.5,y+2.9,{align:'center'});
   }
-  // Una pagina del PDF per un roster: intestazione, tabella settimanale, area note.
-  // Indipendente dai global del roster attivo: settimana e nomi passati esplicitamente.
-  function drawWeekPage(doc,week,names,label){
-    const pageW=doc.internal.pageSize.getWidth(),pageH=doc.internal.pageSize.getHeight(),M=14;
+  // Tabella settimanale di un roster nel PDF; ritorna la Y finale. Indipendente dai global
+  // del roster attivo: settimana e nomi passati esplicitamente.
+  function drawRosterTable(doc,week,names,title,startY){
+    const M=12;
     const shiftOf=(day,name)=>{const a=day.assignments?.[name];return getShift(a&&typeof a==='object'?a:'OFF');};
-    // Intestazione minimale (stampa B/N): settimana + tabella, niente titolo brand.
-    doc.setFont('helvetica','bold');doc.setFontSize(13);doc.setTextColor(30,30,30);
-    doc.text(`Settimana ${formatWeekRange(week)} — ${label}`,M,16);
-    doc.setDrawColor(150,150,150);doc.setLineWidth(0.3);doc.line(M,19,pageW-M,19);
+    doc.setFont('helvetica','bold');doc.setFontSize(11);doc.setTextColor(30,30,30);
+    doc.text(title,M,startY);
     const head=[['Giorno',...names]];
     const body=week.days.map(day=>[`${day.label}  ${formatDateShort(day.date)}${getDayVariationLabel(day)?`\n${getDayVariationLabel(day)}`:''}`,...names.map(name=>{const shift=shiftOf(day,name);return shift.id==='OFF'?'Riposo':`${shift.label}\n${shift.hours}h`;})]);
     const foot=[['Totale ore',...names.map(name=>`${week.days.reduce((h,day)=>h+shiftOf(day,name).hours,0)}h`)]];
-    doc.autoTable({head,body,foot,startY:24,
-      headStyles:{fillColor:[45,45,45],textColor:255,fontStyle:'bold',halign:'center',fontSize:9,cellPadding:4},
-      footStyles:{fillColor:[230,230,230],textColor:[30,30,30],fontStyle:'bold',halign:'center',fontSize:9,lineWidth:{top:0.6,right:0.2,bottom:0.2,left:0.2},lineColor:[80,80,80]},
-      bodyStyles:{halign:'center',fontSize:11,fontStyle:'bold',cellPadding:{top:4,right:4,bottom:9,left:4},minCellHeight:16,textColor:[20,20,20]},
-      columnStyles:{0:{halign:'left',fontStyle:'bold',fontSize:10,cellWidth:52,textColor:[30,30,30]}},
+    doc.autoTable({head,body,foot,startY:startY+2,margin:{left:M,right:M},
+      headStyles:{fillColor:[45,45,45],textColor:255,fontStyle:'bold',halign:'center',fontSize:8.5,cellPadding:2.5},
+      footStyles:{fillColor:[230,230,230],textColor:[30,30,30],fontStyle:'bold',halign:'center',fontSize:8.5,cellPadding:2.5,lineWidth:{top:0.6,right:0.2,bottom:0.2,left:0.2},lineColor:[80,80,80]},
+      bodyStyles:{halign:'center',fontSize:10,fontStyle:'bold',cellPadding:{top:3,right:3,bottom:7,left:3},minCellHeight:13.5,textColor:[20,20,20]},
+      columnStyles:{0:{halign:'left',fontStyle:'bold',fontSize:8.5,cellWidth:40,textColor:[30,30,30]}},
       alternateRowStyles:{fillColor:[247,247,247]},
       styles:{font:'helvetica',lineColor:[150,150,150],lineWidth:0.2,valign:'middle'},
       theme:'grid',
@@ -913,45 +912,48 @@ import {
           return;
         }
         const shift=shiftOf(day,names[data.column.index-1]);
-        if(shift.id==='OFF'||closed){data.cell.styles.fillColor=[235,235,235];data.cell.styles.textColor=[120,120,120];data.cell.styles.fontStyle='italic';data.cell.styles.fontSize=10;}
+        if(shift.id==='OFF'||closed){data.cell.styles.fillColor=[235,235,235];data.cell.styles.textColor=[120,120,120];data.cell.styles.fontStyle='italic';data.cell.styles.fontSize=9;}
       },
       didDrawCell:data=>{
         if(data.section!=='body'||data.column.index===0)return;
         const day=week.days[data.row.index];
         const shift=shiftOf(day,names[data.column.index-1]);const codes=getShiftBadgeCodes(shift,day);
-        let x=data.cell.x+4;const y=data.cell.y+data.cell.height-6;
+        let x=data.cell.x+3;const y=data.cell.y+data.cell.height-5.5;
         for(const code of codes){drawPdfBadge(doc,x,y,code);x+=6;}
       }});
-    // Area note per scrittura a mano: riempie lo spazio residuo fino al footer.
-    const footerY=pageH-9;
-    const ny=doc.lastAutoTable.finalY+8;
-    if(ny<footerY-18){
-      doc.setFont('helvetica','bold');doc.setFontSize(10);doc.setTextColor(60,60,60);
-      doc.text('Note',M,ny);
-      const boxY=ny+2.5,boxH=footerY-6-boxY;
-      doc.setDrawColor(170,170,170);doc.setLineWidth(0.3);doc.roundedRect(M,boxY,pageW-2*M,boxH,1.5,1.5);
-      doc.setDrawColor(225,225,225);doc.setLineWidth(0.2);
-      for(let ly=boxY+9;ly<boxY+boxH-3;ly+=9)doc.line(M+3,ly,pageW-M-3,ly);
-    }
+    return doc.lastAutoTable.finalY;
   }
   function exportPDF(){
     if(!window.jspdf){showStatus('Libreria PDF non ancora caricata, riprova.');return;}
     const{jsPDF}=window.jspdf;
-    const doc=new jsPDF({orientation:'landscape',unit:'mm',format:'a4'});
-    const pageW=doc.internal.pageSize.getWidth(),pageH=doc.internal.pageSize.getHeight(),M=14;
-    // Pagina 1: Assistenti — pagina 2: Segretarie (stessa settimana). Il roster non attivo
-    // viene letto dal suo storage (se non ha turni salvati esce tutta "Riposo").
+    // Foglio SINGOLO verticale: tabella Assistenti sopra, Segretarie sotto, note se resta spazio.
+    const doc=new jsPDF({orientation:'portrait',unit:'mm',format:'a4'});
+    const pageW=doc.internal.pageSize.getWidth(),pageH=doc.internal.pageSize.getHeight(),M=12;
+    // Il roster non attivo viene letto dal suo storage (senza turni salvati esce tutta "Riposo").
     const weekOf=id=>activeRoster===id?getCurrentWeek():(loadWeeksFor(id)[currentStart]??createEmptyWeek(currentStart));
     const namesOf=id=>activeRoster===id?[...ASSISTANT_NAMES]:Object.keys(loadStaffFor(id));
-    drawWeekPage(doc,weekOf('assistenti'),namesOf('assistenti'),ROSTERS.assistenti.label);
-    doc.addPage();
-    drawWeekPage(doc,weekOf('segretarie'),namesOf('segretarie'),ROSTERS.segretarie.label);
-    // Footer: data di generazione + numero pagina su ogni pagina.
-    const footerY=pageH-9;
+    // Intestazione minimale (stampa B/N): solo la settimana, niente titolo brand.
+    doc.setFont('helvetica','bold');doc.setFontSize(13);doc.setTextColor(30,30,30);
+    doc.text(`Settimana ${formatWeekRange(getCurrentWeek())}`,M,14);
+    doc.setDrawColor(150,150,150);doc.setLineWidth(0.3);doc.line(M,17,pageW-M,17);
+    let y=drawRosterTable(doc,weekOf('assistenti'),namesOf('assistenti'),ROSTERS.assistenti.label,23);
+    y=drawRosterTable(doc,weekOf('segretarie'),namesOf('segretarie'),ROSTERS.segretarie.label,y+9);
+    // Area note per scrittura a mano: riempie lo spazio residuo fino al footer.
+    const footerY=pageH-8;
+    const ny=y+8;
+    if(ny<footerY-16){
+      doc.setFont('helvetica','bold');doc.setFontSize(10);doc.setTextColor(60,60,60);
+      doc.text('Note',M,ny);
+      const boxY=ny+2.5,boxH=footerY-5-boxY;
+      doc.setDrawColor(170,170,170);doc.setLineWidth(0.3);doc.roundedRect(M,boxY,pageW-2*M,boxH,1.5,1.5);
+      doc.setDrawColor(225,225,225);doc.setLineWidth(0.2);
+      for(let ly=boxY+8;ly<boxY+boxH-3;ly+=8)doc.line(M+3,ly,pageW-M-3,ly);
+    }
+    // Footer: data di generazione + numero pagina (singolo foglio nei casi normali).
     const now=new Date();
     const gen=`Generato il ${String(now.getDate()).padStart(2,'0')}/${String(now.getMonth()+1).padStart(2,'0')}/${now.getFullYear()} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
     const pages=doc.internal.getNumberOfPages();
     for(let i=1;i<=pages;i++){doc.setPage(i);doc.setFont('helvetica','normal');doc.setFontSize(8);doc.setTextColor(130,130,130);doc.text(gen,M,footerY);doc.text(`Pag. ${i}/${pages}`,pageW-M,footerY,{align:'right'});}
     doc.save(`turni-${currentStart}.pdf`);
-    showStatus('PDF esportato (Assistenti + Segretarie)!');
+    showStatus('PDF esportato: un foglio con Assistenti + Segretarie!');
   }
