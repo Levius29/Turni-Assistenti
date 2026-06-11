@@ -34,6 +34,15 @@ test('app: la griglia verticale usa colonne dinamiche sul numero di assistenti',
   assert.match(html, /\.mobile-grid > \.mg-end/);
 });
 
+test('app: salvare il Team preserva la settimana e migra le rinomine', () => {
+  // Regressione perdita dati: la rigenerazione post-salvataggio deve passare dalla settimana
+  // corrente (eccezioni/assenze/blocchi preservati via applyPreviousWeekState) con Annulla,
+  // e le rinomine devono migrare i dati salvati invece di renderli orfani.
+  assert.match(app, /function renameInWeeks\(/);
+  assert.match(app, /regenerateWeekWithFeedback\(currentStart,getCurrentWeek\(\),buildLedgerFromStorage\(\)\)/);
+  assert.match(app, /orig:name/);
+});
+
 test('app: la scheda Team espone e preserva il turno fisso dello straordinario', () => {
   assert.match(app, /data-k="otReqStart"/);
   assert.match(app, /data-k="otReqEnd"/);
