@@ -20,7 +20,7 @@ test('intermediate shifts use a stronger purple accent', () => {
 });
 
 test('PDF export uses day rows, assistant columns, variations and graphic badges', () => {
-  assert.match(app, /const head=\[\['Giorno',\.\.\.ASSISTANT_NAMES\]\];/);
+  assert.match(app, /const head=\[\['Giorno',\.\.\.names\]\];/);
   assert.match(app, /const body=week\.days\.map\(day=>/);
   assert.match(app, /function getDayVariationLabel\(day\)/);
   assert.match(app, /function drawPdfBadge\(doc,x,y,code\)/);

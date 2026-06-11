@@ -212,6 +212,12 @@
       overflow: hidden;
       box-shadow: var(--shadow-sm);
     }
+    /* ── Tabs roster (Assistenti | Segretarie) ── */
+    .roster-tabs { display: flex; gap: 6px; padding: 10px 10px 0; }
+    .roster-tabs button { flex: 0 0 auto; border: 1px solid var(--border); background: var(--surface-soft); color: var(--text-light); border-radius: 40px; padding: 7px 18px; font-size: 12px; font-weight: 600; cursor: pointer; min-height: 34px; transition: var(--transition); }
+    .roster-tabs button:hover { color: var(--primary); border-color: var(--primary); }
+    .roster-tabs button.active { background: var(--primary); border-color: var(--primary); color: #fff; }
+
     .board-scroll { overflow-x: auto; }
     .board-scroll::-webkit-scrollbar { height: 8px; }
     .board-scroll::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
@@ -525,6 +531,8 @@
 
       .panel { padding: 10px 12px; }
       .board-scroll { overflow-x: visible; }
+      .roster-tabs { padding: 8px 8px 0; }
+      .roster-tabs button { flex: 1 1 0; }
     }
 
     /* Telefoni stretti: pulsanti più compatti, PDF solo icona, così l'etichetta settimana resta leggibile. */
@@ -555,7 +563,7 @@
       }
       body.dark .head-cell, body.dark .assistant-name-cell { background: #fcf9f5; }
       body.dark .mobile-header-cell, body.dark .mobile-day-label { background: #fcf9f5; }
-      .topbar, .side-panel, .status-message, .toggle-switch, .assistant-avatar, .bottom-bar, .shift-badge, .theme-toggle, .shift-grid, .modal-overlay { display: none !important; }
+      .topbar, .side-panel, .status-message, .toggle-switch, .assistant-avatar, .bottom-bar, .shift-badge, .theme-toggle, .shift-grid, .modal-overlay, .roster-tabs { display: none !important; }
       .board { box-shadow: none; border: 1px solid #ccc; }
       .schedule-grid { min-width: 0; }
       .shift-select { display: none; }

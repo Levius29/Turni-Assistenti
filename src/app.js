@@ -1,7 +1,7 @@
 // UI / DOM / PDF. Estratto da index.html.
 import {
-  ASSISTANTS, ASSISTANT_NAMES, LEGACY_TEMPLATES, SHIFT_MIN_SPAN, SLOT, STUDIO_CLOSE, STUDIO_OPEN, addDays, buildEquityLedger, countsAsAfternoon, createEmptyWeek, dayCloseMin, dayOpenMin, diversifyTimes, fmt, formatDateShort, formatWeekRange, generateWeek, getAllowedShifts, getAssistantStats, getCurrentMonday, getLockedShiftCount, getShift, inOvertime, isOff, regenerateAlternativeWithFeedback, regenerateCleanWeekWithFeedback, regenerateWeekWithFeedback, updateShiftWithFeedback, validateWeek, weekAssignmentSig,
-  getStaffConfig, reconfigure,
+  ASSISTANTS, ASSISTANT_NAMES, LEGACY_TEMPLATES, SHIFT_MIN_SPAN, SLOT, STUDIO_CLOSE, STUDIO_OPEN, addDays, applyPreviousWeekState, buildEquityLedger, countsAsAfternoon, createEmptyWeek, dayCloseMin, dayOpenMin, diversifyTimes, fmt, formatDateShort, formatWeekRange, generateWeek, getAllowedShifts, getAssistantStats, getCurrentMonday, getLockedShiftCount, getShift, inOvertime, isOff, regenerateAlternativeWithFeedback, regenerateCleanWeekWithFeedback, regenerateWeekWithFeedback, updateShiftWithFeedback, validateWeek, weekAssignmentSig,
+  defaultStaffConfig, defaultSecretaryConfig, getStaffConfig, reconfigure,
   weekToCSV, summarizePeriod, summaryToCSV, monthBounds,
   effectiveWeeklyHours
 } from './scheduler.js';
@@ -10,18 +10,28 @@ import {
   const escHtml=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   // Colore identificativo per assistente (palette tenue in linea col tema), deterministico sull'ordine.
   const STAFF_PALETTE=['#2f6b5c','#a85f33','#4f63a8','#7d4fa8','#2f6b8a','#a84f6f','#5f8a2f'];
-  const staffColor=name=>{const i=ASSISTANT_NAMES.indexOf(name);return STAFF_PALETTE[(i>=0?i:0)%STAFF_PALETTE.length];};
+  // Offset di palette per roster: le segretarie non ricevono gli stessi colori delle assistenti.
+  const staffColor=name=>{const i=ASSISTANT_NAMES.indexOf(name);const off=activeRoster==='segretarie'?3:0;return STAFF_PALETTE[((i>=0?i:0)+off)%STAFF_PALETTE.length];};
   // Data di oggi in ISO locale (niente UTC: a mezzanotte cambierebbe giorno sbagliato).
   const todayISO=()=>{const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;};
 
-  // ── STORAGE ──
-  const storageKey='turni-assistenti.weeks.v1';
-  const staffKey='turni-assistenti.staff.v1';
+  // ── STORAGE & ROSTER (due tabelle indipendenti: assistenti e segretarie) ──
+  // Stesso motore turni per entrambe: il cambio tabella è reconfigure() + swap di `weeks`.
+  const ROSTERS={
+    assistenti:{label:'Assistenti',weeksKey:'turni-assistenti.weeks.v1',staffKey:'turni-assistenti.staff.v1',defaults:defaultStaffConfig},
+    segretarie:{label:'Segretarie',weeksKey:'turni-segretarie.weeks.v1',staffKey:'turni-segretarie.staff.v1',defaults:defaultSecretaryConfig},
+  };
+  const rosterStoreKey='turni-assistenti.roster';
+  let activeRoster=ROSTERS[localStorage.getItem(rosterStoreKey)]?localStorage.getItem(rosterStoreKey):'assistenti';
+  const roster=()=>ROSTERS[activeRoster];
+  const otherRosterId=()=>activeRoster==='assistenti'?'segretarie':'assistenti';
+  function loadStaffFor(id){try{const s=JSON.parse(localStorage.getItem(ROSTERS[id].staffKey));if(s&&Object.keys(s).length)return s;}catch{}return ROSTERS[id].defaults();}
+  function loadWeeksFor(id){try{return JSON.parse(localStorage.getItem(ROSTERS[id].weeksKey))??{};}catch{return{};}}
   const backupKey='turni-assistenti.lastBackup';
   const MOBILE_BREAKPOINT=1180; // sotto questa larghezza la griglia va in verticale (layout impilato)
-  // Carica il team salvato (se presente) PRIMA di generare qualsiasi settimana.
-  (function loadStaffConfig(){try{const s=JSON.parse(localStorage.getItem(staffKey));if(s&&Object.keys(s).length)reconfigure(s);}catch{}})();
-  function saveStaff(){const json=JSON.stringify(getStaffConfig());if(localStorage.getItem(staffKey)===json)return;localStorage.setItem(staffKey,json);markChanged();}
+  // Carica il team del roster attivo PRIMA di generare qualsiasi settimana.
+  reconfigure(loadStaffFor(activeRoster));
+  function saveStaff(){const json=JSON.stringify(getStaffConfig());if(localStorage.getItem(roster().staffKey)===json)return;localStorage.setItem(roster().staffKey,json);markChanged();}
   let weeks=loadWeeks();
   let currentStart=getCurrentMonday();
   // Chiede al browser di marcare lo storage come persistente: protegge i dati dalla
@@ -30,7 +40,25 @@ import {
   let selectedDayKey='mon';
   // Ledger equità dalle ultime 8 settimane PASSATE salvate (le future non sono storico).
   function buildLedgerFromStorage(){return buildEquityLedger(Object.entries(weeks).filter(([s])=>s<currentStart).map(([,w])=>w),8);}
-  if(!weeks[currentStart])weeks[currentStart]=generateWeek({startDate:currentStart,ledger:buildLedgerFromStorage()});
+  // Festività e sabato aperto/chiuso valgono per lo studio: alla creazione di una settimana
+  // si ereditano dall'altra tabella (orari del giorno, eventi, note e assenze restano separati).
+  function studioFactsSeed(start){
+    const other=loadWeeksFor(otherRosterId())[start];
+    if(!other?.days)return null;
+    return{days:other.days.map(d=>({key:d.key,exceptions:{holiday:!!d.exceptions?.holiday,satOpen:!!d.exceptions?.satOpen},absences:{},locks:{},assignments:{}}))};
+  }
+  // Riflette festività/sabato del giorno modificato sulla settimana salvata dell'altra tabella.
+  function mirrorStudioFacts(day){
+    const oid=otherRosterId(),other=loadWeeksFor(oid),wk=other[currentStart];
+    if(!wk?.days)return;
+    const od=wk.days.find(d=>d.date===day.date);
+    if(!od)return;
+    od.exceptions={...od.exceptions,holiday:!!day.exceptions.holiday,satOpen:!!day.exceptions.satOpen};
+    if(od.exceptions.holiday)for(const n of Object.keys(od.assignments||{})){od.assignments[n]='OFF';if(od.locks)od.locks[n]=false;}
+    localStorage.setItem(ROSTERS[oid].weeksKey,JSON.stringify(other));
+    markChanged();
+  }
+  if(!weeks[currentStart])weeks[currentStart]=generateWeek({startDate:currentStart,previousWeek:studioFactsSeed(currentStart),ledger:buildLedgerFromStorage()});
   saveWeeks();
 
   // ── DOM REFS ──
@@ -104,6 +132,46 @@ import {
     });
   }
 
+  // ── CAMBIO TABELLA (Assistenti ⇄ Segretarie) ──
+  function switchRoster(id){
+    if(id===activeRoster||!ROSTERS[id])return;
+    saveWeeks(); // flush della tabella corrente
+    activeRoster=id;localStorage.setItem(rosterStoreKey,id);
+    reconfigure(loadStaffFor(id));
+    weeks=loadWeeksFor(id);
+    resetAltHistory();_undo=null;
+    updateRosterTabs();
+    if(!weeks[currentStart]){
+      const s=currentStart;
+      deferHeavy('Calcolo turni…',()=>{
+        if(activeRoster===id&&!weeks[s]){weeks[s]=generateWeek({startDate:s,previousWeek:studioFactsSeed(s),ledger:buildLedgerFromStorage()});saveWeeks();}
+        if(activeRoster===id&&currentStart===s)render();
+      });
+      return;
+    }
+    render();
+  }
+  function buildRosterTabs(){
+    const board=document.querySelector('.board');
+    const tabs=document.createElement('div');tabs.className='roster-tabs';tabs.id='rosterTabs';
+    for(const id of Object.keys(ROSTERS)){
+      const b=document.createElement('button');b.type='button';b.dataset.roster=id;b.textContent=ROSTERS[id].label;
+      b.addEventListener('click',()=>switchRoster(id));
+      tabs.appendChild(b);
+    }
+    board.insertBefore(tabs,board.firstChild);
+    updateRosterTabs();
+  }
+  function updateRosterTabs(){document.querySelectorAll('#rosterTabs button').forEach(b=>b.classList.toggle('active',b.dataset.roster===activeRoster));}
+  // Swipe orizzontale sulla griglia (solo layout verticale mobile) per passare all'altra tabella.
+  let _swX=null,_swY=null;
+  scheduleGrid.addEventListener('touchstart',e=>{if(e.touches.length===1){_swX=e.touches[0].clientX;_swY=e.touches[0].clientY;}else{_swX=null;}},{passive:true});
+  scheduleGrid.addEventListener('touchend',e=>{
+    if(_swX==null||!scheduleGrid.classList.contains('mobile-mode'))return;
+    const t=e.changedTouches[0],dx=t.clientX-_swX,dy=t.clientY-_swY;_swX=null;
+    if(Math.abs(dx)>60&&Math.abs(dy)<40)switchRoster(otherRosterId());
+  },{passive:true});
+
   // ── NIGHT MODE ──
   // Senza preferenza salvata segue il tema di sistema (e i suoi cambi); il toggle esplicito la fissa.
   const themeKey='turni-assistenti.theme';
@@ -142,7 +210,7 @@ import {
   function openTeamEditor(){
     const overlay=document.createElement('div');overlay.className='modal-overlay';
     const card=document.createElement('div');card.className='modal-card';
-    card.innerHTML=`<div class="modal-head"><h2>Team &amp; contratti</h2><button class="modal-x" type="button" aria-label="Chiudi">✕</button></div><div class="team-rows"></div><div class="modal-err" hidden></div><div class="modal-foot"><button type="button" class="btn-add">+ Persona</button><div class="modal-actions"><button type="button" class="btn-cancel">Annulla</button><button type="button" class="btn-save">Salva</button></div></div>`;
+    card.innerHTML=`<div class="modal-head"><h2>Team &amp; contratti — ${roster().label}</h2><button class="modal-x" type="button" aria-label="Chiudi">✕</button></div><div class="team-rows"></div><div class="modal-err" hidden></div><div class="modal-foot"><button type="button" class="btn-add">+ Persona</button><div class="modal-actions"><button type="button" class="btn-cancel">Annulla</button><button type="button" class="btn-save">Salva</button></div></div>`;
     overlay.appendChild(card);document.body.appendChild(overlay);
     const rowsBox=card.querySelector('.team-rows'),errBox=card.querySelector('.modal-err');
     let rows=Object.entries(structuredClone(getStaffConfig())).map(([name,c])=>({name,c}));
@@ -262,12 +330,14 @@ import {
   }
   function exportCSV(){
     const week=getCurrentWeek();
-    downloadFile(`turni-${week.startDate}.csv`,'﻿'+weekToCSV(week),'text/csv;charset=utf-8;');
-    showStatus('CSV esportato!');
+    downloadFile(`turni-${activeRoster}-${week.startDate}.csv`,'﻿'+weekToCSV(week),'text/csv;charset=utf-8;');
+    showStatus(`CSV ${roster().label} esportato!`);
   }
   function exportBackup(){
-    const data={app:'turni-assistenti',version:1,exportedAt:new Date().toISOString(),
-      weeks:loadWeeks(),staff:JSON.parse(localStorage.getItem(staffKey)||'null'),theme:localStorage.getItem(themeKey)||null};
+    const data={app:'turni-assistenti',version:2,exportedAt:new Date().toISOString(),
+      weeks:loadWeeksFor('assistenti'),staff:JSON.parse(localStorage.getItem(ROSTERS.assistenti.staffKey)||'null'),
+      secWeeks:loadWeeksFor('segretarie'),secStaff:JSON.parse(localStorage.getItem(ROSTERS.segretarie.staffKey)||'null'),
+      theme:localStorage.getItem(themeKey)||null};
     downloadFile(`backup-turni-${new Date().toISOString().slice(0,10)}.json`,JSON.stringify(data,null,2),'application/json');
     localStorage.setItem(backupKey,String(Date.now()));
     showStatus('Backup esportato!');
@@ -279,8 +349,10 @@ import {
         const data=JSON.parse(reader.result);
         if(!data||typeof data!=='object'||!('weeks'in data))throw new Error('manca il campo "weeks"');
         if(!confirm('Ripristinare il backup? I dati attuali (team e settimane) verranno sostituiti.'))return;
-        localStorage.setItem(storageKey,JSON.stringify(data.weeks||{}));
-        if(data.staff)localStorage.setItem(staffKey,JSON.stringify(data.staff));
+        localStorage.setItem(ROSTERS.assistenti.weeksKey,JSON.stringify(data.weeks||{}));
+        if(data.staff)localStorage.setItem(ROSTERS.assistenti.staffKey,JSON.stringify(data.staff));
+        if(data.secWeeks)localStorage.setItem(ROSTERS.segretarie.weeksKey,JSON.stringify(data.secWeeks));
+        if(data.secStaff)localStorage.setItem(ROSTERS.segretarie.staffKey,JSON.stringify(data.secStaff));
         if(data.theme)localStorage.setItem(themeKey,data.theme);
         localStorage.setItem(changeKey,String(Date.now())); // il ripristino conta come modifica → verrà sincronizzato
         showStatus('Backup ripristinato. Ricarico…');
@@ -303,14 +375,20 @@ import {
   function b64decode(b64){const bin=atob(String(b64).replace(/\s/g,''));const bytes=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)bytes[i]=bin.charCodeAt(i);return new TextDecoder().decode(bytes);}
   function ghContentsUrl(c){return `https://api.github.com/repos/${c.owner}/${c.repo}/contents/${c.path}`;}
   function ghHeaders(c){return{Authorization:`Bearer ${c.token}`,Accept:'application/vnd.github+json'};}
-  function buildSyncPayload(){return{app:'turni-assistenti',version:1,updatedAt:+localStorage.getItem(changeKey)||Date.now(),weeks:loadWeeks(),staff:JSON.parse(localStorage.getItem(staffKey)||'null'),theme:localStorage.getItem(themeKey)||null};}
+  function buildSyncPayload(){return{app:'turni-assistenti',version:2,updatedAt:+localStorage.getItem(changeKey)||Date.now(),
+    weeks:loadWeeksFor('assistenti'),staff:JSON.parse(localStorage.getItem(ROSTERS.assistenti.staffKey)||'null'),
+    secWeeks:loadWeeksFor('segretarie'),secStaff:JSON.parse(localStorage.getItem(ROSTERS.segretarie.staffKey)||'null'),
+    theme:localStorage.getItem(themeKey)||null};}
   function applySyncPayload(p){
-    localStorage.setItem(storageKey,JSON.stringify(p.weeks||{}));
-    if(p.staff){localStorage.setItem(staffKey,JSON.stringify(p.staff));reconfigure(p.staff);}
+    localStorage.setItem(ROSTERS.assistenti.weeksKey,JSON.stringify(p.weeks||{}));
+    if(p.staff)localStorage.setItem(ROSTERS.assistenti.staffKey,JSON.stringify(p.staff));
+    if(p.secWeeks)localStorage.setItem(ROSTERS.segretarie.weeksKey,JSON.stringify(p.secWeeks));
+    if(p.secStaff)localStorage.setItem(ROSTERS.segretarie.staffKey,JSON.stringify(p.secStaff));
     if(p.theme)localStorage.setItem(themeKey,p.theme);
     localStorage.setItem(changeKey,String(p.updatedAt||Date.now()));
-    weeks=loadWeeks();
-    if(!weeks[currentStart]){weeks[currentStart]=generateWeek({startDate:currentStart,ledger:buildLedgerFromStorage()});saveWeeks();}
+    reconfigure(loadStaffFor(activeRoster));
+    weeks=loadWeeksFor(activeRoster);
+    if(!weeks[currentStart]){weeks[currentStart]=generateWeek({startDate:currentStart,previousWeek:studioFactsSeed(currentStart),ledger:buildLedgerFromStorage()});saveWeeks();}
     render();
   }
   let _syncTimer=null,_syncBusy=false;
@@ -386,7 +464,7 @@ import {
     let year=cur.getUTCFullYear(),month=cur.getUTCMonth()+1;
     const overlay=document.createElement('div');overlay.className='modal-overlay';
     const card=document.createElement('div');card.className='modal-card';
-    card.innerHTML=`<div class="modal-head"><h2>Riepilogo mensile</h2><button class="modal-x" type="button" aria-label="Chiudi">✕</button></div>
+    card.innerHTML=`<div class="modal-head"><h2>Riepilogo mensile — ${roster().label}</h2><button class="modal-x" type="button" aria-label="Chiudi">✕</button></div>
       <div class="month-nav"><button class="mn-prev" type="button" aria-label="Mese precedente">‹</button><span class="mn-label"></span><button class="mn-next" type="button" aria-label="Mese successivo">›</button></div>
       <div class="month-body"></div>
       <div class="modal-foot"><button type="button" class="btn-add mn-csv">Esporta CSV</button><div class="modal-actions"><button type="button" class="btn-cancel mn-close">Chiudi</button></div></div>`;
@@ -458,7 +536,7 @@ import {
       const days=l.workDays+cur[n].workDays;
       return`<tr><td class="mt-name">${escHtml(n)}</td><td>${days}</td>${cell(l.opens+cur[n].opens,days)}${cell(l.closes+cur[n].closes,days)}${cell(l.saturdays+cur[n].saturdays,days)}</tr>`;
     }).join('');
-    card.innerHTML=`<div class="modal-head"><h2>Equità storica</h2><button class="modal-x" type="button" aria-label="Chiudi">✕</button></div>
+    card.innerHTML=`<div class="modal-head"><h2>Equità storica — ${roster().label}</h2><button class="modal-x" type="button" aria-label="Chiudi">✕</button></div>
       <div class="month-body"><p class="eq-note">Ultime 8 settimane salvate + settimana corrente. La percentuale è il tasso sui giorni lavorati: valori simili tra le persone = carico equo.</p>
       <table class="month-table"><thead><tr><th>Assistente</th><th>Giorni</th><th>Aperture</th><th>Chiusure</th><th>Sabati</th></tr></thead><tbody>${rows}</tbody></table></div>
       <div class="modal-foot"><span></span><div class="modal-actions"><button type="button" class="btn-cancel eq-close">Chiudi</button></div></div>`;
@@ -470,6 +548,7 @@ import {
     requestAnimationFrame(()=>overlay.classList.add('visible'));
   }
   injectToolsButton();
+  buildRosterTabs();
 
   render();
 
@@ -709,14 +788,14 @@ import {
     }
     if(isSat){
       const open=dayEditorDiv.querySelector('#satOpen');open.checked=day.exceptions.satOpen;
-      open.addEventListener('change',()=>{day.exceptions.satOpen=open.checked;if(!open.checked)for(const n of ASSISTANT_NAMES){day.assignments[n]='OFF';day.locks[n]=false;}saveWeeks();render();});
+      open.addEventListener('change',()=>{day.exceptions.satOpen=open.checked;if(!open.checked)for(const n of ASSISTANT_NAMES){day.assignments[n]='OFF';day.locks[n]=false;}saveWeeks();mirrorStudioFacts(day);render();});
     }else{
       const extra=dayEditorDiv.querySelector('#extraAfternoon');extra.checked=day.exceptions.extraAfternoon;
       extra.addEventListener('change',()=>{day.exceptions.extraAfternoon=extra.checked;saveWeeks();render();});
       const extraM=dayEditorDiv.querySelector('#extraMorning');extraM.checked=day.exceptions.extraMorning;
       extraM.addEventListener('change',()=>{day.exceptions.extraMorning=extraM.checked;saveWeeks();render();});
       const hol=dayEditorDiv.querySelector('#holiday');hol.checked=isHol;
-      hol.addEventListener('change',()=>{day.exceptions.holiday=hol.checked;if(hol.checked){day.absences={};for(const n of ASSISTANT_NAMES){day.assignments[n]='OFF';day.locks[n]=false;}}saveWeeks();render();});
+      hol.addEventListener('change',()=>{day.exceptions.holiday=hol.checked;if(hol.checked){day.absences={};for(const n of ASSISTANT_NAMES){day.assignments[n]='OFF';day.locks[n]=false;}}saveWeeks();mirrorStudioFacts(day);render();});
       day.absences=day.absences||{};
       for(const s of dayEditorDiv.querySelectorAll('.abs-sel')){const n=s.dataset.n;s.value=day.absences[n]||'';s.addEventListener('change',()=>{if(s.value)day.absences[n]=s.value;else delete day.absences[n];if(s.value){day.assignments[n]='OFF';day.locks[n]=false;}saveWeeks();render();});}
     }
@@ -731,13 +810,13 @@ import {
       :`<div class="empty"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> Settimana valida</div>`;
   }
 
-  function getCurrentWeek(){if(!weeks[currentStart])weeks[currentStart]=createEmptyWeek(currentStart);ensureWeekShape(weeks[currentStart]);return weeks[currentStart];}
+  function getCurrentWeek(){if(!weeks[currentStart]){weeks[currentStart]=createEmptyWeek(currentStart);const seed=studioFactsSeed(currentStart);if(seed)applyPreviousWeekState(weeks[currentStart],seed);}ensureWeekShape(weeks[currentStart]);return weeks[currentStart];}
   function setWeek(start){
     resetAltHistory();currentStart=start;selectedDayKey='mon';
     if(!weeks[currentStart]){
       // Genera al tick successivo: lo status "Calcolo turni…" appare prima del solve sincrono.
-      const s=currentStart;
-      deferHeavy('Calcolo turni…',()=>{weeks[s]=generateWeek({startDate:s,ledger:buildLedgerFromStorage()});saveWeeks();if(currentStart===s)render();});
+      const s=currentStart,rid=activeRoster;
+      deferHeavy('Calcolo turni…',()=>{if(activeRoster!==rid)return;weeks[s]=generateWeek({startDate:s,previousWeek:studioFactsSeed(s),ledger:buildLedgerFromStorage()});saveWeeks();if(currentStart===s)render();});
       return;
     }
     saveWeeks();render();
@@ -757,8 +836,8 @@ import {
   function saveWeeks(){
     for(let attempt=0;;attempt++){
       const json=JSON.stringify(weeks);
-      if(localStorage.getItem(storageKey)===json)return;
-      try{localStorage.setItem(storageKey,json);markChanged();return;}
+      if(localStorage.getItem(roster().weeksKey)===json)return;
+      try{localStorage.setItem(roster().weeksKey,json);markChanged();return;}
       catch(e){
         const victims=Object.keys(weeks).filter(k=>k<currentStart&&!weeks[k]?.days?.some(d=>Object.values(d.locks||{}).some(Boolean))).sort().slice(0,10);
         if(!victims.length||attempt>20){showStatus('⚠ Spazio pieno: impossibile salvare. Esporta un backup dei dati.');return;}
@@ -766,7 +845,7 @@ import {
       }
     }
   }
-  function loadWeeks(){try{return JSON.parse(localStorage.getItem(storageKey))??{};}catch{return{};}}
+  function loadWeeks(){return loadWeeksFor(activeRoster);}
   function createCell(html,className){const el=document.createElement('div');el.className=className;el.innerHTML=html;return el;}
   function getContractLabel(a){const c=ASSISTANTS[a];if(!c)return'';const pom=c.minAfternoons===c.maxAfternoons?`max ${c.maxAfternoons}`:`${c.minAfternoons}-${c.maxAfternoons}`;return`${c.weeklyHours}h · ${pom} pom.`;}
 
@@ -805,20 +884,18 @@ import {
     doc.setDrawColor(30,30,30);doc.setFillColor(255,255,255);doc.roundedRect(x,y,5,4,0.8,0.8,'FD');
     doc.setFont('helvetica','bold');doc.setFontSize(7);doc.setTextColor(30,30,30);doc.text(code,x+2.5,y+2.9,{align:'center'});
   }
-  function exportPDF(){
-    if(!window.jspdf){showStatus('Libreria PDF non ancora caricata, riprova.');return;}
-    const week=getCurrentWeek();
-    const{jsPDF}=window.jspdf;
-    const doc=new jsPDF({orientation:'landscape',unit:'mm',format:'a4'});
+  // Una pagina del PDF per un roster: intestazione, tabella settimanale, area note.
+  // Indipendente dai global del roster attivo: settimana e nomi passati esplicitamente.
+  function drawWeekPage(doc,week,names,label){
     const pageW=doc.internal.pageSize.getWidth(),pageH=doc.internal.pageSize.getHeight(),M=14;
-    const stats=getAssistantStats(week);
-    // Intestazione minimale (stampa B/N): solo la settimana, niente titolo brand.
+    const shiftOf=(day,name)=>{const a=day.assignments?.[name];return getShift(a&&typeof a==='object'?a:'OFF');};
+    // Intestazione minimale (stampa B/N): settimana + tabella, niente titolo brand.
     doc.setFont('helvetica','bold');doc.setFontSize(13);doc.setTextColor(30,30,30);
-    doc.text(`Settimana ${formatWeekRange(week)}`,M,16);
+    doc.text(`Settimana ${formatWeekRange(week)} — ${label}`,M,16);
     doc.setDrawColor(150,150,150);doc.setLineWidth(0.3);doc.line(M,19,pageW-M,19);
-    const head=[['Giorno',...ASSISTANT_NAMES]];
-    const body=week.days.map(day=>[`${day.label}  ${formatDateShort(day.date)}${getDayVariationLabel(day)?`\n${getDayVariationLabel(day)}`:''}`,...ASSISTANT_NAMES.map(name=>{const shift=getShift(day.assignments[name]);return shift.id==='OFF'?'Riposo':`${shift.label}\n${shift.hours}h`;})]);
-    const foot=[['Totale ore',...ASSISTANT_NAMES.map(n=>`${stats[n].hours}h`)]];
+    const head=[['Giorno',...names]];
+    const body=week.days.map(day=>[`${day.label}  ${formatDateShort(day.date)}${getDayVariationLabel(day)?`\n${getDayVariationLabel(day)}`:''}`,...names.map(name=>{const shift=shiftOf(day,name);return shift.id==='OFF'?'Riposo':`${shift.label}\n${shift.hours}h`;})]);
+    const foot=[['Totale ore',...names.map(name=>`${week.days.reduce((h,day)=>h+shiftOf(day,name).hours,0)}h`)]];
     doc.autoTable({head,body,foot,startY:24,
       headStyles:{fillColor:[45,45,45],textColor:255,fontStyle:'bold',halign:'center',fontSize:9,cellPadding:4},
       footStyles:{fillColor:[230,230,230],textColor:[30,30,30],fontStyle:'bold',halign:'center',fontSize:9,lineWidth:{top:0.6,right:0.2,bottom:0.2,left:0.2},lineColor:[80,80,80]},
@@ -835,19 +912,19 @@ import {
           if(closed){data.cell.styles.fillColor=[235,235,235];data.cell.styles.textColor=[120,120,120];}
           return;
         }
-        const shift=getShift(day.assignments[ASSISTANT_NAMES[data.column.index-1]]);
+        const shift=shiftOf(day,names[data.column.index-1]);
         if(shift.id==='OFF'||closed){data.cell.styles.fillColor=[235,235,235];data.cell.styles.textColor=[120,120,120];data.cell.styles.fontStyle='italic';data.cell.styles.fontSize=10;}
       },
       didDrawCell:data=>{
         if(data.section!=='body'||data.column.index===0)return;
-        const day=week.days[data.row.index],name=ASSISTANT_NAMES[data.column.index-1];
-        const shift=getShift(day.assignments[name]);const codes=getShiftBadgeCodes(shift,day);
+        const day=week.days[data.row.index];
+        const shift=shiftOf(day,names[data.column.index-1]);const codes=getShiftBadgeCodes(shift,day);
         let x=data.cell.x+4;const y=data.cell.y+data.cell.height-6;
         for(const code of codes){drawPdfBadge(doc,x,y,code);x+=6;}
       }});
     // Area note per scrittura a mano: riempie lo spazio residuo fino al footer.
     const footerY=pageH-9;
-    let ny=doc.lastAutoTable.finalY+8;
+    const ny=doc.lastAutoTable.finalY+8;
     if(ny<footerY-18){
       doc.setFont('helvetica','bold');doc.setFontSize(10);doc.setTextColor(60,60,60);
       doc.text('Note',M,ny);
@@ -856,11 +933,25 @@ import {
       doc.setDrawColor(225,225,225);doc.setLineWidth(0.2);
       for(let ly=boxY+9;ly<boxY+boxH-3;ly+=9)doc.line(M+3,ly,pageW-M-3,ly);
     }
+  }
+  function exportPDF(){
+    if(!window.jspdf){showStatus('Libreria PDF non ancora caricata, riprova.');return;}
+    const{jsPDF}=window.jspdf;
+    const doc=new jsPDF({orientation:'landscape',unit:'mm',format:'a4'});
+    const pageW=doc.internal.pageSize.getWidth(),pageH=doc.internal.pageSize.getHeight(),M=14;
+    // Pagina 1: Assistenti — pagina 2: Segretarie (stessa settimana). Il roster non attivo
+    // viene letto dal suo storage (se non ha turni salvati esce tutta "Riposo").
+    const weekOf=id=>activeRoster===id?getCurrentWeek():(loadWeeksFor(id)[currentStart]??createEmptyWeek(currentStart));
+    const namesOf=id=>activeRoster===id?[...ASSISTANT_NAMES]:Object.keys(loadStaffFor(id));
+    drawWeekPage(doc,weekOf('assistenti'),namesOf('assistenti'),ROSTERS.assistenti.label);
+    doc.addPage();
+    drawWeekPage(doc,weekOf('segretarie'),namesOf('segretarie'),ROSTERS.segretarie.label);
     // Footer: data di generazione + numero pagina su ogni pagina.
+    const footerY=pageH-9;
     const now=new Date();
     const gen=`Generato il ${String(now.getDate()).padStart(2,'0')}/${String(now.getMonth()+1).padStart(2,'0')}/${now.getFullYear()} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
     const pages=doc.internal.getNumberOfPages();
     for(let i=1;i<=pages;i++){doc.setPage(i);doc.setFont('helvetica','normal');doc.setFontSize(8);doc.setTextColor(130,130,130);doc.text(gen,M,footerY);doc.text(`Pag. ${i}/${pages}`,pageW-M,footerY,{align:'right'});}
-    doc.save(`turni-${week.startDate}.pdf`);
-    showStatus('PDF esportato!');
+    doc.save(`turni-${currentStart}.pdf`);
+    showStatus('PDF esportato (Assistenti + Segretarie)!');
   }
