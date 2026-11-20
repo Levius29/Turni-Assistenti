@@ -71,9 +71,6 @@ import {
     localStorage.setItem(ROSTERS[oid].weeksKey,JSON.stringify(other));
     markChanged();
   }
-  if(!weeks[currentStart])weeks[currentStart]=generateWeek({startDate:currentStart,previousWeek:studioFactsSeed(currentStart),ledger:buildLedgerFromStorage()});
-  saveWeeks();
-
   // ── DOM REFS ──
   const scheduleGrid=document.querySelector('#scheduleGrid');
   const weekLabel=document.querySelector('#weekLabel');
@@ -82,6 +79,7 @@ import {
   const warningsDiv=document.querySelector('#warnings');
   const dayEditorDiv=document.querySelector('#dayEditor');
   const statusMsg=document.querySelector('#statusMessage');
+  let statusTimer;
 
   // ── BLOCCO DOPPIO-TAP-ZOOM (iOS) ──
   // touch-action:manipulation in CSS non basta ovunque su Safari: il secondo tap ravvicinato
@@ -572,6 +570,12 @@ import {
   injectToolsButton();
   buildRosterTabs();
 
+  // Prima settimana corrente: generata e salvata solo qui, dopo che TUTTE le dichiarazioni
+  // top-level (changeKey, sync, statusMsg) sono inizializzate. Se stava in cima al file,
+  // saveWeeks()→markChanged() lanciava ReferenceError (TDZ) a ogni nuova settimana.
+  if(!weeks[currentStart])weeks[currentStart]=generateWeek({startDate:currentStart,previousWeek:studioFactsSeed(currentStart),ledger:buildLedgerFromStorage()});
+  saveWeeks();
+
   render();
 
   // Sync cloud: pull all'avvio, quando l'app torna in primo piano e quando torna la rete.
@@ -860,19 +864,20 @@ import {
     for(let attempt=0;;attempt++){
       const json=JSON.stringify(weeks);
       if(localStorage.getItem(roster().weeksKey)===json)return;
-      try{localStorage.setItem(roster().weeksKey,json);markChanged();return;}
-      catch(e){
-        const victims=Object.keys(weeks).filter(k=>k<currentStart&&!weeks[k]?.days?.some(d=>Object.values(d.locks||{}).some(Boolean))).sort().slice(0,10);
-        if(!victims.length||attempt>20){showStatus('⚠ Spazio pieno: impossibile salvare. Esporta un backup dei dati.');return;}
-        for(const k of victims)delete weeks[k];
-      }
+      // Il catch copre SOLO la scrittura (quota piena): un errore in markChanged() non deve
+      // mai far scattare il pruning, altrimenti cancella le settimane passate.
+      let saved=false;
+      try{localStorage.setItem(roster().weeksKey,json);saved=true;}catch{}
+      if(saved){markChanged();return;}
+      const victims=Object.keys(weeks).filter(k=>k<currentStart&&!weeks[k]?.days?.some(d=>Object.values(d.locks||{}).some(Boolean))).sort().slice(0,10);
+      if(!victims.length||attempt>20){showStatus('⚠ Spazio pieno: impossibile salvare. Esporta un backup dei dati.');return;}
+      for(const k of victims)delete weeks[k];
     }
   }
   function loadWeeks(){return loadWeeksFor(activeRoster);}
   function createCell(html,className){const el=document.createElement('div');el.className=className;el.innerHTML=html;return el;}
   function getContractLabel(a){const c=ASSISTANTS[a];if(!c)return'';const pom=c.minAfternoons===c.maxAfternoons?`max ${c.maxAfternoons}`:`${c.minAfternoons}-${c.maxAfternoons}`;return`${c.weeklyHours}h · ${pom} pom.`;}
 
-  let statusTimer;
   // action opzionale {label,fn}: aggiunge un pulsante (es. "Annulla") e allunga la durata del messaggio.
   function showStatus(msg,action){
     statusMsg.textContent=msg;
