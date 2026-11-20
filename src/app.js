@@ -226,7 +226,7 @@ import {
     const rowsBox=card.querySelector('.team-rows'),errBox=card.querySelector('.modal-err');
     // orig = nome alla apertura del modale: serve a riconoscere le rinomine e migrare i dati salvati.
     let rows=Object.entries(structuredClone(getStaffConfig())).map(([name,c])=>({name,orig:name,c}));
-    const esc=s=>String(s).replace(/"/g,'&quot;');
+    const esc=escHtml;
     function renderRows(){
       rowsBox.innerHTML='';
       rows.forEach((row,i)=>{const c=row.c;const el=document.createElement('div');el.className='team-row';
@@ -325,10 +325,14 @@ import {
       reconfigure(newCfg);saveStaff();
       // Rigenera la settimana corrente PRESERVANDO eccezioni, orari, assenze e turni bloccati,
       // con possibilità di Annulla (prima il salvataggio azzerava l'intera impostazione settimanale).
-      snapshotUndo();
-      const r=regenerateWeekWithFeedback(currentStart,getCurrentWeek(),buildLedgerFromStorage());
-      weeks[currentStart]=r.week;saveWeeks();
-      close();render();showStatus(`Team aggiornato. ${r.message}`,UNDO_ACTION);
+      // Calcolo al tick successivo come Genera: prima la pagina restava congelata senza feedback.
+      close();
+      deferHeavy('Calcolo turni…',()=>{
+        snapshotUndo();
+        const r=regenerateWeekWithFeedback(currentStart,getCurrentWeek(),buildLedgerFromStorage());
+        weeks[currentStart]=r.week;saveWeeks();
+        render();showStatus(`Team aggiornato. ${r.message}`,UNDO_ACTION);
+      });
     });
     renderRows();
     requestAnimationFrame(()=>overlay.classList.add('visible'));
@@ -573,8 +577,10 @@ import {
   // Prima settimana corrente: generata e salvata solo qui, dopo che TUTTE le dichiarazioni
   // top-level (changeKey, sync, statusMsg) sono inizializzate. Se stava in cima al file,
   // saveWeeks()→markChanged() lanciava ReferenceError (TDZ) a ogni nuova settimana.
+  // Salvataggio silenzioso: una generazione automatica non è una modifica dell'utente. Se
+  // aggiornasse lastChangeAt, un dispositivo con dati vecchi sovrascriverebbe il cloud al pull.
   if(!weeks[currentStart])weeks[currentStart]=generateWeek({startDate:currentStart,previousWeek:studioFactsSeed(currentStart),ledger:buildLedgerFromStorage()});
-  saveWeeks();
+  saveWeeks(true);
 
   render();
 
@@ -686,6 +692,10 @@ import {
     exit.setAttribute('aria-label',`Uscita ${assistant} ${day.label}`);
     // extended=true: le tendine manuali offrono anche le giornate oltre 8h30 fino a tutta la giornata.
     const allowed=getAllowedShifts(assistant,day,true,true).filter(a=>!isOff(a));
+    // Turno attuale fuori dalle opzioni (bloccato fuori orario, contratto cambiato…): lo si
+    // offre comunque, altrimenti la tendina resta vuota. Gli Avvisi segnalano l'anomalia.
+    const curSh0=getShift(day.assignments[assistant]);
+    if(curSh0.id!=='OFF'&&!allowed.some(a=>a.s===curSh0.startMin&&a.e===curSh0.endMin))allowed.push({s:curSh0.startMin,e:curSh0.endMin});
     const starts=[...new Set(allowed.map(a=>a.s))].sort((a,b)=>a-b);
     const mkOpt=(val,txt)=>{const o=document.createElement('option');o.value=val;o.textContent=txt;return o;};
     entry.append(mkOpt('OFF','Riposo'));
@@ -833,7 +843,7 @@ import {
     const count=document.querySelector('#warnCount');
     if(count){count.hidden=list.length===0;count.textContent=list.length;}
     warningsDiv.innerHTML=list.length
-      ?list.map(w=>`<div class="warning"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 8v4M12 16h.01M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0z"/></svg> ${w.message}</div>`).join('')
+      ?list.map(w=>`<div class="warning"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 8v4M12 16h.01M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0z"/></svg> ${escHtml(w.message)}</div>`).join('')
       :`<div class="empty"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> Settimana valida</div>`;
   }
 
@@ -860,7 +870,8 @@ import {
   // localStorage ci stanno decenni di storico (riepiloghi mensili ed equità inclusi).
   // Solo se la quota si esaurisse davvero: sacrifica le settimane più vecchie senza blocchi.
   // markChanged() solo se il contenuto è cambiato davvero (evita push di sync a vuoto).
-  function saveWeeks(){
+  // silent=true: scrive senza marcare la modifica (niente lastChangeAt, niente push sync).
+  function saveWeeks(silent=false){
     for(let attempt=0;;attempt++){
       const json=JSON.stringify(weeks);
       if(localStorage.getItem(roster().weeksKey)===json)return;
@@ -868,7 +879,7 @@ import {
       // mai far scattare il pruning, altrimenti cancella le settimane passate.
       let saved=false;
       try{localStorage.setItem(roster().weeksKey,json);saved=true;}catch{}
-      if(saved){markChanged();return;}
+      if(saved){if(!silent)markChanged();return;}
       const victims=Object.keys(weeks).filter(k=>k<currentStart&&!weeks[k]?.days?.some(d=>Object.values(d.locks||{}).some(Boolean))).sort().slice(0,10);
       if(!victims.length||attempt>20){showStatus('⚠ Spazio pieno: impossibile salvare. Esporta un backup dei dati.');return;}
       for(const k of victims)delete weeks[k];
@@ -917,10 +928,14 @@ import {
   function drawRosterTable(doc,week,names,title,startY){
     const M=12;
     const shiftOf=(day,name)=>{const a=day.assignments?.[name];return getShift(a&&typeof a==='object'?a:'OFF');};
+    // Riga → giorno via riferimento dell'array grezzo: quando autotable spezza una riga tra due
+    // pagine, il pezzo sulla pagina nuova ha row.index=-1 (prima: crash e nessun PDF).
+    const dayOfRow=new Map();
     doc.setFont('helvetica','bold');doc.setFontSize(11);doc.setTextColor(30,30,30);
     doc.text(title,M,startY);
     const head=[['Giorno',...names]];
     const body=week.days.map(day=>[`${day.label}  ${formatDateShort(day.date)}${getDayVariationLabel(day)?`\n${getDayVariationLabel(day)}`:''}`,...names.map(name=>{const shift=shiftOf(day,name);return shift.id==='OFF'?'Riposo':`${shift.label}\n${shift.hours}h`;})]);
+    body.forEach((row,i)=>dayOfRow.set(row,week.days[i]));
     const foot=[['Totale ore',...names.map(name=>`${week.days.reduce((h,day)=>h+shiftOf(day,name).hours,0)}h`)]];
     doc.autoTable({head,body,foot,startY:startY+2,margin:{left:M,right:M},
       headStyles:{fillColor:[45,45,45],textColor:255,fontStyle:'bold',halign:'center',fontSize:8.5,cellPadding:2.5},
@@ -929,10 +944,10 @@ import {
       columnStyles:{0:{halign:'left',fontStyle:'bold',fontSize:8.5,cellWidth:40,textColor:[30,30,30]}},
       alternateRowStyles:{fillColor:[247,247,247]},
       styles:{font:'helvetica',lineColor:[150,150,150],lineWidth:0.2,valign:'middle'},
-      theme:'grid',
+      theme:'grid',rowPageBreak:'avoid',
       didParseCell:data=>{
         if(data.section!=='body')return;
-        const day=week.days[data.row.index];
+        const day=dayOfRow.get(data.row.raw);if(!day)return;
         const closed=day.exceptions.holiday||(day.key==='sat'&&!day.exceptions.satOpen);
         if(data.column.index===0){
           if(closed){data.cell.styles.fillColor=[235,235,235];data.cell.styles.textColor=[120,120,120];}
@@ -943,7 +958,7 @@ import {
       },
       didDrawCell:data=>{
         if(data.section!=='body'||data.column.index===0)return;
-        const day=week.days[data.row.index];
+        const day=dayOfRow.get(data.row.raw);if(!day)return;
         const shift=shiftOf(day,names[data.column.index-1]);const codes=getShiftBadgeCodes(shift,day);
         let x=data.cell.x+3;const y=data.cell.y+data.cell.height-5.5;
         for(const code of codes){drawPdfBadge(doc,x,y,code);x+=6;}
